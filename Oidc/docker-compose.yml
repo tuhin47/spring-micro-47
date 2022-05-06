@@ -10,6 +10,9 @@ services:
             - 8081:8081
         networks:
             - spring-cloud-network
+        environment:
+            - CLIENT_ID
+            - CLIENT_SECRET
 #    product-server:
 #        container_name: product-server
 #        build:
