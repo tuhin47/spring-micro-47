@@ -1,7 +1,15 @@
 server:
-  port: 8081
+  port: 8765
   
 logging:
   level:
     org.springframework.web.client.RestTemplate: DEBUG
-            
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}

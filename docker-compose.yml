@@ -206,6 +206,20 @@ services:
       timeout: 20s
       retries: 10
 
+  oidc-login:
+    container_name: oidc-login
+    build:
+      context: ./Oidc
+      dockerfile: Dockerfile
+    image: 'tuhin47/oidc-login'
+    ports:
+      - 8765:8765
+    networks:
+      - backend
+    environment:
+      - CLIENT_ID
+      - CLIENT_SECRET
+
 
 networks:
   backend:

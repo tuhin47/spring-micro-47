@@ -1,4 +1,5 @@
-FROM amazoncorretto:11-alpine-jdk
-#FROM openjdk:8-jdk-alpine
-COPY target/oidc-0.0.1-SNAPSHOT.war oidc-0.0.1-SNAPSHOT.war
-ENTRYPOINT ["java","-jar","/oidc-0.0.1-SNAPSHOT.war"]
+FROM openjdk:11
+ARG JAR_FILE=target/*.war
+COPY ${JAR_FILE} oidc.war
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:18765","-Djava.security.egd=file:/dev/./urandom","-jar","/oidc.war"]
+EXPOSE 8765

@@ -8,3 +8,4 @@
 /service-registry/target/
 /.idea/
 *.iml
+.env

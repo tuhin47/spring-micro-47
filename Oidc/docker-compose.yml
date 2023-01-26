@@ -5,9 +5,9 @@ services:
         build:
             context: ./
             dockerfile: Dockerfile
-        image: oidc-login:latest
+        image: 'tuhin47/oidc-login'
         ports:
-            - 8081:8081
+            - 8765:8765
         networks:
             - spring-cloud-network
         environment:
