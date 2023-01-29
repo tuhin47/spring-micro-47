@@ -2,44 +2,60 @@ package com.microservice.authservice.security;
 
 import com.microservice.authservice.model.Role;
 import com.microservice.authservice.model.User;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, OAuth2User {
 
-    private User user;
+    private Integer id;
+    private String email;
+    private String password;
+    private final Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    private Map<String, Object> attributes;
+
+    public CustomUserDetails(Integer id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
 
     public CustomUserDetails(User user) {
-        this.user = user;
+        this(user.getId(),user.getEmail(),user.getPassword());
+        Set<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
+        }
+    }
+
+    public static CustomUserDetails create(User user, Map<String, Object> attributes) {
+        CustomUserDetails userPrincipal = new CustomUserDetails(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
+
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
-        List<SimpleGrantedAuthority> authories = new ArrayList<>();
-
-        for (Role role : roles) {
-            authories.add(new SimpleGrantedAuthority(role.getName().name()));
-        }
-
-        return authories;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return email;
     }
 
     @Override
@@ -63,10 +79,20 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public int getId(){
-        return user.getId();
+        return id;
     }
 
     public String getEmail(){
-        return user.getEmail();
+        return email;
+    }
+
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public String getName() {
+        return email;
     }
 }

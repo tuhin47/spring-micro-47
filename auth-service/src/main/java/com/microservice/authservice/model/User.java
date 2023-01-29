@@ -17,6 +17,10 @@ public class User extends IdBasedEntity implements Serializable {
     @Column(unique = true, nullable = false)
     private String username;
 
+    private String name;
+
+    private String imageUrl;
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -27,5 +31,10 @@ public class User extends IdBasedEntity implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider = Provider.LOCAL;
+
+    private String providerId;
 
 }

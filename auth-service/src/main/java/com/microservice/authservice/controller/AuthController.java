@@ -10,10 +10,8 @@ import com.microservice.authservice.model.User;
 import com.microservice.authservice.payload.request.LoginRequest;
 import com.microservice.authservice.payload.request.SignUpRequest;
 import com.microservice.authservice.payload.request.TokenRefreshRequest;
-import com.microservice.authservice.payload.response.JWTResponse;
 import com.microservice.authservice.payload.response.MessageResponse;
 import com.microservice.authservice.payload.response.TokenRefreshResponse;
-import com.microservice.authservice.security.CustomUserDetails;
 import com.microservice.authservice.service.RefreshTokenService;
 import com.microservice.authservice.service.RoleService;
 import com.microservice.authservice.service.UserService;
@@ -24,15 +22,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/authenticate")
@@ -121,32 +114,28 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        String jwt = jwtUtils.generateJwtToken(userDetails.getUsername());
 
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-
-        JWTResponse jwtResponse = new JWTResponse();
-        jwtResponse.setEmail(userDetails.getEmail());
-        jwtResponse.setUsername(userDetails.getUsername());
-        jwtResponse.setId(userDetails.getId());
-        jwtResponse.setToken(jwt);
-        jwtResponse.setRefreshToken(refreshToken.getToken());
-        jwtResponse.setRoles(roles);
-
-        return ResponseEntity.ok(jwtResponse);
+        return ResponseEntity.ok(jwtUtils.getJwtResponseResponseEntity(authentication));
     }
+
 
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
 
         String requestRefreshToken = request.getRefreshToken();
 
-        RefreshToken token = refreshTokenService.findByToken(requestRefreshToken)
-                .orElseThrow(() -> new RefreshTokenException(requestRefreshToken + "Refresh token is not in database!"));
+        return getRefreshTokenResponse(requestRefreshToken);
+    }
+
+    @GetMapping("/refreshtoken")
+    public ResponseEntity<?> getRefreshtoken(@RequestParam("token") String requestRefreshToken) {
+
+        return getRefreshTokenResponse(requestRefreshToken);
+    }
+
+    private ResponseEntity<?> getRefreshTokenResponse(String refreshToken) {
+        RefreshToken token = refreshTokenService.findByToken(refreshToken)
+                .orElseThrow(() -> new RefreshTokenException(refreshToken + "Refresh token is not in database!"));
 
         RefreshToken deletedToken = refreshTokenService.verifyExpiration(token);
 
@@ -154,6 +143,6 @@ public class AuthController {
 
         String newToken = jwtUtils.generateTokenFromUsername(userRefreshToken.getUsername());
 
-        return ResponseEntity.ok(new TokenRefreshResponse(newToken, requestRefreshToken));
+        return ResponseEntity.ok(new TokenRefreshResponse(newToken, refreshToken));
     }
 }

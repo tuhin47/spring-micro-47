@@ -85,12 +85,13 @@ services:
   authservice:
     build:
       context: auth-service
-      dockerfile: Dockerfile
-    image: 'tuhin47/authservice:0.0.1'
+      dockerfile: dev.Dockerfile
+    image: 'tuhin47/authservice:dev'
     container_name: authservice
     ports:
-      - '7777:7777'
-      - '17777:17777'
+      - 7777:7777
+      - 17777:17777
+      - 35729:35729
     environment:
       - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
       - CONFIG_SERVER_URL=configserver
@@ -98,6 +99,13 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=111111
       - MYSQL_DB=userdb
+      - CLIENT_ID
+      - CLIENT_SECRET
+    working_dir: /app
+    command: sh run.sh
+    volumes:
+      - /mnt/Others/personal/springbootmicroservicedailybuffer/auth-service:/app
+      - /mnt/OS/Users/DELL/.m2:/root/.m2
     depends_on:
       database:
         condition: service_healthy

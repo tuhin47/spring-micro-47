@@ -1,5 +1,6 @@
 package com.microservice.authservice.service;
 
+import com.microservice.authservice.config.AppConfig;
 import com.microservice.authservice.model.RefreshToken;
 import com.microservice.authservice.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    @Value("${jwt.refrEshexpireMs}")
-    private Long refreshTokenDurationMs;
-
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserService userService;
+    private final AppConfig appConfig;
 
 
     public Optional<RefreshToken> findByToken(String token) {
@@ -29,7 +28,7 @@ public class RefreshTokenService {
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(userService.findById(userId));
-        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+        refreshToken.setExpiryDate(Instant.now().plusMillis(appConfig.getRefreshTokenDurationMs()));
         refreshToken.setToken(UUID.randomUUID().toString());
 
         return refreshTokenRepository.save(refreshToken);

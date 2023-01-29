@@ -2,10 +2,20 @@ server:
   port: 7777
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            scope:
+              - email
+              - profile
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${MYSQL_DB:userdb}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Turkey
     username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root}
+    password: ${MYSQL_PASSWORD:111111}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
@@ -16,7 +26,11 @@ spring:
   config:
     import: configserver:http://${CONFIG_SERVER_URL:localhost}:9296
 
-jwt:
-  secret: mySecretKey
-  expireMs: 120000
-  refrEshexpireMs: 120000
+
+
+app:
+  tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+  tokenExpirationMsec: 864000000
+  refreshTokenDurationMs: 120000
+  authorizedRedirectUris:
+    - http://localhost:7777/authenticate/refreshtoken
