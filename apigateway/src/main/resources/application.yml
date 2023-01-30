@@ -52,6 +52,7 @@ spring:
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/authenticate/**
+            - Path=/oauth2/**
           filters:
             - name: CircuitBreaker
               args:

@@ -1,9 +1,10 @@
-package com.microservice.authservice.oauth2;
+package com.microservice.authservice.security.oauth2;
 
 import com.microservice.authservice.config.AppConfig;
 import com.microservice.authservice.exception.BadRequestException;
 import com.microservice.authservice.jwt.JwtUtils;
 import com.microservice.authservice.payload.response.JWTResponse;
+import com.microservice.authservice.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.microservice.authservice.utils.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

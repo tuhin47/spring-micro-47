@@ -1,4 +1,4 @@
-package com.microservice.authservice.oauth2.user;
+package com.microservice.authservice.security.user;
 
 import com.microservice.authservice.exception.OAuth2AuthenticationProcessingException;
 import com.microservice.authservice.model.Provider;

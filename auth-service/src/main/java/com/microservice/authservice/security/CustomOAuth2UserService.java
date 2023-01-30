@@ -1,18 +1,15 @@
-package com.microservice.authservice.oauth2;
+package com.microservice.authservice.security;
 
 import com.microservice.authservice.exception.OAuth2AuthenticationProcessingException;
 import com.microservice.authservice.model.Provider;
 import com.microservice.authservice.model.User;
-import com.microservice.authservice.oauth2.user.OAuth2UserInfo;
-import com.microservice.authservice.oauth2.user.OAuth2UserInfoFactory;
-import com.microservice.authservice.repository.UserRepository;
+import com.microservice.authservice.security.user.OAuth2UserInfo;
+import com.microservice.authservice.security.user.OAuth2UserInfoFactory;
 import com.microservice.authservice.security.CustomUserDetails;
 import com.microservice.authservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

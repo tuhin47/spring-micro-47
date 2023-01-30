@@ -35,9 +35,9 @@ services:
 
   apigateway:
     build:
-      context: apigateway
-      dockerfile: Dockerfile
-    image: 'tuhin47/apigateway:0.0.1'
+      context: auth-service
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/gateway:dev'
     container_name: apigateway
     ports:
       - '9090:9090'
@@ -47,6 +47,9 @@ services:
       - CONFIG_SERVER_URL=configserver
       - ZIPKIN_URL=http://zipkin:9411/
       - REDIS_URL=redis://redis:6379
+      - DEUBG_PORT=19090
+      - PROJECT_PATH
+      - MAVEN_REPO
     depends_on:
       - configserver
       - zipkin
@@ -55,8 +58,13 @@ services:
       - orderservice
       - authservice
       - paymentservice
+    working_dir: /app
+    command: sh /script/run.sh
     networks:
       - backend
+    volumes:
+      - $PROJECT_PATH/apigateway:/app
+      - $MAVEN_REPO:/root/.m2
 
 
   zipkin:
@@ -103,9 +111,6 @@ services:
       - CLIENT_SECRET
     working_dir: /app
     command: sh run.sh
-    volumes:
-      - /mnt/Others/personal/springbootmicroservicedailybuffer/auth-service:/app
-      - /mnt/OS/Users/DELL/.m2:/root/.m2
     depends_on:
       database:
         condition: service_healthy
@@ -113,6 +118,9 @@ services:
         condition: service_started
     networks:
       - backend
+    volumes:
+      - /mnt/Others/personal/springbootmicroservicedailybuffer/auth-service:/app
+      - /mnt/OS/Users/DELL/.m2:/root/.m2
 
 
   productservice:
@@ -214,20 +222,20 @@ services:
       timeout: 20s
       retries: 10
 
-  oidc-login:
-    container_name: oidc-login
-    build:
-      context: ./Oidc
-      dockerfile: Dockerfile
-    image: 'tuhin47/oidc-login'
-    ports:
-      - 8765:8765
-      - 18765:18765
-    networks:
-      - backend
-    environment:
-      - CLIENT_ID
-      - CLIENT_SECRET
+#  oidc-login:
+#    container_name: oidc-login
+#    build:
+#      context: ./Oidc
+#      dockerfile: Dockerfile
+#    image: 'tuhin47/oidc-login'
+#    ports:
+#      - 8765:8765
+#      - 18765:18765
+#    networks:
+#      - backend
+#    environment:
+#      - CLIENT_ID
+#      - CLIENT_SECRET
 
 
 networks:

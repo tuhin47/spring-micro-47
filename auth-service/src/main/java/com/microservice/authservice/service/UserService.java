@@ -4,7 +4,7 @@ import com.microservice.authservice.model.ERole;
 import com.microservice.authservice.model.Provider;
 import com.microservice.authservice.model.Role;
 import com.microservice.authservice.model.User;
-import com.microservice.authservice.oauth2.user.OAuth2UserInfo;
+import com.microservice.authservice.security.user.OAuth2UserInfo;
 import com.microservice.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.RandomStringUtils;

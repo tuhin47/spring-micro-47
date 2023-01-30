@@ -1,4 +1,4 @@
-package com.microservice.authservice.oauth2;
+package com.microservice.authservice.security.oauth2;
 
 import com.microservice.authservice.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;

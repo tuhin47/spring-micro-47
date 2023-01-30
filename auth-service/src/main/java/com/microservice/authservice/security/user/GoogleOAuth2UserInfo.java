@@ -1,4 +1,4 @@
-package com.microservice.authservice.oauth2.user;
+package com.microservice.authservice.security.user;
 
 import java.util.Map;
 
