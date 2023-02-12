@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 const AUTH_API = 'authenticate/';
 
@@ -38,7 +38,8 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', { }, httpOptions);
+    return of(null);
+    // return this.http.post(AUTH_API + 'signout', { }, httpOptions);
   }
 
   refreshToken() {
