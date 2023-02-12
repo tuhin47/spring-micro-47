@@ -59,10 +59,10 @@ public class SecurityConfig {
         return  http
                 .cors()
                 .and()
+                .csrf().disable()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
                     .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
