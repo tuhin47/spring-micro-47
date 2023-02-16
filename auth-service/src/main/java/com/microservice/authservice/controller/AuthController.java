@@ -130,7 +130,9 @@ public class AuthController {
     @GetMapping("/refreshtoken")
     public ResponseEntity<?> getRefreshtoken(@RequestParam("token") String requestRefreshToken) {
 
-        return getRefreshTokenResponse(requestRefreshToken);
+        getRefreshTokenResponse(requestRefreshToken);
+
+        return ResponseEntity.ok(jwtUtils.getJwtResponseResponseEntity(SecurityContextHolder.getContext().getAuthentication()));
     }
 
     private ResponseEntity<?> getRefreshTokenResponse(String refreshToken) {

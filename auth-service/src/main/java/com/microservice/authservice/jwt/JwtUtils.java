@@ -81,7 +81,7 @@ public class JwtUtils {
         String jwt = createToken(authentication);
 
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                                                         .collect(Collectors.toList());
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 

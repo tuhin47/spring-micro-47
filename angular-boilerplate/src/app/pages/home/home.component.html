@@ -1,0 +1,13 @@
+<app-page-layout>
+  <div class="container my-3">
+
+    <app-progress-bar *ngIf="isLoading"></app-progress-bar>
+
+    <ng-container *ngIf="!isLoading">
+      <div class="text-center">
+        Let's start the project!
+      </div>
+    </ng-container>
+
+  </div>
+</app-page-layout>

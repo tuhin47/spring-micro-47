@@ -28,8 +28,8 @@ public class UserService{
         userRepository.save(user);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<User> findByUsername(String userOrEmail) {
+        return userRepository.findByUsernameOrEmail(userOrEmail,userOrEmail);
     }
 
     public Boolean existsByUsername(String username) {
@@ -44,23 +44,6 @@ public class UserService{
         return userRepository.findById(userId);
     }
 
-    public User processOAuthPostLogin(OAuth2User oauthUser) {
-
-        String email = oauthUser.<String>getAttribute("email");
-        Optional<User> existUser = userRepository.findByUsername(email);
-
-        if (existUser.isPresent()) {
-            return existUser.get();
-        }
-        User newUser = new User();
-        newUser.setUsername(email);
-        newUser.setEmail(email);
-        newUser.getRoles().add(new Role(ERole.ROLE_USER));
-        newUser.setProvider(Provider.google);
-        newUser.setPassword(RandomStringUtils.randomAlphanumeric(10));
-        return userRepository.save(newUser);
-
-    }
 
     public User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();

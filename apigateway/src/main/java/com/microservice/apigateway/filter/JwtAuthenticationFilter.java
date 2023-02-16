@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
         ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
 
-        final List<String> apiEndpoints = List.of("/signup", "/login","/refreshtoken");
+        final List<String> apiEndpoints = List.of("/signup", "/login","/refreshtoken","/authorization");
 
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));

@@ -2,11 +2,34 @@ version: '3'
 
 services:
 
+  #Front-end Angular Application
+  angular:
+    build: ./angular
+    container_name: angular
+    image: 'tuhin47/angular:dev'
+    ports:
+      - 4200:80
+    links:
+      - apigateway
+ #Front-end Angular boilerplate
+  boilerplate:
+    build: ./angular-boilerplate
+    container_name: boilerplate
+    image: 'tuhin47/boilerplate:dev'
+    ports:
+      - 4222:80
+    links:
+      - apigateway
+    volumes:
+      - /mnt/Others/personal/springbootmicroservicedailybuffer/angular-boilerplate/dist/easy-angular:/usr/share/nginx/html
+    networks:
+      - backend
+
   serviceregistry:
     build:
       context: service-registry
       dockerfile: Dockerfile
-    image: 'tuhin47/serviceregistry:0.0.1'
+    image: 'tuhin47/serviceregistry:dev'
     container_name: serviceregistry
     ports:
       - '8761:8761'
@@ -17,7 +40,7 @@ services:
     build:
       context: configserver
       dockerfile: Dockerfile
-    image: 'tuhin47/configserver:0.0.1'
+    image: 'tuhin47/configserver:dev'
     container_name: configserver
     ports:
       - '9296:9296'
@@ -35,7 +58,7 @@ services:
 
   apigateway:
     build:
-      context: auth-service
+      context: apigateway
       dockerfile: ../Dockerfile
     image: 'tuhin47/gateway:dev'
     container_name: apigateway
@@ -84,6 +107,7 @@ services:
 
   redis:
     image: redis
+    container_name: redis
     ports:
       - "6379:6379"
     networks:
@@ -127,7 +151,7 @@ services:
     build:
       context: productservice
       dockerfile: Dockerfile
-    image: 'tuhin47/productservice:0.0.1'
+    image: 'tuhin47/productservice:dev'
     container_name: productservice
     ports:
       - '8081:8081'
@@ -152,7 +176,7 @@ services:
     build:
       context: orderservice
       dockerfile: Dockerfile
-    image: 'tuhin47/orderservice:0.0.1'
+    image: 'tuhin47/orderservice:dev'
     container_name: orderservice
     ports:
       - '8082:8082'
@@ -180,7 +204,7 @@ services:
     build:
       context: paymentservice
       dockerfile: Dockerfile
-    image: 'tuhin47/paymentservice:0.0.1'
+    image: 'tuhin47/paymentservice:dev'
     container_name: paymentservice
     ports:
       - '8083:8083'
