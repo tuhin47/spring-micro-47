@@ -2,15 +2,6 @@ version: '3'
 
 services:
 
-  #Front-end Angular Application
-  angular:
-    build: ./angular
-    container_name: angular
-    image: 'tuhin47/angular:dev'
-    ports:
-      - 4200:80
-    links:
-      - apigateway
  #Front-end Angular boilerplate
   boilerplate:
     build: ./angular-boilerplate
@@ -32,7 +23,7 @@ services:
     image: 'tuhin47/serviceregistry:dev'
     container_name: serviceregistry
     ports:
-      - '8761:8761'
+      - 8761:8761
     networks:
       - backend
 
@@ -45,7 +36,7 @@ services:
     ports:
       - '9296:9296'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+      - EUREKA_SERVER_ADDRESS
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://configserver:9296/actuator/health" ]
       interval: 10s
@@ -63,16 +54,16 @@ services:
     image: 'tuhin47/gateway:dev'
     container_name: apigateway
     ports:
-      - '9090:9090'
-      - '19090:19090'
+      - 9090:9090
+      - 19090:19090
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
-      - CONFIG_SERVER_URL=configserver
-      - ZIPKIN_URL=http://zipkin:9411/
-      - REDIS_URL=redis://redis:6379
       - DEUBG_PORT=19090
       - PROJECT_PATH
       - MAVEN_REPO
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - ZIPKIN_URL
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - configserver
       - zipkin
@@ -116,25 +107,28 @@ services:
 
   authservice:
     build:
-      context: auth-service
-      dockerfile: dev.Dockerfile
-    image: 'tuhin47/authservice:dev'
+      context: spring-boot-oauth2-social-login
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/authservice-china:dev'
     container_name: authservice
     ports:
       - 7777:7777
       - 17777:17777
       - 35729:35729
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
-      - CONFIG_SERVER_URL=configserver
-      - MYSQL_HOST=database
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=111111
+      - DEUBG_PORT=17777
+      - PROJECT_PATH
+      - MAVEN_REPO
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
     working_dir: /app
-    command: sh run.sh
+    command: sh /script/run.sh
     depends_on:
       database:
         condition: service_healthy
@@ -143,8 +137,8 @@ services:
     networks:
       - backend
     volumes:
-      - /mnt/Others/personal/springbootmicroservicedailybuffer/auth-service:/app
-      - /mnt/OS/Users/DELL/.m2:/root/.m2
+      - $PROJECT_PATH/spring-boot-oauth2-social-login:/app
+      - $MAVEN_REPO:/root/.m2
 
 
   productservice:
@@ -156,12 +150,12 @@ services:
     ports:
       - '8081:8081'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
-      - CONFIG_SERVER_URL=configserver
-      - MYSQL_HOST=database
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=111111
-      - ZIPKIN_URL=http://zipkin:9411/
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - ZIPKIN_URL
     depends_on:
       database:
         condition: service_healthy
@@ -182,12 +176,12 @@ services:
       - '8082:8082'
       - '18082:18082'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
-      - CONFIG_SERVER_URL=configserver
-      - MYSQL_HOST=database
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=111111
-      - ZIPKIN_URL=http://zipkin:9411/
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - ZIPKIN_URL
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=18082,server=y,suspend=y
     depends_on:
       database:
@@ -209,12 +203,12 @@ services:
     ports:
       - '8083:8083'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
-      - CONFIG_SERVER_URL=configserver
-      - MYSQL_HOST=database
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=111111
-      - ZIPKIN_URL=http://zipkin:9411/
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - ZIPKIN_URL
     depends_on:
       database:
         condition: service_healthy
@@ -235,7 +229,7 @@ services:
     environment:
       - MYSQL_USER=extra
       - MYSQL_PASSWORD=extra
-      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DB=userdb
     volumes:
       - db-data:/var/lib/mysql
@@ -245,22 +239,6 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
-
-#  oidc-login:
-#    container_name: oidc-login
-#    build:
-#      context: ./Oidc
-#      dockerfile: Dockerfile
-#    image: 'tuhin47/oidc-login'
-#    ports:
-#      - 8765:8765
-#      - 18765:18765
-#    networks:
-#      - backend
-#    environment:
-#      - CLIENT_ID
-#      - CLIENT_SECRET
-
 
 networks:
   backend:
