@@ -12,16 +12,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = "com.javachinna")
 @EnableJpaRepositories
 @EnableTransactionManagement
-public class DemoApplication extends SpringBootServletInitializer {
+public class AuthService extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplicationBuilder app = new SpringApplicationBuilder(DemoApplication.class);
+		SpringApplicationBuilder app = new SpringApplicationBuilder(AuthService.class);
 		app.run();
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(DemoApplication.class);
+		return application.sources(AuthService.class);
 	}
 
     @Bean

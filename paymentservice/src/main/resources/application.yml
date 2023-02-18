@@ -18,14 +18,3 @@ spring:
   zipkin:
     base-url: ${ZIPKIN_URL:http://localhost:9411/}
 
-jwt:
-  secret: mySecretKey
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}

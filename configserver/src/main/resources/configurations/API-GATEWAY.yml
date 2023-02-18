@@ -1,0 +1,76 @@
+server:
+  port: 9090
+
+spring:
+  main:
+    web-application-type : reactive
+  cloud:
+    gateway:
+      routes:
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackuri: forward:/orderServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
+                redis-rate-limiter.burstCapacity: 1 # maximum number of requests a user is allowed to do in a single second (500 requests per second)
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PAYMENT-SERVICE
+                fallbackuri: forward:/paymentServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/authenticate/**
+            - Path=/oauth2/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
+                fallbackuri: forward:/authServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+  zipkin:
+    base-url: ${ZIPKIN_URL:http://localhost:9411/}
+
+logging:
+  level:
+    org.springframework: INFO
+
+
+jwt:
+  secret: 926D96C90030DD58429D2751AC1BDBBC
+  expireMs: 864000000
+  refrEshexpireMs: 120000
+  authorizedRedirectUris:
+    - http://localhost:7777/authenticate/refreshtoken
