@@ -8,20 +8,27 @@ import { EnvName } from '@enums/environment.enum';
 // Packages
 import packageInfo from '../../package.json';
 
-const scheme = 'http://';
-const host   = 'localhost';
-const port   = ':5000';
-const path   = '/api/';
+const API_BASE_URL               =  '';
+const API_URL                    =  API_BASE_URL + "api/";
+const OAUTH2_URL                 =  "oauth2/authorization/";
+const REDIRECT_URL               =  "?redirect_uri=http://localhost:4200/auth/login";
 
-const baseUrl = scheme + host + port + path;
+const GOOGLE_AUTH_URL            =  OAUTH2_URL + "google" + REDIRECT_URL;
+const FACEBOOK_AUTH_URL          =  OAUTH2_URL + "facebook" + REDIRECT_URL;
+const GITHUB_AUTH_URL            =  OAUTH2_URL + "github" + REDIRECT_URL;
+const LINKEDIN_AUTH_URL          =  OAUTH2_URL + "linkedin" + REDIRECT_URL;
 
 export const environment = {
-  production      : false,
-  version         : packageInfo.version,
-  appName         : 'EasyAngular',
-  envName         : EnvName.LOCAL,
-  defaultLanguage : 'en',
-  apiBaseUrl      : '/api/',
+    production: false,
+    version: packageInfo.version,
+    appName: 'me47',
+    envName: EnvName.LOCAL,
+    defaultLanguage: 'en',
+    API_URL : API_URL,
+    GOOGLE_AUTH_URL: GOOGLE_AUTH_URL,
+    FACEBOOK_AUTH_URL: FACEBOOK_AUTH_URL,
+    GITHUB_AUTH_URL: GITHUB_AUTH_URL,
+    LINKEDIN_AUTH_URL: LINKEDIN_AUTH_URL,
 };
 
 /*

@@ -29,6 +29,7 @@ import { AppComponent }         from './app.component';
 
 // Factories
 import { appInitFactory }       from '@factories/app-init.factory';
+import {authInterceptorProviders} from "@helpers/auth.interceptor";
 
 @NgModule({
   imports: [
@@ -75,6 +76,7 @@ import { appInitFactory }       from '@factories/app-init.factory';
     // Guards
 
     // Interceptors
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

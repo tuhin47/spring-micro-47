@@ -1,25 +1,35 @@
 // Angular modules
-import { Component }    from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormGroup }    from '@angular/forms';
 import { FormControl }  from '@angular/forms';
 import { Validators }   from '@angular/forms';
-import { Router }       from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 // Internal modules
 import { environment }  from '@env/environment';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 
 // Services
 import { AppService }   from '@services/app.service';
 import { StoreService } from '@services/store.service';
+import {UserService} from "@services/user.service";
+import {StorageKey} from "@enums/storage-key.enum";
+import {StorageHelper} from "@helpers/storage.helper";
 
+@UntilDestroy()
 @Component({
   selector    : 'app-login',
   templateUrl : './login.component.html',
   styleUrls   : ['./login.component.scss']
 })
-export class LoginComponent
+export class LoginComponent implements OnInit
 {
   public appName : string = environment.appName;
+  googleURL = environment.GOOGLE_AUTH_URL;
+  facebookURL = environment.FACEBOOK_AUTH_URL;
+  githubURL = environment.GITHUB_AUTH_URL;
+  linkedinURL = environment.LINKEDIN_AUTH_URL;
+
   public formGroup !: FormGroup<{
     email    : FormControl<string>,
     password : FormControl<string>,
@@ -30,10 +40,32 @@ export class LoginComponent
     private router       : Router,
     private storeService : StoreService,
     private appService   : AppService,
+    private route : ActivatedRoute,
+    private userService : UserService
   )
   {
     this.initFormGroup();
   }
+
+    ngOnInit(): void {
+        const token: string | null = this.route.snapshot.queryParamMap.get("token");
+        if(token) {
+            StorageHelper.setToken(token);
+            this.userService.getCurrentUser()
+                .pipe(untilDestroyed(this))
+                .subscribe(
+                    {
+                        next: (data) => {
+                            console.info(data);
+                            StorageHelper.setUser(data);
+                            this.router.navigate(['/home']);
+                        },
+                        error: (err) => console.error(err)
+                    }
+                );
+        }
+
+    }
 
   // -------------------------------------------------------------------------------
   // NOTE Init ---------------------------------------------------------------------

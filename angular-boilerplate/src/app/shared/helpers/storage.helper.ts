@@ -21,14 +21,25 @@ export class StorageHelper
 
   // NOTE Token
 
-  public static setToken(user : AuthResponse) : void
-  {
-    StorageHelper.setItem(StorageKey.TOKEN, user);
+  public static setUser(user: AuthResponse): void {
+    this.setToken(user.accessToken);
+    StorageHelper.setItem(StorageKey.APP_USER, user);
+  }
+
+  public static setToken(token: string): void {
+    StorageHelper.setItem(StorageKey.TOKEN, token);
   }
 
   public static removeToken() : void
   {
+    StorageHelper.removeItem(StorageKey.APP_USER);
     StorageHelper.removeItem(StorageKey.TOKEN);
+  }
+
+  public static getUser() : AuthResponse | null
+  {
+    const data = StorageHelper.getItem(StorageKey.APP_USER) ;
+    return data ? data : null;
   }
 
   public static getToken() : AuthResponse | null

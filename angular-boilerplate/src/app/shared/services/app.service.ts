@@ -1,30 +1,24 @@
 // Angular modules
-import { Injectable }               from '@angular/core';
-import { Router }                   from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
 // External modules
-import { ArrayTyper }               from '@caliatys/array-typer';
-import { TranslateService }         from '@ngx-translate/core';
-import axios                        from 'axios';
-import { AxiosResponse }            from 'axios';
-import { AxiosError }               from 'axios';
-import { AxiosInstance }            from 'axios';
-import { CreateAxiosDefaults }      from 'axios';
+import {TranslateService} from '@ngx-translate/core';
+import axios, {AxiosError, AxiosInstance, CreateAxiosDefaults} from 'axios';
 
 // Internal modules
-import { ToastManager }             from '@blocks/toast/toast.manager';
-import { environment }              from '@env/environment';
+import {ToastManager} from '@blocks/toast/toast.manager';
+import {environment} from '@env/environment';
 
 // Helpers
-import { StorageHelper }            from '@helpers/storage.helper';
+import {StorageHelper} from '@helpers/storage.helper';
 
 // Enums
-import { Endpoint }                 from '@enums/endpoint.enum';
+import {Endpoint} from '@enums/endpoint.enum';
 
 // Models
-
 // Services
-import { StoreService }             from './store.service';
+import {StoreService} from './store.service';
 
 @Injectable()
 export class AppService
@@ -41,7 +35,7 @@ export class AppService
 
   // NOTE Instances
   private api : AxiosInstance = axios.create({
-    baseURL : environment.apiBaseUrl,
+    baseURL : environment.API_URL,
     ...this.default,
   });
 
@@ -77,9 +71,7 @@ export class AppService
 
     if (!data)
       return false;
-
-    const authResponse = data;
-    StorageHelper.setToken(authResponse);
+    StorageHelper.setUser(data);
     this.initAuthHeader();
     return true;
   }
@@ -123,11 +115,11 @@ export class AppService
 
   private initAuthHeader() : void
   {
-    const user = StorageHelper.getToken();
+    const user = StorageHelper.getUser();
     if (!user)
       return;
 
-    this.api.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+    this.api.defaults.headers.common['Authorization'] = `Bearer ${user.accessToken}`;
     // this.api.defaults.headers.common['Token']         = token.jwtToken;
   }
 

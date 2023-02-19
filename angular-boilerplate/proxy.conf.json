@@ -5,4 +5,10 @@
     "logLevel": "debug",
     "changeOrigin": true
   }
+  ,"/oauth2/**": {
+    "target": "http://localhost:7777",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
 }

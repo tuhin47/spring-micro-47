@@ -11,7 +11,7 @@ import com.javachinna.dto.LocalUser;
 import com.javachinna.util.GeneralUtils;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class UserController {
 
 	@GetMapping("/user/me")

@@ -5,6 +5,7 @@ import { Router }      from '@angular/router';
 
 // Internal modules
 import { environment } from '@env/environment';
+import {StorageHelper} from "@helpers/storage.helper";
 
 @Component({
   selector    : 'app-layout-header',
@@ -40,6 +41,7 @@ export class LayoutHeaderComponent implements OnInit
   public async onClickLogout() : Promise<void>
   {
     // NOTE Redirect to login
+    StorageHelper.removeToken();
     this.router.navigate(['/auth/login']);
   }
 
