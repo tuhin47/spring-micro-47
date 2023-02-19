@@ -61,7 +61,7 @@ app:
     authorizedRedirectUris: http://localhost:4200/home,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 logging:
   level:
-    com: TRACE
+    com: INFO
     org:
       springframework: INFO
       hibernate:
