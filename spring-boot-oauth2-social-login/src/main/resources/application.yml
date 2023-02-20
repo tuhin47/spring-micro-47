@@ -3,3 +3,9 @@ spring:
     name: AUTH-SERVICE
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+
+logging:
+  level:
+    com: TRACE
+    org:
+      springframework: TRACE

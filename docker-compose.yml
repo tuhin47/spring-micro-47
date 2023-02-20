@@ -190,9 +190,10 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - "3306:3306"
+      - $MYSQL_PORT:3306
     restart: always
     environment:
+      - MYSQL_PORT
       - MYSQL_USER=extra
       - MYSQL_PASSWORD=extra
       - MYSQL_ROOT_PASSWORD=111111

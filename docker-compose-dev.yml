@@ -4,28 +4,42 @@ services:
 
  #Front-end Angular boilerplate
   boilerplate:
-    build: ./angular-boilerplate
+    build:
+      context: ./angular-boilerplate
+      dockerfile: Dockerfile
+      args:
+       - ENVIRONMENT
+       - API_BASE
+       - API_CONTEXT
+       - OAUTH_REDIRECT_URL
     container_name: boilerplate
     image: 'tuhin47/boilerplate:dev'
     ports:
-      - 4222:80
+      - 4200:80
     links:
       - apigateway
-    volumes:
-      - /mnt/Others/personal/springbootmicroservicedailybuffer/angular-boilerplate/dist/easy-angular:/usr/share/nginx/html
+      - authservice
     networks:
       - backend
 
   serviceregistry:
     build:
       context: service-registry
-      dockerfile: Dockerfile
+      dockerfile: ../Dockerfile
     image: 'tuhin47/serviceregistry:dev'
     container_name: serviceregistry
+    working_dir: /app
+    command: sh /script/run.sh
     ports:
       - 8761:8761
+      - 18761:18761
     networks:
       - backend
+    volumes:
+      - $PROJECT_PATH/service-registry:/app
+      - $MAVEN_REPO:/root/.m2
+    environment:
+      - DEUBG_PORT=18761
 
   configserver:
     build:
@@ -114,7 +128,7 @@ services:
     build:
       context: spring-boot-oauth2-social-login
       dockerfile: ../Dockerfile
-    image: 'tuhin47/authservice-china:dev'
+    image: 'tuhin47/authservice:dev'
     container_name: authservice
     ports:
       - 7777:7777
@@ -125,6 +139,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
+      - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DB=userdb
@@ -158,6 +173,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
+      - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
@@ -190,6 +206,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
+      - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
@@ -224,6 +241,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
+      - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
@@ -246,10 +264,11 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - "3306:3306"
+      - $MYSQL_PORT:3336
     restart: always
     environment:
       - MYSQL_USER=extra
+      - MYSQL_PORT
       - MYSQL_PASSWORD=extra
       - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DB=userdb
