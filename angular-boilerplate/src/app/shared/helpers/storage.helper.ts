@@ -22,7 +22,9 @@ export class StorageHelper
   // NOTE Token
 
   public static setUser(user: AuthResponse): void {
-    this.setToken(user.accessToken);
+    if (user.accessToken) {
+      this.setToken(user.accessToken);
+    }
     StorageHelper.setItem(StorageKey.APP_USER, user);
   }
 

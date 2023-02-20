@@ -1,14 +1,17 @@
 ### STAGE 1: Build ###
-#FROM node:12.7-alpine AS build
-#WORKDIR /usr/src/app
-#COPY package.json ./
-#RUN npm install
-#COPY . .
-#RUN npm run build
+FROM node:16-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json ./
+RUN npm install
+COPY . .
+ARG ENVIRONMENT
+ARG API_BASE
+ARG OAUTH_REDIRECT_URL
+RUN npm run build
 
 ### STAGE 2: Run ###
 FROM nginx:1.20-alpine
 COPY default.conf /etc/nginx/conf.d/default.conf
-#COPY --from=build /usr/src/app/dist/scrum-ui /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/easy-angular /usr/share/nginx/html
 #COPY ./dist/easy-angular /usr/share/nginx/html
 EXPOSE 80

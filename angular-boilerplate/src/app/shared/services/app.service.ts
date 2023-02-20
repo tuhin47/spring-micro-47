@@ -115,11 +115,11 @@ export class AppService
 
   private initAuthHeader() : void
   {
-    const user = StorageHelper.getUser();
-    if (!user)
+    const token = StorageHelper.getToken();
+    if (!token)
       return;
 
-    this.api.defaults.headers.common['Authorization'] = `Bearer ${user.accessToken}`;
+    this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     // this.api.defaults.headers.common['Token']         = token.jwtToken;
   }
 
