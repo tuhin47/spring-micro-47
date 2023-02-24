@@ -264,7 +264,7 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - $MYSQL_PORT:3336
+      - $MYSQL_PORT:3306
     restart: always
     environment:
       - MYSQL_USER=extra
