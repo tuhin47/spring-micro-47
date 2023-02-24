@@ -25,7 +25,7 @@ public class SignUpRequest {
 	@NotEmpty
 	private String email;
 
-	private SocialProvider socialProvider;
+	private SocialProvider socialProvider = SocialProvider.LOCAL;
 
 	@Size(min = 6, message = "{Size.userDto.password}")
 	private String password;
