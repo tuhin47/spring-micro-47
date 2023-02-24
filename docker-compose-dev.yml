@@ -151,7 +151,7 @@ services:
       database:
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
     networks:
       - backend
     volumes:
@@ -183,7 +183,7 @@ services:
       database:
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
       zipkin:
         condition: service_healthy
     networks:
@@ -216,7 +216,7 @@ services:
       database:
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
       zipkin:
         condition: service_healthy
     networks:
@@ -251,7 +251,7 @@ services:
       database:
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
       zipkin:
         condition: service_healthy
     networks:

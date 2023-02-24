@@ -4,3 +4,6 @@
 *.iml
 .env
 */.mvn
+*/.vscode-server/
+*/.vscode/
+*/.dotnet/
