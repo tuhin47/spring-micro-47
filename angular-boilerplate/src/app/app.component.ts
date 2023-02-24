@@ -4,6 +4,8 @@ import { OnInit }           from '@angular/core';
 
 // External modules
 import { TranslateService } from '@ngx-translate/core';
+import {EventBusService} from "./shared/event/event-bus.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector    : 'app-root',
@@ -15,6 +17,8 @@ export class AppComponent implements OnInit
   constructor
   (
     private translateService : TranslateService,
+    private eventBusService: EventBusService
+
   )
   {
     // NOTE This language will be used as a fallback when a translation isn't found in the current language
@@ -30,8 +34,12 @@ export class AppComponent implements OnInit
   // NOTE Init ---------------------------------------------------------------------
   // -------------------------------------------------------------------------------
 
+  eventBusSub?: Subscription;
   public ngOnInit() : void
   {
+    this.eventBusSub = this.eventBusService.on('logout', () => {
+      console.log("Logout event triggered");
+    });
   }
 
   // -------------------------------------------------------------------------------

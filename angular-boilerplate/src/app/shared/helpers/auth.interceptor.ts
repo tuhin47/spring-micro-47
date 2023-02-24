@@ -6,10 +6,12 @@ import {tap} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {StorageHelper} from "@helpers/storage.helper";
 import {StorageKey} from "@enums/storage-key.enum";
+import {EventBusService} from "../event/event-bus.service";
+import {EventData} from "../event/event.class";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-	constructor(private router: Router) {
+	constructor(private router: Router,private eventBusService: EventBusService) {
 
 	}
 
@@ -26,7 +28,8 @@ export class AuthInterceptor implements HttpInterceptor {
 				if (err.status !== 401 || window.location.pathname === loginPath) {
 					return;
 				}
-                StorageHelper.removeToken();
+        this.eventBusService.emit(new EventData('logout', null));
+        StorageHelper.removeToken();
 				window.location.href = loginPath;
 			}
 		}
