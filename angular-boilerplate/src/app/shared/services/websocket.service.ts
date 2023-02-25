@@ -15,12 +15,13 @@ import {IContact} from "../../pages/chat/contact/contact";
 })
 export class WebsocketService {
 
+
   constructor(private userService: UserService) {
   }
 
   private stompClient: Client = Stomp.over(new SockJS("http://localhost:8080/ws"));
   private currentUser: AuthResponse | null = StorageHelper.getUser();
-  private activeContact: IContact | undefined;
+  private _activeContact: IContact | undefined;
 
   connect = () => {
     this.stompClient.connect({}, this.onConnected, this.onError);
@@ -63,9 +64,9 @@ export class WebsocketService {
     if (msg.trim() !== "") {
       const message = {
         senderId: this.currentUser?.id,
-        recipientId: this.activeContact?.id,
+        recipientId: this._activeContact?.id,
         senderName: this.currentUser?.username,
-        recipientName: this.activeContact?.name,
+        recipientName: this._activeContact?.name,
         content: msg,
         timestamp: new Date(),
       };
@@ -81,9 +82,9 @@ export class WebsocketService {
     this.userService.getUsers()
 
       .subscribe((users: any[]) => {
-          if (this.activeContact === undefined && users.length > 0) {
+          if (this._activeContact === undefined && users.length > 0) {
             // setActiveContact(users[0]);
-            this.activeContact = users[0];
+            this._activeContact = users[0];
           }
           return users;/*users.map((contact) =>
           countNewMessages(contact.id, this.currentUser?.id).then((count) => {
@@ -95,7 +96,11 @@ export class WebsocketService {
       );
   };
 
-  setChatUser(contact: IContact) {
-    this.activeContact = contact;
+  set activeContact(value: IContact | undefined) {
+    this._activeContact = value;
+  }
+
+  get activeContact(): IContact | undefined {
+    return this._activeContact;
   }
 }

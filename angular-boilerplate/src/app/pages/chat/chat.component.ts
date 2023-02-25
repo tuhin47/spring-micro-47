@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit {
   sendMessage: any;
 
 
-  constructor(private webSocketService: WebsocketService) {
+  constructor(public webSocketService: WebsocketService) {
     this.sendMessage = webSocketService.sendMessage;
   }
 

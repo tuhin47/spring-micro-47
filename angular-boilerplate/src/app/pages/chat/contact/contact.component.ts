@@ -47,6 +47,6 @@ export class ContactComponent implements OnInit {
   }
 
   setActiveUser(contact: IContact) {
-    this.websocketService.setChatUser(contact);
+    this.websocketService.activeContact = contact;
   }
 }

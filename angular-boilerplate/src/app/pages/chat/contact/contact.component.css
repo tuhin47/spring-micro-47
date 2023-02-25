@@ -124,7 +124,7 @@ div {
 }
 
 .name-meta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     font-size: 12px;
     text-align: left;
@@ -132,6 +132,16 @@ div {
     white-space: nowrap;
     color: #000;
     line-height: 10px;
+}
+.name-meta-message{
+    display: block;
+    align-items: center;
+    font-size: 12px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #000;
+    line-height: 8px;
 }
 
 .contact-name {
