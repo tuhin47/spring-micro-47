@@ -1,10 +1,6 @@
 package com.javachinna.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,4 +122,9 @@ public class UserServiceImpl implements UserService {
 	public Optional<User> findUserById(Long id) {
 		return userRepository.findById(id);
 	}
+
+	@Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

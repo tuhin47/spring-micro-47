@@ -30,4 +30,8 @@ export class UserService {
   getCurrentUser(): Observable<any> {
       return this.apiService.get(Endpoint.MY_INFO);
   }
+
+  getUsers() {
+    return this.apiService.get(Endpoint.FRIEND_LIST);
+  }
 }

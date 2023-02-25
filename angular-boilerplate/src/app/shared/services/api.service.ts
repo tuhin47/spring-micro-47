@@ -20,7 +20,13 @@ export class ApiService {
     }
 
     get(url: string): Observable<any> {
-        let apiURL = this.apiBase + url;
+      let apiURL: string;
+
+      if (url.startsWith("chat")) {
+        apiURL = url;
+      } else {
+        apiURL = this.apiBase + url;
+      }
         return this.httpClient.get(apiURL).pipe(map(res => res));
     }
 

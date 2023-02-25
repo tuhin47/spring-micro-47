@@ -1,5 +1,6 @@
 package com.javachinna.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,4 +25,6 @@ public interface UserService {
 	Optional<User> findUserById(Long id);
 
 	LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
+
+	List<User> findAll();
 }

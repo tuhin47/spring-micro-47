@@ -8,6 +8,10 @@ import { NotFoundComponent } from './static/not-found/not-found.component';
 
 const routes : Routes = [
   {
+    path         : 'chat',
+    loadChildren : () => import('./pages/chat/chat.module').then(m => m.ChatModule),
+  },
+  {
     path         : 'auth',
     loadChildren : () => import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
