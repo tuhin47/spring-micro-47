@@ -60,6 +60,20 @@ spring:
               args:
                 redis-rate-limiter.replenishRate: 1
                 redis-rate-limiter.burstCapacity: 1
+        - id: CHAT-SERVICE
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat/**
+            - Path=/ws/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CHAT-SERVICE
+                fallbackuri: forward:/chatServiceFallBack
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
   zipkin:
     base-url: ${ZIPKIN_URL:http://localhost:9411/}
 

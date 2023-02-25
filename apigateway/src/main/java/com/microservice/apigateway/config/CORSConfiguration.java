@@ -9,7 +9,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
-//@Configuration
+@Configuration
 public class CORSConfiguration implements WebFluxConfigurer {
     
     @Override

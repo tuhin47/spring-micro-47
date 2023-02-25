@@ -26,4 +26,9 @@ public class FallbackController {
         return "Auth Service is down!";
     }
 
+    @GetMapping("/chatServiceFallBack")
+    public String chatServiceFallback() {
+        return "Auth Service is down!";
+    }
+
 }

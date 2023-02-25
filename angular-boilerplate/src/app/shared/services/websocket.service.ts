@@ -19,7 +19,7 @@ export class WebsocketService {
   constructor(private userService: UserService) {
   }
 
-  private stompClient: Client = Stomp.over(new SockJS("http://localhost:8080/ws"));
+  private stompClient: Client = Stomp.over(new SockJS("/api/ws"));
   private currentUser: AuthResponse | null = StorageHelper.getUser();
   private _activeContact: IContact | undefined;
 

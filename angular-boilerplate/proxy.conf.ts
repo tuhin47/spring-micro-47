@@ -15,7 +15,7 @@ const proxyConfig = [
     },
   {
         context: ["/chats/**"],
-        target: "http://localhost:8080",
+        target: "http://localhost:8084",
         pathRewrite: {'^/chats': ''},
         secure: false,
         changeOrigin: true

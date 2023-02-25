@@ -225,6 +225,41 @@ services:
       - $PROJECT_PATH/orderservice:/app
       - $MAVEN_REPO:/root/.m2
 
+  chatservice:
+    build:
+      context: chat-service
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/chatservice:dev'
+    container_name: chatservice
+    ports:
+      - 8084:8084
+      - 18084:18084
+    environment:
+      - DEUBG_PORT=18084
+      - CONFIG_SERVER_URL
+      - EUREKA_SERVER_ADDRESS
+      - MONGO_AUTHENTICATION_DATABASE
+      - MONGO_DATABASE
+      - MONGO_HOST
+      - MONGO_PASSWORD
+      - MONGO_PORT
+      - MONGO_USERNAME
+      - ZIPKIN_URL
+    working_dir: /app
+    command: sh /script/run.sh
+    depends_on:
+      mongo:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
+      zipkin:
+        condition: service_healthy
+    networks:
+      - backend
+    volumes:
+      - $PROJECT_PATH/chat-service:/app
+      - $MAVEN_REPO:/root/.m2
+
 
   paymentservice:
     build:
@@ -281,9 +316,31 @@ services:
       timeout: 20s
       retries: 10
 
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-volume:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/admin --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
 
 volumes:
   db-data:
+  mongo-volume:
+    driver: local

@@ -14,10 +14,13 @@ public class GatewayConfig {
     private final JwtAuthenticationFilter filter;
 
     @Bean
-    public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes().route("AUTH-SERVICE", r -> r.path("/auth/**","/oauth2/**").filters(f -> f.filter(filter)).uri("lb://AUTH-SERVICE"))
+     public RouteLocator routes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("AUTH-SERVICE", r -> r.path("/auth/**", "/oauth2/**").filters(f -> f.filter(filter)).uri("lb://AUTH-SERVICE"))
                 .route("PRODUCT-SERVICE", r -> r.path("/product/**").filters(f -> f.filter(filter)).uri("lb://PRODUCT-SERVICE"))
                 .route("PAYMENT-SERVICE", r -> r.path("/payment/**").filters(f -> f.filter(filter)).uri("lb://PAYMENT-SERVICE"))
-                .route("ORDER-SERVICE", r -> r.path("/order/**").filters(f -> f.filter(filter)).uri("lb://ORDER-SERVICE")).build();
+                .route("ORDER-SERVICE", r -> r.path("/order/**").filters(f -> f.filter(filter)).uri("lb://ORDER-SERVICE"))
+                .route("CHAT-SERVICE", r -> r.path("/chat/**","/ws/**").filters(f -> f.filter(filter)).uri("lb://CHAT-SERVICE"))
+                .build();
     }
 }

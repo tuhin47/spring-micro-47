@@ -1,9 +1,22 @@
 spring:
+  application:
+    name: CHAT-SERVICE
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  zipkin:
+    base-url: ${ZIPKIN_URL:http://localhost:9411/}
   data:
     mongodb:
-      database: chat_service
-      port: 27017
-      username: root
-      password: rootpassword
-      host: 127.0.0.1
-      authentication-database: admin
+      database: ${MONGO_DATABASE:chat_service}
+      port: ${MONGO_PORT:27017}
+      username: ${MONGO_USERNAME:root}
+      password: ${MONGO_PASSWORD:rootpassword}
+      authentication-database: ${MONGO_AUTHENTICATION_DATABASE:admin}
+      host: ${MONGO_HOST:localhost}
+server:
+  port: 8084
+#logging:
+#  level:
+#    com: TRACE
+#    org:
+#      springframework: TRACE
