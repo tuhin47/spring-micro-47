@@ -55,6 +55,7 @@ services:
       context: apigateway
       dockerfile: ../Dockerfile
     image: 'tuhin47/gateway:prod'
+    container_name: apigateway
     ports:
       - 9090:9090
     environment:
