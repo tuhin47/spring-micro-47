@@ -1,5 +1,5 @@
 export enum StorageKey
 {
-  APP_USER = 'APP_USER',
-  TOKEN = 'TOKEN',
+  AUTH_RESPONSE = 'AUTH_RESPONSE',
+  TOKEN = 'AUTH_TOKEN',
 }

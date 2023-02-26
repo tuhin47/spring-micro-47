@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {IContact} from './contact';
-import {ContactService} from './contact.service';
 import {UserService} from "@services/user.service";
 import {WebsocketService} from "@services/websocket.service";
+import {UserInfo} from "@models/user.model";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -11,8 +12,8 @@ import {WebsocketService} from "@services/websocket.service";
 })
 export class ContactComponent implements OnInit {
 
-  contacts: IContact[] = [];
-  filteredContacts: IContact[] = [];
+  contacts: UserInfo[] = [];
+  filteredContacts: UserInfo[] = [];
 
   _contactFilter: string = "";
   get contactFilter() {
@@ -24,29 +25,33 @@ export class ContactComponent implements OnInit {
     this.filteredContacts = this.contactFilter ? this.performFilter(this.contactFilter) : this.contacts;
   }
 
-  constructor(private _contactService: ContactService,
-              private websocketService:WebsocketService,
+  constructor(private websocketService:WebsocketService,
               private userService: UserService) {
     this.contactFilter = '';
   }
 
-  performFilter(filterBy: string): IContact[] {
+  performFilter(filterBy: string): UserInfo[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.contacts.filter(
-      (contact: IContact) => contact.name.toLocaleLowerCase().indexOf(filterBy) > -1
+      (contact: UserInfo) => contact.displayName.toLocaleLowerCase().indexOf(filterBy) > -1
     );
   }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(
+    this.userService.getUsers()
+      .pipe(untilDestroyed(this))
+      .subscribe(
       data => {
         this.contacts = data;
         this.filteredContacts = this.contacts;
+        if (!this.websocketService.activeContact && this.contacts.length > 0) {
+          this.setActiveUser(this.contacts[0]);
+        }
       }
     )
   }
 
-  setActiveUser(contact: IContact) {
+  setActiveUser(contact: UserInfo) {
     this.websocketService.activeContact = contact;
   }
 }

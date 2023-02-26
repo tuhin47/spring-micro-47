@@ -1,14 +1,13 @@
-export class AuthResponse {
-    constructor(
-      public accessToken: string,
-      public authenticated: boolean,
-      public type = 'Bearer',
-      public refreshToken: string,
-      public id: number,
-      public username: string,
-      public email: string,
-      public user: any,
-      public roles: string[]
-    ) {}
+import {UserInfo} from "@models/user.model";
 
+export class AuthResponse{
+  accessToken: string;
+  authenticated: boolean;
+  user: UserInfo;
+
+  constructor(accessToken: string, authenticated: boolean, user: UserInfo) {
+    this.accessToken = accessToken;
+    this.authenticated = authenticated;
+    this.user = user;
   }
+}

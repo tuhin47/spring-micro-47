@@ -1,11 +1,10 @@
 import * as Stomp from 'stompjs';
 import {Client} from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import {AuthResponse} from "@models/auth-response.model";
 import {StorageHelper} from "@helpers/storage.helper";
 import {UserService} from "@services/user.service";
 import {Injectable} from "@angular/core";
-import {IContact} from "../../pages/chat/contact/contact";
+import {UserInfo} from "@models/user.model";
 
 // import { AppComponent } from './app.component';
 
@@ -20,18 +19,17 @@ export class WebsocketService {
   }
 
   private stompClient: Client = Stomp.over(new SockJS("/api/ws"));
-  private currentUser: AuthResponse | null = StorageHelper.getUser();
-  private _activeContact: IContact | undefined;
+  private currentUser: UserInfo | undefined = StorageHelper.getUser()?.user;
+  private _activeContact: UserInfo | undefined;
 
   connect = () => {
     this.stompClient.connect({}, this.onConnected, this.onError);
   };
 
   onConnected = () => {
-    console.log("connected");
-    console.log();
-    this.stompClient.subscribe(
-      "/user/" + this.currentUser?.id + "/queue/messages",
+    this.stompClient
+      .subscribe(
+      "/user/" + (this.currentUser?.id) + "/queue/messages",
       this.onMessageReceived,
       this.onError
     );
@@ -43,7 +41,6 @@ export class WebsocketService {
 
   onMessageReceived = (msg: any) => {
     const notification = JSON.parse(msg.body);
-    console.log(notification);
     /* const active = JSON.parse(sessionStorage.getItem("recoil-persist"))
        .chatActiveContact;
 
@@ -65,8 +62,8 @@ export class WebsocketService {
       const message = {
         senderId: this.currentUser?.id,
         recipientId: this._activeContact?.id,
-        senderName: this.currentUser?.username,
-        recipientName: this._activeContact?.name,
+        senderName: this.currentUser?.displayName,
+        recipientName: this._activeContact?.displayName,
         content: msg,
         timestamp: new Date(),
       };
@@ -79,28 +76,28 @@ export class WebsocketService {
   };
 
   loadContacts = () => {
-    this.userService.getUsers()
+    /*this.userService.getUsers()
 
       .subscribe((users: any[]) => {
           if (this._activeContact === undefined && users.length > 0) {
             // setActiveContact(users[0]);
             this._activeContact = users[0];
           }
-          return users;/*users.map((contact) =>
+          return users;/!*users.map((contact) =>
           countNewMessages(contact.id, this.currentUser?.id).then((count) => {
             contact.newMessages = count;
             return contact;
           })
-        )*/
+        )*!/
         }
-      );
+      );*/
   };
 
-  set activeContact(value: IContact | undefined) {
+  set activeContact(value: UserInfo | undefined) {
     this._activeContact = value;
   }
 
-  get activeContact(): IContact | undefined {
+  get activeContact(): UserInfo | undefined {
     return this._activeContact;
   }
 }

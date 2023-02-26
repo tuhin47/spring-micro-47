@@ -11,6 +11,19 @@ import org.springframework.stereotype.Component;
 public class AppProperties {
 	private final Auth auth = new Auth();
 	private final OAuth2 oauth2 = new OAuth2();
+    private final Config config = new Config();
+
+    public static class Config{
+        private String qrIssuer;
+
+        public String getQrIssuer() {
+            return qrIssuer;
+        }
+
+        public void setQrIssuer(String qrIssuer) {
+            this.qrIssuer = qrIssuer;
+        }
+    }
 
 	public static class Auth {
 		private String tokenSecret;
@@ -53,4 +66,8 @@ public class AppProperties {
 	public OAuth2 getOauth2() {
 		return oauth2;
 	}
+
+    public Config getConfig() {
+        return config;
+    }
 }

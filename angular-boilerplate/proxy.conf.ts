@@ -12,15 +12,7 @@ const proxyConfig = [
         // pathRewrite: {'^/links': ''},
         secure: false,
         changeOrigin: true
-    },
-  {
-        context: ["/chats/**"],
-        target: "http://localhost:8084",
-        pathRewrite: {'^/chats': ''},
-        secure: false,
-        changeOrigin: true
-    },
-
+    }
 ];
 
 module.exports = proxyConfig

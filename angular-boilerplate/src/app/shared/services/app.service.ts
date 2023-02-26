@@ -67,11 +67,11 @@ export class AppService
     StorageHelper.removeToken();
 
     const url      = Endpoint.AUTHENTICATE;
-    const { data } = await this.api.post(url, { username:email, password });
+    const { data } = await this.api.post(url, { email, password });
 
     if (!data)
       return false;
-    StorageHelper.setUser(data);
+    StorageHelper.setAuthResponse(data);
     this.initAuthHeader();
     return true;
   }

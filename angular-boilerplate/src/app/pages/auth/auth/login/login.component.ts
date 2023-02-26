@@ -56,8 +56,7 @@ export class LoginComponent implements OnInit
                 .subscribe(
                     {
                         next: (data) => {
-                            console.info(data);
-                            StorageHelper.setUser(data);
+                            StorageHelper.setAuthResponse(data);
                             this.router.navigate(['/home']);
                         },
                         error: (err) => console.error(err)

@@ -1,16 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {faCog, faPaperclip, faCommentAlt, faUser, faSearch} from '@fortawesome/free-solid-svg-icons';
-import {ContactService} from './contact/contact.service';
+import {Component} from '@angular/core';
+import {faCog, faCommentAlt, faPaperclip, faSearch, faUser} from '@fortawesome/free-solid-svg-icons';
 import {WebsocketService} from "@services/websocket.service";
-import {UserService} from "@services/user.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
-  providers: [ContactService]
+  styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
   faSetting = faCog;
   faPaperClip = faPaperclip;
   faCommentDots = faCommentAlt;
@@ -22,13 +19,6 @@ export class ChatComponent implements OnInit {
 
   constructor(public webSocketService: WebsocketService) {
     this.sendMessage = webSocketService.sendMessage;
-  }
-
-  ngOnInit(): void {
-    this.connect();
-  }
-
-  private connect() {
     this.webSocketService.connect();
   }
 }

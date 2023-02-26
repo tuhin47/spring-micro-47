@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.javachinna.dto.LocalUser;
@@ -38,8 +39,18 @@ public class GeneralUtils {
 	}
 
 	public static UserInfo buildUserInfo(LocalUser localUser) {
-		List<String> roles = localUser.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
+		List<String> roles = localUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 		User user = localUser.getUser();
-		return new UserInfo(user.getId().toString(), user.getDisplayName(), user.getEmail(), roles);
+        return buildUserInfo(user, roles);
 	}
+
+    public static UserInfo buildUserInfo(User user, List<String> roles) {
+        return UserInfo.builder()
+                .id(user.getId())
+                .displayName(user.getDisplayName())
+                .email(user.getEmail())
+                .roles(roles)
+                .avatar("https://bootdey.com/img/Content/avatar/avatar1.png")
+                .build();
+    }
 }

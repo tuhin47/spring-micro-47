@@ -50,6 +50,8 @@ spring:
 linkedin:
   email-address-uri: 'https://api.linkedin.com/v2/emailAddress?q'
 app:
+  config:
+    qrIssuer : tuhin47
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpirationMsec: 864000000
@@ -65,5 +67,5 @@ logging:
     org:
       springframework: INFO
       hibernate:
-        SQL: TRACE
-        type: TRACE
+        SQL: DEBUG
+        type: DEBUG
