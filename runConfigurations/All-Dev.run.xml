@@ -3,6 +3,11 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="$PROJECT_DIR$/.env" />
+        <option name="services">
+          <list>
+            <option value="serviceregistry" />
+          </list>
+        </option>
         <option name="sourceFilePath" value="docker-compose-dev.yml" />
         <option name="upExitCodeFromService" value="" />
         <option name="upTimeout" value="" />

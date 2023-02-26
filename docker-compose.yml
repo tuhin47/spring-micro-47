@@ -5,11 +5,10 @@ services:
   serviceregistry:
     build:
       context: service-registry
-      dockerfile: Dockerfile
+      dockerfile: ../Dockerfile
     image: 'tuhin47/serviceregistry:0.0.1'
-    container_name: serviceregistry
     ports:
-      - '8761:8761'
+      - 8761:8761
     networks:
       - backend
 
@@ -85,7 +84,7 @@ services:
   authservice:
     build:
       context: auth-service
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
     image: 'tuhin47/authservice:0.0.1'
     container_name: authservice
     ports:
@@ -211,7 +210,7 @@ services:
     container_name: oidc-login
     build:
       context: ./Oidc
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
     image: 'tuhin47/oidc-login'
     ports:
       - 8765:8765

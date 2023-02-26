@@ -10,10 +10,9 @@ services:
       args:
        - ENVIRONMENT
        - API_BASE
-       - API_CONTEXT
        - OAUTH_REDIRECT_URL
     container_name: boilerplate
-    image: 'tuhin47/boilerplate:dev'
+    image: 'tuhin47/boilerplate:prod'
     ports:
       - 4200:80
     links:
@@ -25,36 +24,22 @@ services:
   serviceregistry:
     build:
       context: service-registry
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/serviceregistry:dev'
-    container_name: serviceregistry
-    working_dir: /app
-    command: sh /script/run.sh
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/serviceregistry:prod'
     ports:
       - 8761:8761
-      - 18761:18761
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/service-registry:/app
-      - $MAVEN_REPO:/root/.m2
-    environment:
-      - DEUBG_PORT=18761
 
   configserver:
     build:
       context: configserver
-      dockerfile: ../dev.Dockerfile
-    image: tuhin47/configserver:dev
-    container_name: configserver
+      dockerfile: ../Dockerfile
+    image: tuhin47/configserver:prod
     ports:
       - 9296:9296
-      - 19296:19296
     environment:
-      - DEUBG_PORT=19296
       - EUREKA_SERVER_ADDRESS
-    working_dir: /app
-    command: sh /script/run.sh
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://configserver:9296/actuator/health" ]
       interval: 10s
@@ -64,21 +49,15 @@ services:
       - serviceregistry
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/configserver:/app
-      - $MAVEN_REPO:/root/.m2
 
   apigateway:
     build:
       context: apigateway
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/gateway:dev'
-    container_name: apigateway
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/gateway:prod'
     ports:
       - 9090:9090
-      - 19090:19090
     environment:
-      - DEUBG_PORT=19090
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - ZIPKIN_URL
@@ -91,13 +70,8 @@ services:
       - orderservice
       - authservice
       - paymentservice
-    working_dir: /app
-    command: sh /script/run.sh
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/apigateway:/app
-      - $MAVEN_REPO:/root/.m2
 
 
   zipkin:
@@ -127,15 +101,11 @@ services:
   authservice:
     build:
       context: spring-boot-oauth2-social-login
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/authservice:dev'
-    container_name: authservice
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/authservice:prod'
     ports:
       - 7777:7777
-      - 17777:17777
-      - 35729:35729
     environment:
-      - DEUBG_PORT=17777
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
@@ -145,8 +115,6 @@ services:
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
-    working_dir: /app
-    command: sh /script/run.sh
     depends_on:
       database:
         condition: service_healthy
@@ -154,22 +122,16 @@ services:
         condition: service_healthy
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/spring-boot-oauth2-social-login:/app
-      - $MAVEN_REPO:/root/.m2
 
 
   productservice:
     build:
       context: productservice
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/productservice:dev'
-    container_name: productservice
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/productservice:prod'
     ports:
       - 8081:8081
-      - 18081:18081
     environment:
-      - DEUBG_PORT=18081
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
@@ -177,8 +139,6 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
-    working_dir: /app
-    command: sh /script/run.sh
     depends_on:
       database:
         condition: service_healthy
@@ -188,21 +148,15 @@ services:
         condition: service_healthy
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/productservice:/app
-      - $MAVEN_REPO:/root/.m2
 
   orderservice:
     build:
       context: orderservice
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/orderservice:dev'
-    container_name: orderservice
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/orderservice:prod'
     ports:
       - 8082:8082
-      - 18082:18082
     environment:
-      - DEUBG_PORT=18082
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - MYSQL_HOST
@@ -210,8 +164,6 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
-    working_dir: /app
-    command: sh /script/run.sh
     depends_on:
       database:
         condition: service_healthy
@@ -221,21 +173,15 @@ services:
         condition: service_healthy
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/orderservice:/app
-      - $MAVEN_REPO:/root/.m2
 
   chatservice:
     build:
       context: chat-service
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/chatservice:dev'
-    container_name: chatservice
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/chatservice:prod'
     ports:
       - 8084:8084
-      - 18084:18084
     environment:
-      - DEUBG_PORT=18084
       - CONFIG_SERVER_URL
       - EUREKA_SERVER_ADDRESS
       - MONGO_AUTHENTICATION_DATABASE
@@ -245,8 +191,6 @@ services:
       - MONGO_PORT
       - MONGO_USERNAME
       - ZIPKIN_URL
-    working_dir: /app
-    command: sh /script/run.sh
     depends_on:
       mongo:
         condition: service_healthy
@@ -256,22 +200,16 @@ services:
         condition: service_healthy
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/chat-service:/app
-      - $MAVEN_REPO:/root/.m2
 
 
   paymentservice:
     build:
       context: paymentservice
-      dockerfile: ../dev.Dockerfile
-    image: 'tuhin47/paymentservice:dev'
-    container_name: paymentservice
+      dockerfile: ../Dockerfile
+    image: 'tuhin47/paymentservice:prod'
     ports:
       - 8083:8083
-      - 18083:18083
     environment:
-      - DEUBG_PORT=18083
       - MYSQL_DB=paymentdb
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
@@ -280,8 +218,6 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
-    working_dir: /app
-    command: sh /script/run.sh
     depends_on:
       database:
         condition: service_healthy
@@ -291,9 +227,6 @@ services:
         condition: service_healthy
     networks:
       - backend
-    volumes:
-      - $PROJECT_PATH/paymentservice:/app
-      - $MAVEN_REPO:/root/.m2
 
   database:
     container_name: database

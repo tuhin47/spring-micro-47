@@ -5,7 +5,7 @@
         <option name="imageTag" value="tuhin47/javadev" />
         <option name="buildOnly" value="true" />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="dev.Dockerfile" />
+        <option name="sourceFilePath" value="tuhin47.dev.Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />
