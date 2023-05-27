@@ -2,7 +2,7 @@
 */target/
 /.idea/
 *.iml
-.env
+.env.*
 */.vscode-server/
 */.vscode/
 */.dotnet/

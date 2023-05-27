@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -145,6 +145,7 @@ services:
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
+      - ZIPKIN_URL
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
