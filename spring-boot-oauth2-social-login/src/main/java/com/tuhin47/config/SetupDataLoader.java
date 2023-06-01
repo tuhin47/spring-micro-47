@@ -50,7 +50,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 		User user = userRepository.findByEmail(email);
 		if (user == null) {
 			user = new User();
-			user.setDisplayName("Admin");
+			user.setDisplayName(email);
 			user.setEmail(email);
 			user.setPassword(passwordEncoder.encode("admin@"));
 			user.setRoles(roles);

@@ -1,21 +1,13 @@
-package com.tuhin47.security.jwt;
+package me.tuhin47.jwt;
 
-import java.util.Date;
 
+import io.jsonwebtoken.*;
+import me.tuhin47.config.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.tuhin47.config.AppProperties;
-import com.tuhin47.dto.LocalUser;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.Date;
 
 @Service
 public class TokenProvider {
@@ -26,24 +18,24 @@ public class TokenProvider {
 
 	public static final long TEMP_TOKEN_VALIDITY_IN_MILLIS = 300000;
 
-	private AppProperties appProperties;
+	private final AppProperties appProperties;
 
 	public TokenProvider(AppProperties appProperties) {
 		this.appProperties = appProperties;
 	}
 
-	public String createToken(LocalUser userPrincipal, boolean authenticated) {
+	public String createToken(boolean authenticated, String email) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + (authenticated ? appProperties.getAuth().getTokenExpirationMsec() : TEMP_TOKEN_VALIDITY_IN_MILLIS));
 
-		return Jwts.builder().setSubject(Long.toString(userPrincipal.getUser().getId())).claim(AUTHENTICATED, authenticated).setIssuedAt(new Date()).setExpiration(expiryDate)
+		return Jwts.builder().setSubject(email).claim(AUTHENTICATED, authenticated).setIssuedAt(new Date()).setExpiration(expiryDate)
 				.signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret()).compact();
 	}
 
-	public Long getUserIdFromToken(String token) {
+	public String getUserIdFromToken(String token) {
 		Claims claims = Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token).getBody();
 
-		return Long.parseLong(claims.getSubject());
+		return claims.getSubject();
 	}
 
 	public Boolean isAuthenticated(String token) {

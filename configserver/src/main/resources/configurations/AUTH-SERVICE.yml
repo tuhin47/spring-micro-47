@@ -14,8 +14,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  zipkin:
-    base-url: ${ZIPKIN_URL:http://localhost:9411/}
   security:
     oauth2:
       client:
@@ -51,18 +49,6 @@ spring:
             user-name-attribute: id
 linkedin:
   email-address-uri: 'https://api.linkedin.com/v2/emailAddress?q'
-app:
-  config:
-    qrIssuer : tuhin47
-  auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-    tokenExpirationMsec: 864000000
-  oauth2:
-    # After successfully authenticating with the OAuth2 Provider,
-    # we'll be generating an auth token for the user and sending the token to the
-    # redirectUri mentioned by the frontend client in the /oauth2/authorization request.
-    # We're not using cookies because they won't work well in mobile clients.
-    authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 logging:
   level:
     com: INFO

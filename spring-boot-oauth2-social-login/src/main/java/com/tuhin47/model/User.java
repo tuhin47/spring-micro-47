@@ -35,6 +35,7 @@ public class User implements Serializable {
 	@Column(name = "PROVIDER_USER_ID")
 	private String providerUserId;
 
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "enabled", columnDefinition = "BIT", length = 1)

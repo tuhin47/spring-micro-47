@@ -82,7 +82,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - ZIPKIN_URL
-      - REDIS_URL=redis://redis:6379
+      - REDIS_HOST
     depends_on:
       - configserver
       - zipkin
@@ -146,6 +146,7 @@ services:
       - CLIENT_ID
       - CLIENT_SECRET
       - ZIPKIN_URL
+      - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
@@ -178,6 +179,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
+      - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
     depends_on:

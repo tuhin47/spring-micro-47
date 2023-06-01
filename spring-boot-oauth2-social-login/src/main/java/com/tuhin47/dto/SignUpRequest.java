@@ -1,5 +1,6 @@
 package com.tuhin47.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -23,6 +24,7 @@ public class SignUpRequest {
 	private String displayName;
 
 	@NotEmpty
+	@Email
 	private String email;
 
 	private SocialProvider socialProvider = SocialProvider.LOCAL;

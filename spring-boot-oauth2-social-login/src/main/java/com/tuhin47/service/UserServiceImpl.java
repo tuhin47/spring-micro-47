@@ -105,7 +105,11 @@ public class UserServiceImpl implements UserService {
 			user = registerNewUser(userDetails);
 		}
 
-		return LocalUser.create(user, attributes, idToken, userInfo);
+		LocalUser localUser = new LocalUser(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true,
+											GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()),
+											idToken, userInfo, user.getEmail());
+
+		return LocalUser.create(attributes, localUser);
 	}
 
 	private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {

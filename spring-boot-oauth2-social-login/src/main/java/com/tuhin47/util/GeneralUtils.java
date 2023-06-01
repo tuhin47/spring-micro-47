@@ -38,9 +38,9 @@ public class GeneralUtils {
 		return SocialProvider.LOCAL;
 	}
 
-	public static UserInfo buildUserInfo(LocalUser localUser) {
+	public static UserInfo buildUserInfo(LocalUser localUser, User user) {
 		List<String> roles = localUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-		User user = localUser.getUser();
+//		User user = localUser.getUser();
         return buildUserInfo(user, roles);
 	}
 

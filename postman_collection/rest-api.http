@@ -1,0 +1,23 @@
+###
+
+POST http://localhost:9090/auth/signup
+Content-Type: application/json
+
+{
+  "displayName": "Towhidul",
+  "email": "sample@gmail.com",
+  "password": "123456",
+  "matchingPassword": "123456",
+  "socialProvider": "LOCAL"
+}
+
+###
+
+POST http://localhost:4200/api/auth/signin
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@tuhin47.com",
+  "password": "admin@"
+}

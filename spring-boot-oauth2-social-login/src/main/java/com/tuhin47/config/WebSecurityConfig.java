@@ -2,6 +2,7 @@ package com.tuhin47.config;
 
 import java.util.Arrays;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import org.springframework.security.oauth2.core.http.converter.OAuth2AccessToken
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
-import com.tuhin47.security.jwt.TokenAuthenticationFilter;
+import me.tuhin47.jwt.TokenAuthenticationFilter;
 import com.tuhin47.security.oauth2.CustomOAuth2UserService;
 import com.tuhin47.security.oauth2.CustomOidcUserService;
 import com.tuhin47.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -35,25 +36,16 @@ import com.tuhin47.security.oauth2.OAuth2AuthenticationSuccessHandler;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private CustomOAuth2UserService customOAuth2UserService;
-
-	@Autowired
-	CustomOidcUserService customOidcUserService;
-
-	@Autowired
-	private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
-	@Autowired
-	private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private final UserDetailsService userDetailsService;
+	private final CustomOAuth2UserService customOAuth2UserService;
+	private final CustomOidcUserService customOidcUserService;
+	private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+	private final PasswordEncoder passwordEncoder;
+	private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -71,12 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(oAuth2AuthenticationSuccessHandler).failureHandler(oAuth2AuthenticationFailureHandler);
 
 		// Add our custom Token based authentication filter
-		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
-
-	@Bean
-	public TokenAuthenticationFilter tokenAuthenticationFilter() {
-		return new TokenAuthenticationFilter();
+		http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	/*

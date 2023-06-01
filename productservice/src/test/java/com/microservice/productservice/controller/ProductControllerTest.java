@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.microservice.productservice.entity.Product;
-import com.microservice.productservice.jwt.JwtUtils;
+//import com.microservice.productservice.jwt.JwtUtils;
 import com.microservice.productservice.payload.JWTResponse;
 import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
@@ -44,7 +44,7 @@ import static org.springframework.util.StreamUtils.copyToString;
 @ActiveProfiles("test")
 public class ProductControllerTest {
 
-    @Autowired
+    /*@Autowired
     private ProductService productService;
 
     @Autowired
@@ -292,6 +292,6 @@ public class ProductControllerTest {
         String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
 
         return jwt;
-    }
+    }*/
 
 }

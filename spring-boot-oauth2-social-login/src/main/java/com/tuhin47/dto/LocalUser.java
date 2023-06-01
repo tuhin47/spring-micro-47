@@ -1,8 +1,5 @@
 package com.tuhin47.dto;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -10,7 +7,8 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.tuhin47.util.GeneralUtils;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * 
@@ -19,32 +17,27 @@ import com.tuhin47.util.GeneralUtils;
  */
 public class LocalUser extends User implements OAuth2User, OidcUser {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2845160792248762779L;
 	private final OidcIdToken idToken;
 	private final OidcUserInfo userInfo;
 	private Map<String, Object> attributes;
-	private com.tuhin47.model.User user;
+	private final String email;
 
 	public LocalUser(final String userID, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired,
-			final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, final com.tuhin47.model.User user) {
-		this(userID, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, user, null, null);
+					 final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, String email) {
+		this(userID, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, null, null, email);
 	}
 
 	public LocalUser(final String userID, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired,
-                     final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, final com.tuhin47.model.User user, OidcIdToken idToken,
-                     OidcUserInfo userInfo) {
+					 final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, OidcIdToken idToken,
+					 OidcUserInfo userInfo, String email) {
 		super(userID, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		this.user = user;
+		this.email = email != null ? email : OidcUser.super.getEmail();
 		this.idToken = idToken;
 		this.userInfo = userInfo;
 	}
 
-	public static LocalUser create(com.tuhin47.model.User user, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) {
-		LocalUser localUser = new LocalUser(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()),
-				user, idToken, userInfo);
+	public static LocalUser create(Map<String, Object> attributes, LocalUser localUser) {
 		localUser.setAttributes(attributes);
 		return localUser;
 	}
@@ -55,7 +48,7 @@ public class LocalUser extends User implements OAuth2User, OidcUser {
 
 	@Override
 	public String getName() {
-		return this.user.getDisplayName();
+		return this.getEmail();
 	}
 
 	@Override
@@ -78,7 +71,8 @@ public class LocalUser extends User implements OAuth2User, OidcUser {
 		return this.idToken;
 	}
 
-	public com.tuhin47.model.User getUser() {
-		return user;
+	@Override
+	public String getEmail() {
+		return this.email;
 	}
 }

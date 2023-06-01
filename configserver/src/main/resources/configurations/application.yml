@@ -8,5 +8,22 @@ eureka:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
 
 spring:
+  redis:
+    host: ${REDIS_HOST:localhost}
   zipkin:
-    baseUrl: http://zipkin:9411
+    baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
+
+
+app:
+  config:
+    qrIssuer : tuhin47
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the frontend client in the /oauth2/authorization request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
+

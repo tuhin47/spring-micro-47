@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = "com.tuhin47")
+@SpringBootApplication(scanBasePackages = {"com.tuhin47","me.tuhin47.config","me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class AuthService extends SpringBootServletInitializer {

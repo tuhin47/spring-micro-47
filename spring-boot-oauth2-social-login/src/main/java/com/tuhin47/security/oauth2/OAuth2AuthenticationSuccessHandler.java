@@ -1,27 +1,25 @@
 package com.tuhin47.security.oauth2;
 
-import static com.tuhin47.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.Optional;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.tuhin47.dto.LocalUser;
+import com.tuhin47.exception.BadRequestException;
+import com.tuhin47.util.CookieUtils;
+import me.tuhin47.jwt.TokenProvider;
+import me.tuhin47.config.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.tuhin47.config.AppProperties;
-import com.tuhin47.dto.LocalUser;
-import com.tuhin47.exception.BadRequestException;
-import com.tuhin47.security.jwt.TokenProvider;
-import com.tuhin47.util.CookieUtils;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Optional;
+
+import static com.tuhin47.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -63,7 +61,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 		LocalUser user = (LocalUser) authentication.getPrincipal();
-		String token = tokenProvider.createToken(user, true);
+		String token = tokenProvider.createToken(true, user.getEmail());
 
 		return UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", token).build().toUriString();
 	}

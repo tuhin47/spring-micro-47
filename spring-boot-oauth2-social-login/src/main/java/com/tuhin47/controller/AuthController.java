@@ -1,13 +1,22 @@
 package com.tuhin47.controller;
 
-import static dev.samstevens.totp.util.Utils.getDataUriForImage;
+import com.tuhin47.config.CurrentUser;
+import com.tuhin47.dto.*;
+import com.tuhin47.exception.UserAlreadyExistAuthenticationException;
+import com.tuhin47.model.User;
+import com.tuhin47.util.GeneralUtils;
+import com.tuhin47.dto.LocalUser;
+import me.tuhin47.jwt.TokenProvider;
+import com.tuhin47.service.UserService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-
-import com.tuhin47.config.AppProperties;
+import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.exceptions.QrGenerationException;
+import dev.samstevens.totp.qr.QrData;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.qr.QrGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import me.tuhin47.config.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,26 +28,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.tuhin47.config.CurrentUser;
-import com.tuhin47.dto.ApiResponse;
-import com.tuhin47.dto.JwtAuthenticationResponse;
-import com.tuhin47.dto.LocalUser;
-import com.tuhin47.dto.LoginRequest;
-import com.tuhin47.dto.SignUpRequest;
-import com.tuhin47.dto.SignUpResponse;
-import com.tuhin47.exception.UserAlreadyExistAuthenticationException;
-import com.tuhin47.model.User;
-import com.tuhin47.security.jwt.TokenProvider;
-import com.tuhin47.service.UserService;
-import com.tuhin47.util.GeneralUtils;
-
-import dev.samstevens.totp.code.CodeVerifier;
-import dev.samstevens.totp.exceptions.QrGenerationException;
-import dev.samstevens.totp.qr.QrData;
-import dev.samstevens.totp.qr.QrDataFactory;
-import dev.samstevens.totp.qr.QrGenerator;
-
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collections;
+
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 @RestController
 @RequestMapping("/auth")
@@ -70,9 +64,10 @@ public class AuthController {
     }
 
     private ResponseEntity<JwtAuthenticationResponse> getJwtAuthenticationResponseResponseEntity(LocalUser localUser) {
-        boolean authenticated = !localUser.getUser().isUsing2FA();
-        String jwt = tokenProvider.createToken(localUser, authenticated);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(localUser) : null));
+        User userByEmail = userService.findUserByEmail(localUser.getEmail());
+        boolean authenticated = userByEmail != null && !userByEmail.isUsing2FA();
+        String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(localUser, userByEmail) : null));
     }
 
     @PostMapping("/signup")
@@ -99,11 +94,13 @@ public class AuthController {
 	@PostMapping("/verify")
 	@PreAuthorize("hasRole('PRE_VERIFICATION_USER')")
 	public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
-		if (!verifier.isValidCode(user.getUser().getSecret(), code)) {
+
+	    User userByEmail = userService.findUserByEmail(user.getEmail());
+        if (!verifier.isValidCode(userByEmail.getSecret(), code)) {
 			return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
 		}
-		String jwt = tokenProvider.createToken(user, true);
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user)));
+		String jwt = tokenProvider.createToken(true, user.getEmail());
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user, userByEmail)));
 	}
 
     @GetMapping("/user/me")

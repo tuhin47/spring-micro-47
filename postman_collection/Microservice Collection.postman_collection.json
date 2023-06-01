@@ -20,14 +20,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/authenticate/signup",
+					"raw": "http://localhost:9090/auth/signup",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9090",
 					"path": [
-						"authenticate",
+						"auth",
 						"signup"
 					]
 				}
@@ -49,14 +49,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/authenticate/signup",
+					"raw": "http://localhost:9090/auth/signup",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9090",
 					"path": [
-						"authenticate",
+						"auth",
 						"signup"
 					]
 				}
@@ -92,14 +92,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/authenticate/login",
+					"raw": "http://localhost:9090/auth/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9090",
 					"path": [
-						"authenticate",
+						"auth",
 						"login"
 					]
 				}
@@ -145,14 +145,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/authenticate/refreshtoken",
+					"raw": "http://localhost:9090/auth/refreshtoken",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9090",
 					"path": [
-						"authenticate",
+						"auth",
 						"refreshtoken"
 					]
 				}
@@ -174,14 +174,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/authenticate/login",
+					"raw": "http://localhost:9090/auth/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9090",
 					"path": [
-						"authenticate",
+						"auth",
 						"login"
 					]
 				}
