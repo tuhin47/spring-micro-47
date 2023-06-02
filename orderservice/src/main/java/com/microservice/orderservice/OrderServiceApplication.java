@@ -12,7 +12,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.microservice.orderservice","me.tuhin47.config","me.tuhin47.jwt"})
 @EnableFeignClients
 public class OrderServiceApplication
 {

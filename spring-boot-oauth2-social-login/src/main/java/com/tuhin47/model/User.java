@@ -51,6 +51,7 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date modifiedDate;
 
+	@Column(nullable = false, length = 55)
 	private String password;
 
 	private String provider;

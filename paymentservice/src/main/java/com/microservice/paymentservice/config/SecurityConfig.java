@@ -2,8 +2,8 @@ package com.microservice.paymentservice.config;
 
 import com.microservice.paymentservice.jwt.JWTAccessDeniedHandler;
 import com.microservice.paymentservice.jwt.JwtAuthenticationEntryPoint;
-import com.microservice.paymentservice.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,7 +23,7 @@ public class SecurityConfig {
     //
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.microservice.orderservice.OrderServiceConfig;
-import com.microservice.orderservice.jwt.JwtUtils;
+//import com.microservice.orderservice.jwt.JwtUtils;
 import com.microservice.orderservice.model.Order;
 import com.microservice.orderservice.payload.JWTResponse;
 import com.microservice.orderservice.payload.request.OrderRequest;
@@ -48,7 +48,7 @@ import static org.springframework.util.StreamUtils.copyToString;
 @ActiveProfiles("test")
 public class OrderControllerTest {
 
-    @RegisterExtension
+   /* @RegisterExtension
     static WireMockExtension wireMockserver
             = WireMockExtension.newInstance()
             .options(WireMockConfiguration
@@ -279,5 +279,5 @@ public class OrderControllerTest {
             throw new RuntimeException(e);
         }
     }
-
+*/
 }

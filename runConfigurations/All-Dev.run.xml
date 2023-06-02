@@ -3,14 +3,19 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="$PROJECT_DIR$/.env" />
-        <option name="services">
+        <option name="envVars">
           <list>
-            <option value="serviceregistry" />
+            <DockerEnvVarImpl>
+              <option name="name" value="CLIENT_ID" />
+              <option name="value" value="329264260733-k1omtencc7uf7pn0srguumhmi5bp3ni8.apps.googleusercontent.com" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="CLIENT_SECRET" />
+              <option name="value" value="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" />
+            </DockerEnvVarImpl>
           </list>
         </option>
         <option name="sourceFilePath" value="docker-compose-dev.yml" />
-        <option name="upExitCodeFromService" value="" />
-        <option name="upTimeout" value="" />
       </settings>
     </deployment>
     <method v="2" />

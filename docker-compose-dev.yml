@@ -213,6 +213,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
+      - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
@@ -283,6 +284,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
+      - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
     depends_on:

@@ -82,6 +82,13 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>me.tuhin47.common</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+			<type>jar</type>
+		</dependency>
 		<!-- JUNIT TESTS -->
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
