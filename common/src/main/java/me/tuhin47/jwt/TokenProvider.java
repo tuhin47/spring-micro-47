@@ -33,9 +33,11 @@ public class TokenProvider {
 	}
 
 	public String getUserIdFromToken(String token) {
-		Claims claims = Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token).getBody();
+		return getClaims(token).getSubject();
+	}
 
-		return claims.getSubject();
+	public Claims getClaims(final String token) {
+		return Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token).getBody();
 	}
 
 	public Boolean isAuthenticated(String token) {

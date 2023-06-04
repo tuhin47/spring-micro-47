@@ -1,34 +1,35 @@
 package com.microservice.apigateway.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FallbackController {
 
-    @GetMapping("/orderServiceFallBack")
+    @RequestMapping ("/orderServiceFallBack")
     public String orderServiceFallback() {
         return "Order Service is down!";
     }
 
-    @GetMapping("/paymentServiceFallBack")
+    @RequestMapping("/paymentServiceFallBack")
     public String paymentServiceFallback() {
         return "Payment Service is down!";
     }
 
-    @GetMapping("/productServiceFallBack")
+    @RequestMapping("/productServiceFallBack")
     public String productServiceFallback() {
         return "Product Service is down!";
     }
 
-    @GetMapping("/authServiceFallBack")
+    @RequestMapping("/authServiceFallBack")
     public String authServiceFallback() {
         return "Auth Service is down!";
     }
 
-    @GetMapping("/chatServiceFallBack")
+    @RequestMapping("/chatServiceFallBack")
     public String chatServiceFallback() {
-        return "Auth Service is down!";
+        return "chat Service is down!";
     }
 
 }

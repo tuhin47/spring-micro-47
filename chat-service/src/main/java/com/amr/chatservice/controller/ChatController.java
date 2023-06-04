@@ -4,6 +4,7 @@ import com.amr.chatservice.model.ChatMessage;
 import com.amr.chatservice.model.ChatNotification;
 import com.amr.chatservice.service.ChatMessageService;
 import com.amr.chatservice.service.ChatRoomService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/chat")
+@RequiredArgsConstructor
 public class ChatController {
 
-    @Autowired private SimpMessagingTemplate messagingTemplate;
-    @Autowired private ChatMessageService chatMessageService;
-    @Autowired private ChatRoomService chatRoomService;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final ChatMessageService chatMessageService;
+    private final ChatRoomService chatRoomService;
 
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {

@@ -4,6 +4,7 @@ import com.amr.chatservice.exception.ResourceNotFoundException;
 import com.amr.chatservice.model.ChatMessage;
 import com.amr.chatservice.model.MessageStatus;
 import com.amr.chatservice.repository.ChatMessageRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -14,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ChatMessageService {
-    @Autowired private ChatMessageRepository repository;
-    @Autowired private ChatRoomService chatRoomService;
-    @Autowired private MongoOperations mongoOperations;
+    private final ChatMessageRepository repository;
+    private final ChatRoomService chatRoomService;
+    private final MongoOperations mongoOperations;
 
     public ChatMessage save(ChatMessage chatMessage) {
         chatMessage.setStatus(MessageStatus.RECEIVED);
@@ -34,7 +36,7 @@ public class ChatMessageService {
         var chatId = chatRoomService.getChatId(senderId, recipientId, false);
 
         var messages =
-                chatId.map(cId -> repository.findByChatId(cId)).orElse(new ArrayList<>());
+                chatId.map(repository::findByChatId).orElse(new ArrayList<>());
 
         if(messages.size() > 0) {
             updateStatuses(senderId, recipientId, MessageStatus.DELIVERED);

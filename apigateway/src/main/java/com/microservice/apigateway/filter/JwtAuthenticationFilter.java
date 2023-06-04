@@ -9,8 +9,11 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.jwt.TokenProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -24,7 +27,7 @@ import java.util.function.Predicate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter implements GatewayFilter {
+public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
     private final JwtUtils jwtUtils;
 
@@ -35,7 +38,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
         ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
 
-        final List<String> apiEndpoints = List.of("/signup", "/login", "/refreshtoken", "/authorization", "/signin", "/auth" ,"/ws" );
+        final List<String> apiEndpoints = List.of("/signup", "/refreshtoken", "/signin" ,"/ws" );
 
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
@@ -77,5 +80,10 @@ public class JwtAuthenticationFilter implements GatewayFilter {
         }
 
         return chain.filter(exchange);
+    }
+
+    @Override
+    public int getOrder() {
+        return -100;
     }
 }

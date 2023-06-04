@@ -49,8 +49,7 @@ spring:
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth/**
-            - Path=/oauth2/**
+            - Path=/auth/**,/oauth2/**
           filters:
             - name: CircuitBreaker
               args:
@@ -63,8 +62,7 @@ spring:
         - id: CHAT-SERVICE
           uri: lb://CHAT-SERVICE
           predicates:
-            - Path=/chat/**
-            - Path=/ws/**
+            - Path=/chat/**,/ws/**
           filters:
             - name: CircuitBreaker
               args:
