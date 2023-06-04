@@ -17,7 +17,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -26,66 +25,45 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderServiceImplTest {
 
+    public static String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4NTY1MTkzMiwiZXhwIjoxNjg2NTE1OTMyfQ.4cXD1stTx8pO9DcXuLts6HBWCK_63shXxo-qLpZcw6aLA3Vbrd-yG4Tfm1iVVlw3k1tqCevxnj9uZR5XccZRGg";
     private OrderRepository orderRepository;
 
     private ProductService productService;
 
     private PaymentService paymentService;
 
-    private RestTemplate restTemplate;
-
     OrderService orderService;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         orderRepository = mock(OrderRepository.class);
         productService = mock(ProductService.class);
         paymentService = mock(PaymentService.class);
-        restTemplate = mock(RestTemplate.class);
         orderService = new OrderServiceImpl(orderRepository, productService, paymentService);
     }
 
     @DisplayName("Get Order - Success Scenario")
     @Test
     void test_When_Order_Success() {
-
-        String bearerToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiaXNzIjoiUk9MRV9VU0VSICIsImlhdCI6MTY3MTQ4ODgyMiwiZXhwIjoxNjcxNDg4OTQyfQ.g83kKmFzDH539ZcpxM9D8bE_famFOevkOqNst_E8YG07b4yR4cEqcrySvz36vw8GJxTKm9gUQIM1J_G8cC5RGQ";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + bearerToken);
-
-        HttpEntity<String> request = new HttpEntity<String>(headers);
-
         //Mocking
         Order order = getMockOrder();
         when(orderRepository.findById(anyLong()))
                 .thenReturn(Optional.of(order));
 
-        when(restTemplate.getForObject(
-                "http://PRODUCT-SERVICE/product/" + order.getProductId(),
-                ProductResponse.class
-        )).thenReturn(getMockProductResponse());
+        when(productService.getProductById(order.getProductId())).thenReturn(getMockProductResponse());
 
-        when(restTemplate.getForObject(
-                "http://PAYMENT-SERVICE/payment/order/" + order.getId(),
-                PaymentResponse.class
-        )).thenReturn(getMockPaymentResponse());
+        when(paymentService.getPaymentDetailsByOrderId(order.getId())).thenReturn(getMockPaymentResponse());
 
         //Actual
         OrderResponse orderResponse = orderService.getOrderDetails(1);
 
         //Verification
         verify(orderRepository, times(1)).findById(anyLong());
-        verify(restTemplate, times(1)).getForObject(
-                "http://PRODUCT-SERVICE/product/" + order.getProductId(),
-                ProductResponse.class);
-        verify(restTemplate, times(1)).getForObject(
-                "http://PAYMENT-SERVICE/payment/order/" + order.getId(),
-                PaymentResponse.class);
+        verify(productService, times(1)).getProductById(order.getProductId());
+        verify(paymentService, times(1)).getPaymentDetailsByOrderId(order.getId());
 
         //Assert
         assertNotNull(orderResponse);
@@ -95,12 +73,6 @@ public class OrderServiceImplTest {
     @DisplayName("Get Orders - Failure Scenario")
     @Test
     void test_When_Get_Order_NOT_FOUND_then_Not_Found() {
-
-        String bearerToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiaXNzIjoiUk9MRV9VU0VSICIsImlhdCI6MTY3MTM5NTQ0MCwiZXhwIjoxNjcxMzk1NTYwfQ.fBhI_flxuuXZfwhd8hEVdfkZkMNobVsi4hAdSXdl5qqWRedJWQWZXwYVdfSof6ezH7myZNQgn-kRNBXIDDHGDQ";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + bearerToken);
 
         when(orderRepository.findById(anyLong()))
                 .thenReturn(Optional.ofNullable(null));
@@ -123,17 +95,17 @@ public class OrderServiceImplTest {
 
         when(orderRepository.save(any(Order.class)))
                 .thenReturn(order);
-        when(productService.reduceQuantity(anyLong(),anyLong()))
+        when(productService.reduceQuantity(anyLong(), anyLong()))
                 .thenReturn(new ResponseEntity<Void>(HttpStatus.OK));
         when(paymentService.doPayment(any(PaymentRequest.class)))
-                .thenReturn(new ResponseEntity<Long>(1L,HttpStatus.OK));
+                .thenReturn(new ResponseEntity<Long>(1L, HttpStatus.OK));
 
         long orderId = orderService.placeOrder(orderRequest);
 
         verify(orderRepository, times(2))
                 .save(any());
         verify(productService, times(1))
-                .reduceQuantity(anyLong(),anyLong());
+                .reduceQuantity(anyLong(), anyLong());
         verify(paymentService, times(1))
                 .doPayment(any(PaymentRequest.class));
 
@@ -149,8 +121,8 @@ public class OrderServiceImplTest {
 
         when(orderRepository.save(any(Order.class)))
                 .thenReturn(order);
-        when(productService.reduceQuantity(anyLong(),anyLong()))
-                .thenReturn(new ResponseEntity<Void>(HttpStatus.OK));
+        when(productService.reduceQuantity(anyLong(), anyLong()))
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         when(paymentService.doPayment(any(PaymentRequest.class)))
                 .thenThrow(new RuntimeException());
 
@@ -159,7 +131,7 @@ public class OrderServiceImplTest {
         verify(orderRepository, times(2))
                 .save(any());
         verify(productService, times(1))
-                .reduceQuantity(anyLong(),anyLong());
+                .reduceQuantity(anyLong(), anyLong());
         verify(paymentService, times(1))
                 .doPayment(any(PaymentRequest.class));
 
@@ -175,24 +147,25 @@ public class OrderServiceImplTest {
                 .build();
     }
 
-    private PaymentResponse getMockPaymentResponse() {
-        return PaymentResponse.builder()
+    private ResponseEntity<PaymentResponse> getMockPaymentResponse() {
+        return ResponseEntity.status(HttpStatus.OK).body(PaymentResponse.builder()
                 .paymentId(1)
                 .paymentDate(Instant.now())
                 .paymentMode(PaymentMode.CASH)
                 .amount(200)
                 .orderId(1)
                 .status("ACCEPTED")
-                .build();
+                .build());
     }
 
-    private ProductResponse getMockProductResponse() {
-        return ProductResponse.builder()
+    private ResponseEntity<ProductResponse> getMockProductResponse() {
+        ProductResponse iPhone = ProductResponse.builder()
                 .productId(2)
                 .productName("iPhone")
                 .price(100)
                 .quantity(200)
                 .build();
+        return ResponseEntity.status(HttpStatus.OK).body(iPhone);
     }
 
     private Order getMockOrder() {

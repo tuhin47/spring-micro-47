@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.microservice.orderservice.OrderServiceConfig;
-//import com.microservice.orderservice.jwt.JwtUtils;
 import com.microservice.orderservice.model.Order;
 import com.microservice.orderservice.payload.JWTResponse;
 import com.microservice.orderservice.payload.request.OrderRequest;
@@ -14,6 +13,7 @@ import com.microservice.orderservice.payload.response.OrderResponse;
 import com.microservice.orderservice.repository.OrderRepository;
 import com.microservice.orderservice.service.OrderService;
 import com.microservice.orderservice.utils.PaymentMode;
+import me.tuhin47.jwt.TokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ import static org.springframework.util.StreamUtils.copyToString;
 @ActiveProfiles("test")
 public class OrderControllerTest {
 
-   /* @RegisterExtension
+   @RegisterExtension
     static WireMockExtension wireMockserver
             = WireMockExtension.newInstance()
             .options(WireMockConfiguration
@@ -63,6 +63,7 @@ public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     private ObjectMapper objectMapper
             = new ObjectMapper()
             .findAndRegisterModules()
@@ -70,7 +71,7 @@ public class OrderControllerTest {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     @Autowired
-    JwtUtils jwtUtils;
+    TokenProvider jwtUtils;
 
     @BeforeEach
     void setup() throws IOException {
@@ -251,7 +252,7 @@ public class OrderControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
+        String jwt = jwtUtils.getUserIdFromToken(jwtResponse.getToken());
 
         return jwt;
     }
@@ -267,7 +268,7 @@ public class OrderControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
+        String jwt = jwtUtils.getUserIdFromToken(jwtResponse.getToken());
 
         return jwt;
     }
@@ -279,5 +280,4 @@ public class OrderControllerTest {
             throw new RuntimeException(e);
         }
     }
-*/
 }

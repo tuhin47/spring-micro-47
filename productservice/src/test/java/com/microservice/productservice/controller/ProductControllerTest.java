@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.microservice.productservice.entity.Product;
-//import com.microservice.productservice.jwt.JwtUtils;
 import com.microservice.productservice.payload.JWTResponse;
 import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
 import com.microservice.productservice.repository.ProductRepository;
 import com.microservice.productservice.service.ProductService;
-import org.junit.jupiter.api.Disabled;
+import me.tuhin47.jwt.TokenProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ import static org.springframework.util.StreamUtils.copyToString;
 @ActiveProfiles("test")
 public class ProductControllerTest {
 
-    /*@Autowired
+    @Autowired
     private ProductService productService;
 
     @Autowired
@@ -62,7 +61,7 @@ public class ProductControllerTest {
             .build();
 
     @Autowired
-    JwtUtils jwtUtils;
+    TokenProvider jwtUtils;
 
     private ObjectMapper objectMapper
             = new ObjectMapper()
@@ -273,7 +272,7 @@ public class ProductControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
+        String jwt = jwtUtils.getUserIdFromToken(jwtResponse.getToken());
 
         return jwt;
     }
@@ -289,9 +288,9 @@ public class ProductControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
+        String jwt = jwtUtils.getUserIdFromToken(jwtResponse.getToken());
 
         return jwt;
-    }*/
+    }
 
 }

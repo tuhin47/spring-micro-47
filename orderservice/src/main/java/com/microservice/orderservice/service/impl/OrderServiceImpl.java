@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
                         404));
 
         log.info("OrderServiceImpl | getOrderDetails | Invoking Product service to fetch the product for id: {}", order.getProductId());
-        ProductResponse productResponse = productService.getProductById(orderId).getBody();
+        ProductResponse productResponse = productService.getProductById(order.getProductId()).getBody();
 
         log.info("OrderServiceImpl | getOrderDetails | Getting payment information form the payment Service");
         PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(order.getId()).getBody();
