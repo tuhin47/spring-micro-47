@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7e39392b-dd71-4c0d-b2d8-a6f8bc2b29d1",
+		"_postman_id": "203808fe-b925-4f5e-95ba-400b3db1ea34",
 		"name": "Microservice Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17612290"
 	},
 	"item": [
 		{
@@ -12,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"User\",\r\n    \"password\" : \"User\",\r\n    \"email\" : \"user@refreshtoken.com\",\r\n    \"roles\" : [\r\n            \"ROLE_USER\"\r\n    ]\r\n}",
+					"raw": "\r\n{\r\n  \"displayName\": \"Towhidul\",\r\n  \"email\": \"sample@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"matchingPassword\": \"123456\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,17 +21,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/auth/signup",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/auth/signup",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"auth",
 						"signup"
 					]
-				}
+				},
+				"description": "Authentication provide"
 			},
 			"response": []
 		},
@@ -72,8 +72,8 @@
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"console.log(jsonData);",
-							"pm.environment.set(\"AUTH_TOKEN\", jsonData[\"token\"]);",
-							"pm.environment.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+							"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
+							"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
 						],
 						"type": "text/javascript"
 					}
@@ -84,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"User\",\r\n    \"password\" : \"User\"\r\n}",
+					"raw": "\r\n{\r\n  \"email\": \"admin@tuhin47.com\",\r\n  \"password\": \"admin@\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,15 +92,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/auth/login",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/auth/signin",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"auth",
-						"login"
+						"signin"
 					]
 				}
 			},
@@ -160,35 +158,6 @@
 			"response": []
 		},
 		{
-			"name": "API Gateway | Auth Service | Login Admin",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"User\",\r\n    \"password\" : \"User\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:9090/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "API Gateway | Product Service | Add Product",
 			"request": {
 				"auth": {
@@ -205,7 +174,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Product 1\",\r\n    \"price\" : 100,\r\n    \"quantity\" : 1\r\n}",
+					"raw": "{\r\n    \"name\" : \"Product 2\",\r\n    \"price\" : 200,\r\n    \"quantity\" : 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -213,12 +182,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/product",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/product",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"product"
 					]
@@ -242,15 +209,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9090/order/1",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/order/3",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"order",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -279,15 +244,13 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/product/1",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/product/2",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"product",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -318,12 +281,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/order/placeorder",
-					"protocol": "http",
+					"raw": "{{API_GATEWAY}}/order/placeorder",
 					"host": [
-						"localhost"
+						"{{API_GATEWAY}}"
 					],
-					"port": "9090",
 					"path": [
 						"order",
 						"placeorder"
@@ -358,6 +319,40 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_GATEWAY",
+			"value": "http://localhost:9090"
+		},
+		{
+			"key": "AUTH_TOKEN",
+			"value": "\"\""
+		},
+		{
+			"key": "REFRESH_TOKEN",
+			"value": ""
 		}
 	]
 }

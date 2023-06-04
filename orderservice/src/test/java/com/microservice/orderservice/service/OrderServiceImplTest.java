@@ -199,7 +199,7 @@ public class OrderServiceImplTest {
         return Order.builder()
                 .orderStatus("PLACED")
                 .orderDate(Instant.now())
-                .id(1)
+                .id(1L)
                 .amount(100)
                 .quantity(200)
                 .productId(2)

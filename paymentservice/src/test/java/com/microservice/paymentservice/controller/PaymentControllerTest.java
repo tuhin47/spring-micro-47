@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
-import com.microservice.paymentservice.jwt.JwtUtils;
 import com.microservice.paymentservice.model.TransactionDetails;
 import com.microservice.paymentservice.payload.JWTResponse;
 import com.microservice.paymentservice.payload.PaymentRequest;
@@ -13,10 +12,7 @@ import com.microservice.paymentservice.payload.PaymentResponse;
 import com.microservice.paymentservice.repository.TransactionDetailsRepository;
 import com.microservice.paymentservice.service.PaymentService;
 import com.microservice.paymentservice.utils.PaymentMode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.junit.jupiter.api.Disabled;
+import me.tuhin47.jwt.TokenProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +70,7 @@ public class PaymentControllerTest {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     @Autowired
-    JwtUtils jwtUtils;
+    TokenProvider jwtUtils;
 
     @Test
     @WithMockUser(username = "User", authorities = { "ROLE_USER" })
@@ -191,9 +187,7 @@ public class PaymentControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
-
-        return jwt;
+        return jwtUtils.getUserIdFromToken(jwtResponse.getToken());
     }
 
     private String getJWTTokenForRoleAdmin() throws Exception {
@@ -207,9 +201,7 @@ public class PaymentControllerTest {
 
         JWTResponse jwtResponse = objectMapper.readValue(response, JWTResponse.class);
 
-        String jwt = jwtUtils.getUserNameFromJwtToken(jwtResponse.getToken());
-
-        return jwt;
+        return jwtUtils.getUserIdFromToken(jwtResponse.getToken());
     }
 
 }
