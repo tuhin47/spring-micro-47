@@ -45,7 +45,7 @@ public class OrderServiceImplTest {
         productService = mock(ProductService.class);
         paymentService = mock(PaymentService.class);
         restTemplate = mock(RestTemplate.class);
-        orderService = new OrderServiceImpl(orderRepository, productService, paymentService, restTemplate);
+        orderService = new OrderServiceImpl(orderRepository, productService, paymentService);
     }
 
     @DisplayName("Get Order - Success Scenario")
