@@ -53,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService{
         TransactionDetails transactionDetails
                 = transactionDetailsRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new PaymentServiceCustomException(
-                        "TransactionDetails with given id not found",
+                        "Transaction Details not found. Order id : " + orderId,
                         "TRANSACTION_NOT_FOUND"));
 
         PaymentResponse paymentResponse

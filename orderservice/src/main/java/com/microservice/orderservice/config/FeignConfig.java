@@ -2,22 +2,27 @@ package com.microservice.orderservice.config;
 
 import com.google.common.net.HttpHeaders;
 import com.microservice.orderservice.external.decoder.CustomErrorDecoder;
-import feign.*;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import feign.codec.ErrorDecoder;
-import org.springframework.context.annotation.*;
-import org.springframework.web.context.request.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import java.util.Objects;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Configuration
 public class FeignConfig {
     private static final Pattern BEARER_TOKEN_HEADER_PATTERN = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
     
     @Bean
-    ErrorDecoder errorDecoder() {
+    public  ErrorDecoder errorDecoder() {
         return new CustomErrorDecoder();
     }
-    
+
     @Bean
     public RequestInterceptor requestInterceptor ()
     {

@@ -14,7 +14,6 @@ import com.microservice.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 
@@ -25,10 +24,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductService productService;
-
     private final PaymentService paymentService;
 
-    private final RestTemplate restTemplate;
 
     @Override
     public long placeOrder(OrderRequest orderRequest) {
@@ -42,14 +39,19 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("OrderServiceImpl | placeOrder | Placing Order Request orderRequest : " + orderRequest.toString());
 
-        log.info("OrderServiceImpl | placeOrder | Calling productService through FeignClient");
-        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
+        log.debug("OrderServiceImpl | placeOrder | Calling productService through FeignClient");
+        long productId = orderRequest.getProductId();
+
+        log.debug("Fetching Product with id" + productId);
+        productService.getProductById(productId);
+
+        productService.reduceQuantity(productId, orderRequest.getQuantity());
 
         log.info("OrderServiceImpl | placeOrder | Creating Order with Status CREATED");
         Order order = Order.builder()
                 .amount(orderRequest.getTotalAmount())
                 .orderStatus("CREATED")
-                .productId(orderRequest.getProductId())
+                .productId(productId)
                 .orderDate(Instant.now())
                 .quantity(orderRequest.getQuantity())
                 .build();
@@ -97,18 +99,10 @@ public class OrderServiceImpl implements OrderService {
                         404));
 
         log.info("OrderServiceImpl | getOrderDetails | Invoking Product service to fetch the product for id: {}", order.getProductId());
-        ProductResponse productResponse
-                = restTemplate.getForObject(
-                "http://PRODUCT-SERVICE/product/" + order.getProductId(),
-                ProductResponse.class
-        );
+        ProductResponse productResponse = productService.getProductById(orderId).getBody();
 
         log.info("OrderServiceImpl | getOrderDetails | Getting payment information form the payment Service");
-        PaymentResponse paymentResponse
-                = restTemplate.getForObject(
-                "http://PAYMENT-SERVICE/payment/order/" + order.getId(),
-                PaymentResponse.class
-        );
+        PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(order.getId()).getBody();
 
         OrderResponse.ProductDetails productDetails
                 = OrderResponse.ProductDetails
