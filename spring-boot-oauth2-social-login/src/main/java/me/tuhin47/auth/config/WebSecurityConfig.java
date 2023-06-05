@@ -55,10 +55,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable().httpBasic().disable()
-				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint()).and().authorizeRequests()
-				.antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll().anyRequest().authenticated().and().oauth2Login().authorizationEndpoint()
-				.authorizationRequestRepository(cookieAuthorizationRequestRepository()).and().redirectionEndpoint().and().userInfoEndpoint().oidcUserService(customOidcUserService)
+		http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.csrf().disable().formLogin().disable().httpBasic().disable()
+				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint()).and()
+				.authorizeRequests()
+				.antMatchers("/zipkin/**","/auth/v3/api-docs/**","/swagger**").permitAll()
+				.antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll().anyRequest().authenticated().and()
+				.oauth2Login().authorizationEndpoint()
+				.authorizationRequestRepository(cookieAuthorizationRequestRepository()).and()
+				.redirectionEndpoint().and().userInfoEndpoint().oidcUserService(customOidcUserService)
 				.userService(customOAuth2UserService).and().tokenEndpoint().accessTokenResponseClient(authorizationCodeTokenResponseClient()).and()
 				.successHandler(oAuth2AuthenticationSuccessHandler).failureHandler(oAuth2AuthenticationFailureHandler);
 

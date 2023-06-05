@@ -18,5 +18,8 @@ spring:
   zipkin:
     base-url: ${ZIPKIN_URL:http://localhost:9411/}
 
-jwt:
-  secret: mySecretKey
+springfox:
+  documentation:
+    open-api:
+      v3:
+        path: /payment/v3/api-docs

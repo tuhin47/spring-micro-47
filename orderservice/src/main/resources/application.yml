@@ -47,10 +47,16 @@ feign:
   client:
     config:
       default:
-        errorDecoder : com.microservice.orderservice.external.decoder.CustomErrorDecoder
+        errorDecoder: com.microservice.orderservice.external.decoder.CustomErrorDecoder
       stores:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: full
         requestInterceptors:
           - com.microservice.orderservice.config.FeignConfig
+
+springfox:
+  documentation:
+    open-api:
+      v3:
+        path: /order/v3/api-docs

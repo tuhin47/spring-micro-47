@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/zipkin/**","/payment/v3/api-docs/**","/swagger**").permitAll()
                 .antMatchers( "/payment/**").hasRole("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
@@ -45,12 +46,6 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web)
-                -> web.ignoring().antMatchers("/authenticate/signup", "/authenticate/login", "/authenticate/refreshtoken");
     }
 
 }

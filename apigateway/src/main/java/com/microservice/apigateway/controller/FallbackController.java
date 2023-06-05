@@ -1,6 +1,5 @@
 package com.microservice.apigateway.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,7 @@ public class FallbackController {
 
     @RequestMapping("/chatServiceFallBack")
     public String chatServiceFallback() {
-        return "chat Service is down!";
+        return "Chat Service is down!";
     }
 
 }
