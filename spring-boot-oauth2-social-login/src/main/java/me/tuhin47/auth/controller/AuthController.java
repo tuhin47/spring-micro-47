@@ -1,145 +1,82 @@
 package me.tuhin47.auth.controller;
 
-import dev.samstevens.totp.code.CodeVerifier;
-import dev.samstevens.totp.exceptions.QrGenerationException;
-import dev.samstevens.totp.qr.QrData;
-import dev.samstevens.totp.qr.QrDataFactory;
-import dev.samstevens.totp.qr.QrGenerator;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import io.swagger.annotations.*;
 import me.tuhin47.auth.config.CurrentUser;
-import me.tuhin47.auth.dto.*;
-import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
-import me.tuhin47.auth.model.User;
-import me.tuhin47.auth.service.UserService;
-import me.tuhin47.auth.util.GeneralUtils;
-import me.tuhin47.config.AppProperties;
-import me.tuhin47.jwt.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import me.tuhin47.auth.dto.LocalUser;
+import me.tuhin47.auth.dto.LoginRequest;
+import me.tuhin47.auth.dto.SignUpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collections;
 
-import static dev.samstevens.totp.util.Utils.getDataUriForImage;
-
-@RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
-@Log4j2
-public class AuthController {
+@Api(value = "Authentication API", tags = "AUTH-API" ,description = "Operations related to user authentication and authorization")
+public interface AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
-    private AppProperties appProperties;
-    @Autowired
-    private QrDataFactory qrDataFactory;
-	@Autowired
-    private QrGenerator qrGenerator;
-	@Autowired
-    private CodeVerifier verifier;
-
-	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		LocalUser localUser = (LocalUser) authentication.getPrincipal();
-        return getJwtAuthenticationResponseResponseEntity(localUser);
-    }
-
-    private ResponseEntity<JwtAuthenticationResponse> getJwtAuthenticationResponseResponseEntity(LocalUser localUser) {
-        User userByEmail = userService.findUserByEmail(localUser.getEmail());
-        boolean authenticated = userByEmail != null && !userByEmail.isUsing2FA();
-        String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(localUser, userByEmail) : null));
-    }
+    @PostMapping("/signin")
+    @ApiOperation(value = "Authenticate user", notes = "Authenticates a user with email and password")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User authenticated successfully"),
+            @ApiResponse(code = 400, message = "Invalid login credentials")
+    })
+    ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest);
 
     @PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-		try {
-			User user = userService.registerNewUser(signUpRequest);
-			if (signUpRequest.isUsing2FA()) {
-				QrData data = qrDataFactory.newBuilder().label(user.getEmail()).secret(user.getSecret()).issuer(appProperties.getConfig().getQrIssuer()).build();
-				// Generate the QR code image data as a base64 string which can
-				// be used in an <img> tag:
-				String qrCodeImage = getDataUriForImage(qrGenerator.generate(data), qrGenerator.getImageMimeType());
-				return ResponseEntity.ok().body(new SignUpResponse(true, qrCodeImage));
-			}
-		} catch (UserAlreadyExistAuthenticationException e) {
-			log.error("Exception Ocurred", e);
-			return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
-		} catch (QrGenerationException e) {
-			log.error("QR Generation Exception Ocurred", e);
-			return new ResponseEntity<>(new ApiResponse(false, "Unable to generate QR code!"), HttpStatus.BAD_REQUEST);
-		}
-		return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
-	}
+    @ApiOperation(value = "Register user", notes = "Registers a new user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User registered successfully"),
+            @ApiResponse(code = 400, message = "Email address already in use!"),
+            @ApiResponse(code = 400, message = "Unable to generate QR code!")
+    })
+    ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
 
-	@PostMapping("/verify")
-	@PreAuthorize("hasRole('PRE_VERIFICATION_USER')")
-	public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
-
-	    User userByEmail = userService.findUserByEmail(user.getEmail());
-        if (!verifier.isValidCode(userByEmail.getSecret(), code)) {
-			return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
-		}
-		String jwt = tokenProvider.createToken(true, user.getEmail());
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user, userByEmail)));
-	}
+    @PostMapping("/verify")
+    @PreAuthorize("hasRole('PRE_VERIFICATION_USER')")
+    @ApiOperation(value = "Verify code", notes = "Verifies the code for two-factor authentication")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Code verification successful"),
+            @ApiResponse(code = 400, message = "Invalid code")
+    })
+    ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @ApiIgnore @CurrentUser LocalUser user);
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser user) {
-        return getJwtAuthenticationResponseResponseEntity(user);
-    }
+    @ApiOperation(value = "Get current user", notes = "Retrieves information about the current authenticated user", authorizations = @Authorization("USER"))
+    @ApiResponse(code = 200, message = "User details retrieved successfully")
+    ResponseEntity<?> getCurrentUser(@ApiIgnore @CurrentUser LocalUser user);
 
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> findAllUserSummaries(
-            @CurrentUser LocalUser localUser) {
-        log.info("retrieving all users summaries");
-
-        return ResponseEntity.ok(userService
-                .findAll()
-                .stream()
-                .filter(user -> !user.getEmail().equals(localUser.getUsername()))
-                .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptyList())));
-    }
+    @ApiOperation(value = "Get all user summaries", notes = "Retrieves summaries of all registered users")
+    @ApiResponse(code = 200, message = "User summaries retrieved successfully")
+    ResponseEntity<?> findAllUserSummaries(@ApiIgnore @CurrentUser LocalUser localUser);
 
     @GetMapping("/all")
-    public ResponseEntity<?> getContent() {
-        return ResponseEntity.ok("Public content goes here");
-    }
+    @ApiOperation(value = "Get public content", notes = "Retrieves public content")
+    @ApiResponse(code = 200, message = "Public content retrieved successfully")
+    ResponseEntity<?> getContent();
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getUserContent() {
-        return ResponseEntity.ok("User content goes here");
-    }
+    @ApiOperation(value = "Get user content", notes = "Retrieves content specific to authenticated users")
+    @ApiResponse(code = 200, message = "User content retrieved successfully")
+    ResponseEntity<?> getUserContent();
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAdminContent() {
-        return ResponseEntity.ok("Admin content goes here");
-    }
+    @ApiOperation(value = "Get admin content", notes = "Retrieves content specific to administrators")
+    @ApiResponse(code = 200, message = "Admin content retrieved successfully")
+    ResponseEntity<?> getAdminContent();
 
     @GetMapping("/mod")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<?> getModeratorContent() {
-        return ResponseEntity.ok("Moderator content goes here");
-    }
+    ResponseEntity<?> getModeratorContent();
 }

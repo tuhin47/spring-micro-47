@@ -9,8 +9,6 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.jwt.TokenProvider;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -36,9 +34,9 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         log.info("JwtAuthenticationFilter | filter is working");
 
-        ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
+        ServerHttpRequest request = exchange.getRequest();
 
-        final List<String> apiEndpoints = List.of("/signup", "/refreshtoken", "/signin" ,"/ws","/v3/api-docs" );
+        final List<String> apiEndpoints = List.of("/signup", "/refreshtoken", "/signin", "/ws", "/v3/api-docs", "/auth/");
 
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));

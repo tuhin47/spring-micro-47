@@ -3,6 +3,8 @@ package com.microservice.orderservice.controller;
 import com.microservice.orderservice.payload.request.OrderRequest;
 import com.microservice.orderservice.payload.response.OrderResponse;
 import com.microservice.orderservice.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 @Log4j2
 @RequiredArgsConstructor
+@Api(tags = "Order API")
 public class OrderController {
 
     private final OrderService orderService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/placeorder")
+    @ApiOperation("Place an order")
     public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderRequest) {
 
         log.info("OrderController | placeOrder is called");
@@ -33,6 +37,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{orderId}")
+    @ApiOperation("Get order details by ID")
     public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId) {
 
         log.info("OrderController | getOrderDetails is called");
