@@ -7,318 +7,415 @@
 	},
 	"item": [
 		{
-			"name": "API Gateway | Auth Service | Create User",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n{\r\n  \"displayName\": \"Towhidul\",\r\n  \"email\": \"sample@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"matchingPassword\": \"123456\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{API_GATEWAY}}/auth/signup",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"auth",
-						"signup"
-					]
-				},
-				"description": "Authentication provide"
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Auth Service | Create Admin",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"admin\",\r\n    \"email\" : \"admin@refreshtoken.com\",\r\n    \"roles\" : [\r\n            \"ROLE_USER\",\"ROLE_ADMIN\"\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:9090/auth/signup",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"auth",
-						"signup"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Auth Service | Login User",
-			"event": [
+			"name": "Auth",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"console.log(jsonData);",
-							"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
-							"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n{\r\n  \"email\": \"admin@tuhin47.com\",\r\n  \"password\": \"admin@\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"name": "Auth Service | Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"displayName\": \"Towhidul\",\r\n  \"email\": \"sample@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"matchingPassword\": \"123456\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/signup",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Authentication provide"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{API_GATEWAY}}/auth/signin",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"auth",
-						"signin"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Auth Service | Refresh Token",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"console.log(jsonData);",
-							"pm.environment.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
-							"pm.environment.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+					"name": "Auth Service | Create Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"admin\",\r\n    \"email\" : \"admin@refreshtoken.com\",\r\n    \"roles\" : [\r\n            \"ROLE_USER\",\"ROLE_ADMIN\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/signup",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log(jsonData);",
+									"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
+									"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"email\": \"admin@tuhin47.com\",\r\n  \"password\": \"admin@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/signin",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log(jsonData);",
+									"pm.environment.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
+									"pm.environment.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\" : \"{{REFRESH_TOKEN}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/refreshtoken",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"refreshtoken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Product Service | Add Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Product 2\",\r\n    \"price\" : 200,\r\n    \"quantity\" : 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/product",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Service | Get All Product By Pagination",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
 						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTH_TOKEN}}",
-							"type": "string"
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"key\": \"productName\",\n    \"operation\": \"MATCH\",\n    \"value\": \"1\"\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/product/all?size=1&page=0&sort=productName,desc;productId,asc",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"product",
+								"all"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "productName,desc;productId,asc"
+								},
+								{
+									"key": "sort",
+									"value": "",
+									"disabled": true
+								}
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"refreshToken\" : \"{{REFRESH_TOKEN}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Product Service | Get By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/product/2",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"product",
+								"2"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:9090/auth/refreshtoken",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"auth",
-						"refreshtoken"
-					]
+				{
+					"name": "Product Service | Reduce Quantity of Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/product/reduceQuantity/1?quantity=1",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"product",
+								"reduceQuantity",
+								"1"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "API Gateway | Product Service | Add Product",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTH_TOKEN}}",
-							"type": "string"
+			"name": "Order",
+			"item": [
+				{
+					"name": "Order Service | Order By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/order/3",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"order",
+								"3"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Product 2\",\r\n    \"price\" : 200,\r\n    \"quantity\" : 2\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Order Service | Place an Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\" : 1,\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/order/placeorder",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"order",
+								"placeorder"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "{{API_GATEWAY}}/product",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"product"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Order Service | Get Order Details",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTH_TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{API_GATEWAY}}/order/3",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"order",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Product Service | Get Product By Id (Found)",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTH_TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "",
-						"type": "default",
-						"disabled": true
-					}
-				],
-				"url": {
-					"raw": "{{API_GATEWAY}}/product/2",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"product",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Order Service | Place an Order",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTH_TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"productId\" : 1,\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{API_GATEWAY}}/order/placeorder",
-					"host": [
-						"{{API_GATEWAY}}"
-					],
-					"path": [
-						"order",
-						"placeorder"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "API Gateway | Product Service | Reduce Quantity of Product",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9090/product/reduceQuantity/1?quantity=1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"product",
-						"reduceQuantity",
-						"1"
-					],
-					"query": [
-						{
-							"key": "quantity",
-							"value": "1"
-						}
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
@@ -348,7 +445,7 @@
 		},
 		{
 			"key": "AUTH_TOKEN",
-			"value": "\"\""
+			"value": ""
 		},
 		{
 			"key": "REFRESH_TOKEN",
