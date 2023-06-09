@@ -13,4 +13,5 @@ public class CommonBean {
     public ApiInfo apiInfo() {
         return ApiInfo.DEFAULT;
     }
+
 }

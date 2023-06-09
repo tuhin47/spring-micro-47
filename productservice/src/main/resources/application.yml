@@ -11,6 +11,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
   application:
     name: PRODUCT-SERVICE
   config:
