@@ -1,7 +1,6 @@
 package com.microservice.productservice.conttoller.Impl;
 
 import com.microservice.productservice.conttoller.ProductController;
-import com.microservice.productservice.entity.Product;
 import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
 import com.microservice.productservice.service.ProductService;
@@ -70,7 +69,7 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    public ResponseEntity<Page<Product>> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
+    public ResponseEntity<Page<ProductResponse>> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
         return new ResponseEntity<>(productService.getAllProductBySearch(searchCriteria,request), HttpStatus.OK);
     }
 }

@@ -1,7 +1,5 @@
 package com.microservice.productservice.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.microservice.productservice.entity.Product;
 import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
 import me.tuhin47.searchspec.SearchCriteria;
@@ -20,5 +18,5 @@ public interface ProductService {
 
     void deleteProductById(long productId);
 
-    Page<Product> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request);
+    Page<ProductResponse> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request);
 }

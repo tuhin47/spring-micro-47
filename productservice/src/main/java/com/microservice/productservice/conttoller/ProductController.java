@@ -1,6 +1,5 @@
 package com.microservice.productservice.conttoller;
 
-import com.microservice.productservice.entity.Product;
 import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
 import io.swagger.annotations.Api;
@@ -41,5 +40,5 @@ public interface ProductController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/all")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
-    ResponseEntity<Page<Product>> getAllProductBySearch(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
+    ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
 }
