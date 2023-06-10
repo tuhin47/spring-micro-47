@@ -1,16 +1,14 @@
 package me.tuhin47.auth.model;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * The persistent class for the user database table.
@@ -51,7 +49,7 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date modifiedDate;
 
-	@Column(nullable = false, length = 55)
+	@Column(nullable = false, length = 200)
 	private String password;
 
 	private String provider;
