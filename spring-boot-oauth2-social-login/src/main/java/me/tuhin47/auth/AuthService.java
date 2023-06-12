@@ -1,6 +1,7 @@
 package me.tuhin47.auth;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.auth","me.tuhin47.config","me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
+//@EntityScan(basePackages = {"me.tuhin47.audit","me.tuhin47.auth.model"})
 public class AuthService extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

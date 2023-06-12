@@ -4,6 +4,8 @@
       <settings>
         <option name="envFilePath" value="$PROJECT_DIR$/.env" />
         <option name="sourceFilePath" value="docker-compose-dev.yml" />
+        <option name="upExitCodeFromService" value="" />
+        <option name="upTimeout" value="" />
       </settings>
     </deployment>
     <method v="2" />

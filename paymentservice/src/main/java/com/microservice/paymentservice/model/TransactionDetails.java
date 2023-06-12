@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.tuhin47.config.Auditable;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,7 +15,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionDetails {
+public class TransactionDetails extends Auditable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
