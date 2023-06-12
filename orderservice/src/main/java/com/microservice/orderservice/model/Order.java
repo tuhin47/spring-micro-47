@@ -1,7 +1,7 @@
 package com.microservice.orderservice.model;
 
 import lombok.*;
-import me.tuhin47.config.Auditable;
+import me.tuhin47.audit.UserDateAudit;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -9,7 +9,6 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Data
 @Table(name = "ORDER_DETAILS")
 @Getter
 @Setter
@@ -17,7 +16,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order extends Auditable<Long> {
+public class Order extends UserDateAudit<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

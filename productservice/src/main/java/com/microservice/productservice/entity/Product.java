@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.config.Auditable;
+import me.tuhin47.audit.UserDateAudit;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product extends Auditable<Long> {
+public class Product extends UserDateAudit<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
