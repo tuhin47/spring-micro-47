@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:4200/api/auth/signin
+POST http://localhost:7777/auth/signin
 Accept: application/json
 Content-Type: application/json
 

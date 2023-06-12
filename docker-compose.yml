@@ -93,9 +93,9 @@ services:
     environment:
       - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
       - CONFIG_SERVER_URL=configserver
-      - MYSQL_HOST=database
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=111111
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
       - MYSQL_DB=userdb
     depends_on:
       database:
@@ -195,7 +195,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER=extra
       - MYSQL_PASSWORD=extra
-      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DB=userdb
     volumes:
       - db-data:/var/lib/mysql

@@ -88,9 +88,6 @@ services:
       - zipkin
       - redis
       - serviceregistry
-      - orderservice
-      - authservice
-      - paymentservice
     working_dir: /app
     command: sh /script/run.sh
     networks:
@@ -150,10 +147,8 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
+      - database
+      - configserver
     networks:
       - backend
     volumes:
@@ -183,12 +178,9 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
     volumes:
@@ -217,12 +209,9 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
     volumes:
@@ -252,12 +241,9 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      mongo:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - mongo
+      - configserver
+      - zipkin
     networks:
       - backend
     volumes:
@@ -288,12 +274,9 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
     volumes:
@@ -313,7 +296,7 @@ services:
       - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DB=userdb
     volumes:
-      - db-data:/var/lib/mysql
+      - /mnt/Others/personal/docker/mysql:/var/lib/mysql
     networks:
       - backend
     healthcheck:
@@ -346,6 +329,6 @@ networks:
     driver: bridge
 
 volumes:
-  db-data:
+#  db-data:
   mongo-volume:
     driver: local
