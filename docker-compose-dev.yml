@@ -15,7 +15,7 @@ services:
     container_name: boilerplate
     image: 'tuhin47/boilerplate:dev'
     ports:
-      - 4200:80
+      - "4200:80"
     links:
       - apigateway
       - authservice
@@ -31,8 +31,8 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     ports:
-      - 8761:8761
-      - 18761:18761
+      - "8761:8761"
+      - "18761:18761"
     networks:
       - backend
     volumes:
@@ -48,8 +48,8 @@ services:
     image: tuhin47/configserver:dev
     container_name: configserver
     ports:
-      - 9296:9296
-      - 19296:19296
+      - "9296:9296"
+      - "19296:19296"
     environment:
       - DEUBG_PORT=19296
       - EUREKA_SERVER_ADDRESS
@@ -75,8 +75,8 @@ services:
     image: 'tuhin47/gateway:dev'
     container_name: apigateway
     ports:
-      - 9090:9090
-      - 19090:19090
+      - "9090:9090"
+      - "19090:19090"
     environment:
       - DEUBG_PORT=19090
       - EUREKA_SERVER_ADDRESS
@@ -108,7 +108,7 @@ services:
 #      - SELF_TRACING_ENABLED=true
     ports:
       # Port used for the Zipkin UI and HTTP Api
-      - 9411:9411
+      - "9411:9411"
     networks:
       - backend
 
@@ -128,9 +128,9 @@ services:
     image: 'tuhin47/authservice:dev'
     container_name: authservice
     ports:
-      - 7777:7777
-      - 17777:17777
-      - 35729:35729
+      - "7777:7777"
+      - "17777:17777"
+      - "35729:35729"
     environment:
       - DEUBG_PORT=17777
       - EUREKA_SERVER_ADDRESS
@@ -149,6 +149,7 @@ services:
     depends_on:
       - database
       - configserver
+      - logstash
     networks:
       - backend
     volumes:
@@ -163,8 +164,8 @@ services:
     image: 'tuhin47/productservice:dev'
     container_name: productservice
     ports:
-      - 8081:8081
-      - 18081:18081
+      - "8081:8081"
+      - "18081:18081"
     environment:
       - DEUBG_PORT=18081
       - EUREKA_SERVER_ADDRESS
@@ -194,8 +195,8 @@ services:
     image: 'tuhin47/orderservice:dev'
     container_name: orderservice
     ports:
-      - 8082:8082
-      - 18082:18082
+      - "8082:8082"
+      - "18082:18082"
     environment:
       - DEUBG_PORT=18082
       - EUREKA_SERVER_ADDRESS
@@ -225,8 +226,8 @@ services:
     image: 'tuhin47/chatservice:dev'
     container_name: chatservice
     ports:
-      - 8084:8084
-      - 18084:18084
+      - "8084:8084"
+      - "18084:18084"
     environment:
       - DEUBG_PORT=18084
       - CONFIG_SERVER_URL
@@ -258,8 +259,8 @@ services:
     image: 'tuhin47/paymentservice:dev'
     container_name: paymentservice
     ports:
-      - 8083:8083
-      - 18083:18083
+      - "8083:8083"
+      - "18083:18083"
     environment:
       - DEUBG_PORT=18083
       - MYSQL_DB=paymentdb
@@ -309,7 +310,7 @@ services:
     container_name: mongo
     restart: always
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - mongo-volume:/data/db
     environment:
@@ -321,6 +322,42 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+    networks:
+      - backend
+
+  elasticsearch:
+    build: elk/elasticsearch/
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    networks:
+      - backend
+
+  logstash:
+    build: elk/logstash/
+    container_name: logstash
+    command: -f /etc/logstash/conf.d/
+    volumes:
+      - ./elk/logstash/config:/etc/logstash/conf.d
+    ports:
+      - "9999:9999"
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
+
+  kibana:
+    build: elk/kibana/
+    container_name: kibana
+    volumes:
+      - ./elk/kibana/config/:/opt/kibana/config/
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
     networks:
       - backend
 
