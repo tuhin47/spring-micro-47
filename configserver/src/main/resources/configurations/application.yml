@@ -13,6 +13,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  # https://stackoverflow.com/a/50523578/7499069
+  servlet:
+    multipart:
+      location: /data/upload_tmp
   redis:
     host: ${REDIS_HOST:localhost}
   zipkin:
