@@ -24,10 +24,6 @@ jobs:
           fetch-depth: 0
       - name: Install git if missing
         run: if ! which git &> /dev/null; then apt-get update && apt-get install -y git; fi;
-      - name: Print release output
-        working-directory: ./angular-boilerplate
-        if: ${{ steps.release.outputs.released == 'true' }}
-        run: echo Release ID ${{ steps.release.outputs.release_id }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -53,4 +49,7 @@ jobs:
         id: release
         with :
           path: ${{ github.workspace }}/angular-boilerplate
-
+      - name: Print release output
+        working-directory: ./angular-boilerplate
+        if: ${{ steps.release.outputs.released == 'true' }}
+        run: echo Release ID ${{ steps.release.outputs.release_id }}
