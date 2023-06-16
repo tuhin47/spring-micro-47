@@ -15,8 +15,3 @@ spring:
       host: ${MONGO_HOST:localhost}
 server:
   port: 8084
-#logging:
-#  level:
-#    com: TRACE
-#    org:
-#      springframework: TRACE

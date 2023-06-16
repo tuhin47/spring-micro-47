@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @Api(tags = "Product API")
@@ -41,4 +42,8 @@ public interface ProductController {
     @GetMapping("/all")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
     ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
+
+    @GetMapping("/all/excel")
+    @ApiOperation("Export Items")
+    ResponseEntity<byte[]> exportExcel(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request) throws IOException;
 }
