@@ -149,7 +149,7 @@ services:
     depends_on:
       - database
       - configserver
-      - logstash
+#      - logstash
     networks:
       - backend
     volumes:
@@ -328,6 +328,7 @@ services:
   elasticsearch:
     build: elk/elasticsearch/
     container_name: elasticsearch
+    profiles: ["elk"]
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -339,6 +340,7 @@ services:
   logstash:
     build: elk/logstash/
     container_name: logstash
+    profiles: ["elk"]
     command: -f /etc/logstash/conf.d/
     volumes:
       - ./elk/logstash/config:/etc/logstash/conf.d
@@ -352,6 +354,7 @@ services:
   kibana:
     build: elk/kibana/
     container_name: kibana
+    profiles: ["elk"]
     volumes:
       - ./elk/kibana/config/:/opt/kibana/config/
     ports:
