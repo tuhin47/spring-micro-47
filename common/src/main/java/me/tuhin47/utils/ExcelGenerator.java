@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.function.Function;
 
 @Log4j2
-public class ExcelGenerator<T extends ExcelDTO> {
+public class ExcelGenerator<T extends ExcelDTO> implements DataExporter {
 
     protected final List<T> listRecords;
     protected final T firstRecord;
@@ -33,10 +33,10 @@ public class ExcelGenerator<T extends ExcelDTO> {
 
     private void writeHeader() {
         sheet = workbook.createSheet(firstRecord.getSheetName());
-        Row row = sheet.createRow(0);
+        var row = sheet.createRow(0);
+        var style = workbook.createCellStyle();
+        var font = workbook.createFont();
 
-        CellStyle style = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
@@ -65,31 +65,14 @@ public class ExcelGenerator<T extends ExcelDTO> {
     }
 
 
-
-    public void write(){
+    public void write() {
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
 
-        Field[] fields = listRecords.stream().findFirst().orElseThrow(() -> new RuntimeException("Issue"))
-                .getClass().getDeclaredFields();
+        var fields = firstRecord.getFields();
 
-
-        /*Map<Field, Function<Object, ?>> fieldFunctionTreeMap = Arrays.stream(fields)
-                .collect(TreeMap::new,
-                        (map, field) -> {
-                            Function<Object, ?> fieldExtractor = record -> {
-                                try {
-                                    field.setAccessible(true);
-                                    return field.get(record);
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                    return null;
-                                }
-                            };
-                            map.put(field, fieldExtractor);
-                        }, TreeMap::putAll);*/
         var fieldFunctionTreeMap = new ArrayList<Function<Object, ?>>();
         for (Field field : fields) {
             Function<Object, ?> fieldExtractor = record -> {
@@ -120,20 +103,17 @@ public class ExcelGenerator<T extends ExcelDTO> {
     public byte[] generate() throws IOException {
         writeHeader();
         write();
-        ByteArrayOutputStream outputStream = null;
-        try {
-            outputStream = new ByteArrayOutputStream();
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             workbook.write(outputStream);
-
             return outputStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
         return new byte[0];
+    }
+
+    @Override
+    public String getExtension() {
+        return ".xlsx";
     }
 }
