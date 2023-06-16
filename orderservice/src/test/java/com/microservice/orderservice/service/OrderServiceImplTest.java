@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderServiceImplTest {
 
     public static String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4NTY1MTkzMiwiZXhwIjoxNjg2NTE1OTMyfQ.4cXD1stTx8pO9DcXuLts6HBWCK_63shXxo-qLpZcw6aLA3Vbrd-yG4Tfm1iVVlw3k1tqCevxnj9uZR5XccZRGg";

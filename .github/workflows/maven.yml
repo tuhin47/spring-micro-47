@@ -1,0 +1,56 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Project Build
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install git if missing
+        run: if ! which git &> /dev/null; then apt-get update && apt-get install -y git; fi;
+      - name: Print release output
+        working-directory: ./angular-boilerplate
+        if: ${{ steps.release.outputs.released == 'true' }}
+        run: echo Release ID ${{ steps.release.outputs.release_id }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        working-directory: ./angular-boilerplate
+        run: npm install
+      - name: Build
+        working-directory: ./angular-boilerplate
+        run: npm run build
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B clean install --file pom.xml
+
+      - name: Release
+        uses: justincy/github-action-npm-release@2.0.2
+        id: release
+        with :
+          path: ${{ github.workspace }}/angular-boilerplate
+
