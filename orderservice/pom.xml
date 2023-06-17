@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>me.tuhin47.common</groupId>
 			<artifactId>common</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 			<scope>compile</scope>
 			<type>jar</type>
 		</dependency>
