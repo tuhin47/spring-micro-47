@@ -1,5 +1,6 @@
 package me.tuhin47.auth.security.oauth2;
 
+import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Service;
 import me.tuhin47.auth.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class CustomOidcUserService extends OidcUserService {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@Override
 	public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {

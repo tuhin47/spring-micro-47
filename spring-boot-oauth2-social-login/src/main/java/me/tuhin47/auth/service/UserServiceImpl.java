@@ -2,6 +2,7 @@ package me.tuhin47.auth.service;
 
 import java.util.*;
 
+import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
@@ -30,19 +31,13 @@ import dev.samstevens.totp.secret.SecretGenerator;
  * @since 26/3/18
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private SecretGenerator secretGenerator;
+	private final UserRepository userRepository;
+	private final RoleRepository roleRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final SecretGenerator secretGenerator;
 
 	@Override
 	@Transactional(value = "transactionManager")

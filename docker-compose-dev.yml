@@ -14,13 +14,7 @@ services:
        - OAUTH_REDIRECT_URL
     container_name: boilerplate
     image: 'tuhin47/boilerplate:dev'
-    ports:
-      - "4200:80"
-    links:
-      - apigateway
-      - authservice
-    networks:
-      - backend
+    network_mode: "host"
 
   serviceregistry:
     build:

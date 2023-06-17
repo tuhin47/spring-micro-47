@@ -9,7 +9,6 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
 @SpringBootApplication(scanBasePackages = {"com.microservice.productservice","me.tuhin47.config","me.tuhin47.jwt"})
-//@EntityScan(basePackages = {"com.microservice.productservice.entity","me.tuhin47.audit"})
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {

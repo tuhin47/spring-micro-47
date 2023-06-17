@@ -30,14 +30,27 @@ export class ApiService {
         return this.httpClient.get(apiURL).pipe(map(res => res));
     }
 
-    post(url: string, param?: any, compress: boolean = false): Observable<any> {
+    postExport(url: string, param?: any): Observable<any> {
+        return this.post(url,param,false,true)
+    }
+
+    post(url: string, param?: any, compress: boolean = false, isBlob: boolean = false): Observable<any> {
         let apiURL = this.apiBase + url;
 
         if (compress) {
             const headers: HttpHeaders = new HttpHeaders({ 'Content-Encoding': 'gzip', 'Content-Type': 'application/octet-stream' });
 
             return this.httpClient.post(apiURL, pako.gzip(JSON.stringify(param)).buffer, { headers: headers, responseType: "json" });
-        } else {
+        } 
+        else if(isBlob){
+            return this.httpClient.post(
+                apiURL, param, {
+                    responseType: 'blob',
+                    observe: 'response' //When this is not defined, it will directly return only BLOB
+                }
+            );
+        }
+        else {
             return this.httpClient.post(apiURL, param);
         }
     }

@@ -1,8 +1,13 @@
 // Angular modules
-import { Component } from '@angular/core';
-import { OnInit }    from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ProductService} from "@services/product.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {saveAs} from "file-saver";
+import {Utils} from "@helpers/utils";
+import {ToastManager} from "@blocks/toast/toast.manager";
+import {HttpErrorResponse} from "@angular/common/http";
 
+@UntilDestroy()
 @Component({
   selector    : 'app-home',
   templateUrl : './home.component.html',
@@ -12,13 +17,14 @@ export class HomeComponent implements OnInit
 {
   public isLoading : boolean = true;
 
+
   constructor
   (
-  ) { }
+    private productService: ProductService,
+    private toastManager: ToastManager
+  ) {
 
-  // -------------------------------------------------------------------------------
-  // NOTE Init ---------------------------------------------------------------------
-  // -------------------------------------------------------------------------------
+  }
 
   public ngOnInit() : void
   {
@@ -28,24 +34,21 @@ export class HomeComponent implements OnInit
     }, 2000);
   }
 
-  // -------------------------------------------------------------------------------
-  // NOTE Actions ------------------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
-  // -------------------------------------------------------------------------------
-  // NOTE Computed props -----------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
-  // -------------------------------------------------------------------------------
-  // NOTE Helpers ------------------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
-  // -------------------------------------------------------------------------------
-  // NOTE Requests -----------------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
-  // -------------------------------------------------------------------------------
-  // NOTE Subscriptions ------------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
+  exportExcel() {
+    this.productService.getExcelData()
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        {
+          next : (response: any) => {
+            const contentDispositionHeader = response.headers.get('Content-Disposition');
+            const fileName = Utils.getFileNameFromContentDisposition(contentDispositionHeader);
+            saveAs(response.body, fileName);
+          },
+          error : (error : HttpErrorResponse) => {
+            this.toastManager.quickShow(error.statusText);
+            console.error('Error:', error);
+          }
+        }
+      );
+  }
 }
