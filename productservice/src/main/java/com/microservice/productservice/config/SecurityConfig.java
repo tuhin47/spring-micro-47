@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**","/product/v3/api-docs/**","/swagger**").permitAll()
+                .antMatchers("/zipkin/**","/product/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
                 .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")

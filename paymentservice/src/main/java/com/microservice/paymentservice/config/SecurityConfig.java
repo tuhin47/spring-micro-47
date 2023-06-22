@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**","/payment/v3/api-docs/**","/swagger**").permitAll()
+                .antMatchers("/zipkin/**","/payment/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
                 .antMatchers( "/payment/**").hasRole("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()

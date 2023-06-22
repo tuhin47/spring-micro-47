@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable().formLogin().disable().httpBasic().disable()
 				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint()).and()
 				.authorizeRequests()
-				.antMatchers("/zipkin/**","/auth/v3/api-docs/**","/swagger**").permitAll()
+				.antMatchers("/zipkin/**","/auth/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
 				.antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll().anyRequest().authenticated().and()
 				.oauth2Login().authorizationEndpoint()
 				.authorizationRequestRepository(cookieAuthorizationRequestRepository()).and()
