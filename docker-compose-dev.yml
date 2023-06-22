@@ -13,6 +13,9 @@ services:
        - API_CONTEXT
        - OAUTH_REDIRECT_URL
     container_name: boilerplate
+    profiles:
+        - frontend
+        - All
     image: 'tuhin47/boilerplate:dev'
     network_mode: "host"
 
