@@ -15,9 +15,9 @@ import me.tuhin47.exporter.ExportColumn;
 @ExcelSheet("Product")
 public class ProductResponse implements ExcelDTO {
 
-    @ExportColumn(value = "Name", sortOrder = 2)
-    private String productName;
     private long productId;
+    @ExportColumn(value = "Name")
+    private String productName;
     private long quantity;
     private long price;
 }
