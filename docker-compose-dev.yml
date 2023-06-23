@@ -153,12 +153,13 @@ services:
       - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
+    restart: on-failure
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
-    depends_on:
+    links:
       - database
       - configserver
 #      - logstash
@@ -231,7 +232,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    depends_on:
+    links:
       - database
       - configserver
       - zipkin
@@ -315,8 +316,8 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - $MYSQL_PORT:3306
-    restart: always
+      - "$MYSQL_PORT:3306"
+    restart: on-failure
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
@@ -335,7 +336,7 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    restart: always
+    restart: on-failure
     ports:
       - "27017:27017"
     volumes:
