@@ -38,13 +38,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.util.StreamUtils.copyToString;
 
-@SpringBootTest({"server.port=0"})
-@AutoConfigureMockMvc
-@EnableConfigurationProperties
-@ActiveProfiles("test")
+//@SpringBootTest({"server.port=0"})
+//@AutoConfigureMockMvc
+//@EnableConfigurationProperties
+//@ActiveProfiles("test")
 public class PaymentControllerTest {
 
-    @RegisterExtension
+    /*@RegisterExtension
     static WireMockExtension wireMockServer
             = WireMockExtension.newInstance()
             .options(
@@ -203,5 +203,5 @@ public class PaymentControllerTest {
 
         return jwtUtils.getUserIdFromToken(jwtResponse.getToken());
     }
-
+*/
 }

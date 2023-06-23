@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -24,13 +25,11 @@ import me.tuhin47.auth.dto.SocialProvider;
 import me.tuhin47.auth.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private Environment env;
+	private final UserService userService;
+	private final Environment env;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {

@@ -2,6 +2,7 @@ package me.tuhin47.exporter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.tuhin47.utils.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -36,7 +37,7 @@ public interface ExcelDTO {
         for (int i = 0, declaredFieldsLength = declaredFields.length; i < declaredFieldsLength; i++) {
             Field field = declaredFields[i];
             float priority = i;
-            var name = field.getName();
+            var name = StringUtils.camelCaseToSentence(field.getName());
 
             if (field.isAnnotationPresent(ExportColumn.class)) {
                 var annotation = field.getAnnotation(ExportColumn.class);

@@ -13,14 +13,11 @@ services:
        - API_CONTEXT
        - OAUTH_REDIRECT_URL
     container_name: boilerplate
+    profiles:
+        - frontend
+        - All
     image: 'tuhin47/boilerplate:dev'
-    ports:
-      - "4200:80"
-    links:
-      - apigateway
-      - authservice
-    networks:
-      - backend
+    network_mode: "host"
 
   serviceregistry:
     build:
@@ -30,6 +27,11 @@ services:
     container_name: serviceregistry
     working_dir: /app
     command: sh /script/run.sh
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "8761:8761"
       - "18761:18761"
@@ -90,6 +92,11 @@ services:
       - serviceregistry
     working_dir: /app
     command: sh /script/run.sh
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://apigateway:9090/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
     volumes:
@@ -146,7 +153,13 @@ services:
       - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
-    depends_on:
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    links:
       - database
       - configserver
 #      - logstash
@@ -178,6 +191,11 @@ services:
       - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       - database
       - configserver
@@ -209,7 +227,12 @@ services:
       - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
-    depends_on:
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://orderservice:8082/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    links:
       - database
       - configserver
       - zipkin
@@ -274,6 +297,11 @@ services:
       - REDIS_HOST
     working_dir: /app
     command: sh /script/run.sh
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://paymentservice:8083/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       - database
       - configserver
@@ -288,8 +316,8 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - $MYSQL_PORT:3306
-    restart: always
+      - "$MYSQL_PORT:3306"
+    restart: on-failure
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
@@ -308,7 +336,7 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    restart: always
+    restart: on-failure
     ports:
       - "27017:27017"
     volumes:

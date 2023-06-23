@@ -22,9 +22,6 @@ public class OrderServiceApplication
         SpringApplication.run(OrderServiceApplication.class, args);
     }
     
-    @Autowired
-    RequestInterceptor requestInterceptor;
-    
     
     @Bean
     @LoadBalanced

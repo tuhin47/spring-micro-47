@@ -1,11 +1,11 @@
 package me.tuhin47.auth.security.oauth2;
 
+import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.dto.LocalUser;
 import me.tuhin47.auth.exception.BadRequestException;
 import me.tuhin47.auth.util.CookieUtils;
 import me.tuhin47.config.AppProperties;
 import me.tuhin47.jwt.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -20,21 +20,13 @@ import java.net.URI;
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	private TokenProvider tokenProvider;
+	private final TokenProvider tokenProvider;
+	private final AppProperties appProperties;
+	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
-	private AppProperties appProperties;
-
-	private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-
-	@Autowired
-	OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppProperties appProperties,
-			HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
-		this.tokenProvider = tokenProvider;
-		this.appProperties = appProperties;
-		this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
-	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

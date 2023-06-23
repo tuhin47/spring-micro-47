@@ -3,14 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>me.tuhin47.services</groupId>
+		<artifactId>all-services</artifactId>
+		<version>0.0.1</version>
 	</parent>
 	<groupId>com.microservice</groupId>
 	<artifactId>paymentservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>paymentservice</name>
 	<description>PaymentService</description>
 	<properties>
@@ -69,7 +67,7 @@
 		<dependency>
 			<groupId>me.tuhin47.common</groupId>
 			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>compile</scope>
 			<type>jar</type>
 		</dependency>

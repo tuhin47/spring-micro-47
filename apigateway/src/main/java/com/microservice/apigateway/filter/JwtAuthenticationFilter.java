@@ -36,10 +36,9 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         ServerHttpRequest request = exchange.getRequest();
 
-        final List<String> apiEndpoints = List.of("/signup", "/refreshtoken", "/signin", "/ws", "/v3/api-docs", "/auth/");
+        final List<String> apiEndpoints = List.of("/signup", "/refreshtoken", "/signin", "/ws", "/v3/api-docs", "/auth/", "/oauth2/");
 
-        Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
-                .noneMatch(uri -> r.getURI().getPath().contains(uri));
+        Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream().noneMatch(uri -> r.getURI().getPath().contains(uri));
 
         log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + isApiSecured.test(request));
 
