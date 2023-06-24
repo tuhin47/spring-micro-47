@@ -44,7 +44,7 @@ public interface ProductController {
     ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping("/all/excel")
+    @RequestMapping("/excel")
     @ApiOperation("Export Items")
     ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request) throws IOException;
 }

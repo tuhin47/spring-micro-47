@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>me.tuhin47.services</groupId>
 		<artifactId>all-services</artifactId>
-		<version>0.0.1</version>
+		<version>0.1.0</version>
 	</parent>
 	<groupId>com.microservice</groupId>
 	<artifactId>paymentservice</artifactId>
