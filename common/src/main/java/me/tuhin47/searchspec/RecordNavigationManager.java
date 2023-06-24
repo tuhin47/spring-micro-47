@@ -13,8 +13,9 @@ import java.util.Optional;
 public class RecordNavigationManager {
 
     public static Pageable getPageable(HttpServletRequest request) {
-        int size = getValueFromRequest(request, "size");
-        int page = getValueFromRequest(request, "page");
+        var all = Boolean.TRUE.toString().equals(request.getParameter("all"));
+        int size = all ? Integer.MAX_VALUE : getValueFromRequest(request, "size");
+        int page = all ? 0 : getValueFromRequest(request, "page");
         List<Sort.Order> orders = getSortOrders(request);
         return PageRequest.of(page, size, Sort.by(orders));
     }
