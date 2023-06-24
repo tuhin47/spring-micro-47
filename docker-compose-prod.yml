@@ -109,6 +109,7 @@ services:
       context: spring-boot-oauth2-social-login
       dockerfile: ../Dockerfile
     image: 'tuhin47/authservice:prod'
+    restart: on-failure
     ports:
       - "7777:7777"
       - "35729:35729"
@@ -142,6 +143,7 @@ services:
       context: productservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/productservice:prod'
+    restart: on-failure
     ports:
       - "8081:8081"
     environment:
@@ -170,6 +172,7 @@ services:
       context: orderservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/orderservice:prod'
+    restart: on-failure
     ports:
       - "8082:8082"
     environment:
