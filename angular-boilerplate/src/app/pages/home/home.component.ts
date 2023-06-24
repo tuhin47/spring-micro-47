@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit
     setTimeout(_ =>
     {
       this.isLoading = false;
+      this.toastManager.quickShow("Successful", "info", true);
     }, 2000);
   }
 
