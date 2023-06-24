@@ -39,12 +39,12 @@ public interface ProductController {
     void deleteProductById(@PathVariable("id") long productId);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
-    ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
+    ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/all/excel")
+    @RequestMapping("/all/excel")
     @ApiOperation("Export Items")
-    ResponseEntity<byte[]> exportExcel(@RequestBody List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request) throws IOException;
+    ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request) throws IOException;
 }

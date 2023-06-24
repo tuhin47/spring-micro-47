@@ -12,10 +12,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-```shell
-chmod +x **/mvnw
-```
-
 ## Run docker file 
 ```shell
 docker-compose --env-file .env -f docker-compose-prod.yml  up

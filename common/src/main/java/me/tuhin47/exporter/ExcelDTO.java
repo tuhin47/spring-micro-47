@@ -1,5 +1,6 @@
 package me.tuhin47.exporter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.tuhin47.utils.StringUtils;
@@ -11,16 +12,19 @@ import java.util.stream.Collectors;
 
 public interface ExcelDTO {
 
+    @JsonIgnore
     default List<String> getHeaders() {
         PriorityQueue<Element> priorityQueue = getPriorityElements();
         return priorityQueue.stream().map(Element::getValue).collect(Collectors.toList());
     }
 
+    @JsonIgnore
     default List<Field> getFields() {
         PriorityQueue<Element> priorityQueue = getPriorityElements();
         return priorityQueue.stream().map(Element::getField).collect(Collectors.toList());
     }
 
+    @JsonIgnore
     default String getSheetName() {
         String value = "Sheet";
 

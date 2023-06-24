@@ -28,8 +28,8 @@
             "type": "maven",
             "name": "common mvn",
             "workingDir": "common/",
-            "tasks": ["clean","install"],
-        },
+            "tasks": ["clean","install"]
+        }
 
     ]
 }
