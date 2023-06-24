@@ -1,5 +1,6 @@
 package com.microservice.apigateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -11,12 +12,15 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 @Configuration
 public class CORSConfiguration implements WebFluxConfigurer {
-    
+
+    @Value("${origins.allowedOrigins: http://localhost:4200}")
+    private String[] allowedOrigins;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins(allowedOrigins)
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .exposedHeaders(HttpHeaders.SET_COOKIE);

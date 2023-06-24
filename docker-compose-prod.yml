@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -8,18 +8,15 @@ services:
       context: ./angular-boilerplate
       dockerfile: Dockerfile
       args:
-       - ENVIRONMENT
-       - API_BASE
-       - OAUTH_REDIRECT_URL
+        - ENVIRONMENT
+        - API_BASE
+        - API_CONTEXT
+        - OAUTH_REDIRECT_URL
     container_name: boilerplate
+    profiles:
+      - All
     image: 'tuhin47/boilerplate:prod'
-    ports:
-      - 4200:80
-    links:
-      - apigateway
-      - authservice
-    networks:
-      - backend
+    network_mode: "host"
 
   serviceregistry:
     build:
@@ -28,6 +25,11 @@ services:
     image: 'tuhin47/serviceregistry:prod'
     ports:
       - 8761:8761
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
 
@@ -37,7 +39,8 @@ services:
       dockerfile: ../Dockerfile
     image: tuhin47/configserver:prod
     ports:
-      - 9296:9296
+      - "9296:9296"
+      - "19296:19296"
     environment:
       - EUREKA_SERVER_ADDRESS
     healthcheck:
@@ -55,22 +58,24 @@ services:
       context: apigateway
       dockerfile: ../Dockerfile
     image: 'tuhin47/gateway:prod'
-    container_name: apigateway
     ports:
-      - 9090:9090
+      - "9090:9090"
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - ZIPKIN_URL
-      - REDIS_URL=redis://redis:6379
+      - REDIS_HOST
+      - ALLOWED_ORIGINS
     depends_on:
       - configserver
       - zipkin
       - redis
       - serviceregistry
-      - orderservice
-      - authservice
-      - paymentservice
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://apigateway:9090/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
 
@@ -86,7 +91,7 @@ services:
 #      - SELF_TRACING_ENABLED=true
     ports:
       # Port used for the Zipkin UI and HTTP Api
-      - 9411:9411
+      - "9411:9411"
     networks:
       - backend
 
@@ -105,7 +110,8 @@ services:
       dockerfile: ../Dockerfile
     image: 'tuhin47/authservice:prod'
     ports:
-      - 7777:7777
+      - "7777:7777"
+      - "35729:35729"
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
@@ -116,11 +122,17 @@ services:
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
+      - ZIPKIN_URL
+      - REDIS_HOST
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
+      - database
+      - configserver
+    #      - logstash
     networks:
       - backend
 
@@ -131,7 +143,7 @@ services:
       dockerfile: ../Dockerfile
     image: 'tuhin47/productservice:prod'
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
@@ -140,13 +152,16 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
-    depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - REDIS_HOST
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    links:
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
 
@@ -156,7 +171,7 @@ services:
       dockerfile: ../Dockerfile
     image: 'tuhin47/orderservice:prod'
     ports:
-      - 8082:8082
+      - "8082:8082"
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
@@ -165,13 +180,16 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
+      - REDIS_HOST
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://orderservice:8082/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
 
@@ -181,7 +199,7 @@ services:
       dockerfile: ../Dockerfile
     image: 'tuhin47/chatservice:prod'
     ports:
-      - 8084:8084
+      - "8084:8084"
     environment:
       - CONFIG_SERVER_URL
       - EUREKA_SERVER_ADDRESS
@@ -193,12 +211,9 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
     depends_on:
-      mongo:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - mongo
+      - configserver
+      - zipkin
     networks:
       - backend
 
@@ -209,7 +224,7 @@ services:
       dockerfile: ../Dockerfile
     image: 'tuhin47/paymentservice:prod'
     ports:
-      - 8083:8083
+      - "8083:8083"
     environment:
       - MYSQL_DB=paymentdb
       - EUREKA_SERVER_ADDRESS
@@ -219,13 +234,16 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
+      - REDIS_HOST
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://paymentservice:8083/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
+      - database
+      - configserver
+      - zipkin
     networks:
       - backend
 
@@ -253,9 +271,9 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    restart: always
+    restart: on-failure
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - mongo-volume:/data/db
     environment:
@@ -267,6 +285,48 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+    networks:
+      - backend
+
+  elasticsearch:
+    build: elk/elasticsearch/
+#    container_name: elasticsearch
+    profiles:
+      - All
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    networks:
+      - backend
+
+  logstash:
+    build: elk/logstash/
+#    container_name: logstash
+    profiles:
+      - All
+    command: -f /etc/logstash/conf.d/
+    volumes:
+      - ./elk/logstash/config:/etc/logstash/conf.d
+    ports:
+      - "9999:9999"
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
+
+  kibana:
+    build: elk/kibana/
+#    container_name: kibana
+    profiles:
+      - All
+    volumes:
+      - ./elk/kibana/config/:/opt/kibana/config/
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
     networks:
       - backend
 
