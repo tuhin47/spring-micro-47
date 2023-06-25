@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
@@ -20,7 +21,7 @@ import javax.persistence.MappedSuperclass;
         value = { "createdBY", "updatedBy" },
         allowGetters = true
 )
-public class UserDateAudit<U> extends DateAudit{
+public abstract class UserDateAudit<U> extends DateAudit{
 
     private static final long serialVersionUID = 1L;
 

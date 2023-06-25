@@ -1,45 +1,48 @@
 package me.tuhin47.searchspec;
 
+import com.sun.istack.NotNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-
+@Log4j2
 public class RecordNavigationManager {
 
+    public static final String[] DEFAULT_SORT = {"id", "desc"};
+
     public static Pageable getPageable(HttpServletRequest request) {
-        var all = Boolean.TRUE.toString().equals(request.getParameter("all"));
+        var all = !Objects.equals(Boolean.FALSE.toString(), request.getParameter("all"));
         int size = all ? Integer.MAX_VALUE : getValueFromRequest(request, "size");
         int page = all ? 0 : getValueFromRequest(request, "page");
         List<Sort.Order> orders = getSortOrders(request);
-        return PageRequest.of(page, size, Sort.by(orders));
+        var pageRequest = PageRequest.of(page, size, Sort.by(orders));
+        log.info("Showing records " + pageRequest);
+        return pageRequest;
     }
 
     public static List<Sort.Order> getSortOrders(HttpServletRequest request) {
-        String[] sort = {"id", "desc"};
         String sorts = request.getParameter("sort");
-
-        if (sorts != null) {
-            sort = sorts.split(";");
+        if (sorts == null) {
+            log.debug("default sort order");
+            return Collections.singletonList(new Sort.Order(getSortDirection(DEFAULT_SORT[1]), DEFAULT_SORT[0]));
         }
+
+        var sortFields = sorts.split(";");
         List<Sort.Order> orders = new ArrayList<>();
-        if (sort[0].contains(",")) {
-            for (String sortOrder : sort) {
-                String[] _sort = sortOrder.split(",");
+        for (var sortOrder : sortFields) {
+            if (sortOrder.contains(",")) {
+                var _sort = sortOrder.split(",");
                 orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
             }
-        } else {
-            orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
         }
         return orders;
     }
 
-    public static int getValueFromRequest(HttpServletRequest request, String param) {
+    private static int getValueFromRequest(HttpServletRequest request, @NotNull String param) {
         String paramValue = request.getParameter(param);
         if (paramValue == null) {
             switch (param) {

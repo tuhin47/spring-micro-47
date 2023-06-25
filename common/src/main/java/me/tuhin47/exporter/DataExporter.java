@@ -4,9 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface DataExporter{
-    byte[] generate() throws IOException;
+    <T extends ExcelDTO> byte[] generate(List<T> records);
     String getExtension();
 
     default HttpHeaders getHTTPHeaders(String fileName) {

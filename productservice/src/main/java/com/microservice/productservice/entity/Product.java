@@ -1,23 +1,22 @@
 package com.microservice.productservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Product extends UserDateAudit<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long productId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(name = "PRODUCT_NAME")
     private String productName;

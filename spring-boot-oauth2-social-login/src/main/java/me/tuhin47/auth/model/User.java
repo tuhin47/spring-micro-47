@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import me.tuhin47.audit.DateAudit;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class User extends DateAudit implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "USER_ID")
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "PROVIDER_USER_ID")

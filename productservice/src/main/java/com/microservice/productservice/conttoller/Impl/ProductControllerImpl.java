@@ -6,15 +6,19 @@ import com.microservice.productservice.payload.response.ProductResponse;
 import com.microservice.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import me.tuhin47.exporter.ExporterType;
+import me.tuhin47.exporter.ExporterUtils;
 import me.tuhin47.searchspec.SearchCriteria;
-import me.tuhin47.exporter.ExcelGenerator;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,6 +27,7 @@ import java.util.List;
 public class ProductControllerImpl implements ProductController {
 
     private final ProductService productService;
+    private final ApplicationContext applicationContext;
 
     @Override
     public ResponseEntity<Long> addProduct(@RequestBody ProductRequest productRequest) {
@@ -73,11 +78,11 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    public ResponseEntity<byte[]> exportExcel(List<SearchCriteria> searchCriteria, HttpServletRequest request) throws IOException {
+    public ResponseEntity<byte[]> exportExcel(List<SearchCriteria> searchCriteria, ExporterType exporterType, HttpServletRequest request) {
         var products = productService.getAllProductBySearch(searchCriteria, request);
         var content = products.getContent();
-        var generator = new ExcelGenerator<>(content);
-        return new ResponseEntity<>(generator.generate(), generator.getHTTPHeaders(), HttpStatus.OK);
+        var excelExporter = ExporterUtils.getDataExporter(applicationContext, exporterType);
+        return new ResponseEntity<>(excelExporter.generate(content), excelExporter.getHTTPHeaders(), HttpStatus.OK);
     }
 }
 

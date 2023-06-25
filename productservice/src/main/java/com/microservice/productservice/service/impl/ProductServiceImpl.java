@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService {
         product = productRepository.save(product);
 
         log.info("ProductServiceImpl | addProduct | Product Created");
-        log.info("ProductServiceImpl | addProduct | Product Id : " + product.getProductId());
-        return product.getProductId();
+        log.info("ProductServiceImpl | addProduct | Product Id : " + product.getId());
+        return product.getId();
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public static ProductResponse getProductResponse(Product product) {
-        return ProductResponse.builder().productId(product.getProductId())
+        return ProductResponse.builder().productId(product.getId())
                 .productName(product.getProductName()).price(product.getPrice())
                 .quantity(product.getQuantity()).build();
     }
