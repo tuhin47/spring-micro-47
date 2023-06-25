@@ -5,16 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.EntityListeners;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public abstract class Entity{
 
     private static final long serialVersionUID = 65981149772133526L;
