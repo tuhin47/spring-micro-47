@@ -14,7 +14,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public abstract class Entity{
 
     private static final long serialVersionUID = 65981149772133526L;
