@@ -11,6 +11,6 @@ export class ProductService {
   }
 
   getExcelData(): Observable<any> {
-    return this.apiService.postExport('product/excel?sort=productId,asc&all=true');
+    return this.apiService.postExport('product/excel?all=true');
   }
 }

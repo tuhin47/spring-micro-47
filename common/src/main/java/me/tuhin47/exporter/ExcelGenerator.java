@@ -7,6 +7,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,24 +18,14 @@ import java.util.*;
 import java.util.function.Function;
 
 @Log4j2
-public class ExcelGenerator<T extends ExcelDTO> implements DataExporter {
+public class ExcelGenerator implements DataExporter{
 
-    protected final List<T> listRecords;
-    protected final T firstRecord;
-    protected final XSSFWorkbook workbook;
-    protected XSSFSheet sheet;
-
-    public ExcelGenerator(List<T> listRecords) {
-        if (listRecords.isEmpty()) {
-            log.error("No record found");
-        }
-        this.listRecords = listRecords;
-        this.firstRecord = listRecords.stream().findFirst().orElseThrow(() -> new RuntimeException("No record found"));
-        workbook = new XSSFWorkbook();
+    protected <T extends ExcelDTO> T getFirstRecord(List<T> listRecords) {
+        return listRecords.stream().findFirst().orElseThrow(() -> new RuntimeException("No record found"));
     }
 
-    private void writeHeader() {
-        sheet = workbook.createSheet(firstRecord.getSheetName());
+    private <T extends ExcelDTO> void writeHeader(List<T> listRecords, XSSFWorkbook workbook, XSSFSheet sheet) {
+        var firstRecord = getFirstRecord(listRecords);
         var row = sheet.createRow(0);
         var style = workbook.createCellStyle();
         var font = workbook.createFont();
@@ -44,12 +37,12 @@ public class ExcelGenerator<T extends ExcelDTO> implements DataExporter {
         var headers = firstRecord.getHeaders();
 
         for (int i = 0; i < headers.size(); i++) {
-            createCell(row, i, headers.get(i), style);
+            createCell(row, i, headers.get(i), style, sheet);
         }
 
     }
 
-    private void createCell(Row row, int columnCount, Object value, CellStyle style) {
+    private void createCell(Row row, int columnCount, Object value, CellStyle style, XSSFSheet sheet) {
         sheet.autoSizeColumn(columnCount);
         Cell cell = row.createCell(columnCount);
         if (value instanceof Integer) {
@@ -65,7 +58,8 @@ public class ExcelGenerator<T extends ExcelDTO> implements DataExporter {
     }
 
 
-    public void write() {
+    public <T extends ExcelDTO> void writeRows(List<T> listRecords, XSSFWorkbook workbook, XSSFSheet sheet) {
+        var firstRecord = getFirstRecord(listRecords);
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
@@ -94,15 +88,22 @@ public class ExcelGenerator<T extends ExcelDTO> implements DataExporter {
             int columnCount = 0;
 
             for (Function<Object, ?> function : fieldFunctionTreeMap) {
-                createCell(row, columnCount++, function.apply(val), style);
+                createCell(row, columnCount++, function.apply(val), style, sheet);
             }
         }
 
     }
 
-    public byte[] generate() throws IOException {
-        writeHeader();
-        write();
+    @Override
+    public <T extends ExcelDTO> byte[] generate(List<T> listRecords) {
+        if (listRecords.isEmpty()) {
+            log.error("No record found");
+        }
+        var workbook = new XSSFWorkbook();
+        var firstRecord = getFirstRecord(listRecords);
+        var sheet = workbook.createSheet(firstRecord.getSheetName());
+        writeHeader(listRecords, workbook, sheet);
+        writeRows(listRecords, workbook, sheet);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             workbook.write(outputStream);
             return outputStream.toByteArray();

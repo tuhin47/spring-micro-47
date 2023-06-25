@@ -58,6 +58,7 @@ services:
       context: apigateway
       dockerfile: ../Dockerfile
     image: 'tuhin47/gateway:prod'
+    restart: on-failure:3
     ports:
       - "9090:9090"
     environment:
@@ -109,7 +110,7 @@ services:
       context: spring-boot-oauth2-social-login
       dockerfile: ../Dockerfile
     image: 'tuhin47/authservice:prod'
-    restart: on-failure
+    restart: on-failure:3
     ports:
       - "7777:7777"
       - "35729:35729"
@@ -143,7 +144,7 @@ services:
       context: productservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/productservice:prod'
-    restart: on-failure
+    restart: on-failure:3
     ports:
       - "8081:8081"
     environment:
@@ -172,7 +173,7 @@ services:
       context: orderservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/orderservice:prod'
-    restart: on-failure
+    restart: on-failure:3
     ports:
       - "8082:8082"
     environment:
@@ -201,6 +202,7 @@ services:
       context: chat-service
       dockerfile: ../Dockerfile
     image: 'tuhin47/chatservice:prod'
+    restart: on-failure:3
     ports:
       - "8084:8084"
     environment:
@@ -226,6 +228,7 @@ services:
       context: paymentservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/paymentservice:prod'
+    restart: on-failure:3
     ports:
       - "8083:8083"
     environment:
@@ -274,7 +277,7 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    restart: on-failure
+    restart: on-failure:3
     ports:
       - "27017:27017"
     volumes:

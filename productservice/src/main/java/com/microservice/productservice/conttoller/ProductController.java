@@ -4,6 +4,7 @@ import com.microservice.productservice.payload.request.ProductRequest;
 import com.microservice.productservice.payload.response.ProductResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +47,5 @@ public interface ProductController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/excel",method = {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation("Export Items")
-    ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request) throws IOException;
+    ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria,@RequestParam(value = "type",defaultValue = "EXCEL") ExporterType exporterType, @ApiIgnore HttpServletRequest request) throws IOException;
 }

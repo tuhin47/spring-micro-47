@@ -90,7 +90,7 @@ public class PaymentServiceImplTest {
 
     private TransactionDetails getMockTransactionDetails() {
         return TransactionDetails.builder()
-                .id(1)
+                .id(1L)
                 .orderId(1)
                 .paymentDate(Instant.now())
                 .paymentMode(PaymentMode.CASH.name())

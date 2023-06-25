@@ -1,5 +1,10 @@
 package me.tuhin47.config;
 
+import me.tuhin47.exporter.DataExporter;
+import me.tuhin47.exporter.ExcelGenerator;
+import me.tuhin47.exporter.ExporterType;
+import org.hibernate.exception.DataException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
@@ -46,5 +51,14 @@ public class CommonBean {
         EndpointMapping endpointMapping = new EndpointMapping(basePath);
         boolean shouldRegisterLinksMapping = this.shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
         return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
+    }
+
+    @Bean(name = ExporterType.Constants.EXCEL)
+    public DataExporter getExcelExporter() {
+        return new ExcelGenerator();
+    }
+
+    public static void main(String[] args) {
+
     }
 }
