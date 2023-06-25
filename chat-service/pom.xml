@@ -7,7 +7,7 @@
         <artifactId>all-services</artifactId>
         <version>0.1.2</version>
     </parent>
-    <groupId>com.amr</groupId>
+    <groupId>me.tuhin47</groupId>
     <artifactId>chat-service</artifactId>
     <name>chatService</name>
     <description>Chat Service for Microservice</description>
