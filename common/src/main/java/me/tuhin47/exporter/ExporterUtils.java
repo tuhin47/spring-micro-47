@@ -4,15 +4,18 @@ import org.springframework.context.ApplicationContext;
 
 public class ExporterUtils {
 
-    public static DataExporter getDataExporter(ApplicationContext applicationContext, ExporterType exporterType) {
+    public static <T extends ExporterDTO> DataExporter<T> getDataExporter(ApplicationContext applicationContext, ExporterType exporterType) {
 
         switch (exporterType) {
             case EXCEL:
                 return applicationContext.getBean(ExporterType.Constants.EXCEL, ExcelGenerator.class);
-            default:
-                throw new IllegalArgumentException("No Implementation found");
+            case CSV:
+                return applicationContext.getBean(ExporterType.Constants.CSV, CSVGenerator.class);
+            case PDF:
+                break;
         }
-
+        
+        throw new IllegalArgumentException("No Implementation found");
     }
 
 }

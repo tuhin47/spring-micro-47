@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
-public interface ExcelDTO {
+public interface ExporterDTO {
 
     @JsonIgnore
     default List<String> getHeaders() {
@@ -22,17 +22,6 @@ public interface ExcelDTO {
     default List<Field> getFields() {
         PriorityQueue<Element> priorityQueue = getPriorityElements();
         return priorityQueue.stream().map(Element::getField).collect(Collectors.toList());
-    }
-
-    @JsonIgnore
-    default String getSheetName() {
-        String value = "Sheet";
-
-        if (getClass().isAnnotationPresent(ExcelSheet.class)) {
-            var annotation = getClass().getAnnotation(ExcelSheet.class);
-            value = annotation.value();
-        }
-        return value;
     }
 
     private PriorityQueue<Element> getPriorityElements() {
