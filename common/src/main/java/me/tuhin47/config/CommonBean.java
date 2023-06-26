@@ -1,10 +1,6 @@
 package me.tuhin47.config;
 
-import me.tuhin47.exporter.DataExporter;
-import me.tuhin47.exporter.ExcelGenerator;
-import me.tuhin47.exporter.ExporterType;
-import org.hibernate.exception.DataException;
-import org.springframework.beans.factory.annotation.Qualifier;
+import me.tuhin47.exporter.*;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
@@ -34,11 +30,7 @@ public class CommonBean {
     }
 
 
-    private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
-        return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
-    }
-
-
+    //    https://stackoverflow.com/a/70892119/7499069
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier, ServletEndpointsSupplier servletEndpointsSupplier, ControllerEndpointsSupplier controllerEndpointsSupplier, EndpointMediaTypes endpointMediaTypes, CorsEndpointProperties corsProperties, WebEndpointProperties webEndpointProperties, Environment environment) {
@@ -53,12 +45,17 @@ public class CommonBean {
         return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
     }
 
-    @Bean(name = ExporterType.Constants.EXCEL)
-    public DataExporter getExcelExporter() {
-        return new ExcelGenerator();
+    private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
+        return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
 
-    public static void main(String[] args) {
+    @Bean(name = ExporterType.Constants.EXCEL)
+    public ExcelGenerator<ExcelExporterDTO> getExcelExporter() {
+        return new ExcelGenerator<>();
+    }
 
+    @Bean(name = ExporterType.Constants.CSV)
+    public CSVGenerator<ExporterDTO> getCSVExporter() {
+        return new CSVGenerator<>();
     }
 }

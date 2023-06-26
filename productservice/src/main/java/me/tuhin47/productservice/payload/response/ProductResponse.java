@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.exporter.ExcelDTO;
+import me.tuhin47.exporter.ExcelExporterDTO;
 import me.tuhin47.exporter.ExcelSheet;
 import me.tuhin47.exporter.ExportColumn;
 
@@ -13,7 +13,7 @@ import me.tuhin47.exporter.ExportColumn;
 @AllArgsConstructor
 @NoArgsConstructor
 @ExcelSheet("Product")
-public class ProductResponse implements ExcelDTO {
+public class ProductResponse implements ExcelExporterDTO {
 
     private long productId;
     @ExportColumn(value = "Name")

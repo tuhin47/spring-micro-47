@@ -10,7 +10,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication(scanBasePackages = {"me.tuhin47.config","me.tuhin47.jwt"})
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.orderservice","me.tuhin47.config","me.tuhin47.jwt"})
 @EnableFeignClients
 public class OrderServiceApplication
 {

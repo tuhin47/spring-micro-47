@@ -13,7 +13,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @Configuration
 public class CORSConfiguration implements WebFluxConfigurer {
 
-    @Value("${origins.allowedOrigins: http://localhost:4200}")
+    @Value("${origins.allowedOrigins:http://localhost:4200}")
     private String[] allowedOrigins;
 
     @Override
