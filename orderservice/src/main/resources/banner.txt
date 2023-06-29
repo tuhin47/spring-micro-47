@@ -5,5 +5,5 @@
 |  `--'  | |  |\  \----.|  '--'  ||  |____ |  |\  \----.
  \______/  | _| `._____||_______/ |_______|| _| `._____|
                                                         
-${application.title}
+${spring.application.name} (${app.version})
 Powered by Spring Boot ${spring-boot.version}

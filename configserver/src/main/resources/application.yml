@@ -18,6 +18,9 @@ spring:
 #          password: ${GITHUB_TOKEN}
 
 
+app:
+  version: @project.version@
+
 eureka:
   instance:
     prefer-ip-address: true

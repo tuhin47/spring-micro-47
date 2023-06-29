@@ -22,8 +22,8 @@ spring:
   zipkin:
     baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
 
-
 app:
+  version: @project.version@
   config:
     qrIssuer : tuhin47
   auth:
