@@ -26,5 +26,5 @@ In addition, the project follows the Gitflow workflow for managing continuous in
 
 ## Getting Started 
 
-For Production [this](./command.md)
+For Production follow [this](./command.md)
 
