@@ -12,15 +12,16 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-## Run docker file 
+## Run docker-compose file for prod
 ```shell
 cd spring-micro-47
 mvn clean install -DskipTests
 docker-compose --env-file .env -f docker-compose-prod.yml  up
 ```
 
-## lazydocker
+## Monitor docker containers using lazydocker
 
 ```shell
 go install github.com/jesseduffield/lazydocker@latest
+lazydocker
 ```
