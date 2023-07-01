@@ -47,7 +47,7 @@ jobs:
       - name: Release
         uses: justincy/github-action-npm-release@2.0.2
         id: release
-        with :
+        with:
           path: ${{ github.workspace }}/angular-boilerplate
       - name: Print release output
         working-directory: ./angular-boilerplate

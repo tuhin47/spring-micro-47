@@ -14,6 +14,8 @@ docker-compose --version
 
 ## Run docker file 
 ```shell
+cd spring-micro-47
+mvn clean install -DskipTests
 docker-compose --env-file .env -f docker-compose-prod.yml  up
 ```
 
