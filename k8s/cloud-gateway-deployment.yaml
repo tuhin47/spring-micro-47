@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-gateway-app
+spec:
+  selector:
+    matchLabels:
+      app: cloud-gateway-app
+  template:
+    metadata:
+      labels:
+        app: cloud-gateway-app
+    spec:
+      containers:
+        - name: cloud-gateway-app
+          image: tuhin47/gateway:prod
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+
+          env:
+            - name: CONFIG_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config-cm
+                  key: config_url
+            - name: EUREKA_SERVER_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: eureka-cm
+                  key: eureka_service_address
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cm
+                  key: redis-host
+            - name: ZIPKIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: zipkin-cm
+                  key: zipkin_url
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-gateway-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: cloud-gateway-app
+  ports:
+    - port: 80
+      targetPort: 9090

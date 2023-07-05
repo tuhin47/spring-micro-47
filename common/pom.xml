@@ -59,6 +59,12 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>springfox-swagger-ui</artifactId>
+                    <groupId>io.springfox</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

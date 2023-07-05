@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-cm
+data:
+  config_url: "http://config-server-svc"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eureka-cm
+data:
+  eureka_service_address: "http://eureka-0.eureka:8761/eureka"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-cm
+data:
+  hostname: "mysql-0.mysql"
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-cm
+data:
+  client-id: "329264260733-k1omtencc7uf7pn0srguumhmi5bp3ni8.apps.googleusercontent.com"
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-cm
+data:
+  redis-host: redis
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zipkin-cm
+data:
+  zipkin_url: "http://zipkin/"

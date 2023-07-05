@@ -9,7 +9,8 @@
 #COPY ./src ./src
 #RUN ./mvnw clean package -DskipTests
 
-FROM openjdk:11
+FROM eclipse-temurin:11-jre-alpine
+RUN apk --no-cache add curl
 
 COPY ./target/*.jar /app/app.jar
 

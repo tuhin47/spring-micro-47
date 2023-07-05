@@ -72,8 +72,6 @@ spring:
               args:
                 redis-rate-limiter.replenishRate: 1
                 redis-rate-limiter.burstCapacity: 1
-  zipkin:
-    base-url: ${ZIPKIN_URL:http://localhost:9411/}
 
 logging:
   level:
