@@ -11,24 +11,24 @@
 		<Appender type="Console" name="STDOUT">
 			<Layout type="PatternLayout" pattern="${defaultpattern}"/>
 		</Appender>
-		<!--<Appender type="File" name="File" fileName="${filename}">
+		<Appender type="File" name="File" fileName="${filename}">
 			<Layout type="PatternLayout" pattern="${defaultpattern}" />
 		</Appender>
 	        <Socket name="socket" host="logstash" port="9999" reconnectionDelayMillis="10000">
 			<Layout type="PatternLayout" pattern="${defaultpattern}" />	
-		</Socket>-->
+		</Socket>
 	</Appenders>
 
 	<Loggers>
 		<Logger name="me.tuhin47" level="info" additivity="false">
 			<AppenderRef ref="STDOUT"/>
-<!--			<AppenderRef ref="File"/>-->
-<!--			<AppenderRef ref="socket"/>-->
+			<AppenderRef ref="File"/>
+			<AppenderRef ref="socket"/>
 		</Logger>
 		<Root level="warn">
 			<AppenderRef ref="STDOUT"/>
-<!--			<AppenderRef ref="File"/>-->
-<!--			<AppenderRef ref="socket"/>-->
+			<AppenderRef ref="File"/>
+			<AppenderRef ref="socket"/>
 		</Root>
 	</Loggers>
 
