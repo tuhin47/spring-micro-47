@@ -14,6 +14,9 @@
             </plugin>
         </plugins>
     </build>
+    <properties>
+        <axon-spring-boot-starter.version>4.5.3</axon-spring-boot-starter.version>
+    </properties>
 
     <parent>
         <groupId>me.tuhin47.services</groupId>
@@ -103,6 +106,17 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.axonframework</groupId>
+            <artifactId>axon-spring-boot-starter</artifactId>
+            <version>${axon-spring-boot-starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
         </dependency>
     </dependencies>
 </project>
