@@ -9,6 +9,6 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CompleteOrderCommand {
 
     @TargetAggregateIdentifier
-    private String orderId;
+    private long orderId;
     private String orderStatus;
 }

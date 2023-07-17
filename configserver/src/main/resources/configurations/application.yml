@@ -22,6 +22,10 @@ spring:
   zipkin:
     baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
 
+axon:
+  axonserver:
+    servers: ${AXON_SERVER_URL:http://localhost:8124}
+
 app:
   version: @project.version@
   config:

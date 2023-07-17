@@ -3,7 +3,6 @@ package me.tuhin47.saga.commands;
 
 import lombok.Builder;
 import lombok.Data;
-import me.tuhin47.core.payment.CardDetails;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Data
@@ -11,7 +10,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class ValidatePaymentCommand {
 
     @TargetAggregateIdentifier
-    private String paymentId;
-    private String orderId;
-    private CardDetails cardDetails;
+    private long paymentId;
+    private long orderId;
+//    private CardDetails cardDetails;
 }

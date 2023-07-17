@@ -2,20 +2,20 @@ version: '3.7'
 
 services:
 
- #Front-end Angular boilerplate
+  #Front-end Angular boilerplate
   boilerplate:
     build:
       context: ./angular-boilerplate
       dockerfile: Dockerfile
       args:
-       - ENVIRONMENT
-       - API_BASE
-       - API_CONTEXT
-       - OAUTH_REDIRECT_URL
+        - ENVIRONMENT
+        - API_BASE
+        - API_CONTEXT
+        - OAUTH_REDIRECT_URL
     container_name: boilerplate
     profiles:
-        - frontend
-        - All
+      - frontend
+      - all
     image: 'tuhin47/boilerplate:dev'
     network_mode: "host"
 
@@ -111,9 +111,9 @@ services:
     # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
     environment:
       - STORAGE_TYPE=mem
-#      - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
-#      - SCRIBE_ENABLED=false
-#      - SELF_TRACING_ENABLED=true
+    #      - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+    #      - SCRIBE_ENABLED=false
+    #      - SELF_TRACING_ENABLED=true
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - "9411:9411"
@@ -152,6 +152,7 @@ services:
       - CLIENT_SECRET
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
     working_dir: /app
     command: sh /script/run.sh
     restart: on-failure
@@ -163,7 +164,7 @@ services:
     links:
       - database
       - configserver
-#      - logstash
+    #      - logstash
     networks:
       - backend
     volumes:
@@ -226,6 +227,7 @@ services:
       - MYSQL_PASSWORD
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -247,6 +249,8 @@ services:
     build:
       context: chat-service
       dockerfile: ../dev.Dockerfile
+    profiles:
+      - all
     image: 'tuhin47/chatservice:dev'
     container_name: chatservice
     ports:
@@ -296,6 +300,7 @@ services:
       - MYSQL_PASSWORD
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -330,7 +335,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
 
@@ -338,6 +343,8 @@ services:
     image: mongo
     container_name: mongo
     restart: on-failure
+    profiles:
+      - all
     ports:
       - "27017:27017"
     volumes:
@@ -357,7 +364,9 @@ services:
   elasticsearch:
     build: elk/elasticsearch/
     container_name: elasticsearch
-    profiles: ["elk"]
+    profiles:
+      - elk
+      - all
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -369,7 +378,9 @@ services:
   logstash:
     build: elk/logstash/
     container_name: logstash
-    profiles: ["elk"]
+    profiles:
+      - elk
+      - all
     command: -f /etc/logstash/conf.d/
     volumes:
       - ./elk/logstash/config:/etc/logstash/conf.d
@@ -383,7 +394,9 @@ services:
   kibana:
     build: elk/kibana/
     container_name: kibana
-    profiles: ["elk"]
+    profiles:
+      - elk
+      - all
     volumes:
       - ./elk/kibana/config/:/opt/kibana/config/
     ports:
@@ -392,12 +405,45 @@ services:
       - elasticsearch
     networks:
       - backend
+  axonserver:
+    image: axoniq/axonserver
+    hostname: axonserve
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://tuhin47:8024/actuator/health" ]
+    volumes:
+      - axonserver-data:/data
+      - axonserver-events:/eventdata
+      - axonserver-config:/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - backend
+
 
 networks:
   backend:
     driver: bridge
 
 volumes:
-#  db-data:
   mongo-volume:
     driver: local
+  axonserver-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/data
+      o: bind
+  axonserver-events:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/events
+      o: bind
+  axonserver-config:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/config
+      o: bind

@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderCompletedEvent {
-    private String orderId;
+    private long orderId;
     private String orderStatus;
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrderCancelledEvent {
-    private String orderId;
+    private long orderId;
     private String orderStatus;
 }

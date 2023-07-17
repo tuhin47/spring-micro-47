@@ -7,7 +7,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CancelPaymentCommand {
 
     @TargetAggregateIdentifier
-    String paymentId;
-    String orderId;
+    long paymentId;
+    long orderId;
     String paymentStatus = "CANCELLED";
 }

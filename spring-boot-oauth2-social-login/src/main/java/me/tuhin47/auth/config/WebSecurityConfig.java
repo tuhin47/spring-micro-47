@@ -1,8 +1,7 @@
 package me.tuhin47.auth.config;
 
-import java.util.Arrays;
-
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.security.oauth2.*;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +25,7 @@ import org.springframework.security.oauth2.core.http.converter.OAuth2AccessToken
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
-import me.tuhin47.auth.security.oauth2.CustomOAuth2UserService;
-import me.tuhin47.auth.security.oauth2.CustomOidcUserService;
-import me.tuhin47.auth.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.tuhin47.auth.security.oauth2.OAuth2AccessTokenResponseConverterWithDefaults;
-import me.tuhin47.auth.security.oauth2.OAuth2AuthenticationFailureHandler;
-import me.tuhin47.auth.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity

@@ -1,4 +1,4 @@
-package me.tuhin47.saga.queries;
+package me.tuhin47.saga.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetUserPaymentDetailsQuery {
-    private String userId;
+public class PaymentProcessedEvent {
+    private long paymentId;
+    private long orderId;
 }

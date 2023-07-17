@@ -21,9 +21,10 @@
     </properties>
 
     <modules>
+        <module>common</module>
+        <module>saga</module>
         <module>apigateway</module>
         <module>chat-service</module>
-        <module>common</module>
         <module>configserver</module>
         <module>orderservice</module>
         <module>paymentservice</module>

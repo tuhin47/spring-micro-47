@@ -79,6 +79,13 @@
 			<scope>compile</scope>
 			<type>jar</type>
 		</dependency>
+		<dependency>
+			<groupId>me.tuhin47</groupId>
+			<artifactId>saga</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+			<type>jar</type>
+		</dependency>
 		<!-- JUNIT TESTS -->
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>

@@ -7,6 +7,6 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CancelOrderCommand {
 
     @TargetAggregateIdentifier
-    String orderId;
+    long orderId;
     String orderStatus = "CANCELLED";
 }

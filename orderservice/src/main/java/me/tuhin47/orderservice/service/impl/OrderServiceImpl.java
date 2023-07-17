@@ -13,6 +13,7 @@ import me.tuhin47.orderservice.payload.response.PaymentResponse;
 import me.tuhin47.orderservice.payload.response.ProductResponse;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.OrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -133,5 +134,13 @@ public class OrderServiceImpl implements OrderService {
         log.info("OrderServiceImpl | getOrderDetails | orderResponse : " + orderResponse.toString());
 
         return orderResponse;
+    }
+
+    @Override
+    public Order placeOrderRequest(OrderRequest event) {
+        Order order = new Order();
+        BeanUtils.copyProperties(event,order);
+        orderRepository.save(order);
+        return order;
     }
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PaymentCancelledEvent {
-    private String paymentId;
-    private String orderId;
+    private long paymentId;
+    private long orderId;
     private String paymentStatus;
 }
