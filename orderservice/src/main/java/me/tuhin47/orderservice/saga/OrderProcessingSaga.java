@@ -10,9 +10,7 @@ import me.tuhin47.saga.events.OrderCancelledEvent;
 import me.tuhin47.saga.events.OrderCompletedEvent;
 import me.tuhin47.saga.events.PaymentCancelledEvent;
 import me.tuhin47.saga.events.PaymentProcessedEvent;
-import me.tuhin47.saga.queries.GetUserPaymentDetailsQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
@@ -39,12 +37,12 @@ public class OrderProcessingSaga {
     private void handle(OrderCreatedEvent event) {
         log.info("OrderCreatedEvent in Saga for Order Id : {}", event.getOrderId());
 
-        GetUserPaymentDetailsQuery getUserPaymentDetailsQuery = new GetUserPaymentDetailsQuery(event.getUserId());
+        //GetUserPaymentDetailsQuery getUserPaymentDetailsQuery = new GetUserPaymentDetailsQuery(event.getUserId());
 
         UserResponse user = null;
 
         try {
-            user = queryGateway.query(getUserPaymentDetailsQuery, ResponseTypes.instanceOf(UserResponse.class)).join();
+           // user = queryGateway.query(getUserPaymentDetailsQuery, ResponseTypes.instanceOf(UserResponse.class)).join();
         } catch (Exception e) {
             log.error(e.getMessage());
             //Start the Compensating transaction

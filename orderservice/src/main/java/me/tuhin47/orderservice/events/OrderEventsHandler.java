@@ -1,6 +1,7 @@
 package me.tuhin47.orderservice.events;
 
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.orderservice.command.CreateOrderCommand;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.saga.events.OrderCancelledEvent;
@@ -14,6 +15,13 @@ public class OrderEventsHandler {
 
     private final OrderRepository orderRepository;
 
+
+    @EventHandler
+    public void on(CreateOrderCommand event) {
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setOrderStatus("CREATED");
+        orderRepository.save(order);
+    }
 
     @EventHandler
     public void on(OrderCompletedEvent event) {

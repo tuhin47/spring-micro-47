@@ -17,13 +17,13 @@ import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -34,6 +34,7 @@ import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 @RequiredArgsConstructor
 @Log4j2
 @RestController
+@RequestMapping("/auth")
 public class AuthControllerImpl implements AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -45,6 +46,7 @@ public class AuthControllerImpl implements AuthController {
     private final CodeVerifier verifier;
 
     @Override
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -60,6 +62,7 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
+    @PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		try {
 			User user = userService.registerNewUser(signUpRequest);
@@ -71,16 +74,17 @@ public class AuthControllerImpl implements AuthController {
 				return ResponseEntity.ok().body(new SignUpResponse(true, qrCodeImage));
 			}
 		} catch (UserAlreadyExistAuthenticationException e) {
-			log.error("Exception Ocurred", e);
+			log.error("Exception Occurred", e);
 			return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
 		} catch (QrGenerationException e) {
-			log.error("QR Generation Exception Ocurred", e);
+			log.error("QR Generation Exception Occurred", e);
 			return new ResponseEntity<>(new ApiResponse(false, "Unable to generate QR code!"), HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
 	}
 
 	@Override
+    @PostMapping("/verify")
 	public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
 
 	    User userByEmail = userService.findUserByEmail(user.getEmail());
@@ -92,11 +96,13 @@ public class AuthControllerImpl implements AuthController {
 	}
 
     @Override
+    @GetMapping("/user/me")
     public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser user) {
         return getJwtAuthenticationResponseResponseEntity(user);
     }
 
     @Override
+    @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllUserSummaries(
             @CurrentUser LocalUser localUser) {
         log.info("retrieving all users summaries");
@@ -109,21 +115,25 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
+    @GetMapping("/all")
     public ResponseEntity<?> getContent() {
         return ResponseEntity.ok("Public content goes here");
     }
 
     @Override
+    @GetMapping("/user")
     public ResponseEntity<?> getUserContent() {
         return ResponseEntity.ok("User content goes here");
     }
 
     @Override
+    @GetMapping("/admin")
     public ResponseEntity<?> getAdminContent() {
         return ResponseEntity.ok("Admin content goes here");
     }
 
     @Override
+    @GetMapping("/mod")
     public ResponseEntity<?> getModeratorContent() {
         return ResponseEntity.ok("Moderator content goes here");
     }

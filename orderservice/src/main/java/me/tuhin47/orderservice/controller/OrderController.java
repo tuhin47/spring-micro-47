@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
+import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
 import me.tuhin47.orderservice.payload.response.OrderResponse;
 import me.tuhin47.orderservice.service.OrderService;
@@ -54,10 +55,12 @@ public class OrderController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
     public long createOrder(@RequestBody OrderRequest orderRestModel) {
 
-        long orderId = orderService.placeOrderRequest(orderRestModel).getId();
+        Order order = orderService.placeOrderRequest(orderRestModel);
+        long orderId = order.getId();
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
                 .orderId(orderId)
@@ -65,6 +68,7 @@ public class OrderController {
                 .productId(orderRestModel.getProductId())
                 .quantity(orderRestModel.getQuantity())
                 .orderStatus("CREATED")
+                .userId(order.getUpdatedBy())
                 .build();
 
         commandGateway.sendAndWait(createOrderCommand);

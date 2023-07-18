@@ -24,7 +24,7 @@ spring:
 
 axon:
   axonserver:
-    servers: ${AXON_SERVER_URL:http://localhost:8124}
+    servers: ${AXON_SERVER_URL:localhost:8124}
 
 app:
   version: @project.version@
