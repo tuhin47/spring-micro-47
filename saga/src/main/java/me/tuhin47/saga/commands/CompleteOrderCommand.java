@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class CompleteOrderCommand extends AbstractCommand<String> {
 
-    private long orderId;
+    private String orderId;
     private String orderStatus;
 }

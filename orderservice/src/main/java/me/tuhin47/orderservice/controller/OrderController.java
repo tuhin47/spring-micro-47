@@ -30,13 +30,13 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/placeorder")
     @ApiOperation("Place an order")
-    public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
 
         log.info("OrderController | placeOrder is called");
 
         log.info("OrderController | placeOrder | orderRequest: {}", orderRequest.toString());
 
-        long orderId = orderService.placeOrder(orderRequest);
+        String orderId = orderService.placeOrder(orderRequest);
         log.info("Order Id: {}", orderId);
         return new ResponseEntity<>(orderId, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{orderId}")
     @ApiOperation("Get order details by ID")
-    public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId) {
+    public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable String orderId) {
 
         log.info("OrderController | getOrderDetails is called");
 
@@ -59,10 +59,10 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
-    public long createOrder(@RequestBody OrderRequest orderRestModel) {
+    public String createOrder(@RequestBody OrderRequest orderRestModel) {
 
         Order order = orderService.placeOrderRequest(orderRestModel);
-        long orderId = order.getId();
+        var orderId = order.getId();
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
                 .id(UUID.randomUUID().toString())

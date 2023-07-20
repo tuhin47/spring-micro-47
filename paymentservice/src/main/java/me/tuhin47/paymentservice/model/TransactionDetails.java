@@ -5,6 +5,7 @@ import me.tuhin47.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "TRANSACTION_DETAILS")
@@ -14,14 +15,14 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionDetails extends UserDateAudit<Long> {
+public class TransactionDetails extends UserDateAudit<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     @Column(name = "ORDER_ID")
-    private long orderId;
+    private String orderId;
 
     @Column(name = "MODE")
     private String paymentMode;

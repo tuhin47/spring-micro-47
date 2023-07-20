@@ -26,9 +26,9 @@ public abstract class UserDateAudit<U> extends DateAudit{
 
     @CreatedBy
     @Column(name = "created_by",updatable = false)
-    private Long createdBy;
+    private U createdBy;
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    private Long updatedBy;
+    private U updatedBy;
 }

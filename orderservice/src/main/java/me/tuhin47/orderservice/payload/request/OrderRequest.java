@@ -12,7 +12,7 @@ import me.tuhin47.orderservice.utils.PaymentMode;
 @Builder
 public class OrderRequest {
 
-    private long productId;
+    private String productId;
     private long totalAmount;
     private long quantity;
     private PaymentMode paymentMode;

@@ -16,7 +16,7 @@ public abstract class Entity{
 
     private static final long serialVersionUID = 65981149772133526L;
 
-    public abstract Long getId();
+    public abstract String getId();
 
     @Override
     public boolean equals(Object o) {

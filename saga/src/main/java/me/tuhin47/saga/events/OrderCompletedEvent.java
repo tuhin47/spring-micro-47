@@ -8,6 +8,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class OrderCompletedEvent extends AbstractEvent<String>{
-    private long orderId;
+    private String orderId;
     private String orderStatus;
 }

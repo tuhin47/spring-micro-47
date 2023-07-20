@@ -1,6 +1,7 @@
 package me.tuhin47.paymentservice.events;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.repository.TransactionDetailsRepository;
 import me.tuhin47.saga.events.PaymentCancelledEvent;
@@ -12,12 +13,14 @@ import java.time.Instant;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentsEventHandler {
 
     private final TransactionDetailsRepository paymentRepository;
 
     @EventHandler
     public void on(PaymentProcessedEvent event) {
+        log.info("on() called with: event = [" + event + "]");
         TransactionDetails payment = TransactionDetails.builder()
                 .id(event.getPaymentId())
                 .orderId(event.getOrderId())
@@ -32,6 +35,7 @@ public class PaymentsEventHandler {
 
     @EventHandler
     public void on(PaymentCancelledEvent event) {
+        log.info("on() called with: event = [" + event + "]");
         TransactionDetails payment = paymentRepository.findById(event.getPaymentId()).get();
         payment.setPaymentStatus(event.getPaymentStatus());
         paymentRepository.save(payment);

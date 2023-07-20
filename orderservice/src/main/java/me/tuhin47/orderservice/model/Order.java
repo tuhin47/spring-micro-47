@@ -14,14 +14,14 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order extends UserDateAudit<Long> {
+public class Order extends UserDateAudit<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     @Column(name = "PRODUCT_ID")
-    private long productId;
+    private String productId;
 
     @Column(name = "QUANTITY")
     private long quantity;

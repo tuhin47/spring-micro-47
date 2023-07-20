@@ -20,7 +20,7 @@ public interface PaymentController {
     })
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
-    ResponseEntity<Long> doPayment(@RequestBody PaymentRequest paymentRequest);
+    ResponseEntity<String> doPayment(@RequestBody PaymentRequest paymentRequest);
 
 
     @ApiOperation(value = "Get payment details by order ID",  authorizations = @Authorization("USER") ,

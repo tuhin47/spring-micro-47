@@ -17,11 +17,11 @@ public interface ProductService {
 
     @PutMapping("/reduceQuantity/{id}")
     ResponseEntity<Void> reduceQuantity(
-            @PathVariable("id") long productId,
+            @PathVariable("id") String productId,
             @RequestParam long quantity
     );
     @GetMapping("/{id}")
-    ResponseEntity<ProductResponse> getProductById(@PathVariable("id") long productId);
+    ResponseEntity<ProductResponse> getProductById(@PathVariable("id") String productId);
 
     default ResponseEntity<Void> fallback(Exception e) {
         if (e instanceof CustomException) {

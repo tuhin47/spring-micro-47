@@ -19,7 +19,7 @@ public class RedisUser implements UserDetails, Serializable {
 
     @Id
     private String id;
-    private Long userId;
+    private String userId;
     private String name;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;

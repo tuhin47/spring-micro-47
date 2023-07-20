@@ -21,7 +21,7 @@ public interface PaymentService
     ResponseEntity<Long> doPayment (@RequestBody PaymentRequest paymentRequest);
 
     @GetMapping("/order/{orderId}")
-    ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable long orderId);
+    ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable String orderId);
 
     default ResponseEntity<Long> fallback (Exception e)
     {

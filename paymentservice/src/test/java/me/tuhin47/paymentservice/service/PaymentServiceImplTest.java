@@ -37,7 +37,7 @@ public class PaymentServiceImplTest {
         TransactionDetails transactionDetails = getMockTransactionDetails();
         when(transactionDetailsRepository.save(any(TransactionDetails.class))).thenReturn(transactionDetails);
 
-        long transactionId = paymentService.doPayment(paymentRequest);
+        String transactionId = paymentService.doPayment(paymentRequest);
         verify(transactionDetailsRepository, times(1))
                 .save(any());
 
@@ -80,7 +80,7 @@ public class PaymentServiceImplTest {
     private PaymentRequest getMockPaymentRequest() {
         return PaymentRequest.builder()
                 .amount(500)
-                .orderId(1)
+//                .orderId(1) // TODO Later
                 .paymentMode(PaymentMode.CASH)
                 .referenceNumber(null)
                 .build();
@@ -89,8 +89,8 @@ public class PaymentServiceImplTest {
 
     private TransactionDetails getMockTransactionDetails() {
         return TransactionDetails.builder()
-                .id(1L)
-                .orderId(1)
+//                .id(1L) // TODO later
+//                .orderId(1) // TODO later
                 .paymentDate(Instant.now())
                 .paymentMode(PaymentMode.CASH.name())
                 .paymentStatus("SUCCESS")

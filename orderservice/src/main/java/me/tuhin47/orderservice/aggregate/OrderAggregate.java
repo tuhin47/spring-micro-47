@@ -45,7 +45,7 @@ public class OrderAggregate {
 
     @EventSourcingHandler
     public void on(OrderCreatedEvent event) {
-        log.info("on() called with: event = [" + event + "]");
+        log.info("on() called with: OrderCreatedEvent = [" + event + "]");
 
         this.id = event.getId();
         this.orderStatus = event.getOrderStatus();

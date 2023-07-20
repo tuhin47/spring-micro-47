@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public long addProduct(ProductRequest productRequest) {
+    public String addProduct(ProductRequest productRequest) {
         log.info("ProductServiceImpl | addProduct is called");
 
         Product product

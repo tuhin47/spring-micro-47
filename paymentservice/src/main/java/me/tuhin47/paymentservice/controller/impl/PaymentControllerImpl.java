@@ -22,7 +22,7 @@ public class PaymentControllerImpl implements PaymentController {
     private final PaymentService paymentService;
 
     @Override
-    public ResponseEntity<Long> doPayment(@RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<String> doPayment(@RequestBody PaymentRequest paymentRequest) {
 
         log.info("PaymentController | doPayment is called");
 

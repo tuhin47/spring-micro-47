@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService{
     private final TransactionDetailsRepository transactionDetailsRepository;
 
     @Override
-    public long doPayment(PaymentRequest paymentRequest) {
+    public String doPayment(PaymentRequest paymentRequest) {
 
         log.info("PaymentServiceImpl | doPayment is called");
 

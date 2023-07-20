@@ -18,8 +18,8 @@ public class PaymentAggregate {
 
     @AggregateIdentifier
     private String id;
-    private long paymentId;
-    private long orderId;
+    private String paymentId;
+    private String orderId;
     private String paymentStatus;
 
     public PaymentAggregate() {

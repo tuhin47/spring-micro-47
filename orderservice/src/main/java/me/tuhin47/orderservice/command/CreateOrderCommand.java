@@ -11,9 +11,9 @@ import me.tuhin47.saga.commands.AbstractCommand;
 @SuperBuilder(toBuilder = true)
 public class CreateOrderCommand extends AbstractCommand<String> {
 
-    private long orderId;
-    private long productId;
-    private long userId;
+    private String orderId;
+    private String productId;
+    private String userId;
 //    private String addressId;
     private long quantity;
     private String orderStatus;

@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class CancelPaymentCommand extends AbstractCommand<String> {
     
-    long paymentId;
-    long orderId;
+    String paymentId;
+    String orderId;
     String paymentStatus = "CANCELLED";
 }

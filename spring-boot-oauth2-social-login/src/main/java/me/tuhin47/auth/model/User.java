@@ -9,6 +9,7 @@ import me.tuhin47.audit.DateAudit;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * The persistent class for the user database table.
@@ -25,7 +26,7 @@ public class User extends DateAudit implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private String id = UUID.randomUUID().toString();
 
 	@Column(name = "PROVIDER_USER_ID")
 	private String providerUserId;

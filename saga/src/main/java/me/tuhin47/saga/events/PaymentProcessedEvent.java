@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class PaymentProcessedEvent extends AbstractEvent<String>{
-    private long paymentId;
-    private long orderId;
+    private String paymentId;
+    private String orderId;
 }

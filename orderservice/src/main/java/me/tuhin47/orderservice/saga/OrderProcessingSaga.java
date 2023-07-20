@@ -78,7 +78,7 @@ public class OrderProcessingSaga {
 
         try {
 
-            CompleteOrderCommand completeOrderCommand
+            var completeOrderCommand
                     = CompleteOrderCommand.builder()
                     .id(event.getId())
                     .orderId(event.getOrderId())

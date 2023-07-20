@@ -29,13 +29,13 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @PostMapping
-    public ResponseEntity<Long> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest) {
 
         log.info("ProductController | addProduct is called");
 
         log.info("ProductController | addProduct | productRequest : " + productRequest.toString());
 
-        long productId = productService.addProduct(productRequest);
+        String productId = productService.addProduct(productRequest);
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
 

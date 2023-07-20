@@ -4,6 +4,7 @@ import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -12,11 +13,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product extends UserDateAudit<Long> {
+public class Product extends UserDateAudit<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     @Column(name = "PRODUCT_NAME")
     private String productName;

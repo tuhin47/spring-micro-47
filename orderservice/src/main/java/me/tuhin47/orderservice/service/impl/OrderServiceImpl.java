@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public long placeOrder(OrderRequest orderRequest) {
+    public String placeOrder(OrderRequest orderRequest) {
 
         log.info("OrderServiceImpl | placeOrder is called");
 
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("OrderServiceImpl | placeOrder | Placing Order Request orderRequest : " + orderRequest.toString());
 
         log.debug("OrderServiceImpl | placeOrder | Calling productService through FeignClient");
-        long productId = orderRequest.getProductId();
+        String productId = orderRequest.getProductId();
 
         log.debug("Fetching Product with id" + productId);
         productService.getProductById(productId);
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse getOrderDetails(long orderId) {
+    public OrderResponse getOrderDetails(String orderId) {
 
         log.info("OrderServiceImpl | getOrderDetails | Get order details for Order Id : {}", orderId);
 

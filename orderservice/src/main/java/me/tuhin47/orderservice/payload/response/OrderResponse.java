@@ -13,7 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 public class OrderResponse {
-    private long orderId;
+    private String orderId;
     private Instant orderDate;
     private String orderStatus;
     private long amount;

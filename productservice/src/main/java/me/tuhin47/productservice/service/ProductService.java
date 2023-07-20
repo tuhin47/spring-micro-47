@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    long addProduct(ProductRequest productRequest);
+    String addProduct(ProductRequest productRequest);
 
     ProductResponse getProductById(long productId);
 

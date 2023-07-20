@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class OrderCancelledEvent extends AbstractEvent<String>{
-    private long orderId;
+    private String orderId;
     private String orderStatus;
 }

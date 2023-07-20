@@ -22,7 +22,7 @@ import java.util.List;
 public interface ProductController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value = "Add a new product")
-    ResponseEntity<Long> addProduct(@RequestBody ProductRequest productRequest);
+    ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest);
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value = "Get a product by ID")
