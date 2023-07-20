@@ -1,11 +1,13 @@
 package me.tuhin47.saga.events;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class OrderCompletedEvent {
+@SuperBuilder(toBuilder = true)
+public class OrderCompletedEvent extends AbstractEvent<String>{
     private long orderId;
     private String orderStatus;
 }

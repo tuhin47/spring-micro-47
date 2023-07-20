@@ -1,14 +1,14 @@
 package me.tuhin47.saga.commands;
 
-import lombok.Builder;
 import lombok.Data;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class CompleteOrderCommand {
+@SuperBuilder(toBuilder = true)
+public class CompleteOrderCommand extends AbstractCommand<String> {
 
-    @TargetAggregateIdentifier
     private long orderId;
     private String orderStatus;
 }

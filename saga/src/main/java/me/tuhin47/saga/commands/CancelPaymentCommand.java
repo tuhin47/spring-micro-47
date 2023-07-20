@@ -1,12 +1,14 @@
 package me.tuhin47.saga.commands;
 
-import lombok.Value;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-@Value
-public class CancelPaymentCommand {
-
-    @TargetAggregateIdentifier
+@EqualsAndHashCode(callSuper = true)
+@Data
+@SuperBuilder(toBuilder = true)
+public class CancelPaymentCommand extends AbstractCommand<String> {
+    
     long paymentId;
     long orderId;
     String paymentStatus = "CANCELLED";

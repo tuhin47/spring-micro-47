@@ -1,12 +1,15 @@
 package me.tuhin47.saga.commands;
 
-import lombok.Value;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-@Value
-public class CancelOrderCommand {
 
-    @TargetAggregateIdentifier
+@EqualsAndHashCode(callSuper = true)
+@Data
+@SuperBuilder(toBuilder = true)
+public class CancelOrderCommand extends AbstractCommand<String> {
+
     long orderId;
     String orderStatus = "CANCELLED";
 }

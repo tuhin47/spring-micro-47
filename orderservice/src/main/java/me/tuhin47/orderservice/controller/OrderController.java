@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/order")
 @Log4j2
@@ -63,6 +65,7 @@ public class OrderController {
         long orderId = order.getId();
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
+                .id(UUID.randomUUID().toString())
                 .orderId(orderId)
 //                                                                 .addressId(orderRestModel.getAddressId())
                 .productId(orderRestModel.getProductId())

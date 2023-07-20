@@ -19,7 +19,7 @@ public class PaymentsEventHandler {
     @EventHandler
     public void on(PaymentProcessedEvent event) {
         TransactionDetails payment = TransactionDetails.builder()
-//                .id(event.getPaymentId())
+                .id(event.getPaymentId())
                 .orderId(event.getOrderId())
                 .paymentMode("CARD")
                 .amount(1000)

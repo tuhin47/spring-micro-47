@@ -1,17 +1,19 @@
 package me.tuhin47.orderservice.command;
 
-import lombok.Builder;
 import lombok.Data;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import me.tuhin47.saga.commands.AbstractCommand;
 
+
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class CreateOrderCommand {
+@SuperBuilder(toBuilder = true)
+public class CreateOrderCommand extends AbstractCommand<String> {
 
-    @TargetAggregateIdentifier
-    private Long orderId;
-    private Long productId;
-    private Long userId;
+    private long orderId;
+    private long productId;
+    private long userId;
 //    private String addressId;
     private long quantity;
     private String orderStatus;

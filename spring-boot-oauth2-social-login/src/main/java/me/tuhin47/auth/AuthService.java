@@ -1,9 +1,11 @@
 package me.tuhin47.auth;
 
+import me.tuhin47.config.AxonConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +17,7 @@ import springfox.documentation.service.ApiInfo;
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.auth", "me.tuhin47.config", "me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
+@Import({ AxonConfig.class })
 public class AuthService extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

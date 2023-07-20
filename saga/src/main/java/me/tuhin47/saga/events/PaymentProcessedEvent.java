@@ -1,13 +1,15 @@
 package me.tuhin47.saga.events;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class PaymentProcessedEvent {
+public class PaymentProcessedEvent extends AbstractEvent<String>{
     private long paymentId;
     private long orderId;
 }

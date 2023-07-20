@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 public class PaymentAggregate {
 
     @AggregateIdentifier
+    private String id;
     private long paymentId;
     private long orderId;
     private String paymentStatus;
@@ -30,21 +31,27 @@ public class PaymentAggregate {
         // Publish the Payment Processed event
         log.info("Executing ValidatePaymentCommand for Order Id: {} and Payment Id: {}", validatePaymentCommand.getOrderId(), validatePaymentCommand.getPaymentId());
 
-        PaymentProcessedEvent paymentProcessedEvent = new PaymentProcessedEvent(validatePaymentCommand.getPaymentId(), validatePaymentCommand.getOrderId());
+//        PaymentProcessedEvent paymentProcessedEvent = new PaymentProcessedEvent(validatePaymentCommand.getPaymentId(), validatePaymentCommand.getOrderId());
+
+        PaymentProcessedEvent paymentProcessedEvent = new PaymentProcessedEvent();
+
+        BeanUtils.copyProperties(validatePaymentCommand, paymentProcessedEvent);
 
         AggregateLifecycle.apply(paymentProcessedEvent);
 
-        log.info("PaymentProcessedEvent Applied");
+        log.info("PaymentProcessedEvent Applied. validatePaymentCommand {}", validatePaymentCommand);
     }
 
     @EventSourcingHandler
     public void on(PaymentProcessedEvent event) {
+        this.id = event.getId();
         this.paymentId = event.getPaymentId();
         this.orderId = event.getOrderId();
     }
 
     @CommandHandler
     public void handle(CancelPaymentCommand cancelPaymentCommand) {
+        log.info("handle() called with: cancelPaymentCommand = [" + cancelPaymentCommand + "]");
         PaymentCancelledEvent paymentCancelledEvent = new PaymentCancelledEvent();
 
         BeanUtils.copyProperties(cancelPaymentCommand, paymentCancelledEvent);
@@ -54,6 +61,7 @@ public class PaymentAggregate {
 
     @EventSourcingHandler
     public void on(PaymentCancelledEvent event) {
+        log.info("on() called with: event = [" + event + "]");
         this.paymentStatus = event.getPaymentStatus();
     }
 }
