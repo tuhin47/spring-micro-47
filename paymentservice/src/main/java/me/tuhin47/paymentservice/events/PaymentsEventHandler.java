@@ -21,6 +21,7 @@ public class PaymentsEventHandler {
     @EventHandler
     public void on(PaymentProcessedEvent event) {
         log.info("on() called with: event = [" + event + "]");
+        //TODO update event and values
         TransactionDetails payment = TransactionDetails.builder()
                 .id(event.getPaymentId())
                 .orderId(event.getOrderId())

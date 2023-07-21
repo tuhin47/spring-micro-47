@@ -6,7 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -19,7 +18,7 @@ import javax.persistence.Id;
 public class Product extends UserDateAudit<String> {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
+    @Column(nullable = false, updatable = false)
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 

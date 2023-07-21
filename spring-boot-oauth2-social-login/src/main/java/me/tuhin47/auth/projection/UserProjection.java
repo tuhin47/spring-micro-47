@@ -11,7 +11,8 @@ public class UserProjection {
 
     @QueryHandler
     public UserResponse getUserPaymentDetails(GetUserPaymentDetailsQuery query) {
-        //Ideally Get the details from the DB
+        // TODO Ideally Get the details from the DB
+
         CardDetails cardDetails
                 = CardDetails.builder()
                 .name("Towhidul Islam")

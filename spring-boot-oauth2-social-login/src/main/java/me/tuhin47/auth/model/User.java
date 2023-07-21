@@ -24,7 +24,7 @@ public class User extends DateAudit implements Serializable {
 	private static final long serialVersionUID = 65981149772133526L;
 
 	@Id
-	@GeneratedValue(generator="system-uuid")
+	@Column(nullable = false, updatable = false)
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String id;
 
