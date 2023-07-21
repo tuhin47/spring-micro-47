@@ -21,10 +21,9 @@ import org.springframework.beans.BeanUtils;
 public class OrderAggregate {
 
     @AggregateIdentifier
-    private String id;
-    private long orderId;
-    private long productId;
-    private long userId;
+    private String orderId;
+    private String productId;
+    private String userId;
 //    private String addressId;
     private long quantity;
     private String orderStatus;
@@ -47,7 +46,6 @@ public class OrderAggregate {
     public void on(OrderCreatedEvent event) {
         log.info("on() called with: OrderCreatedEvent = [" + event + "]");
 
-        this.id = event.getId();
         this.orderStatus = event.getOrderStatus();
         this.userId = event.getUserId();
         this.orderId = event.getOrderId();
@@ -62,7 +60,6 @@ public class OrderAggregate {
         // Publish Order Completed Event
         log.info("handle() called with: completeOrderCommand = [" + completeOrderCommand + "]");
         OrderCompletedEvent orderCompletedEvent = OrderCompletedEvent.builder()
-                .id(completeOrderCommand.getId())
                 .orderStatus(completeOrderCommand.getOrderStatus())
                 .orderId(completeOrderCommand.getOrderId())
                 .build();

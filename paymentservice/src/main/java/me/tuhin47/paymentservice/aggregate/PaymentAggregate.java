@@ -17,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 public class PaymentAggregate {
 
     @AggregateIdentifier
-    private String id;
     private String paymentId;
     private String orderId;
     private String paymentStatus;
@@ -44,7 +43,6 @@ public class PaymentAggregate {
 
     @EventSourcingHandler
     public void on(PaymentProcessedEvent event) {
-        this.id = event.getId();
         this.paymentId = event.getPaymentId();
         this.orderId = event.getOrderId();
     }

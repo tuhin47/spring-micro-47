@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.tuhin47.audit.DateAudit;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * The persistent class for the user database table.
@@ -24,9 +24,9 @@ public class User extends DateAudit implements Serializable {
 	private static final long serialVersionUID = 65981149772133526L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private String id = UUID.randomUUID().toString();
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	private String id;
 
 	@Column(name = "PROVIDER_USER_ID")
 	private String providerUserId;

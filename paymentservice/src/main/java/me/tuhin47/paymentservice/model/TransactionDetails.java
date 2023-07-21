@@ -2,10 +2,10 @@ package me.tuhin47.paymentservice.model;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "TRANSACTION_DETAILS")
@@ -18,8 +18,9 @@ import java.util.UUID;
 public class TransactionDetails extends UserDateAudit<String> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @Column(name = "ORDER_ID")
     private String orderId;

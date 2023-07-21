@@ -39,14 +39,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsI
 Content-Type: application/json
 
 {
-  "name": "Pro 2",
+  "name": "Pro 1",
   "price": 20,
   "quantity": 20
 }
 
 ###
 
-# curl -X POST "http://localhost:9090/order" -H "accept: */*" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg" -H "Content-Type: application/json" -d "{\"paymentMode\":\"CARD\",\"productId\":1,\"quantity\":1,\"totalAmount\":10}"
+# curl -X POST "http://localhost:8082/order" -H "accept: */*" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg" -H "Content-Type: application/json" -d "{\"paymentMode\":\"CARD\",\"productId\":1,\"quantity\":1,\"totalAmount\":10}"
 POST http://localhost:8082/order
 accept: */*
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg
@@ -54,10 +54,19 @@ Content-Type: application/json
 
 {
   "paymentMode": "DEBIT_CARD",
-  "productId": 1,
+  "productId": 2,
   "quantity": 1,
   "totalAmount": 10
 }
 
 ###
+
+POST http://localhost:99993/
+Content-Type: application/json
+
+{
+  "name": "pro1",
+  "price": 111,
+  "quantity": 10
+}
 

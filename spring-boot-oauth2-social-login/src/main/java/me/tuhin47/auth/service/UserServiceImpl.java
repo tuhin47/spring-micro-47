@@ -1,16 +1,19 @@
 package me.tuhin47.auth.service;
 
-import java.util.*;
-
+import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
-import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
-import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
-import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
+import me.tuhin47.auth.dto.LocalUser;
 import me.tuhin47.auth.dto.SignUpRequest;
+import me.tuhin47.auth.dto.SocialProvider;
+import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
+import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.repo.RoleRepository;
+import me.tuhin47.auth.repo.UserRepository;
+import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
+import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
 import me.tuhin47.auth.util.GeneralUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -18,13 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import me.tuhin47.auth.dto.LocalUser;
-import me.tuhin47.auth.dto.SocialProvider;
-import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
-import me.tuhin47.auth.repo.RoleRepository;
-import me.tuhin47.auth.repo.UserRepository;
-
-import dev.samstevens.totp.secret.SecretGenerator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Chinna
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> findUserById(Long id) {
+	public Optional<User> findUserById(String id) {
 		return userRepository.findById(id);
 	}
 

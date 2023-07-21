@@ -13,10 +13,10 @@ import me.tuhin47.orderservice.payload.response.PaymentResponse;
 import me.tuhin47.orderservice.payload.response.ProductResponse;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.OrderService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -48,18 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
         productService.reduceQuantity(productId, orderRequest.getQuantity());
 
-        log.info("OrderServiceImpl | placeOrder | Creating Order with Status CREATED");
-        Order order = Order.builder()
-                .amount(orderRequest.getTotalAmount())
-                .orderStatus("CREATED")
-                .productId(productId)
-                .orderDate(Instant.now())
-                .quantity(orderRequest.getQuantity())
-                .build();
-
-        order = orderRepository.save(order);
-
         log.info("OrderServiceImpl | placeOrder | Calling Payment Service to complete the payment");
+
+        Order order = placeOrderRequest(orderRequest);
 
         PaymentRequest paymentRequest
                 = PaymentRequest.builder()
@@ -137,9 +128,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order placeOrderRequest(OrderRequest event) {
-        Order order = new Order();
-        BeanUtils.copyProperties(event,order);
+    public Order placeOrderRequest(OrderRequest orderRequest) {
+        log.info("OrderServiceImpl | placeOrder | Creating Order with Status CREATED");
+        Order order = Order.builder()
+                .id(UUID.randomUUID().toString())
+                .amount(orderRequest.getTotalAmount())
+                .orderStatus("CREATED")
+                .productId(orderRequest.getProductId())
+                .orderDate(Instant.now())
+                .quantity(orderRequest.getQuantity())
+                .build();
         orderRepository.save(order);
         return order;
     }

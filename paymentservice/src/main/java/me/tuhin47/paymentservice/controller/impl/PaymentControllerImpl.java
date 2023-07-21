@@ -35,7 +35,7 @@ public class PaymentControllerImpl implements PaymentController {
     }
 
     @Override
-    public ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable long orderId) {
+    public ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable String orderId) {
 
         log.info("PaymentController | doPayment is called");
 

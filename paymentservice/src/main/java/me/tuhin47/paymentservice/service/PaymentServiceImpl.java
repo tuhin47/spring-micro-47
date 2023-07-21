@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public PaymentResponse getPaymentDetailsByOrderId(long orderId) {
+    public PaymentResponse getPaymentDetailsByOrderId(String orderId) {
 
         log.info("PaymentServiceImpl | getPaymentDetailsByOrderId is called");
 

@@ -2,9 +2,12 @@ package me.tuhin47.productservice.entity;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -16,8 +19,9 @@ import java.util.UUID;
 public class Product extends UserDateAudit<String> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @Column(name = "PRODUCT_NAME")
     private String productName;

@@ -36,9 +36,9 @@ public class OrderProcessingSaga {
     }
 
     @StartSaga
-    @SagaEventHandler(associationProperty = "id")
+    @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
-        log.info("OrderCreatedEvent in Saga for Order Id : {}", event.getOrderId());
+        log.info("OrderCreatedEvent in Saga for OrderCreatedEvent : {}", event);
 
         //GetUserPaymentDetailsQuery getUserPaymentDetailsQuery = new GetUserPaymentDetailsQuery(event.getUserId());
 
@@ -49,13 +49,13 @@ public class OrderProcessingSaga {
         } catch (Exception e) {
             log.error(e.getMessage());
             //Start the Compensating transaction
-            cancelOrderCommand(event.getId(), event.getOrderId());
+            cancelOrderCommand( event.getOrderId());
         }
 
         ValidatePaymentCommand validatePaymentCommand = ValidatePaymentCommand
                 .builder()
 //                .cardDetails(user.getCardDetails())
-                .id(UUID.randomUUID().toString())
+                .paymentId(UUID.randomUUID().toString())
                 .orderId(event.getOrderId())
                 .build();
 
@@ -64,15 +64,12 @@ public class OrderProcessingSaga {
         commandGateway.sendAndWait(validatePaymentCommand);
     }
 
-    public void cancelOrderCommand(String eventId, long orderId) {
-        CancelOrderCommand cancelOrderCommand = CancelOrderCommand.builder()
-                .id(eventId)
-                .orderId(orderId)
-                .build();
+    public void cancelOrderCommand(String orderId) {
+        var cancelOrderCommand = new CancelOrderCommand(orderId);
         commandGateway.send(cancelOrderCommand);
     }
 
-    @SagaEventHandler(associationProperty = "id")
+    @SagaEventHandler(associationProperty = "orderId")
     public void handle(PaymentProcessedEvent event) {
         log.info("PaymentProcessedEvent in Saga for Order Id : {}", event.getOrderId());
 
@@ -80,7 +77,6 @@ public class OrderProcessingSaga {
 
             var completeOrderCommand
                     = CompleteOrderCommand.builder()
-                    .id(event.getId())
                     .orderId(event.getOrderId())
                     .orderStatus("APPROVED")
                     .build();
@@ -107,11 +103,11 @@ public class OrderProcessingSaga {
 
     public void cancelPaymentCommand(PaymentProcessedEvent event) {
         log.info("cancelPaymentCommand() called with: event = [" + event + "]");
-        CancelPaymentCommand cancelPaymentCommand = CancelPaymentCommand.builder().id(event.getId()).paymentId(event.getPaymentId()).orderId(event.getOrderId()).build();
+        var cancelPaymentCommand = new CancelPaymentCommand(event.getPaymentId(), event.getOrderId());
         commandGateway.send(cancelPaymentCommand);
     }
 
-    /*@SagaEventHandler(associationProperty = "id)
+    /*@SagaEventHandler(associationProperty = "orderId)
     public void handle(OrderShippedEvent event) {
 
         log.info("OrderShippedEvent in Saga for Order Id : {}",
@@ -126,21 +122,21 @@ public class OrderProcessingSaga {
         commandGateway.send(completeOrderCommand);
     }*/
 
-    @SagaEventHandler(associationProperty = "id")
+    @SagaEventHandler(associationProperty = "orderId")
     @EndSaga
     public void handle(OrderCompletedEvent event) {
         log.info("OrderCompletedEvent in Saga for Order Id : {}", event.getOrderId());
     }
 
-    @SagaEventHandler(associationProperty = "id")
+    @SagaEventHandler(associationProperty = "orderId")
     @EndSaga
     public void handle(OrderCancelledEvent event) {
         log.info("OrderCancelledEvent in Saga for Order Id : {}", event.getOrderId());
     }
 
-    @SagaEventHandler(associationProperty = "id")
+    @SagaEventHandler(associationProperty = "orderId")
     public void handle(PaymentCancelledEvent event) {
         log.info("PaymentCancelledEvent in Saga for Order Id : {}", event.getOrderId());
-        cancelOrderCommand(event.getId(), event.getOrderId());
+        cancelOrderCommand(event.getOrderId());
     }
 }

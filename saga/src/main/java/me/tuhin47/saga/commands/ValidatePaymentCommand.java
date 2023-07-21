@@ -1,17 +1,16 @@
 package me.tuhin47.saga.commands;
 
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-
-@EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder(toBuilder = true)
-public class ValidatePaymentCommand extends AbstractCommand<String>{
+@Builder
+public class ValidatePaymentCommand {
 
-    private long paymentId;
-    private long orderId;
+    @TargetAggregateIdentifier
+    private String paymentId;
+    private String orderId;
 //    private CardDetails cardDetails;
 }

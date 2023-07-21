@@ -2,8 +2,12 @@ package me.tuhin47.orderservice.model;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
@@ -17,7 +21,8 @@ import java.time.Instant;
 public class Order extends UserDateAudit<String> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
     @Column(name = "PRODUCT_ID")

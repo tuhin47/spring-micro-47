@@ -31,5 +31,5 @@ public interface PaymentController {
     })
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/order/{orderId}")
-    ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable long orderId);
+    ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable String orderId);
 }

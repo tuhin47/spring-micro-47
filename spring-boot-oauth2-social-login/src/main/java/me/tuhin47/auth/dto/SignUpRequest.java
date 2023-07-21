@@ -1,12 +1,11 @@
 package me.tuhin47.auth.dto;
 
+import lombok.Data;
+import me.tuhin47.auth.validator.PasswordMatches;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
-import me.tuhin47.auth.validator.PasswordMatches;
-
-import lombok.Data;
 
 /**
  * @author Chinna
@@ -16,7 +15,7 @@ import lombok.Data;
 @PasswordMatches
 public class SignUpRequest {
 
-	private Long userID;
+	private String userID;
 
 	private String providerUserId;
 

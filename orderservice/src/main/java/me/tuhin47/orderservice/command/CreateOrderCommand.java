@@ -1,15 +1,13 @@
 package me.tuhin47.orderservice.command;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
-import me.tuhin47.saga.commands.AbstractCommand;
 
 
-@EqualsAndHashCode(callSuper = true)
+
 @Data
-@SuperBuilder(toBuilder = true)
-public class CreateOrderCommand extends AbstractCommand<String> {
+@Builder
+public class CreateOrderCommand {
 
     private String orderId;
     private String productId;

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface TransactionDetailsRepository extends JpaRepository<TransactionDetails, Long> {
+public interface TransactionDetailsRepository extends JpaRepository<TransactionDetails, String> {
 
-    Optional<TransactionDetails> findByOrderId(long orderId);
+    Optional<TransactionDetails> findByOrderId(String orderId);
 }
