@@ -49,17 +49,16 @@ public class OrderProcessingSaga {
         } catch (Exception e) {
             log.error(e.getMessage());
             //Start the Compensating transaction
-            cancelOrderCommand( event.getOrderId());
+            cancelOrderCommand(event.getOrderId());
         }
 
-        ValidatePaymentCommand validatePaymentCommand = ValidatePaymentCommand
-                .builder()
+        var validatePaymentCommand = ValidatePaymentCommand.builder()
 //                .cardDetails(user.getCardDetails())
-                .paymentId(UUID.randomUUID().toString())
-                .orderId(event.getOrderId())
-                .build();
+                                                           .paymentId(UUID.randomUUID().toString())
+                                                           .orderId(event.getOrderId())
+                                                           .build();
 
-        log.info( "handle() called with: validatePaymentCommand = [" + validatePaymentCommand + "]");
+        log.info("handle() called with: validatePaymentCommand = [" + validatePaymentCommand + "]");
 
         commandGateway.sendAndWait(validatePaymentCommand);
     }
@@ -75,11 +74,10 @@ public class OrderProcessingSaga {
 
         try {
 
-            var completeOrderCommand
-                    = CompleteOrderCommand.builder()
-                    .orderId(event.getOrderId())
-                    .orderStatus("APPROVED")
-                    .build();
+            var completeOrderCommand = CompleteOrderCommand.builder()
+                                                           .orderId(event.getOrderId())
+                                                           .orderStatus("APPROVED")
+                                                           .build();
 
             log.info("handle() called with: CompleteOrderCommand = [" + completeOrderCommand + "]");
             commandGateway.send(completeOrderCommand);

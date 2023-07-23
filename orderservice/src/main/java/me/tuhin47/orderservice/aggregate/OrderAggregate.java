@@ -24,7 +24,7 @@ public class OrderAggregate {
     private String orderId;
     private String productId;
     private String userId;
-//    private String addressId;
+    //    private String addressId;
     private long quantity;
     private String orderStatus;
 
@@ -60,9 +60,9 @@ public class OrderAggregate {
         // Publish Order Completed Event
         log.info("handle() called with: completeOrderCommand = [" + completeOrderCommand + "]");
         OrderCompletedEvent orderCompletedEvent = OrderCompletedEvent.builder()
-                .orderStatus(completeOrderCommand.getOrderStatus())
-                .orderId(completeOrderCommand.getOrderId())
-                .build();
+                                                                     .orderStatus(completeOrderCommand.getOrderStatus())
+                                                                     .orderId(completeOrderCommand.getOrderId())
+                                                                     .build();
 
         AggregateLifecycle.apply(orderCompletedEvent);
     }

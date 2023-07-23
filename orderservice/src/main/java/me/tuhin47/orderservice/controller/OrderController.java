@@ -46,13 +46,11 @@ public class OrderController {
 
         log.info("OrderController | getOrderDetails is called");
 
-        OrderResponse orderResponse
-                = orderService.getOrderDetails(orderId);
+        OrderResponse orderResponse = orderService.getOrderDetails(orderId);
 
         log.info("OrderController | getOrderDetails | orderResponse : " + orderResponse.toString());
 
-        return new ResponseEntity<>(orderResponse,
-                HttpStatus.OK);
+        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -66,13 +64,12 @@ public class OrderController {
         var orderId = order.getId();
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
-                .orderId(orderId)
-//                                                                 .addressId(orderRestModel.getAddressId())
-                .productId(orderRestModel.getProductId())
-                .quantity(orderRestModel.getQuantity())
-                .orderStatus("CREATED")
-                .userId(order.getUpdatedBy())
-                .build();
+                                                                  .orderId(orderId)
+                                                                  .productId(orderRestModel.getProductId())
+                                                                  .quantity(orderRestModel.getQuantity())
+                                                                  .orderStatus("CREATED")
+                                                                  .userId(order.getUpdatedBy())
+                                                                  .build();
 
         commandGateway.sendAndWait(createOrderCommand);
 
