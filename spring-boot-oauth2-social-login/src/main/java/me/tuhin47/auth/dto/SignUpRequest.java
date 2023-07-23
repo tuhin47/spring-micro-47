@@ -29,10 +29,10 @@ public class SignUpRequest {
 	private SocialProvider socialProvider = SocialProvider.LOCAL;
 
 	@Size(min = 6, message = "{Size.userDto.password}")
-	private String password;
+	private CharSequence password;
 
 	@NotEmpty
-	private String matchingPassword;
+	private CharSequence matchingPassword;
 
 	private boolean using2FA;
 

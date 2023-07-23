@@ -1,16 +1,15 @@
 package me.tuhin47.auth.service;
 
-import me.tuhin47.config.RedisUser;
-import me.tuhin47.config.RedisUserService;
+import me.tuhin47.auth.dto.LocalUser;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.util.GeneralUtils;
+import me.tuhin47.config.RedisUser;
+import me.tuhin47.config.RedisUserService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import me.tuhin47.auth.dto.LocalUser;
 
 /**
  *
@@ -44,7 +43,7 @@ public class LocalUserDetailService implements UserDetailsService {
 				.name(user.getDisplayName())
 				.id(user.getEmail())
 				.authorities(localUser.getAuthorities())
-				.password(user.getPassword())
+				.password(new String(user.getPassword()))
 				.build());
 
 		return localUser;
@@ -55,7 +54,7 @@ public class LocalUserDetailService implements UserDetailsService {
 	 * @return
 	 */
 	private LocalUser createLocalUser(User user) {
-		return new LocalUser(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true,
+		return new LocalUser(user.getEmail(), new String(user.getPassword()), user.isEnabled(), true, true, true,
 				GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()), user.getEmail());
 	}
 }

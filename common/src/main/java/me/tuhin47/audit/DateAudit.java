@@ -22,24 +22,24 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @JsonIgnoreProperties(
-		value = { "createdAt", "updatedAt" },
-		allowGetters = true
+    value = {"createdAt", "updatedAt"},
+    allowGetters = true
 )
 @EntityListeners(AuditingEntityListener.class)
 public abstract class DateAudit extends Entity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@CreatedDate
-	@Column(name="created_at",nullable = false, updatable = false)
-	private Instant createdAt;
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
-	@LastModifiedDate
-	@Column(name = "updated_at",nullable = false)
-	private Instant updatedAt;
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(createdAt, updatedAt, getId());
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(createdAt, updatedAt, getId());
+    }
 }

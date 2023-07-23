@@ -1,10 +1,9 @@
 // Angular modules
-import { NgModule }          from '@angular/core';
-import { Routes }            from '@angular/router';
-import { RouterModule }      from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
 // Components
-import { NotFoundComponent } from './static/not-found/not-found.component';
+import {NotFoundComponent} from './static/not-found/not-found.component';
 
 const routes : Routes = [
   {
@@ -18,6 +17,10 @@ const routes : Routes = [
   {
     path         : 'home',
     loadChildren : () => import('./pages/home/home.module').then(m => m.HomeModule),
+  },
+  {
+    path         : 'product',
+    loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
   },
   { path : '',   redirectTo : '/home', pathMatch : 'full' },
   { path : '**', component : NotFoundComponent }

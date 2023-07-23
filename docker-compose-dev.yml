@@ -90,6 +90,8 @@ services:
       - configserver
       - zipkin
       - redis
+      - database
+      - axonserver
       - serviceregistry
     working_dir: /app
     command: sh /script/run.sh
@@ -405,6 +407,7 @@ services:
       - elasticsearch
     networks:
       - backend
+
   axonserver:
     image: axoniq/axonserver
     hostname: axonserve

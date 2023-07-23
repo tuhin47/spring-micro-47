@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {ApiService} from "@services/api.service";
-import {Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { ApiService } from '@services/api.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,5 +12,9 @@ export class ProductService {
 
   getExcelData(): Observable<any> {
     return this.apiService.postExport('product/excel?all=true');
+  }
+
+  getAllData(param: any[]): Observable<any> {
+    return this.apiService.post('product/all', param);
   }
 }

@@ -5,17 +5,21 @@ export AUTHORIZATION="Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1
 
 curl ${GATEWAY}/auth/user/me -H "$AUTHORIZATION" | jq
 ```
+#### login
+```shell
+curl -X POST "http://localhost:7777/auth/signin" -H "accept: */*" -H "Content-Type: application/json" -d "{\"email\":\"admin@tuhin47.com\",\"password\":\"admin@\"}"
+```
 
 
 ## PRODUCT_SERVICE
 ### _/product_
 ```sh
-curl -X POST ${GATEWAY}/product -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "{\"name\":\"Pro 1\",\"price\":10,\"quantity\":10}"
+curl -X POST ${GATEWAY}/product -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "{\"name\":\"Pro 5\",\"price\":10,\"quantity\":10}"
 ```
 
 ### _/product/all_
 ```shell
-curl -X GET ${GATEWAY}/product/all -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "[]" | jq > /tmp/product_all.json
+curl -X GET ${GATEWAY}/product/all -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "[]" | jq > /tmp/product_all.json && code /tmp/product_all.json
 ```
 ### _/product/excel
 ```shell

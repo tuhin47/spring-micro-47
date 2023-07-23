@@ -1,7 +1,9 @@
 package me.tuhin47.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +23,8 @@ public class RedisUser implements UserDetails, Serializable {
     private String id;
     private String userId;
     private String name;
+    @ToString.Exclude
+    @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     @Override

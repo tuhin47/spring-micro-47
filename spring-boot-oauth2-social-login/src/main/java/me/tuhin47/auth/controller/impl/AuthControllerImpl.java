@@ -48,7 +48,7 @@ public class AuthControllerImpl implements AuthController {
     @Override
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), new String(loginRequest.getPassword())));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         LocalUser localUser = (LocalUser) authentication.getPrincipal();
         return getJwtAuthenticationResponseResponseEntity(localUser);
@@ -63,37 +63,41 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-		try {
-			User user = userService.registerNewUser(signUpRequest);
-			if (signUpRequest.isUsing2FA()) {
-				QrData data = qrDataFactory.newBuilder().label(user.getEmail()).secret(user.getSecret()).issuer(appProperties.getConfig().getQrIssuer()).build();
-				// Generate the QR code image data as a base64 string which can
-				// be used in an <img> tag:
-				String qrCodeImage = getDataUriForImage(qrGenerator.generate(data), qrGenerator.getImageMimeType());
-				return ResponseEntity.ok().body(new SignUpResponse(true, qrCodeImage));
-			}
-		} catch (UserAlreadyExistAuthenticationException e) {
-			log.error("Exception Occurred", e);
-			return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
-		} catch (QrGenerationException e) {
-			log.error("QR Generation Exception Occurred", e);
-			return new ResponseEntity<>(new ApiResponse(false, "Unable to generate QR code!"), HttpStatus.BAD_REQUEST);
-		}
-		return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
-	}
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        try {
+            User user = userService.registerNewUser(signUpRequest);
+            if (signUpRequest.isUsing2FA()) {
+                QrData data = qrDataFactory.newBuilder()
+                                           .label(user.getEmail())
+                                           .secret(user.getSecret())
+                                           .issuer(appProperties.getConfig().getQrIssuer())
+                                           .build();
+                // Generate the QR code image data as a base64 string which can
+                // be used in an <img> tag:
+                String qrCodeImage = getDataUriForImage(qrGenerator.generate(data), qrGenerator.getImageMimeType());
+                return ResponseEntity.ok().body(new SignUpResponse(true, qrCodeImage));
+            }
+        } catch (UserAlreadyExistAuthenticationException e) {
+            log.error("Exception Occurred", e);
+            return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
+        } catch (QrGenerationException e) {
+            log.error("QR Generation Exception Occurred", e);
+            return new ResponseEntity<>(new ApiResponse(false, "Unable to generate QR code!"), HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
+    }
 
-	@Override
+    @Override
     @PostMapping("/verify")
-	public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
+    public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
 
-	    User userByEmail = userService.findUserByEmail(user.getEmail());
+        User userByEmail = userService.findUserByEmail(user.getEmail());
         if (!verifier.isValidCode(userByEmail.getSecret(), code)) {
-			return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
-		}
-		String jwt = tokenProvider.createToken(true, user.getEmail());
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user, userByEmail)));
-	}
+            return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
+        }
+        String jwt = tokenProvider.createToken(true, user.getEmail());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user, userByEmail)));
+    }
 
     @Override
     @GetMapping("/user/me")
@@ -103,15 +107,13 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllUserSummaries(
-            @CurrentUser LocalUser localUser) {
+    public ResponseEntity<?> findAllUserSummaries(@CurrentUser LocalUser localUser) {
         log.info("retrieving all users summaries");
 
-        return ResponseEntity.ok(userService
-                .findAll()
-                .stream()
-                .filter(user -> !user.getEmail().equals(localUser.getUsername()))
-                .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptyList())));
+        return ResponseEntity.ok(userService.findAll()
+                                            .stream()
+                                            .filter(user -> !user.getEmail().equals(localUser.getUsername()))
+                                            .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptyList())));
     }
 
     @Override

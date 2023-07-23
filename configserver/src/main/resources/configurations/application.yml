@@ -39,7 +39,7 @@ axon:
 app:
   version: @project.version@
   config:
-    qrIssuer : tuhin47
+    qrIssuer: tuhin47
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpirationMsec: 864000000
@@ -57,4 +57,7 @@ logging:
       springframework: INFO
       hibernate:
         SQL: DEBUG
-        type: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

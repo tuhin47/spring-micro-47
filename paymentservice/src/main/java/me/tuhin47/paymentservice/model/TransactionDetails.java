@@ -18,6 +18,7 @@ import java.time.Instant;
 public class TransactionDetails extends UserDateAudit<String> {
 
     @Id
+    @Column(nullable = false, updatable = false)
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;

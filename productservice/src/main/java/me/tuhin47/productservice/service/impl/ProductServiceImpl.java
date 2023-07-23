@@ -106,18 +106,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResponse> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
-        var productSpecification = new GenericSpecification<Product>();
-        if (searchCriteria != null) {
-            searchCriteria.stream().map(searchCriterion -> new SearchCriteria(searchCriterion.getKey(), searchCriterion.getValue(), searchCriterion.getOperation()))
-                    .forEach(productSpecification::add);
-        }
+        var productSpecification = new GenericSpecification<Product>(searchCriteria);
         return productRepository.findAll(productSpecification, RecordNavigationManager.getPageable(request)).map((ProductServiceImpl::getProductResponse));
     }
 
     public static ProductResponse getProductResponse(Product product) {
-        return ProductResponse.builder().productId(product.getId())
-                .productName(product.getProductName()).price(product.getPrice())
-                .quantity(product.getQuantity()).build();
+        return ProductResponse.builder()
+                              .productId(product.getId())
+                              .productName(product.getProductName())
+                              .price(product.getPrice())
+                              .quantity(product.getQuantity())
+                              .build();
     }
 
 }

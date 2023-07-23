@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import me.tuhin47.audit.DateAudit;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 
 /**
  * The persistent class for the user database table.
- * 
+ *
  */
 @Entity
 @NoArgsConstructor
@@ -24,8 +25,9 @@ public class User extends DateAudit implements Serializable {
 	private static final long serialVersionUID = 65981149772133526L;
 
 	@Id
-	@Column(nullable = false, updatable = false)
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@Column(nullable = false, updatable = false, unique = true)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "PROVIDER_USER_ID")
@@ -40,8 +42,10 @@ public class User extends DateAudit implements Serializable {
 	@Column(name = "DISPLAY_NAME")
 	private String displayName;
 
-	@Column(nullable = false, length = 200)
-	private String password;
+    @ToString.Exclude
+    @JsonIgnore
+    @Column(nullable = false, length = 200)
+	private byte[] password;
 
 	private String provider;
 

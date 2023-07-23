@@ -1,14 +1,17 @@
 package me.tuhin47.auth.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class LoginRequest {
-	@NotBlank
-	private String email;
+    @NotBlank
+    private String email;
 
-	@NotBlank
-	private String password;
+    private byte[] password;
+
+    public void setPassword(String password) {
+        this.password = password.getBytes();
+    }
 }

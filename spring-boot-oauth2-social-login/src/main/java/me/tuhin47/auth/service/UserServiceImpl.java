@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Chinna
@@ -57,8 +54,8 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setDisplayName(formDTO.getDisplayName());
 		user.setEmail(formDTO.getEmail());
-		user.setPassword(passwordEncoder.encode(formDTO.getPassword()));
-		final HashSet<Role> roles = new HashSet<Role>();
+		user.setPassword(passwordEncoder.encode(formDTO.getPassword()).getBytes());
+		final Set<Role> roles = new HashSet<Role>();
 		roles.add(roleRepository.findByName(Role.ROLE_USER));
 		user.setRoles(roles);
 		user.setProvider(formDTO.getSocialProvider().getProviderType());
@@ -97,7 +94,7 @@ public class UserServiceImpl implements UserService {
 			user = registerNewUser(userDetails);
 		}
 
-		LocalUser localUser = new LocalUser(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true,
+		LocalUser localUser = new LocalUser(user.getEmail(), Arrays.toString(user.getPassword()), user.isEnabled(), true, true, true,
 											GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()),
 											idToken, userInfo, user.getEmail());
 

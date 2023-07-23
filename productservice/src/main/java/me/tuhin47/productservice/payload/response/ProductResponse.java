@@ -19,5 +19,5 @@ public class ProductResponse implements ExcelExporterDTO {
     @ExportColumn(value = "Name")
     private String productName;
     private long quantity;
-    private long price;
+    private double price;
 }

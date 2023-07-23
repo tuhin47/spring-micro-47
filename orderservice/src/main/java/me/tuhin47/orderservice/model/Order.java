@@ -4,10 +4,7 @@ import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
@@ -22,6 +19,7 @@ public class Order extends UserDateAudit<String> {
 
     @Id
     @Column(nullable = false, updatable = false)
+    @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 

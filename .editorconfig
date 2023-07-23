@@ -14,9 +14,6 @@ insert_final_newline = true
 [*.java]
 ij_java_align_multiline_chained_methods = true
 
-[*.xml]
-
-[*.properties]
 
 [*.yml]
 indent_size = 2

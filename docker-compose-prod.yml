@@ -14,8 +14,9 @@ services:
         - OAUTH_REDIRECT_URL
     container_name: boilerplate
     profiles:
-      - All
-    image: 'tuhin47/boilerplate:prod'
+      - frontend
+      - all
+    image: 'tuhin47/boilerplate:dev'
     network_mode: "host"
 
   serviceregistry:
@@ -126,12 +127,14 @@ services:
       - CLIENT_SECRET
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
+    working_dir: /app
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
-    depends_on:
+    links:
       - database
       - configserver
     #      - logstash
@@ -185,6 +188,7 @@ services:
       - MYSQL_PASSWORD
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://orderservice:8082/actuator/health" ]
       interval: 10s
@@ -201,6 +205,8 @@ services:
     build:
       context: chat-service
       dockerfile: ../Dockerfile
+    profiles:
+      - all
     image: 'tuhin47/chatservice:prod'
     restart: on-failure:3
     ports:
@@ -241,6 +247,7 @@ services:
       - MYSQL_PASSWORD
       - ZIPKIN_URL
       - REDIS_HOST
+      - AXON_SERVER_URL
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://paymentservice:8083/actuator/health" ]
       interval: 10s
@@ -270,7 +277,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
 
@@ -278,6 +285,8 @@ services:
     image: mongo
     container_name: mongo
     restart: on-failure:3
+    profiles:
+      - all
     ports:
       - "27017:27017"
     volumes:
@@ -298,7 +307,8 @@ services:
     build: elk/elasticsearch/
 #    container_name: elasticsearch
     profiles:
-      - All
+      - elk
+      - all
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -311,7 +321,8 @@ services:
     build: elk/logstash/
 #    container_name: logstash
     profiles:
-      - All
+      - elk
+      - all
     command: -f /etc/logstash/conf.d/
     volumes:
       - ./elk/logstash/config:/etc/logstash/conf.d
@@ -326,7 +337,8 @@ services:
     build: elk/kibana/
 #    container_name: kibana
     profiles:
-      - All
+      - elk
+      - all
     volumes:
       - ./elk/kibana/config/:/opt/kibana/config/
     ports:
@@ -335,6 +347,20 @@ services:
       - elasticsearch
     networks:
       - backend
+  axonserver:
+    image: axoniq/axonserver
+    hostname: axonserve
+    volumes:
+      - axonserver-data:/data
+      - axonserver-events:/eventdata
+      - axonserver-config:/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - backend
+
 
 networks:
   backend:
@@ -344,3 +370,21 @@ volumes:
   db-data:
   mongo-volume:
     driver: local
+  axonserver-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/data
+      o: bind
+  axonserver-events:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/events
+      o: bind
+  axonserver-config:
+    driver: local
+    driver_opts:
+      type: none
+      device: $AXON_DATA/config
+      o: bind

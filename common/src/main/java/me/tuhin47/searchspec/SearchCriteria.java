@@ -1,9 +1,9 @@
 package me.tuhin47.searchspec;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
+
+import java.time.Instant;
 
 /**
  * Project Name     : dynamic-where
@@ -11,14 +11,39 @@ import lombok.Setter;
  *
  * @author Teten Nugraha
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class SearchCriteria<T> {
+@Value
+@Slf4j
+public class SearchCriteria {
 
-    private String key;
-    private Object value;
-    private SearchOperation operation;
+    String key;
+    String value;
+    SearchOperation operation;
+    String groupId;
+    String className;
+
+    public <Y extends Comparable<? super Y>> Y getObjectValue() {
+
+        if (className == null) return null;
+        Class<?> classFromName = SearchHelper.getClassFromName(getClassName());
+        if (className == null || !SearchHelper.isClassImplementedOrSubclassOf(classFromName, Comparable.class)) {
+            return null;
+        }
+
+        try {
+            if (SearchHelper.checkValidDate(value)) {
+                return (Y) Instant.parse(value);
+            } else if (SearchHelper.isClassImplementedOrSubclassOf(classFromName, Double.class) && SearchHelper.isValidNumber(value)) {
+                return (Y) Double.valueOf(value);
+            } else if (SearchHelper.isClassImplementedOrSubclassOf(classFromName, Long.class) && SearchHelper.isValidNumber(value)) {
+                return (Y) Long.valueOf(value);
+            }
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
 }
