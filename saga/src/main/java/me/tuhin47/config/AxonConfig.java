@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AxonConfig {
- 
+
     @Bean
     public XStream xStream() {
         XStream xStream = new XStream();
-      
-        xStream.allowTypesByWildcard(new String[] {
-                "me.tuhin47.**"
+
+        xStream.allowTypesByWildcard(new String[]{
+            "me.tuhin47.**"
         });
         return xStream;
     }
