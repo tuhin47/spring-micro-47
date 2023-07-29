@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,6 +19,7 @@ import springfox.documentation.service.ApiInfo;
 @EnableJpaRepositories
 @EnableTransactionManagement
 @Import({ AxonConfig.class })
+@EnableAspectJAutoProxy
 public class AuthService extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

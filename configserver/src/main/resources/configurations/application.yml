@@ -55,6 +55,8 @@ app:
 logging:
   level:
     com: INFO
+    me:
+      tuhin47: DEBUG
     org:
       springframework: INFO
       hibernate:
