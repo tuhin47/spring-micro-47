@@ -31,7 +31,9 @@ spring:
     host: ${REDIS_HOST:localhost}
   zipkin:
     baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
-
+  output:
+    ansi:
+      enabled: ALWAYS
 axon:
   axonserver:
     servers: ${AXON_SERVER_URL:localhost:8124}

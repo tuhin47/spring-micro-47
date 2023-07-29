@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
 
-  #Front-end Angular boilerplate
   boilerplate:
     build:
       context: ./angular-boilerplate
@@ -324,7 +323,7 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - "$MYSQL_PORT:3306"
+      - "${MYSQL_PORT}:3306"
     restart: on-failure
     environment:
       - MYSQL_USER=extra
@@ -411,8 +410,6 @@ services:
   axonserver:
     image: axoniq/axonserver
     hostname: axonserve
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://tuhin47:8024/actuator/health" ]
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata

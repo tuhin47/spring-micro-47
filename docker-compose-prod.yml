@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
 
- #Front-end Angular boilerplate
   boilerplate:
     build:
       context: ./angular-boilerplate
@@ -264,7 +263,7 @@ services:
     container_name: database
     image: 'mysql:latest'
     ports:
-      - $MYSQL_PORT:3306
+      - ${MYSQL_PORT}:3306
     restart: always
     environment:
       - MYSQL_USER=extra
