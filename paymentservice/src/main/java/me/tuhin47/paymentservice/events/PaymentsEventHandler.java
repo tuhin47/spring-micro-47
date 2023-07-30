@@ -2,6 +2,7 @@ package me.tuhin47.paymentservice.events;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.repository.TransactionDetailsRepository;
 import me.tuhin47.saga.events.PaymentCancelledEvent;
@@ -21,16 +22,16 @@ public class PaymentsEventHandler {
     @EventHandler
     public void on(PaymentProcessedEvent event) {
         log.info("on() called with: event = [" + event + "]");
-        //TODO update event and values
         TransactionDetails payment = TransactionDetails.builder()
-                .id(event.getPaymentId())
-                .orderId(event.getOrderId())
-                .paymentMode("CARD")
-                .amount(1000)
-                .paymentDate(Instant.now())
-                .paymentStatus("COMPLETED")
-                .build();
+                                                       .id(event.getPaymentId())
+                                                       .orderId(event.getOrderId())
+                                                       .paymentMode(PaymentMode.CASH)
+                                                       .amount(1000)
+                                                       .paymentDate(Instant.now())
+                                                       .paymentStatus("COMPLETED")
+                                                       .build();
 
+        log.debug("payment = {} ", payment);
         paymentRepository.save(payment);
     }
 

@@ -65,7 +65,6 @@ public class OrderProcessingSaga {
         log.info("PaymentProcessedEvent in Saga for Order Id : {}", event.getOrderId());
 
         try {
-
             var completeOrderCommand = CompleteOrderCommand.builder()
                                                            .orderId(event.getOrderId())
                                                            .orderStatus("APPROVED")

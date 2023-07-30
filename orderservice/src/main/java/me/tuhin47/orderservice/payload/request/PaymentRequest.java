@@ -13,7 +13,7 @@ import me.tuhin47.core.enums.PaymentMode;
 public class PaymentRequest {
 
     private String orderId;
-    private long amount;
+    private double amount;
     private String referenceNumber;
     private PaymentMode paymentMode;
 

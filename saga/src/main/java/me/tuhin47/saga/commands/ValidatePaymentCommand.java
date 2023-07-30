@@ -12,5 +12,7 @@ public class ValidatePaymentCommand {
     @TargetAggregateIdentifier
     private String paymentId;
     private String orderId;
+    private double amount;
+
 //    private CardDetails cardDetails;
 }

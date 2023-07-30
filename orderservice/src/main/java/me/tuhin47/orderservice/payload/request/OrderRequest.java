@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.tuhin47.core.enums.PaymentMode;
 
+import javax.validation.constraints.NotEmpty;
+
 
 @Data
 @AllArgsConstructor
@@ -13,8 +15,9 @@ import me.tuhin47.core.enums.PaymentMode;
 @Builder
 public class OrderRequest {
 
+    @NotEmpty
     private String productId;
-    private long totalAmount;
+    private double totalAmount;
     private long quantity;
     private PaymentMode paymentMode;
 }

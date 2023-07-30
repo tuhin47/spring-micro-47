@@ -1,8 +1,8 @@
 package me.tuhin47.paymentservice.controller;
 
 import io.swagger.annotations.*;
+import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.payload.PaymentRequest;
-import me.tuhin47.paymentservice.payload.PaymentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<String> addProduct(@RequestBody @Valid ProductRequest productRequest) {
 
         String productId = productService.addProduct(productRequest);
         return new ResponseEntity<>(productId, HttpStatus.CREATED);

@@ -18,9 +18,9 @@ import java.time.Instant;
 public class Order extends UserDateAudit<String> {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @Column(length = 36, nullable = false, updatable = false)
     private String id;
 
     @Column(name = "PRODUCT_ID")
@@ -36,5 +36,5 @@ public class Order extends UserDateAudit<String> {
     private String orderStatus;
 
     @Column(name = "TOTAL_AMOUNT")
-    private long amount;
+    private double amount;
 }

@@ -19,7 +19,7 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
-                redis-rate-limiter.burstCapacity: 1 # maximum number of requests a user is allowed to do in a single second (500 requests per second)
+                redis-rate-limiter.burstCapacity: 10 # maximum number of requests a user is allowed to do in a single second (500 requests per second)0
         - id: PAYMENT-SERVICE
           uri: lb://PAYMENT-SERVICE
           predicates:
@@ -32,7 +32,7 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.burstCapacity: 10
         - id: PRODUCT-SERVICE
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -45,7 +45,7 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.burstCapacity: 10
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
@@ -58,7 +58,7 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.burstCapacity: 10
         - id: CHAT-SERVICE
           uri: lb://CHAT-SERVICE
           predicates:
@@ -71,7 +71,7 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.burstCapacity: 10
 
 logging:
   level:

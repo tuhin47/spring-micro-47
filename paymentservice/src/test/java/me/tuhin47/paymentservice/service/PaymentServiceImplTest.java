@@ -2,8 +2,8 @@ package me.tuhin47.paymentservice.service;
 
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.payload.PaymentRequest;
+import me.tuhin47.paymentservice.payload.TransactionDetailsMapper;
 import me.tuhin47.paymentservice.repository.TransactionDetailsRepository;
-import me.tuhin47.paymentservice.utils.PaymentMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,8 @@ public class PaymentServiceImplTest {
     @BeforeEach
     void setup(){
         transactionDetailsRepository = mock(TransactionDetailsRepository.class);
-        paymentService = new PaymentServiceImpl(transactionDetailsRepository);
+        TransactionDetailsMapper mapper = mock(TransactionDetailsMapper.class);
+        paymentService = new PaymentServiceImpl(mapper, transactionDetailsRepository);
     }
 
     @Test
@@ -77,7 +78,7 @@ public class PaymentServiceImplTest {
         return PaymentRequest.builder()
                 .amount(500)
 //                .orderId(1) // TODO Later
-                .paymentMode(PaymentMode.CASH)
+//                .paymentMode(PaymentMode.CASH)
                 .referenceNumber(null)
                 .build();
 
@@ -88,7 +89,7 @@ public class PaymentServiceImplTest {
 //                .id(1L) // TODO later
 //                .orderId(1) // TODO later
                 .paymentDate(Instant.now())
-                .paymentMode(PaymentMode.CASH.name())
+//                .paymentMode(PaymentMode.CASH.name())
                 .paymentStatus("SUCCESS")
                 .referenceNumber(null)
                 .amount(500)

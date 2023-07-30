@@ -1,8 +1,8 @@
 package me.tuhin47.orderservice.external.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import me.tuhin47.exception.CustomException;
 import me.tuhin47.orderservice.config.FeignConfig;
-import me.tuhin47.orderservice.exception.CustomException;
 import me.tuhin47.orderservice.payload.request.PaymentRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import org.springframework.cloud.openfeign.FeignClient;

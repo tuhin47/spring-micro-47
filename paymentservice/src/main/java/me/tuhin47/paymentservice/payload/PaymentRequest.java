@@ -4,7 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.paymentservice.utils.PaymentMode;
+import me.tuhin47.core.enums.PaymentMode;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
+
 
 @Data
 @AllArgsConstructor
@@ -12,8 +16,10 @@ import me.tuhin47.paymentservice.utils.PaymentMode;
 @Builder
 public class PaymentRequest {
 
+    @NotEmpty
     private String orderId;
-    private long amount;
+    @PositiveOrZero
+    private double amount;
     private String referenceNumber;
     private PaymentMode paymentMode;
 

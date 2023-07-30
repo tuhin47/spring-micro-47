@@ -30,4 +30,6 @@ public interface ProjectExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request);
 
+    @ExceptionHandler(CustomException.class)
+    ResponseEntity<Object> handleCustomException(CustomException ex, WebRequest request);
 }

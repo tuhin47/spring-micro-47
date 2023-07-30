@@ -1,5 +1,6 @@
 package me.tuhin47.orderservice.exception;
 
+import me.tuhin47.exception.CustomException;
 import me.tuhin47.orderservice.payload.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

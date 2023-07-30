@@ -16,8 +16,9 @@ import java.util.regex.Pattern;
 
 @Configuration
 public class FeignConfig {
+
     private static final Pattern BEARER_TOKEN_HEADER_PATTERN = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
-    
+
     @Bean
     public  ErrorDecoder errorDecoder() {
         return new CustomErrorDecoder();
@@ -28,22 +29,22 @@ public class FeignConfig {
     {
         return FeignConfig::addAuthorizationToken;
     }
-    
+
     public static void addAuthorizationToken (Object template)
     {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        
+
         if (Objects.nonNull(requestAttributes))
         {
-            
+
             String  authorizationHeader = requestAttributes.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
             Matcher matcher             = BEARER_TOKEN_HEADER_PATTERN.matcher(authorizationHeader);
-        
+
             if (!matcher.matches())
             {
                 return;
             }
-        
+
             if (template instanceof RequestTemplate)
             {
                 ((RequestTemplate) template).header(HttpHeaders.AUTHORIZATION);
@@ -55,5 +56,5 @@ public class FeignConfig {
             }
         }
     }
-    
+
 }

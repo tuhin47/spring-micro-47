@@ -1,4 +1,4 @@
-package me.tuhin47.orderservice.exception;
+package me.tuhin47.exception;
 
 import lombok.Data;
 

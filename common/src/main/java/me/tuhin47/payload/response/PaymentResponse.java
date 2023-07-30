@@ -14,10 +14,10 @@ import java.time.Instant;
 @Builder
 public class PaymentResponse {
 
-    private long paymentId;
-    private String status;
+    private String id;
+    private String paymentStatus;
     private PaymentMode paymentMode;
-    private long amount;
+    private double amount;
     private Instant paymentDate;
-    private long orderId;
+    private String orderId;
 }

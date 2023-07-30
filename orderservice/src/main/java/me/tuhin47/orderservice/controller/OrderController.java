@@ -7,13 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
-import me.tuhin47.orderservice.payload.response.OrderResponse;
+import me.tuhin47.orderservice.payload.response.OrderResponseWithDetails;
 import me.tuhin47.orderservice.service.OrderService;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/order")
@@ -25,28 +27,15 @@ public class OrderController {
     private final OrderService orderService;
     private final CommandGateway commandGateway;
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/placeorder")
-    @ApiOperation("Place an order")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
-
-        log.info("OrderController | placeOrder is called");
-
-        log.info("OrderController | placeOrder | orderRequest: {}", orderRequest.toString());
-
-        String orderId = orderService.placeOrder(orderRequest);
-        log.info("Order Id: {}", orderId);
-        return new ResponseEntity<>(orderId, HttpStatus.OK);
-    }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{orderId}")
     @ApiOperation("Get order details by ID")
-    public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable String orderId) {
+    public ResponseEntity<OrderResponseWithDetails> getOrderDetails(@PathVariable String orderId) {
 
         log.info("OrderController | getOrderDetails is called");
 
-        OrderResponse orderResponse = orderService.getOrderDetails(orderId);
+        OrderResponseWithDetails orderResponse = orderService.getOrderDetails(orderId);
 
         log.info("OrderController | getOrderDetails | orderResponse : " + orderResponse.toString());
 
@@ -55,7 +44,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
-    public String createOrder(@RequestBody OrderRequest orderRestModel) {
+    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel) {
 
         Order order = orderService.placeOrderRequest(orderRestModel);
 
@@ -73,6 +62,6 @@ public class OrderController {
 
         commandGateway.sendAndWait(createOrderCommand);
 
-        return orderId;
+        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 }

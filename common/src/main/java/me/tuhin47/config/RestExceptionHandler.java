@@ -1,6 +1,7 @@
 package me.tuhin47.config;
 
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.exception.CustomException;
 import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.exception.ProjectExceptionHandler;
 import me.tuhin47.exception.apierror.ApiError;
@@ -230,6 +231,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler impleme
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage("Access Denied");
+        return buildResponseEntity(apiError);
+    }
+
+    @Override
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<Object> handleCustomException(CustomException ex, WebRequest request) {
+        ApiError apiError = new ApiError(HttpStatus.valueOf(ex.getStatus()));
+        apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
 

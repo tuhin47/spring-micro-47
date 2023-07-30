@@ -2,10 +2,11 @@ package me.tuhin47.paymentservice.model;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
-import org.hibernate.annotations.GenericGenerator;
+import me.tuhin47.core.enums.PaymentMode;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "TRANSACTION_DETAILS")
@@ -18,16 +19,15 @@ import java.time.Instant;
 public class TransactionDetails extends UserDateAudit<String> {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+    @Column(length = 36, nullable = false, unique = true, updatable = false)
+    private String id = UUID.randomUUID().toString();
 
     @Column(name = "ORDER_ID")
     private String orderId;
 
     @Column(name = "MODE")
-    private String paymentMode;
+    @Enumerated(EnumType.STRING)
+    private PaymentMode paymentMode;
 
     @Column(name = "REFERENCE_NUMBER")
     private String referenceNumber;
@@ -39,5 +39,5 @@ public class TransactionDetails extends UserDateAudit<String> {
     private String paymentStatus;
 
     @Column(name = "AMOUNT")
-    private long amount;
+    private double amount;
 }
