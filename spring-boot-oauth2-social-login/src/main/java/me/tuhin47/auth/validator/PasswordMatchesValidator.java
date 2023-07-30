@@ -1,9 +1,9 @@
 package me.tuhin47.auth.validator;
 
+import me.tuhin47.auth.payload.request.SignUpRequest;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import me.tuhin47.auth.dto.SignUpRequest;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, SignUpRequest> {
 

@@ -1,12 +1,8 @@
 package me.tuhin47.auth.security.oauth2;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
+import me.tuhin47.auth.service.UserService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
-import me.tuhin47.auth.dto.SocialProvider;
-import me.tuhin47.auth.service.UserService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

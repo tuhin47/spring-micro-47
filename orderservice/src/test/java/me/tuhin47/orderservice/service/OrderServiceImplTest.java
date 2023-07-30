@@ -1,16 +1,16 @@
 package me.tuhin47.orderservice.service;
 
+import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.orderservice.exception.CustomException;
 import me.tuhin47.orderservice.external.client.PaymentService;
 import me.tuhin47.orderservice.external.client.ProductService;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
 import me.tuhin47.orderservice.payload.request.PaymentRequest;
-import me.tuhin47.orderservice.payload.response.PaymentResponse;
-import me.tuhin47.orderservice.payload.response.ProductResponse;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.impl.OrderServiceImpl;
-import me.tuhin47.orderservice.utils.PaymentMode;
+import me.tuhin47.payload.response.PaymentResponse;
+import me.tuhin47.payload.response.ProductResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -155,7 +155,7 @@ public class OrderServiceImplTest {
 
     private ResponseEntity<ProductResponse> getMockProductResponse() {
         ProductResponse iPhone = ProductResponse.builder()
-                .productId(2)
+                .id("2")
                 .productName("iPhone")
                 .price(100)
                 .quantity(200)

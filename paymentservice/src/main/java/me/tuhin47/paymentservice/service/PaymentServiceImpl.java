@@ -1,7 +1,7 @@
 package me.tuhin47.paymentservice.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.paymentservice.exception.PaymentServiceCustomException;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.payload.PaymentRequest;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService{
 

@@ -3,7 +3,7 @@ package me.tuhin47.orderservice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/order")
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Api(tags = "Order API")
 public class OrderController {

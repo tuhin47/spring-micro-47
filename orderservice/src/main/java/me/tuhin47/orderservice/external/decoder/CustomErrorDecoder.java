@@ -3,13 +3,13 @@ package me.tuhin47.orderservice.external.decoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.orderservice.exception.CustomException;
 import me.tuhin47.orderservice.payload.response.ErrorResponse;
 
 import java.io.IOException;
 
-@Log4j2
+@Slf4j
 public class CustomErrorDecoder implements ErrorDecoder {
 
     @Override

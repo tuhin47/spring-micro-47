@@ -1,15 +1,18 @@
 package me.tuhin47.searchspec;
 
 import com.sun.istack.NotNull;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
-@Log4j2
+@Slf4j
 public class RecordNavigationManager {
 
     public static final String[] DEFAULT_SORT = {"id", "desc"};

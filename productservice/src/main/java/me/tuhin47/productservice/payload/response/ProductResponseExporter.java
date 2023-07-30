@@ -13,7 +13,7 @@ import me.tuhin47.exporter.ExportColumn;
 @AllArgsConstructor
 @NoArgsConstructor
 @ExcelSheet("Product")
-public class ProductResponse implements ExcelExporterDTO {
+public class ProductResponseExporter implements ExcelExporterDTO {
 
     private String productId;
     @ExportColumn(value = "Name")

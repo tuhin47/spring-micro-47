@@ -1,4 +1,4 @@
-package me.tuhin47.orderservice.utils;
+package me.tuhin47.core.enums;
 
 public enum PaymentMode {
     CASH,

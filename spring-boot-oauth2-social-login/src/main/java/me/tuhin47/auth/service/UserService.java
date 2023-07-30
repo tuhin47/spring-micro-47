@@ -1,9 +1,10 @@
 package me.tuhin47.auth.service;
 
-import me.tuhin47.auth.dto.LocalUser;
-import me.tuhin47.auth.dto.SignUpRequest;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.request.SignUpRequest;
+import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
+import me.tuhin47.auth.security.oauth2.LocalUser;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
@@ -26,4 +27,6 @@ public interface UserService {
 	LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
 
 	List<User> findAll();
+
+    JwtAuthenticationResponse getJwtAuthenticationResponse(LocalUser localUser);
 }

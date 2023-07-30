@@ -23,7 +23,7 @@ public class Product extends UserDateAudit<String> {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "PRODUCT_NAME")
+    @Column(name = "PRODUCT_NAME", nullable = false, length = 50)
     private String productName;
 
     @PositiveOrZero

@@ -1,7 +1,6 @@
 package me.tuhin47.orderservice.saga;
 
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.core.payment.UserResponse;
 import me.tuhin47.orderservice.events.OrderCreatedEvent;
 import me.tuhin47.saga.commands.CancelOrderCommand;
 import me.tuhin47.saga.commands.CancelPaymentCommand;
@@ -38,12 +37,6 @@ public class OrderProcessingSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
-        log.info("OrderCreatedEvent in Saga for OrderCreatedEvent : {}", event);
-
-        //GetUserPaymentDetailsQuery getUserPaymentDetailsQuery = new GetUserPaymentDetailsQuery(event.getUserId());
-
-        UserResponse user = null;
-
         try {
             // user = queryGateway.query(getUserPaymentDetailsQuery, ResponseTypes.instanceOf(UserResponse.class)).join();
         } catch (Exception e) {
@@ -53,7 +46,6 @@ public class OrderProcessingSaga {
         }
 
         var validatePaymentCommand = ValidatePaymentCommand.builder()
-//                .cardDetails(user.getCardDetails())
                                                            .paymentId(UUID.randomUUID().toString())
                                                            .orderId(event.getOrderId())
                                                            .build();

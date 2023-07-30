@@ -1,6 +1,7 @@
-package me.tuhin47.auth.dto;
+package me.tuhin47.auth.payload.request;
 
 import lombok.Data;
+import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.auth.validator.PasswordMatches;
 
 import javax.validation.constraints.Email;

@@ -2,9 +2,9 @@ package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.*;
 import me.tuhin47.auth.config.CurrentUser;
-import me.tuhin47.auth.dto.LocalUser;
-import me.tuhin47.auth.dto.LoginRequest;
-import me.tuhin47.auth.dto.SignUpRequest;
+import me.tuhin47.auth.payload.request.LoginRequest;
+import me.tuhin47.auth.payload.request.SignUpRequest;
+import me.tuhin47.auth.security.oauth2.LocalUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;

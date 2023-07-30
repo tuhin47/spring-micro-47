@@ -1,20 +1,20 @@
 package me.tuhin47.auth.util;
 
+import me.tuhin47.auth.model.Role;
+import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.response.UserInfo;
+import me.tuhin47.auth.security.oauth2.LocalUser;
+import me.tuhin47.auth.security.oauth2.SocialProvider;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import me.tuhin47.auth.dto.LocalUser;
-import me.tuhin47.auth.dto.SocialProvider;
-import me.tuhin47.auth.dto.UserInfo;
-import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.model.User;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 /**
- * 
+ *
  * @author Chinna
  *
  */

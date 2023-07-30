@@ -1,7 +1,8 @@
 package me.tuhin47.productservice.service;
 
+import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.payload.request.ProductRequest;
-import me.tuhin47.productservice.payload.response.ProductResponse;
+import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 
@@ -12,11 +13,11 @@ public interface ProductService {
 
     String addProduct(ProductRequest productRequest);
 
-    ProductResponse getProductById(long productId);
+    ProductResponse getProductById(String productId);
 
-    void reduceQuantity(long productId, long quantity);
+    void reduceQuantity(String productId, long quantity);
 
-    void deleteProductById(long productId);
+    void deleteProductById(String productId);
 
-    Page<ProductResponse> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request);
+    Page<ProductResponseExporter> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request);
 }

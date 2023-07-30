@@ -1,6 +1,6 @@
 package me.tuhin47.exporter;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 
-@Log4j2
+@Slf4j
 public class ExcelGenerator<T extends ExcelExporterDTO> implements DataExporter<T> {
 
     protected void writeHeader(List<? extends T> listRecords, XSSFWorkbook workbook, XSSFSheet sheet) {

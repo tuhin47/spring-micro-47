@@ -1,4 +1,4 @@
-package me.tuhin47.auth.dto;
+package me.tuhin47.auth.payload.response;
 
 import lombok.Value;
 

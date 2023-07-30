@@ -6,12 +6,17 @@ import dev.samstevens.totp.qr.QrData;
 import dev.samstevens.totp.qr.QrDataFactory;
 import dev.samstevens.totp.qr.QrGenerator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.auth.config.CurrentUser;
 import me.tuhin47.auth.controller.AuthController;
-import me.tuhin47.auth.dto.*;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.request.LoginRequest;
+import me.tuhin47.auth.payload.request.SignUpRequest;
+import me.tuhin47.auth.payload.response.ApiResponse;
+import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
+import me.tuhin47.auth.payload.response.SignUpResponse;
+import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
@@ -32,7 +37,7 @@ import java.util.Collections;
 import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthControllerImpl implements AuthController {
@@ -47,19 +52,13 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
+    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), new String(loginRequest.getPassword())));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         LocalUser localUser = (LocalUser) authentication.getPrincipal();
-        return getJwtAuthenticationResponseResponseEntity(localUser);
+        return ResponseEntity.ok(userService.getJwtAuthenticationResponse(localUser));
     }
 
-    private ResponseEntity<JwtAuthenticationResponse> getJwtAuthenticationResponseResponseEntity(LocalUser localUser) {
-        User userByEmail = userService.findUserByEmail(localUser.getEmail());
-        boolean authenticated = userByEmail != null && !userByEmail.isUsing2FA();
-        String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(localUser, userByEmail) : null));
-    }
 
     @Override
     @PostMapping("/signup")
@@ -101,8 +100,8 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @GetMapping("/user/me")
-    public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser user) {
-        return getJwtAuthenticationResponseResponseEntity(user);
+    public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser localUser) {
+        return ResponseEntity.ok(userService.getJwtAuthenticationResponse(localUser));
     }
 
     @Override

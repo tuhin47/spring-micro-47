@@ -4,7 +4,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import me.tuhin47.orderservice.config.FeignConfig;
 import me.tuhin47.orderservice.exception.CustomException;
 import me.tuhin47.orderservice.payload.request.PaymentRequest;
-import me.tuhin47.orderservice.payload.response.PaymentResponse;
+import me.tuhin47.payload.response.PaymentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "PAYMENT-SERVICE/payment", configuration = FeignConfig.class)
 public interface PaymentService
 {
-    
+
     @PostMapping
     ResponseEntity<Long> doPayment (@RequestBody PaymentRequest paymentRequest);
 

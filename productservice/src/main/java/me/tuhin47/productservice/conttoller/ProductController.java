@@ -3,8 +3,9 @@ package me.tuhin47.productservice.conttoller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.tuhin47.exporter.ExporterType;
+import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.payload.request.ProductRequest;
-import me.tuhin47.productservice.payload.response.ProductResponse;
+import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +27,19 @@ public interface ProductController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value = "Get a product by ID")
-    ResponseEntity<ProductResponse> getProductById(@PathVariable("id") long productId);
+    ResponseEntity<ProductResponse> getProductById(@PathVariable("id") String productId);
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value = "Reduce the quantity of a product")
-    ResponseEntity<Void> reduceQuantity(@PathVariable("id") long productId, @RequestParam long quantity);
+    ResponseEntity<Void> reduceQuantity(@PathVariable("id") String productId, @RequestParam long quantity);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Delete a product by ID")
-    void deleteProductById(@PathVariable("id") long productId);
+    void deleteProductById(@PathVariable("id") String productId);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
-    ResponseEntity<Page<ProductResponse>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
+    ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation("Export Items")

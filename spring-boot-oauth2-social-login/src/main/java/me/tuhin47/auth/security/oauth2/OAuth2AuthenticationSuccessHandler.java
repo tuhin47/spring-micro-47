@@ -1,7 +1,6 @@
 package me.tuhin47.auth.security.oauth2;
 
 import lombok.RequiredArgsConstructor;
-import me.tuhin47.auth.dto.LocalUser;
 import me.tuhin47.auth.exception.BadRequestException;
 import me.tuhin47.auth.util.CookieUtils;
 import me.tuhin47.config.AppProperties;

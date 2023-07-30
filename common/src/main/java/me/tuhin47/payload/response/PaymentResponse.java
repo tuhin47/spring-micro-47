@@ -1,10 +1,10 @@
-package me.tuhin47.orderservice.payload.response;
+package me.tuhin47.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.orderservice.utils.PaymentMode;
+import me.tuhin47.core.enums.PaymentMode;
 
 import java.time.Instant;
 

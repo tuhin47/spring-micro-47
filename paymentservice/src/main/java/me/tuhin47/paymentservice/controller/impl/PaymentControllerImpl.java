@@ -1,7 +1,7 @@
 package me.tuhin47.paymentservice.controller.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.paymentservice.controller.PaymentController;
 import me.tuhin47.paymentservice.payload.PaymentRequest;
 import me.tuhin47.paymentservice.payload.PaymentResponse;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/payment")
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class PaymentControllerImpl implements PaymentController {
 
     private final PaymentService paymentService;

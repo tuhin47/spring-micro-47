@@ -1,20 +1,20 @@
 
 ```shell
 export GATEWAY='http://localhost:9090'
-export AUTHORIZATION="Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwMDY1OSwiZXhwIjoxNjkwNTY0NjU5fQ.wfJ6JbodAlO-1YNMXH3lkmaZpNvvEccvrirJuozj2k6ipt3_d7kl8d7QiIB61AWAZqZ1bFklKwnIIM1g_8f7cA"
+export AUTHORIZATION="Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MDY5OTI5OCwiZXhwIjoxNjkxNTYzMjk4fQ.SiMhLTL0Klb4-BFzDvAIBeXu-vfQiMWa7kcYAmJj7PIBqtxHzoJ-cioNET4r-q10t-byVqL9Rn7RV59-nki5KA"
 
 curl ${GATEWAY}/auth/user/me -H "$AUTHORIZATION" | jq
 ```
 #### login
 ```shell
-curl -X POST "http://localhost:7777/auth/signin" -H "accept: */*" -H "Content-Type: application/json" -d "{\"email\":\"admin@tuhin47.com\",\"password\":\"admin@\"}"
+curl -X POST ${GATEWAY}/auth/signin -H "accept: */*" -H "Content-Type: application/json" -d "{\"email\":\"admin@tuhin47.com\",\"password\":\"admin@\"}"
 ```
 
 
 ## PRODUCT_SERVICE
 ### _/product_
 ```sh
-curl -X POST ${GATEWAY}/product -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "{\"name\":\"Pro 5\",\"price\":10,\"quantity\":10}"
+curl -X POST ${GATEWAY}/product -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "{\"name\":\"Pro 5\",\"price\":-1,\"quantity\":10}"
 ```
 
 ### _/product/all_

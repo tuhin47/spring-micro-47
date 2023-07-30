@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.orderservice.utils.PaymentMode;
+import me.tuhin47.core.enums.PaymentMode;
+
 
 @Data
 @AllArgsConstructor

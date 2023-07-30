@@ -1,10 +1,10 @@
 package me.tuhin47.auth.config;
 
-import me.tuhin47.auth.dto.SocialProvider;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.repo.RoleRepository;
 import me.tuhin47.auth.repo.UserRepository;
+import me.tuhin47.auth.security.oauth2.SocialProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

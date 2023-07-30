@@ -1,7 +1,7 @@
 package me.tuhin47.orderservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.orderservice.exception.CustomException;
 import me.tuhin47.orderservice.external.client.PaymentService;
 import me.tuhin47.orderservice.external.client.ProductService;
@@ -9,17 +9,17 @@ import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
 import me.tuhin47.orderservice.payload.request.PaymentRequest;
 import me.tuhin47.orderservice.payload.response.OrderResponse;
-import me.tuhin47.orderservice.payload.response.PaymentResponse;
-import me.tuhin47.orderservice.payload.response.ProductResponse;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.OrderService;
+import me.tuhin47.payload.response.PaymentResponse;
+import me.tuhin47.payload.response.ProductResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
@@ -96,13 +96,15 @@ public class OrderServiceImpl implements OrderService {
         log.info("OrderServiceImpl | getOrderDetails | Getting payment information form the payment Service");
         PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(order.getId()).getBody();
 
+        assert productResponse != null;
         OrderResponse.ProductDetails productDetails
                 = OrderResponse.ProductDetails
                 .builder()
                 .productName(productResponse.getProductName())
-                .productId(productResponse.getProductId())
+                .productId(productResponse.getId())
                 .build();
 
+        assert paymentResponse != null;
         OrderResponse.PaymentDetails paymentDetails
                 = OrderResponse.PaymentDetails
                 .builder()

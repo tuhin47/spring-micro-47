@@ -1,6 +1,6 @@
 package me.tuhin47.utils;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 
 import java.io.BufferedReader;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-@Log4j2
+@Slf4j
 public class Sample implements CommandLineRunner {
 
     @Override

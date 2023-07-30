@@ -1,9 +1,9 @@
 package me.tuhin47.auth.security.oauth2.user;
 
-import java.util.Map;
-
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
-import me.tuhin47.auth.dto.SocialProvider;
+import me.tuhin47.auth.security.oauth2.SocialProvider;
+
+import java.util.Map;
 
 public class OAuth2UserInfoFactory {
 	public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {

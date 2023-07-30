@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.tuhin47.orderservice.utils.PaymentMode;
+import me.tuhin47.core.enums.PaymentMode;
 
 import java.time.Instant;
 
@@ -27,9 +27,9 @@ public class OrderResponse {
     public static class ProductDetails {
 
         private String productName;
-        private long productId;
+        private String productId;
         private long quantity;
-        private long price;
+        private double price;
     }
 
     @Data
