@@ -1,0 +1,33 @@
+package me.tuhin47.exception;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+public interface ProjectExceptionHandler {
+    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
+    ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex);
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex);
+
+    @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
+    ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex);
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request);
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request);
+
+    @ExceptionHandler(AuthenticationException.class)
+    ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, WebRequest request);
+
+    @ExceptionHandler(AccessDeniedException.class)
+    ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request);
+
+}

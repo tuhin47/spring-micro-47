@@ -2,6 +2,7 @@ package me.tuhin47.config;
 
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.exception.EntityNotFoundException;
+import me.tuhin47.exception.ProjectExceptionHandler;
 import me.tuhin47.exception.apierror.ApiError;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -29,7 +32,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler implements ProjectExceptionHandler {
 
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
@@ -99,9 +102,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the ConstraintViolationException
      * @return the ApiError object
      */
+    @Override
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(
-        javax.validation.ConstraintViolationException ex) {
+    public ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getConstraintViolations());
@@ -114,8 +117,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the EntityNotFoundException
      * @return the ApiError object
      */
+    @Override
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
+    public ResponseEntity<Object> handleEntityNotFound(
         EntityNotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
@@ -175,8 +179,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle javax.persistence.EntityNotFoundException
      */
+    @Override
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex) {
+    public ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex) {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, ex));
     }
 
@@ -186,9 +191,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the DataIntegrityViolationException
      * @return the ApiError object
      */
+    @Override
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
-                                                                  WebRequest request) {
+    public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
         if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
         }
@@ -201,13 +206,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the Exception
      * @return the ApiError object
      */
+    @Override
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
-                                                                      WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
+                                                                   WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType()
                                                                                                                                                  .getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @Override
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
+        apiError.setMessage("Invalid user Credentials");
+        return buildResponseEntity(apiError);
+    }
+
+    @Override
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
+        apiError.setMessage("Access Denied");
         return buildResponseEntity(apiError);
     }
 

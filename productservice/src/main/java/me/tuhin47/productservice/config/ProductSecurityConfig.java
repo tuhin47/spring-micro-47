@@ -1,11 +1,12 @@
-package me.tuhin47.paymentservice.config;
+package me.tuhin47.productservice.config;
 
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.config.security.JWTAccessDeniedHandler;
+import me.tuhin47.config.security.RestAuthenticationEntryPoint;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
-import me.tuhin47.paymentservice.jwt.JWTAccessDeniedHandler;
-import me.tuhin47.paymentservice.jwt.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,9 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfig {
-    //
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+public class ProductSecurityConfig {
+
+    private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
@@ -31,8 +32,11 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**","/payment/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
-                .antMatchers( "/payment/**").hasRole("USER")
+                .antMatchers("/zipkin/**", "/product/v3/api-docs/**", "/swagger**", "/actuator/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()

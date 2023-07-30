@@ -31,7 +31,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserDetailsService userDetailsService;
 	private final CustomOAuth2UserService customOAuth2UserService;
@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 	private final PasswordEncoder passwordEncoder;
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
+//	private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+//	private final JWTAccessDeniedHandler accessDeniedHandler;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -51,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.csrf().disable().formLogin().disable().httpBasic().disable()
-				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint()).and()
 				.authorizeRequests()
 				.antMatchers("/zipkin/**","/auth/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
 				.antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll().anyRequest().authenticated().and()

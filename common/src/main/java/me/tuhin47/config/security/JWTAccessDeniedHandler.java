@@ -1,5 +1,6 @@
-package me.tuhin47.paymentservice.jwt;
+package me.tuhin47.config.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -10,15 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JWTAccessDeniedHandler implements AccessDeniedHandler {
+    private final SecurityService securityService;
+
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex)
             throws IOException, ServletException {
-        System.out.println("====Access Denied====from === Organization Service");
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.getOutputStream().println("{ \"error\": \"" + accessDeniedException.getMessage() + "\" }");
+
+        securityService.handleAccessDeniedException(response,ex);
     }
-
-
 }
