@@ -15,14 +15,14 @@ services:
     profiles:
       - frontend
       - all
-    image: 'tuhin47/boilerplate:dev'
+    image: 'tuhin47/boilerplate:${PROD_IMAGE_TAG}'
     network_mode: "host"
 
   serviceregistry:
     build:
       context: service-registry
       dockerfile: ../Dockerfile
-    image: 'tuhin47/serviceregistry:prod'
+    image: 'tuhin47/serviceregistry:${PROD_IMAGE_TAG}'
     ports:
       - 8761:8761
     healthcheck:
@@ -37,7 +37,7 @@ services:
     build:
       context: configserver
       dockerfile: ../Dockerfile
-    image: tuhin47/configserver:prod
+    image: tuhin47/configserver:${PROD_IMAGE_TAG}
     ports:
       - "9296:9296"
       - "19296:19296"
@@ -57,7 +57,7 @@ services:
     build:
       context: apigateway
       dockerfile: ../Dockerfile
-    image: 'tuhin47/gateway:prod'
+    image: 'tuhin47/gateway:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "9090:9090"
@@ -109,7 +109,7 @@ services:
     build:
       context: spring-boot-oauth2-social-login
       dockerfile: ../Dockerfile
-    image: 'tuhin47/authservice:prod'
+    image: 'tuhin47/authservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "7777:7777"
@@ -145,7 +145,7 @@ services:
     build:
       context: productservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/productservice:prod'
+    image: 'tuhin47/productservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "8081:8081"
@@ -174,7 +174,7 @@ services:
     build:
       context: orderservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/orderservice:prod'
+    image: 'tuhin47/orderservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "8082:8082"
@@ -206,7 +206,7 @@ services:
       dockerfile: ../Dockerfile
     profiles:
       - all
-    image: 'tuhin47/chatservice:prod'
+    image: 'tuhin47/chatservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "8084:8084"
@@ -232,7 +232,7 @@ services:
     build:
       context: paymentservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/paymentservice:prod'
+    image: 'tuhin47/paymentservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3
     ports:
       - "8083:8083"
