@@ -10,61 +10,6 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Auth Service | Create User",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "\r\n{\r\n  \"displayName\": \"Towhidul\",\r\n  \"email\": \"sample@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"matchingPassword\": \"123456\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_GATEWAY}}/auth/signup",
-							"host": [
-								"{{API_GATEWAY}}"
-							],
-							"path": [
-								"auth",
-								"signup"
-							]
-						},
-						"description": "Authentication provide"
-					},
-					"response": []
-				},
-				{
-					"name": "Auth Service | Create Admin",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"admin\",\r\n    \"email\" : \"admin@refreshtoken.com\",\r\n    \"roles\" : [\r\n            \"ROLE_USER\",\"ROLE_ADMIN\"\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_GATEWAY}}/auth/signup",
-							"host": [
-								"{{API_GATEWAY}}"
-							],
-							"path": [
-								"auth",
-								"signup"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Auth Service | Login User",
 					"event": [
 						{
@@ -74,7 +19,10 @@
 									"var jsonData = pm.response.json();",
 									"console.log(jsonData);",
 									"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
-									"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+									"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -93,9 +41,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/signin",
+							"raw": "{{AUTH}}/auth/signin",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -106,16 +54,122 @@
 					"response": []
 				},
 				{
-					"name": "Auth Service | Refresh Token",
+					"name": "/user/me",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
-									"console.log(jsonData);",
-									"pm.environment.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
-									"pm.environment.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);"
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{AUTH}}/auth/user/me",
+							"host": [
+								"{{AUTH}}"
+							],
+							"path": [
+								"auth",
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Create User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"displayName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"matchingPassword\": \"{{password}}\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AUTH}}/auth/signup",
+							"host": [
+								"{{AUTH}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Authentication provide"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Product Service | Add Product",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.collectionVariables.set(\"PRODUCT_ID\", pm.response.text());",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -136,7 +190,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"refreshToken\" : \"{{REFRESH_TOKEN}}\"\r\n}",
+							"raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"quantity\" : {{$randomInt}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -144,51 +198,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/refreshtoken",
+							"raw": "{{PRODUCT}}/product",
 							"host": [
-								"{{API_GATEWAY}}"
-							],
-							"path": [
-								"auth",
-								"refreshtoken"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Product",
-			"item": [
-				{
-					"name": "Product Service | Add Product",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Product 2\",\r\n    \"price\" : 200,\r\n    \"quantity\" : 2\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_GATEWAY}}/product",
-							"host": [
-								"{{API_GATEWAY}}"
+								"{{PRODUCT}}"
 							],
 							"path": [
 								"product"
@@ -198,73 +210,20 @@
 					"response": []
 				},
 				{
-					"name": "Product Service | Get All Product By Pagination",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n  {\n    \"key\": \"productName\",\n    \"operation\": \"MATCH\",\n    \"value\": \"1\"\n  }\n]",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_GATEWAY}}/product/all?size=1&page=0&sort=productName,desc;productId,asc",
-							"host": [
-								"{{API_GATEWAY}}"
-							],
-							"path": [
-								"product",
-								"all"
-							],
-							"query": [
-								{
-									"key": "size",
-									"value": "1"
-								},
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "sort",
-									"value": "productName,desc;productId,asc"
-								},
-								{
-									"key": "sort",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Product Service | Get By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -298,13 +257,104 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_GATEWAY}}/product/2",
+							"raw": "{{PRODUCT}}/product/{{PRODUCT_ID}}",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{PRODUCT}}"
 							],
 							"path": [
 								"product",
-								"2"
+								"{{PRODUCT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Service | All By filter",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(pm.request.body.raw)",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"key\": \"id\",\n    \"operation\": \"MATCH\",\n    \"value\": \"{{$randomAlphaNumeric}}\"\n  }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT}}/product/all?size=1&page=0&sort=productName,desc;id,asc",
+							"host": [
+								"{{PRODUCT}}"
+							],
+							"path": [
+								"product",
+								"all"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "productName,desc;id,asc"
+								}
 							]
 						}
 					},
@@ -312,6 +362,19 @@
 				},
 				{
 					"name": "Product Service | Reduce Quantity of Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -326,19 +389,98 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{API_GATEWAY}}/product/reduceQuantity/1?quantity=1",
+							"raw": "{{PRODUCT}}/product/reduceQuantity/{{PRODUCT_ID}}?quantity=1",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{PRODUCT}}"
 							],
 							"path": [
 								"product",
 								"reduceQuantity",
-								"1"
+								"{{PRODUCT_ID}}"
 							],
 							"query": [
 								{
 									"key": "quantity",
 									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Service | Excel Export",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\"); ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT}}/product/excel?size=1&page=0&sort=productName,desc;id,asc",
+							"host": [
+								"{{PRODUCT}}"
+							],
+							"path": [
+								"product",
+								"excel"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "productName,desc;id,asc"
 								}
 							]
 						}
@@ -351,35 +493,21 @@
 			"name": "Order",
 			"item": [
 				{
-					"name": "Order Service | Order By ID",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{API_GATEWAY}}/order/3",
-							"host": [
-								"{{API_GATEWAY}}"
-							],
-							"path": [
-								"order",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Order Service | Place an Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.collectionVariables.set(\"orderId\", pm.response.text());",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -395,7 +523,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productId\" : 1,\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
+							"raw": "{\r\n    \"productId\" : \"{{PRODUCT_ID}}\",\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -403,17 +531,125 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_GATEWAY}}/order/placeorder",
+							"raw": "{{ORDER}}/order/",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{ORDER}}"
 							],
 							"path": [
 								"order",
-								"placeorder"
+								""
 							]
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Order Service | Order By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ORDER}}/order/{{orderId}}",
+							"host": [
+								"{{ORDER}}"
+							],
+							"path": [
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "{{PAY}}/payment/order/{{orderId}}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAY}}/payment/order/{{orderId}}",
+							"host": [
+								"{{PAY}}"
+							],
+							"path": [
+								"payment",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
@@ -446,6 +682,39 @@
 		{
 			"key": "AUTH_TOKEN",
 			"value": ""
+		},
+		{
+			"key": "PRODUCT",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "ORDER",
+			"value": "http://localhost:8082",
+			"type": "string"
+		},
+		{
+			"key": "PAY",
+			"value": "http://localhost:8083",
+			"type": "string"
+		},
+		{
+			"key": "AUTH",
+			"value": "http://localhost:7777",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "123456"
+		},
+		{
+			"key": "PRODUCT_ID",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": "",
+			"type": "string"
 		},
 		{
 			"key": "REFRESH_TOKEN",
