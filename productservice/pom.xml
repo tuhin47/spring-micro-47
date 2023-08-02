@@ -9,7 +9,7 @@
     </parent>
     <groupId>me.tuhin47</groupId>
     <artifactId>productservice</artifactId>
-    <name>Product Service</name>
+    <name>product-service</name>
     <description>Product Service for Microservice</description>
     <properties>
         <java.version>11</java.version>

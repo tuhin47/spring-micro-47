@@ -15,8 +15,8 @@ public class GenericSpecification<T> implements Specification<T> {
 
     private final List<SearchCriteria> list;
 
-    private Function<SearchCriteria, String> GROUPID_FUNCTION = criteria -> criteria.getGroupId() == null ? UUID.randomUUID()
-                                                                                                                .toString() : criteria.getGroupId();
+    private final Function<SearchCriteria, String> GROUPID_FUNCTION = criteria -> criteria.getGroupId() == null ? UUID.randomUUID()
+                                                                                                                      .toString() : criteria.getGroupId();
 
     public GenericSpecification(List<SearchCriteria> searchCriteria) {
         this.list = Objects.requireNonNullElseGet(searchCriteria, ArrayList::new);

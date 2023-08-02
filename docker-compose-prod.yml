@@ -107,7 +107,7 @@ services:
 
   authservice:
     build:
-      context: spring-boot-oauth2-social-login
+      context: authservice
       dockerfile: ../Dockerfile
     image: 'tuhin47/authservice:${PROD_IMAGE_TAG}'
     restart: on-failure:3

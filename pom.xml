@@ -33,7 +33,7 @@
         <module>paymentservice</module>
         <module>productservice</module>
         <module>service-registry</module>
-        <module>spring-boot-oauth2-social-login</module>
+        <module>authservice</module>
     </modules>
 
 

@@ -132,7 +132,7 @@ services:
 
   authservice:
     build:
-      context: spring-boot-oauth2-social-login
+      context: authservice
       dockerfile: ../dev.Dockerfile
     image: 'tuhin47/authservice:dev'
     container_name: authservice
@@ -169,7 +169,7 @@ services:
     networks:
       - backend
     volumes:
-      - $PROJECT_PATH/spring-boot-oauth2-social-login:/app
+      - $PROJECT_PATH/authservice:/app
       - $MAVEN_REPO:/root/.m2
 
 

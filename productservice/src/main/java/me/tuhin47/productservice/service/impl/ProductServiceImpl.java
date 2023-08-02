@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.entity.Product;
-import me.tuhin47.productservice.exception.ProductServiceCustomException;
 import me.tuhin47.productservice.exception.ProductServiceExceptions;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
@@ -45,15 +44,10 @@ public class ProductServiceImpl implements ProductService {
     public void reduceQuantity(String productId, long quantity) {
 
         log.info("Reduce Quantity {} for Id: {}", quantity, productId);
-
-        Product product = productRepository.findById(productId)
-                                           .orElseThrow(() -> ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId));
+        Product product = productRepository.findById(productId).orElseThrow(() -> ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId));
 
         if (product.getQuantity() < quantity) {
-            throw new ProductServiceCustomException(
-                "Product does not have sufficient Quantity",
-                "INSUFFICIENT_QUANTITY"
-            );
+            throw ProductServiceExceptions.INSUFFICIENT_QUANTITY.get();
         }
 
         product.setQuantity(product.getQuantity() - quantity);
@@ -65,9 +59,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(String productId) {
         if (!productRepository.existsById(productId)) {
             log.info("Im in this loop {}", !productRepository.existsById(productId));
-            throw new ProductServiceCustomException(
-                "Product with given with Id: " + productId + " not found:",
-                "PRODUCT_NOT_FOUND");
+            throw ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId);
         }
         log.info("Deleting Product with id: {}", productId);
         productRepository.deleteById(productId);

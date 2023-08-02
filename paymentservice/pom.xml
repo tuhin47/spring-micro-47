@@ -9,7 +9,7 @@
     </parent>
     <groupId>me.tuhin47</groupId>
     <artifactId>paymentservice</artifactId>
-    <name>paymentservice</name>
+    <name>payment-service</name>
     <description>PaymentService</description>
     <properties>
         <java.version>11</java.version>
