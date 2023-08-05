@@ -11,14 +11,8 @@
     <artifactId>paymentservice</artifactId>
     <name>payment-service</name>
     <description>PaymentService</description>
-    <properties>
-        <java.version>11</java.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
-    </properties>
+
     <dependencies>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -129,8 +123,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>

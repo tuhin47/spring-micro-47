@@ -12,9 +12,6 @@
     <name>api-gateway</name>
     <description>API Gateway</description>
     <properties>
-        <java.version>11</java.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
     </properties>
     <dependencies>

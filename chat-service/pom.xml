@@ -11,13 +11,7 @@
     <artifactId>chat-service</artifactId>
     <name>chat-service</name>
     <description>Chat Service for Microservice</description>
-    <properties>
-        <java.version>11</java.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
-    </properties>
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
