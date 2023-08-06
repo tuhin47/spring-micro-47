@@ -14,7 +14,6 @@ import java.util.Set;
 
 /**
  * The persistent class for the user database table.
- *
  */
 @Entity
 @NoArgsConstructor
@@ -22,7 +21,7 @@ import java.util.Set;
 @Setter
 public class User extends DateAudit implements Serializable {
 
-	private static final long serialVersionUID = 65981149772133526L;
+    private static final long serialVersionUID = 65981149772133526L;
 
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -30,33 +29,33 @@ public class User extends DateAudit implements Serializable {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 
-	@Column(name = "PROVIDER_USER_ID")
-	private String providerUserId;
+    @Column(name = "PROVIDER_USER_ID")
+    private String providerUserId;
 
-	@Column(nullable = false, unique = true)
-	private String email;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-	@Column(name = "enabled", columnDefinition = "BIT", length = 1)
-	private boolean enabled;
+    @Column(name = "enabled", columnDefinition = "BIT", length = 1)
+    private boolean enabled;
 
-	@Column(name = "DISPLAY_NAME")
-	private String displayName;
+    @Column(name = "DISPLAY_NAME")
+    private String displayName;
 
     @ToString.Exclude
     @JsonIgnore
     @Column(nullable = false, length = 200)
-	private byte[] password;
+    private byte[] password;
 
-	private String provider;
+    private String provider;
 
-	@Column(name = "USING_2FA")
-	private boolean using2FA;
+    @Column(name = "USING_2FA")
+    private boolean using2FA;
 
-	private String secret;
+    private String secret;
 
-	// bi-directional many-to-many association to Role
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
-	private Set<Role> roles;
+    // bi-directional many-to-many association to Role
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+    private Set<Role> roles;
 }

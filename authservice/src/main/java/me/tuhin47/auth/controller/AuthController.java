@@ -4,7 +4,7 @@ import io.swagger.annotations.*;
 import me.tuhin47.auth.config.CurrentUser;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
-import me.tuhin47.auth.security.oauth2.LocalUser;
+import me.tuhin47.config.redis.UserRedis;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,17 +39,17 @@ public interface AuthController {
             @ApiResponse(code = 200, message = "Code verification successful"),
             @ApiResponse(code = 400, message = "Invalid code")
     })
-    ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @ApiIgnore @CurrentUser LocalUser user);
+    ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @ApiIgnore @CurrentUser UserRedis userRedis);
 
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "Get current user", notes = "Retrieves information about the current authenticated user", authorizations = @Authorization("USER"))
     @ApiResponse(code = 200, message = "User details retrieved successfully")
-    ResponseEntity<?> getCurrentUser(@ApiIgnore @CurrentUser LocalUser user);
+    ResponseEntity<?> getCurrentUser(@ApiIgnore @CurrentUser UserRedis userRedis);
 
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "Get all user summaries", notes = "Retrieves summaries of all registered users")
     @ApiResponse(code = 200, message = "User summaries retrieved successfully")
-    ResponseEntity<?> findAllUserSummaries(@ApiIgnore @CurrentUser LocalUser localUser);
+    ResponseEntity<?> findAllUserSummaries(@ApiIgnore @CurrentUser UserRedis userRedis);
 
     @ApiOperation(value = "Get public content", notes = "Retrieves public content")
     @ApiResponse(code = 200, message = "Public content retrieved successfully")

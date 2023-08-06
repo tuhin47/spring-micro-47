@@ -1,5 +1,6 @@
 package me.tuhin47.config;
 
+import me.tuhin47.config.redis.UserRedis;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -29,7 +30,7 @@ class SpringSecurityAuditAwareImpl implements AuditorAware<String> {
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             return Optional.empty();
         }
-        RedisUser userPrincipal = (RedisUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserRedis userPrincipal = (UserRedis) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return Optional.ofNullable(userPrincipal.getUserId());
     }

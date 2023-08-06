@@ -5,6 +5,8 @@ import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.security.oauth2.LocalUser;
+import me.tuhin47.config.redis.UserRedis;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
@@ -16,11 +18,11 @@ import java.util.Optional;
  * @author Chinna
  * @since 26/3/18
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
 	User registerNewUser(SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException;
 
-	User findUserByEmail(String email);
+    UserRedis findUserByEmail(String email);
 
 	Optional<User> findUserById(String id);
 
@@ -28,5 +30,5 @@ public interface UserService {
 
 	List<User> findAll();
 
-    JwtAuthenticationResponse getJwtAuthenticationResponse(LocalUser localUser);
+    JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis userRedis);
 }

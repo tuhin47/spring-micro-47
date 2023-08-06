@@ -1,7 +1,11 @@
 package me.tuhin47.auth.security.oauth2;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -10,29 +14,31 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * @author Chinna
- */
-public class LocalUser extends User implements OAuth2User, OidcUser {
+@Getter
+public class LocalUser extends User implements OAuth2User, OidcUser , UserDetails {
 
     private static final long serialVersionUID = -2845160792248762779L;
+
+    @Id
+    private final String userNameOrEmail;
+    private final String userId;
+    @JsonIgnore
     private final OidcIdToken idToken;
+    @JsonIgnore
     private final OidcUserInfo userInfo;
-    private final String email;
+
     private Map<String, Object> attributes;
 
-    public LocalUser(final String userID, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired,
-                     final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, String email) {
-        this(userID, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, null, null, email);
+    public LocalUser(final String userNameOrEmail, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, String userId) {
+        this(userNameOrEmail, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, null, null, userId);
     }
 
-    public LocalUser(final String userID, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired,
-                     final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, OidcIdToken idToken,
-                     OidcUserInfo userInfo, String email) {
-        super(userID, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        this.email = email != null ? email : OidcUser.super.getEmail();
+    public LocalUser(final String userNameOrEmail, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, OidcIdToken idToken, OidcUserInfo userInfo, String userId) {
+        super(userNameOrEmail, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        this.userNameOrEmail = userNameOrEmail != null ? userNameOrEmail : OidcUser.super.getEmail();
         this.idToken = idToken;
         this.userInfo = userInfo;
+        this.userId = userId;
     }
 
     public static LocalUser create(Map<String, Object> attributes, LocalUser localUser) {
@@ -40,37 +46,22 @@ public class LocalUser extends User implements OAuth2User, OidcUser {
         return localUser;
     }
 
-    @Override
-    public String getName() {
-        return this.getEmail();
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return this.attributes;
-    }
-
     public void setAttributes(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
     @Override
+    public String getName() {
+        return userNameOrEmail;
+    }
+
+    @Override
+    public String getUsername() {
+        return userNameOrEmail;
+    }
+
+    @Override
     public Map<String, Object> getClaims() {
-        return this.attributes;
-    }
-
-    @Override
-    public OidcUserInfo getUserInfo() {
-        return this.userInfo;
-    }
-
-    @Override
-    public OidcIdToken getIdToken() {
-        return this.idToken;
-    }
-
-    @Override
-    public String getEmail() {
-        return this.email;
+        return attributes;
     }
 }

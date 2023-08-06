@@ -11,15 +11,16 @@ import me.tuhin47.auth.config.CurrentUser;
 import me.tuhin47.auth.controller.AuthController;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.mapper.UserMapper;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.ApiResponse;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.payload.response.SignUpResponse;
-import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
+import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,13 +50,14 @@ public class AuthControllerImpl implements AuthController {
     private final QrDataFactory qrDataFactory;
     private final QrGenerator qrGenerator;
     private final CodeVerifier verifier;
+    private final UserMapper userMapper;
 
     @Override
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), new String(loginRequest.getPassword())));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        LocalUser localUser = (LocalUser) authentication.getPrincipal();
+        UserRedis localUser = (UserRedis) authentication.getPrincipal();
         return ResponseEntity.ok(userService.getJwtAuthenticationResponse(localUser));
     }
 
@@ -88,30 +90,30 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser LocalUser user) {
+    public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser UserRedis userRedis) {
 
-        User userByEmail = userService.findUserByEmail(user.getEmail());
-        if (!verifier.isValidCode(userByEmail.getSecret(), code)) {
+        if (!verifier.isValidCode(userRedis.getSecret(), code)) {
             return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
         }
-        String jwt = tokenProvider.createToken(true, user.getEmail());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(user, userByEmail)));
+        String jwt = tokenProvider.createToken(true, userRedis.getEmail());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, true, GeneralUtils.buildUserInfo(userRedis)));
     }
 
     @Override
     @GetMapping("/user/me")
-    public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser localUser) {
-        return ResponseEntity.ok(userService.getJwtAuthenticationResponse(localUser));
+    public ResponseEntity<?> getCurrentUser(@CurrentUser UserRedis userRedis){
+        return ResponseEntity.ok(userService.getJwtAuthenticationResponse(userRedis));
     }
 
     @Override
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllUserSummaries(@CurrentUser LocalUser localUser) {
+    public ResponseEntity<?> findAllUserSummaries(@CurrentUser UserRedis userRedis){
         log.info("retrieving all users summaries");
 
         return ResponseEntity.ok(userService.findAll()
                                             .stream()
-                                            .filter(user -> !user.getEmail().equals(localUser.getUsername()))
+                                            .filter(user -> !user.getEmail().equals(userRedis.getUsername()))
+                                            .map(userMapper::toUserRedis)
                                             .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptyList())));
     }
 

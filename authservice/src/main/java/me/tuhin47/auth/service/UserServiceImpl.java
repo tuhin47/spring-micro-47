@@ -6,6 +6,7 @@ import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.mapper.UserMapper;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.repo.RoleRepository;
@@ -15,11 +16,16 @@ import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
 import me.tuhin47.auth.util.GeneralUtils;
+import me.tuhin47.config.redis.RedisUserService;
+import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.jwt.TokenProvider;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +37,7 @@ import java.util.*;
  */
 @Service
 @RequiredArgsConstructor
+@Primary
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -38,6 +45,15 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final SecretGenerator secretGenerator;
     private final TokenProvider tokenProvider;
+    private final RedisUserService redisUserService;
+    private final UserMapper userMapper;
+
+
+    @Override
+    @Transactional
+    public UserRedis loadUserByUsername(final String email) throws UsernameNotFoundException {
+        return findUserByEmail(email);
+    }
 
     @Override
     @Transactional(value = "transactionManager")
@@ -72,8 +88,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
+    public UserRedis findUserByEmail(final String email) {
+        Optional<UserRedis> redis = redisUserService.getUser(email);
+        if (redis.isPresent()) {
+            return redis.get();
+        }
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + email + " was not found in the database");
+        }
+        UserRedis userRedis = userMapper.toUserRedis(user);
+
+        return redisUserService.saveLocalUser(userRedis);
     }
 
     @Override
@@ -85,8 +112,8 @@ public class UserServiceImpl implements UserService {
         } else if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-        SignUpRequest userDetails = toUserRegistrationObject(registrationId, oAuth2UserInfo);
-        User user = findUserByEmail(oAuth2UserInfo.getEmail());
+        SignUpRequest signUpRequest = toUserRegistrationObject(registrationId, oAuth2UserInfo);
+        User user = userRepository.findByEmail(signUpRequest.getEmail());
         if (user != null) {
             if (!user.getProvider().equals(registrationId) && !user.getProvider().equals(SocialProvider.LOCAL.getProviderType())) {
                 throw new OAuth2AuthenticationProcessingException(
@@ -94,16 +121,20 @@ public class UserServiceImpl implements UserService {
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
-            user = registerNewUser(userDetails);
+            user = registerNewUser(signUpRequest);
         }
 
-        LocalUser localUser = new LocalUser(user.getEmail(), Arrays.toString(user.getPassword()), user.isEnabled(), true, true, true,
-            GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()),
-            idToken, userInfo, user.getEmail());
+        LocalUser localUser = createLocalUser(user);
 
         return LocalUser.create(attributes, localUser);
     }
 
+    private LocalUser createLocalUser(User user) {
+        return new LocalUser(user.getEmail(), new String(user.getPassword()), user.isEnabled(), true, true, true,
+            GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()), user.getId());
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setDisplayName(oAuth2UserInfo.getName());
         return userRepository.save(existingUser);
@@ -130,10 +161,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtAuthenticationResponse getJwtAuthenticationResponse(LocalUser localUser) {
-        User userByEmail = findUserByEmail(localUser.getEmail());
-        boolean authenticated = userByEmail != null && !userByEmail.isUsing2FA();
+    public JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis localUser) {
+        UserRedis userByEmail = findUserByEmail(localUser.getEmail());
+        boolean authenticated = userByEmail != null ;/*&& !userByEmail.isUsing2FA();*/
         String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
-        return new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(localUser, userByEmail) : null);
+        return new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(userByEmail) : null);
     }
 }

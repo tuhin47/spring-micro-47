@@ -1,8 +1,8 @@
-package me.tuhin47.config;
+package me.tuhin47.config.redis;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RedisUserRepo extends CrudRepository<RedisUser,String> {
+public interface RedisUserRepo extends CrudRepository<UserRedis, String> {
 }
