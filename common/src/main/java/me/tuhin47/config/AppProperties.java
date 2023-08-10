@@ -19,8 +19,16 @@ public class AppProperties {
     @Getter
     public static class Config {
         private String qrIssuer;
+        private Boolean noAuth;
+        private String noAuthToken;
         public void setQrIssuer(String qrIssuer) {
             this.qrIssuer = qrIssuer;
+        }
+        public void setNoAuth(Boolean noAuth){
+            this.noAuth = noAuth;
+        }
+        public void setNoAuthToken(String noAuthToken) {
+            this.noAuthToken = noAuthToken;
         }
     }
 

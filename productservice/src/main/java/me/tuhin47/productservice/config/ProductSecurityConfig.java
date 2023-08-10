@@ -24,6 +24,7 @@ public class ProductSecurityConfig {
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final String[] whiteList;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,7 +33,7 @@ public class ProductSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**", "/product/v3/api-docs/**", "/swagger**", "/actuator/**").permitAll()
+                .antMatchers(whiteList).permitAll()
                 .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
                 .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")

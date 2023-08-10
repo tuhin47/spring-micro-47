@@ -1,5 +1,6 @@
 package me.tuhin47.config;
 
+import lombok.RequiredArgsConstructor;
 import me.tuhin47.exporter.*;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -21,7 +22,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class CommonBean {
+
+    private final AppProperties appProperties;
 
     @Bean
     @ConditionalOnMissingBean(ApiInfo.class)
@@ -29,8 +33,21 @@ public class CommonBean {
         return ApiInfo.DEFAULT;
     }
 
+    @Bean
+    public String[] whiteList() {
+        List<String> whiteList = List.of(
+            "/zipkin/**", "/auth/v3/api-docs/**", "/swagger**", "/actuator/**",
+            "/order/v3/api-docs/**","/payment/v3/api-docs/**","/product/v3/api-docs/**"
+        );
+        if (appProperties.getConfig().getNoAuth()) {
+            whiteList = List.of("/**");
+        }
 
-    //    https://stackoverflow.com/a/70892119/7499069
+        return whiteList.toArray(new String[0]);
+    }
+
+
+    //https://stackoverflow.com/a/70892119/7499069
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier, ServletEndpointsSupplier servletEndpointsSupplier, ControllerEndpointsSupplier controllerEndpointsSupplier, EndpointMediaTypes endpointMediaTypes, CorsEndpointProperties corsProperties, WebEndpointProperties webEndpointProperties, Environment environment) {
@@ -46,7 +63,8 @@ public class CommonBean {
     }
 
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
-        return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
+        return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment)
+                                                                                                                       .equals(ManagementPortType.DIFFERENT));
     }
 
     @Bean(name = ExporterType.Constants.EXCEL)

@@ -41,8 +41,7 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final PasswordEncoder passwordEncoder;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
-//	private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-//	private final JWTAccessDeniedHandler accessDeniedHandler;
+    private final String[] whiteList;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +54,7 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .csrf().disable().formLogin().disable().httpBasic().disable()
             .authorizeRequests()
-            .antMatchers("/zipkin/**", "/auth/v3/api-docs/**", "/swagger**", "/actuator/**").permitAll()
+            .antMatchers(whiteList).permitAll()
             .antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll().anyRequest().authenticated().and()
             .oauth2Login().authorizationEndpoint()
             .authorizationRequestRepository(cookieAuthorizationRequestRepository()).and()

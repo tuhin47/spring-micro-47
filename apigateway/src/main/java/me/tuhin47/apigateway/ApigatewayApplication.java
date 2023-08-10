@@ -2,6 +2,7 @@ package me.tuhin47.apigateway;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.config.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
@@ -10,11 +11,13 @@ import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 @EnableEurekaClient
 @Slf4j
+@Import({AppProperties.class})
 public class ApigatewayApplication{
 
     public static void main(String[] args) {

@@ -23,6 +23,8 @@ public class OrderSecurityConfig {
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final String[] whiteList;
+
 
 
     @Bean
@@ -32,7 +34,7 @@ public class OrderSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**","/order/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
+                .antMatchers(whiteList).permitAll()
                 .antMatchers(HttpMethod.POST, "/order/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/order/**").hasRole("USER")
                 .and()

@@ -24,6 +24,7 @@ public class PaymentSecurityConfig {
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final String[] whiteList;
 
 
     @Bean
@@ -33,7 +34,7 @@ public class PaymentSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/zipkin/**","/payment/v3/api-docs/**","/swagger**","/actuator/**").permitAll()
+                .antMatchers(whiteList).permitAll()
                 .antMatchers( "/payment/**").hasRole("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
