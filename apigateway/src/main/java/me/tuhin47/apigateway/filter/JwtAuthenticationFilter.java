@@ -36,6 +36,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         if (appProperties.getConfig().getNoAuth()) {
+            log.info("No Auth is active. Ignoring authentication with default token");
             exchange.getRequest().mutate().header(HttpHeaders.AUTHORIZATION, "Bearer " + appProperties.getConfig().getNoAuthToken()).build();
         }
         log.info("JwtAuthenticationFilter | filter is working");

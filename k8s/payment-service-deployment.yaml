@@ -27,7 +27,7 @@ spec:
             - name: NOAUTH_ENABLE
               valueFrom:
                 configMapKeyRef:
-                  name: config-cm
+                  name: auth-cm
                   key: noauth_enable
             - name: EUREKA_SERVER_ADDRESS
               valueFrom:

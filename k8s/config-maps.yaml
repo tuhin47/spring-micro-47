@@ -4,8 +4,6 @@ metadata:
   name: config-cm
 data:
   config_url: "http://config-server-svc"
-  noauth_enable: false
-  noauth_token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MTU5MTEyMywiZXhwIjoxNjkyNDU1MTIzfQ.TAGTNuia_SdruFKC7yM6gFsOm6lvu-A3hdij78Lw7r9hNuhjI2Tg1l32p74LEtnPULraOgssKynXKCxjsCiv4g"
 ---
 
 apiVersion: v1
@@ -39,6 +37,8 @@ metadata:
   name: auth-cm
 data:
   client-id: "329264260733-k1omtencc7uf7pn0srguumhmi5bp3ni8.apps.googleusercontent.com"
+  noauth_enable: "true"
+  noauth_token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MTU5MTEyMywiZXhwIjoxNjkyNDU1MTIzfQ.TAGTNuia_SdruFKC7yM6gFsOm6lvu-A3hdij78Lw7r9hNuhjI2Tg1l32p74LEtnPULraOgssKynXKCxjsCiv4g"
 ---
 
 apiVersion: v1

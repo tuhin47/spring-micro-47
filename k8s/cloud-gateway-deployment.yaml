@@ -42,12 +42,12 @@ spec:
             - name: NOAUTH_ENABLE
               valueFrom:
                 configMapKeyRef:
-                  name: config-cm
+                  name: auth-cm
                   key: noauth_enable
             - name: NOAUTH_TOKEN
               valueFrom:
                 configMapKeyRef:
-                  name: config-cm
+                  name: auth-cm
                   key: noauth_token
 ---
 
