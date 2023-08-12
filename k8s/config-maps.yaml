@@ -4,7 +4,8 @@ metadata:
   name: config-cm
 data:
   config_url: "http://config-server-svc"
-
+  noauth_enable: false
+  noauth_token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MTU5MTEyMywiZXhwIjoxNjkyNDU1MTIzfQ.TAGTNuia_SdruFKC7yM6gFsOm6lvu-A3hdij78Lw7r9hNuhjI2Tg1l32p74LEtnPULraOgssKynXKCxjsCiv4g"
 ---
 
 apiVersion: v1
@@ -13,6 +14,14 @@ metadata:
   name: eureka-cm
 data:
   eureka_service_address: "http://eureka-0.eureka:8761/eureka"
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: axon-cm
+data:
+  axon_server_url: "axonserver-grpc"
 
 ---
 

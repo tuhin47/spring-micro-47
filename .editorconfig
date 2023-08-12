@@ -14,7 +14,7 @@ insert_final_newline = false
 [*.java]
 ij_java_align_multiline_chained_methods = true
 
-[*.yml]
+[{*.yml,*.yaml}]
 indent_size = 2
 
 [*.md]

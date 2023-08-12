@@ -23,6 +23,11 @@ spec:
                 configMapKeyRef:
                   name: config-cm
                   key: config_url
+            - name: NOAUTH_ENABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: config-cm
+                  key: noauth_enable
             - name: EUREKA_SERVER_ADDRESS
               valueFrom:
                 configMapKeyRef:
@@ -53,6 +58,12 @@ spec:
                 configMapKeyRef:
                   name: zipkin-cm
                   key: zipkin_url
+            - name: AXON_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: axon-cm
+                  key: axon_server_url
+
 
 ---
 

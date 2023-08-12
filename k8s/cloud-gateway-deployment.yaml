@@ -39,6 +39,16 @@ spec:
                 configMapKeyRef:
                   name: zipkin-cm
                   key: zipkin_url
+            - name: NOAUTH_ENABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: config-cm
+                  key: noauth_enable
+            - name: NOAUTH_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: config-cm
+                  key: noauth_token
 ---
 
 apiVersion: v1

@@ -29,7 +29,7 @@ spring:
       location: /data/upload_tmp
   redis:
     host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
+    port: 6379
 #    client-type: jedis
   zipkin:
     baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
