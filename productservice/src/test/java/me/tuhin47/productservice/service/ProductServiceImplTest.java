@@ -1,16 +1,42 @@
 package me.tuhin47.productservice.service;
 
-//@SpringBootTest
-public class ProductServiceImplTest {
-/*
-    private ProductRepository productRepository;
+import me.tuhin47.exception.CustomException;
+import me.tuhin47.exception.EntityNotFoundException;
+import me.tuhin47.payload.response.ProductResponse;
+import me.tuhin47.productservice.entity.Product;
+import me.tuhin47.productservice.payload.mapper.ProductMapper;
+import me.tuhin47.productservice.payload.request.ProductRequest;
+import me.tuhin47.productservice.repository.ProductRepository;
+import me.tuhin47.productservice.service.impl.ProductServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
+import java.util.Optional;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class ProductServiceImplTest {
+
+    private ProductRepository productRepository;
     private ProductService productService;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         productRepository = mock(ProductRepository.class);
-        productService = new ProductServiceImpl(productRepository);
+        ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
+        productService = new ProductServiceImpl(mapper, productRepository);
     }
 
     @Test
@@ -21,56 +47,51 @@ public class ProductServiceImplTest {
 
         when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
 
-        long productId = productService.addProduct(productRequest);
+        String productId = productService.addProduct(productRequest);
 
         verify(productRepository, times(1))
-                .save(any());
+            .save(any());
 
-        assertEquals(product.getProductId(), productId);
+        assertEquals(product.getId(), productId);
     }
 
     @Test
     void test_When_GetProductById_isSuccess() {
         Product product = getMockProductDetails();
-        when(productRepository.findById(product.getProductId())).thenReturn(Optional.of(product));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
 
-        ProductResponse productResponse = productService.getProductById(1);
+        ProductResponse productResponse = productService.getProductById("1");
         //Verification
-        verify(productRepository, times(1)).findById(anyLong());
+        verify(productRepository, times(1)).findById(anyString());
 
         //Assert
         assertNotNull(productResponse);
-        assertEquals(product.getProductId(), productResponse.getProductId());
+        assertEquals(product.getId(), productResponse.getId());
 
     }
 
     @Test
     void test_When_GetProductById_isNotFound() {
 
-        when(productRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        when(productRepository.findById(anyString())).thenReturn(Optional.empty());
         //Assert
-        ProductServiceCustomException exception
-                = assertThrows(ProductServiceCustomException.class, () -> productService.getProductById(1));
-        assertEquals("PRODUCT_NOT_FOUND", exception.getErrorCode());
-        assertEquals("Product with given Id not found", exception.getMessage());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> productService.getProductById("1"));
+        assertEquals("Product was not found for parameters {id=1}", exception.getMessage());
 
         //Verify
-        verify(productRepository, times(1)).findById(anyLong());
-
+        verify(productRepository, times(1)).findById(anyString());
 
     }
 
     @Test
     void test_When_deleteProductById_isNotFound() {
-        when(productRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        when(productRepository.findById(anyString())).thenReturn(Optional.empty());
         //Assert
-        ProductServiceCustomException exception
-                = assertThrows(ProductServiceCustomException.class, () -> productService.deleteProductById(1));
-        assertEquals("PRODUCT_NOT_FOUND", exception.getErrorCode());
-        assertEquals("Product with given with Id: 1 not found:", exception.getMessage());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> productService.deleteProductById("1"));
+        assertEquals("Product was not found for parameters {id=1}", exception.getMessage());
 
         //Verify
-        verify(productRepository, times(0)).deleteById(anyLong());
+        verify(productRepository, times(0)).deleteById(anyString());
 
     }
 
@@ -78,34 +99,32 @@ public class ProductServiceImplTest {
     void test_When_deleteProductById_isSuccess() {
 
         Product product = getMockProductDetails();
-        when(productRepository.existsById(product.getProductId())).thenReturn(true);
+        when(productRepository.existsById(product.getId())).thenReturn(true);
 
-        productService.deleteProductById(1);
+        productService.deleteProductById("1");
         //Verification
-        verify(productRepository, times(1)).deleteById(anyLong());
+        verify(productRepository, times(1)).deleteById(anyString());
 
     }
 
     @Test
     void test_When_reduceQuantity_isSuccess() {
         Product product = getMockProductDetails();
-        long productId = 1, quantity = 5;
-        when(productRepository.findById(product.getProductId())).thenReturn(Optional.of(product));
+        String productId = "1";
+        long quantity = 5;
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         productService.reduceQuantity(productId, quantity);
         when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
-        verify(productRepository, times(1))
-                .save(any());
+        verify(productRepository, times(1)).save(any());
     }
 
     @Test
     void test_When_reduceQuantity_isFailed_when_productId_isNotFound() {
-        when(productRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        when(productRepository.findById(anyString())).thenReturn(Optional.empty());
 
         //Assert
-        ProductServiceCustomException exception
-                = assertThrows(ProductServiceCustomException.class, () -> productService.reduceQuantity(1, 1));
-        assertEquals("PRODUCT_NOT_FOUND", exception.getErrorCode());
-        assertEquals("Product with given Id not found", exception.getMessage());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> productService.reduceQuantity("1", 1));
+        assertEquals("Product was not found for parameters {id=1}", exception.getMessage());
 
         //Verify
         verify(productRepository, times(0)).save(any());
@@ -114,9 +133,9 @@ public class ProductServiceImplTest {
     @Test
     void test_When_reduceQuantity_isFailed_when_insufficientQuantity() {
         Product product = getMockProductDetails();
-        when(productRepository.findById(product.getProductId())).thenReturn(Optional.of(product));
-        ProductServiceCustomException exception
-                = assertThrows(ProductServiceCustomException.class, () -> productService.reduceQuantity(1, 11));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+
+        CustomException exception = assertThrows(CustomException.class, () -> productService.reduceQuantity("1", 11));
         assertEquals("INSUFFICIENT_QUANTITY", exception.getErrorCode());
         assertEquals("Product does not have sufficient Quantity", exception.getMessage());
 
@@ -127,19 +146,15 @@ public class ProductServiceImplTest {
     private Product getMockProductDetails() {
 
         return Product.builder()
-                .productName("iphone")
-                .quantity(10)
-                .productId(1)
-                .price(1000)
-                .build();
+                      .productName("iphone")
+                      .quantity(10)
+                      .id("1")
+                      .price(1000)
+                      .build();
 
     }
 
     private ProductRequest getMockProductRequest() {
-        return ProductRequest.builder()
-                .name("iphone")
-                .price(1000)
-                .quantity(10)
-                .build();
-    }*/
+        return new ProductRequest("iphone", 1000, 10);
+    }
 }
