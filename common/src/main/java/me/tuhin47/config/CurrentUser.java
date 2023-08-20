@@ -1,4 +1,4 @@
-package me.tuhin47.auth.config;
+package me.tuhin47.config;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

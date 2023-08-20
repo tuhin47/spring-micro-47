@@ -1,7 +1,6 @@
 package me.tuhin47.productservice.conttoller.Impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.exporter.ExporterUtils;
 import me.tuhin47.payload.response.ProductResponse;
@@ -22,7 +21,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/product")
 public class ProductControllerImpl implements ProductController {
 

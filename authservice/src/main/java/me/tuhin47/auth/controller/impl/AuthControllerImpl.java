@@ -7,7 +7,7 @@ import dev.samstevens.totp.qr.QrDataFactory;
 import dev.samstevens.totp.qr.QrGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.auth.config.CurrentUser;
+import me.tuhin47.config.CurrentUser;
 import me.tuhin47.auth.controller.AuthController;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
@@ -101,13 +101,13 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @GetMapping("/user/me")
-    public ResponseEntity<?> getCurrentUser(@CurrentUser UserRedis userRedis){
+    public ResponseEntity<?> getCurrentUser(@CurrentUser UserRedis userRedis) {
         return ResponseEntity.ok(userService.getJwtAuthenticationResponse(userRedis));
     }
 
     @Override
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllUserSummaries(@CurrentUser UserRedis userRedis){
+    public ResponseEntity<?> findAllUserSummaries(@CurrentUser UserRedis userRedis) {
         log.info("retrieving all users summaries");
 
         return ResponseEntity.ok(userService.findAll()
