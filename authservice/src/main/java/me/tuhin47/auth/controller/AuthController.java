@@ -1,7 +1,7 @@
 package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.*;
-import me.tuhin47.auth.config.CurrentUser;
+import me.tuhin47.config.CurrentUser;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.config.redis.UserRedis;

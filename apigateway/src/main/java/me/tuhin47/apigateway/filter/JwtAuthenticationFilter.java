@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.apigateway.exception.JwtTokenMalformedException;
 import me.tuhin47.apigateway.exception.JwtTokenMissingException;
-import me.tuhin47.apigateway.util.JwtUtils;
 import me.tuhin47.config.AppProperties;
+import me.tuhin47.jwt.TokenProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -29,13 +29,14 @@ import java.util.function.Predicate;
 @Slf4j
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
-    private final JwtUtils jwtUtils;
+    private final TokenProvider tokenProvider;
     private final AppProperties appProperties;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        if (appProperties.getConfig().getNoAuth()) {
+        Boolean noAuth = appProperties.getConfig().getNoAuth();
+        if (noAuth != null && noAuth) {
             log.info("No Auth is active. Ignoring authentication with default token");
             exchange.getRequest().mutate().header(HttpHeaders.AUTHORIZATION, "Bearer " + appProperties.getConfig().getNoAuthToken()).build();
         }
@@ -62,7 +63,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             log.info("JwtAuthenticationFilter | filter | token : " + token);
 
             try {
-                jwtUtils.validateJwtToken(token);
+                tokenProvider.validateToken(token);
             } catch (ExpiredJwtException e) {
                 log.info("JwtAuthenticationFilter | filter | ExpiredJwtException | error : " + e.getMessage());
                 ServerHttpResponse response = exchange.getResponse();
@@ -78,7 +79,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 return response.setComplete();
             }
 
-            Claims claims = jwtUtils.getClaims(token);
+            Claims claims = tokenProvider.getClaims(token);
             exchange.getRequest().mutate().header("username", String.valueOf(claims.get("username"))).build();
         }
 

@@ -1,6 +1,9 @@
 server:
   port: 8761
 
+spring:
+  application:
+    name: SERVICE_REGISTRY
 eureka:
   server:
     wait-time-in-ms-when-sync-empty: 0
