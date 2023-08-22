@@ -46,19 +46,19 @@ public class TokenProvider {
 			Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
 			return true;
 		} catch (SignatureException e) {
-			log.error("JwtUtils | validateJwtToken | Invalid JWT signature: {}", e.getMessage());
+			log.error("TokenProvider | validateJwtToken | Invalid JWT signature: {}", e.getMessage());
 			throw new SignatureException(e.getMessage());
 		} catch (MalformedJwtException e) {
-			log.error("JwtUtils | validateJwtToken | Invalid JWT token: {}", e.getMessage());
+			log.error("TokenProvider | validateJwtToken | Invalid JWT token: {}", e.getMessage());
 			throw new MalformedJwtException(e.getMessage());
 		} catch (ExpiredJwtException e) {
-			log.error("JwtUtils | validateJwtToken | JWT token is expired: {}", e.getMessage());
+			log.error("TokenProvider | validateJwtToken | JWT token is expired: {}", e.getMessage());
 			throw new ExpiredJwtException(null,null,e.getMessage());
 		} catch (UnsupportedJwtException e) {
-			log.error("JwtUtils | validateJwtToken | JWT token is unsupported: {}", e.getMessage());
+			log.error("TokenProvider | validateJwtToken | JWT token is unsupported: {}", e.getMessage());
 			throw new UnsupportedJwtException(e.getMessage());
 		} catch (IllegalArgumentException e) {
-			log.error("JwtUtils | validateJwtToken | JWT claims string is empty: {}", e.getMessage());
+			log.error("TokenProvider | validateJwtToken | JWT claims string is empty: {}", e.getMessage());
 			throw new IllegalArgumentException(e.getMessage());
 		}
 

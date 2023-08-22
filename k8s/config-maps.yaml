@@ -38,7 +38,6 @@ metadata:
 data:
   client-id: "329264260733-k1omtencc7uf7pn0srguumhmi5bp3ni8.apps.googleusercontent.com"
   noauth_enable: "false"
-  noauth_token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MjU1ODUzNiwiZXhwIjoxNjkzNDIyNTM2fQ.phafys-Ls5FNDmkbi6c_eGLqHYy2t0Anv2wQRLkKeIoCRjh53ovhRdvg0iiOQccFEyzxnOH7kkn-az6wd9DhBw"
 ---
 
 apiVersion: v1
