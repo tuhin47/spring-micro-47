@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.apigateway.exception.JwtTokenMalformedException;
 import me.tuhin47.apigateway.exception.JwtTokenMissingException;
 import me.tuhin47.config.AppProperties;
+import me.tuhin47.config.CommonBean;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -38,7 +39,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         Boolean noAuth = appProperties.getConfig().getNoAuth();
         if (noAuth != null && noAuth) {
             log.info("No Auth is active. Ignoring authentication with default token");
-            exchange.getRequest().mutate().header(HttpHeaders.AUTHORIZATION, "Bearer " + appProperties.getConfig().getNoAuthToken()).build();
+            exchange.getRequest().mutate().header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenProvider.createToken(true, CommonBean.ADMIN_USER_MAIL)).build();
         }
         log.info("JwtAuthenticationFilter | filter is working");
 

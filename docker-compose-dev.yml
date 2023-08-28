@@ -86,7 +86,6 @@ services:
       - REDIS_HOST
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     depends_on:
       - configserver
       - zipkin
@@ -157,7 +156,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     command: sh /script/run.sh
     restart: on-failure
@@ -197,7 +195,6 @@ services:
       - ZIPKIN_URL
       - REDIS_HOST
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -236,7 +233,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -277,7 +273,6 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
@@ -313,7 +308,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:

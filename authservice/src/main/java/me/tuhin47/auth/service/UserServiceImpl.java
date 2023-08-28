@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -107,9 +107,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId, attributes);
-        if (StringUtils.isEmpty(oAuth2UserInfo.getName())) {
+        if (ObjectUtils.isEmpty(oAuth2UserInfo.getName())) {
             throw new OAuth2AuthenticationProcessingException("Name not found from OAuth2 provider");
-        } else if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+        } else if (ObjectUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
         SignUpRequest signUpRequest = toUserRegistrationObject(registrationId, oAuth2UserInfo);

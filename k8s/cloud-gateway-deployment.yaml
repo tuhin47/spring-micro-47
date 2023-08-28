@@ -44,11 +44,6 @@ spec:
                 configMapKeyRef:
                   name: auth-cm
                   key: noauth_enable
-            - name: NOAUTH_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: mysecret
-                  key: auth-token
 ---
 
 apiVersion: v1

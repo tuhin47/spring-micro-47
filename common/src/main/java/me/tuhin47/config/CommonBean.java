@@ -25,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommonBean {
 
+    public static final String ADMIN_USER_MAIL = "admin@tuhin47.com";
     private final AppProperties appProperties;
 
     @Bean

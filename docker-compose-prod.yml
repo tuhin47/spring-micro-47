@@ -68,7 +68,6 @@ services:
       - REDIS_HOST
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     depends_on:
       - configserver
       - zipkin
@@ -130,7 +129,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     working_dir: /app
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
@@ -163,7 +161,6 @@ services:
       - ZIPKIN_URL
       - REDIS_HOST
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
       interval: 10s
@@ -195,7 +192,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://orderservice:8082/actuator/health" ]
       interval: 10s
@@ -229,7 +225,6 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     depends_on:
       - mongo
       - configserver
@@ -258,7 +253,6 @@ services:
       - REDIS_HOST
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - NOAUTH_TOKEN
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://paymentservice:8083/actuator/health" ]
       interval: 10s
