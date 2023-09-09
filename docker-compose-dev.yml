@@ -334,8 +334,8 @@ services:
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
-      - MYSQL_PASSWORD=extra
-      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD
       - MYSQL_DB=userdb
     volumes:
       - /mnt/Others/personal/docker/mysql:/var/lib/mysql

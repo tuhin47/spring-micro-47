@@ -8,3 +8,4 @@
 */.dotnet/
 .logs/
 *.log
+/node_modules/

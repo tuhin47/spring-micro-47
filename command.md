@@ -67,3 +67,12 @@ minikube service eureka-lb
 minikube service cloud-gateway-svc
 ```
 - Copy IP address and Replace it with localhost of the endpoints defined in postman collection
+
+
+**Run Postman Collection from mvn**
+
+```shell
+mvn exec:exec -Dexec.executable="npm"  -Dexec.args="install"  -pl ./
+mvn exec:exec -Dexec.executable="node_modules/newman/bin/newman.js" -Dexec.workingdir="postman_collection"  -Dexec.args="run Microservice_Collection.postman_collection.json --delay-request=500 -n 2"  -pl ./
+mvn clean install && mvn docker-compose:up -pl ./ -f pom.xml  && mvn exec:exec && mvn docker-compose:down -pl ./ -f pom.xml
+```

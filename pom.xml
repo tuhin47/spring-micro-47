@@ -23,6 +23,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
+        <docker-compose-plugin.version>1.0.0</docker-compose-plugin.version>
     </properties>
 
     <modules>
@@ -38,5 +39,68 @@
         <module>authservice</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.brachu</groupId>
+                <artifactId>docker-compose-maven-plugin</artifactId>
+                <version>${docker-compose-plugin.version}</version>
+                <configuration>
+                    <env>
+                        <PROJECT_PATH>${project.basedir}</PROJECT_PATH>
+                        <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/eureka</EUREKA_SERVER_ADDRESS>
+                        <ZIPKIN_URL>http://zipkin:9411/</ZIPKIN_URL>
+                        <CONFIG_SERVER_URL>http://configserver:9296</CONFIG_SERVER_URL>
+                        <MYSQL_HOST>database</MYSQL_HOST>
+                        <MYSQL_PORT>3306</MYSQL_PORT>
+                        <MYSQL_USER>root</MYSQL_USER>
+                        <SQL_ROOT_PASSWORD>root</SQL_ROOT_PASSWORD>
+                        <MYSQL_PASSWORD>root</MYSQL_PASSWORD>
+                        <ENVIRONMENT>production</ENVIRONMENT>
+                        <OAUTH_REDIRECT_URL>http://localhost:4200/auth/login</OAUTH_REDIRECT_URL>
+                        <MONGO_HOST>mongo</MONGO_HOST>
+                        <MONGO_DATABASE>chat_service</MONGO_DATABASE>
+                        <MONGO_PORT>27017</MONGO_PORT>
+                        <MONGO_USERNAME>root</MONGO_USERNAME>
+                        <MONGO_PASSWORD>rootpassword</MONGO_PASSWORD>
+                        <MONGO_AUTHENTICATION_DATABASE>admin</MONGO_AUTHENTICATION_DATABASE>
+                        <REDIS_HOST>redis</REDIS_HOST>
+                        <REDIS_URL>redis://redis:6379</REDIS_URL>
+                        <ALLOWED_ORIGINS>http://localhost:4200,http://localhost:8080</ALLOWED_ORIGINS>
+                        <AXON_DATA>${project.basedir}/../axon</AXON_DATA>
+                        <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
+                        <PROD_IMAGE_TAG>latest</PROD_IMAGE_TAG>
+                        <NOAUTH_ENABLE>false</NOAUTH_ENABLE>
+                    </env>
+                    <projectName>micro_47</projectName>
+                    <file>docker-compose-prod.yml</file>
+                    <wait>
+                        <value>240</value>
+                        <unit>SECONDS</unit>
+                    </wait>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>npm</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>npm</executable>
+                    <workingDirectory>${project.basedir}</workingDirectory>
+                    <arguments>
+                        <argument>install</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
 
+    </build>
 </project>

@@ -274,15 +274,15 @@ services:
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
-      - MYSQL_PASSWORD=extra
-      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD
       - MYSQL_DB=userdb
     volumes:
       - db-data:/var/lib/mysql
     networks:
       - backend
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
       timeout: 20s
       retries: 10
 
@@ -300,7 +300,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/admin --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh 127.0.0.1:27017/admin --quiet
       interval: 10s
       timeout: 10s
       retries: 3
@@ -310,7 +310,7 @@ services:
 
   elasticsearch:
     build: elk/elasticsearch/
-#    container_name: elasticsearch
+    #    container_name: elasticsearch
     profiles:
       - elk
       - all
@@ -324,7 +324,7 @@ services:
 
   logstash:
     build: elk/logstash/
-#    container_name: logstash
+    #    container_name: logstash
     profiles:
       - elk
       - all
@@ -340,7 +340,7 @@ services:
 
   kibana:
     build: elk/kibana/
-#    container_name: kibana
+    #    container_name: kibana
     profiles:
       - elk
       - all

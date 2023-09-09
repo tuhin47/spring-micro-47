@@ -1,16 +1,76 @@
 {
 	"info": {
 		"_postman_id": "203808fe-b925-4f5e-95ba-400b3db1ea34",
-		"name": "Microservice Collection",
+		"name": "Sprint Micro 47",
+		"description": "[Github Project](https://github.com/tuhin47/spring-micro-47)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17612290"
 	},
 	"item": [
 		{
-			"name": "Auth",
+			"name": "AuthService",
 			"item": [
 				{
-					"name": "Auth Service | Login User",
+					"name": "Auth Service | Create User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.collectionVariables.set(\"USER_EMAIL\", JSON.parse(pm.request.body.raw).email);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"displayName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"matchingPassword\": \"{{password}}\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AUTH}}/auth/signup",
+							"host": [
+								"{{AUTH}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Authentication provide"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Login Created User",
 					"event": [
 						{
 							"listen": "test",
@@ -19,7 +79,6 @@
 									"var jsonData = pm.response.json();",
 									"console.log(jsonData);",
 									"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
-									"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData[\"refreshToken\"]);",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});"
@@ -30,7 +89,62 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"email\": \"{{USER_EMAIL}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AUTH}}/auth/signin",
+							"host": [
+								"{{AUTH}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log(jsonData);",
+									"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "\r\n{\r\n  \"email\": \"admin@tuhin47.com\",\r\n  \"password\": \"admin@\"\r\n}",
@@ -54,7 +168,7 @@
 					"response": []
 				},
 				{
-					"name": "/user/me",
+					"name": "Auth Service | My Info",
 					"event": [
 						{
 							"listen": "test",
@@ -69,18 +183,14 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{AUTH}}/auth/user/me",
 							"host": [
@@ -94,61 +204,12 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Auth Service | Create User",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "\r\n{\r\n  \"displayName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"matchingPassword\": \"{{password}}\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{AUTH}}/auth/signup",
-							"host": [
-								"{{AUTH}}"
-							],
-							"path": [
-								"auth",
-								"signup"
-							]
-						},
-						"description": "Authentication provide"
-					},
-					"response": []
 				}
-			]
+			],
+			"description": "Authentication using JWT and oauth2"
 		},
 		{
-			"name": "Product",
+			"name": "ProductService",
 			"item": [
 				{
 					"name": "Product Service | Add Product",
@@ -176,18 +237,14 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"quantity\" : {{$randomInt}}\r\n}",
@@ -228,23 +285,12 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -300,23 +346,12 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -329,7 +364,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{PRODUCT}}/product/all?size=1&page=0&sort=productName,desc;id,asc",
+							"raw": "{{PRODUCT}}/product/all?size=10&page=0&sort=productName,desc;id,asc&all=false",
 							"host": [
 								"{{PRODUCT}}"
 							],
@@ -340,7 +375,7 @@
 							"query": [
 								{
 									"key": "size",
-									"value": "1"
+									"value": "10"
 								},
 								{
 									"key": "page",
@@ -348,12 +383,11 @@
 								},
 								{
 									"key": "sort",
-									"value": "",
-									"disabled": true
+									"value": "productName,desc;id,asc"
 								},
 								{
-									"key": "sort",
-									"value": "productName,desc;id,asc"
+									"key": "all",
+									"value": "false"
 								}
 							]
 						}
@@ -376,18 +410,14 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{PRODUCT}}/product/reduceQuantity/{{PRODUCT_ID}}?quantity=1",
 							"host": [
@@ -427,23 +457,12 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -475,11 +494,6 @@
 								},
 								{
 									"key": "sort",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "sort",
 									"value": "productName,desc;id,asc"
 								}
 							]
@@ -490,7 +504,7 @@
 			]
 		},
 		{
-			"name": "Order",
+			"name": "OrderService",
 			"item": [
 				{
 					"name": "Order Service | Place an Order",
@@ -509,18 +523,14 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"productId\" : \"{{PRODUCT_ID}}\",\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
@@ -559,18 +569,14 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTH_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{ORDER}}/order/{{orderId}}",
 							"host": [
@@ -587,10 +593,10 @@
 			]
 		},
 		{
-			"name": "payment",
+			"name": "PaymentService",
 			"item": [
 				{
-					"name": "{{PAY}}/payment/order/{{orderId}}",
+					"name": "Payment Info By OrderId",
 					"event": [
 						{
 							"listen": "test",
@@ -606,7 +612,13 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{CLOUD_SHELL}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{PAY}}/payment/order/{{orderId}}",
 							"host": [
@@ -622,16 +634,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{AUTH_TOKEN}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -654,6 +656,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AUTH_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -676,31 +688,31 @@
 	],
 	"variable": [
 		{
-			"key": "API_GATEWAY",
-			"value": "http://localhost:9090"
-		},
-		{
 			"key": "AUTH_TOKEN",
 			"value": ""
 		},
 		{
+			"key": "API_GATEWAY",
+			"value": "http://127.0.0.1:9090"
+		},
+		{
+			"key": "AUTH",
+			"value": "http://127.0.0.1:9090",
+			"type": "string"
+		},
+		{
 			"key": "PRODUCT",
-			"value": "http://localhost:8081",
+			"value": "http://127.0.0.1:9090",
 			"type": "string"
 		},
 		{
 			"key": "ORDER",
-			"value": "http://localhost:8082",
+			"value": "http://127.0.0.1:9090",
 			"type": "string"
 		},
 		{
 			"key": "PAY",
-			"value": "http://localhost:8083",
-			"type": "string"
-		},
-		{
-			"key": "AUTH",
-			"value": "http://localhost:7777",
+			"value": "http://127.0.0.1:9090",
 			"type": "string"
 		},
 		{
@@ -718,6 +730,14 @@
 		},
 		{
 			"key": "REFRESH_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "CLOUD_SHELL",
+			"value": "CloudShellAuthorization=\"Bearer ya29.a0AfB_byCpxw9PnWnUP8wM51M6P0nMK1K5ttMpeYd9kWlkv9-KEUbBDExLAVtMjM8LV_hOq8URw1Dn8iVddkzDZMOaH-goHpaF8yIHb99QaYf2-xgkvRKdcpCQJ7qaM7C_FEg0pp31SeTP7GevUwYTaiUVPSdFLvoqMYc_AmoECc9FqMysrKcgCZXqwdZgfk9CGux-jjZo8nTMmyLPJhwuWel5savR8KaDtAB375u_3FXK_22LVfBm4TOLZqTOjd2PV0aG5-G4Xlh0ZmcqLQJBlifAXDTDCODwiBarOhltzyekArWC7cjOIMAhBONG1rQsCkETyiUUDVGflgbnyV20Q0zz3V7ZUwdjNckFqFvej6YzdhcSjRL3IjgQJz2WnKrrDSDRY-G8IGsbu9tWS9r9wJsaCgYKATwSARASFQHsvYlsWzPd7UM0KIbev2dkIs3N8g0414\""
+		},
+		{
+			"key": "USER_EMAIL",
 			"value": ""
 		}
 	]

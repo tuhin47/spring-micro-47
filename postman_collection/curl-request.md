@@ -1,7 +1,6 @@
 
 ```shell
 export GATEWAY='http://localhost:9090'
-export AUTHORIZATION="Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5MDY5OTI5OCwiZXhwIjoxNjkxNTYzMjk4fQ.SiMhLTL0Klb4-BFzDvAIBeXu-vfQiMWa7kcYAmJj7PIBqtxHzoJ-cioNET4r-q10t-byVqL9Rn7RV59-nki5KA"
 
 curl ${GATEWAY}/auth/user/me -H "$AUTHORIZATION" | jq
 ```
