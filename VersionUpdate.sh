@@ -11,6 +11,6 @@ if [ -z "$newVersion" ]; then
 fi
 
 npm -C ./angular-boilerplate version $newVersion
-mvn -B versions:set -DnewVersion=$newVersion -DgenerateBackupPoms=false
+/opt/apache-maven-3.6.0/bin/mvn -B versions:set -DnewVersion=$newVersion -DgenerateBackupPoms=false
 
 sed -i "s/^PROD_IMAGE_TAG=.*/PROD_IMAGE_TAG=$newVersion/" .env*

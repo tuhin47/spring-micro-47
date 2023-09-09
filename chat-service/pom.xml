@@ -5,7 +5,7 @@
     <parent>
         <groupId>me.tuhin47.services</groupId>
         <artifactId>all-services</artifactId>
-        <version>0.3.5</version>
+        <version>0.3.6</version>
     </parent>
     <groupId>me.tuhin47</groupId>
     <artifactId>chat-service</artifactId>
