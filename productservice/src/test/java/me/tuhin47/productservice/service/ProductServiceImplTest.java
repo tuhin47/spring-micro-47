@@ -34,8 +34,8 @@ public class ProductServiceImplTest {
 
     @BeforeEach
     void setup() {
-        productRepository = mock(ProductRepository.class);
         ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
+        productRepository = mock(ProductRepository.class);
         productService = new ProductServiceImpl(mapper, productRepository);
     }
 

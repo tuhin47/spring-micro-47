@@ -1,0 +1,38 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  cloud:
+    config:
+      enabled: false
+  zipkin:
+    enabled: false
+
+springfox:
+  documentation:
+    enabled: false
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    org.springframework: INFO
+    com.github: INFO
+
+app:
+  version: test
+  config:
+    qrIssuer: tuhin47
+    noAuth: false
+    noAuthToken: ""
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
