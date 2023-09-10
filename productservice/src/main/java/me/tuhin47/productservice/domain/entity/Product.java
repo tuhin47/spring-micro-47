@@ -1,4 +1,4 @@
-package me.tuhin47.productservice.entity;
+package me.tuhin47.productservice.domain.entity;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
@@ -35,9 +35,16 @@ public class Product extends UserDateAudit<String> {
     @Column(name = "QUANTITY", nullable = false)
     private long quantity;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_type")
+    private ProductType productType;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Column(name = "description", length = 250)
+    private String description;
 
 }

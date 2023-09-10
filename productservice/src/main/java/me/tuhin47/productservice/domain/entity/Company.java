@@ -1,4 +1,4 @@
-package me.tuhin47.productservice.entity;
+package me.tuhin47.productservice.domain.entity;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;

@@ -3,11 +3,12 @@ package me.tuhin47.productservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.entity.Product;
+import me.tuhin47.productservice.domain.entity.Product;
 import me.tuhin47.productservice.exception.ProductServiceExceptions;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.repository.ProductRepository;
 import me.tuhin47.productservice.service.ProductService;
 import me.tuhin47.searchspec.GenericSpecification;
@@ -15,6 +16,7 @@ import me.tuhin47.searchspec.RecordNavigationManager;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;

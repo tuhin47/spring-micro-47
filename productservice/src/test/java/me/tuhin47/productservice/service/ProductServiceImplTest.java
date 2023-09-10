@@ -3,7 +3,7 @@ package me.tuhin47.productservice.service;
 import me.tuhin47.exception.CustomException;
 import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.entity.Product;
+import me.tuhin47.productservice.domain.entity.Product;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.repository.ProductRepository;

@@ -1,7 +1,7 @@
 package me.tuhin47.productservice.payload.mapper;
 
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.entity.Product;
+import me.tuhin47.productservice.domain.entity.Product;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import org.mapstruct.Mapper;

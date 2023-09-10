@@ -2,7 +2,7 @@ package me.tuhin47.productservice.exception;
 
 import me.tuhin47.exception.CustomException;
 import me.tuhin47.exception.EntityNotFoundException;
-import me.tuhin47.productservice.entity.Product;
+import me.tuhin47.productservice.domain.entity.Product;
 import org.springframework.http.HttpStatus;
 
 import java.util.function.Function;

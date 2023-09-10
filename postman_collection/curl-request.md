@@ -30,3 +30,12 @@ curl -X GET ${GATEWAY}/product/excel -H "accept: */*" -H "$AUTHORIZATION" --outp
 ```shell
 curl -X POST "http://localhost:9090/order" -H "accept: */*" -H "$AUTHORIZATION" -H "Content-Type: application/json" -d "{\"paymentMode\":\"CASH\",\"productId\":\"2c97808a8976713c0189767557340000\",\"quantity\":1,\"totalAmount\":10}"
 ```
+
+
+```json
+{
+    "Content-Type": "application/json",
+    "Authorization" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY5NDI4MDgyOSwiZXhwIjoxNjk1MTQ0ODI5fQ.wAMCHb22uiS6JrOoaegaXMv-1fY3QwDYtp5YODkytqiiQCJf8tcCwJpCiW3Xe3JvPxSiEIYhPR8EQAGG0H_XHQ"
+}
+
+```

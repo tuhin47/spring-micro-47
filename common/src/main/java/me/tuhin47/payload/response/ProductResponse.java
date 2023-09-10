@@ -6,7 +6,7 @@ import lombok.Value;
 import java.io.Serializable;
 
 /**
- * DTO for {@link me.tuhin47.productservice.entity.Product}
+ * DTO for {@link me.tuhin47.productservice.domain.entity.Product}
  */
 @Value
 @Builder
