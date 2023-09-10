@@ -5,6 +5,7 @@ import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.exporter.ExporterUtils;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.conttoller.ProductController;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import me.tuhin47.productservice.service.ProductService;
@@ -58,6 +59,12 @@ public class ProductControllerImpl implements ProductController {
     @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
         return new ResponseEntity<>(productService.getAllProductBySearch(searchCriteria,request), HttpStatus.OK);
+    }
+
+    @Override
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductTypeCountReport>> getProductTypeCount() {
+        return new ResponseEntity<>(productService.getProductTypeReport(), HttpStatus.OK);
     }
 
     @Override

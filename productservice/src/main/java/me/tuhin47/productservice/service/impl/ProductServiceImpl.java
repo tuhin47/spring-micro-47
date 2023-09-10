@@ -70,6 +70,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductTypeCountReport> getProductTypeReport() {
+
+        List<Product> byPriceBetween = productRepository.findByPriceBetween(500.0, null);
+
+        return productRepository.countByProductType();
+    }
+
+    @Override
     public Page<ProductResponseExporter> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
         var productSpecification = new GenericSpecification<Product>(searchCriteria);
         return productRepository.findAll(productSpecification, RecordNavigationManager.getPageable(request)).map(productMapper::toExporterDto);

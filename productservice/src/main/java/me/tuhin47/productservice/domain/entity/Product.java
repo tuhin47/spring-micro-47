@@ -2,6 +2,7 @@ package me.tuhin47.productservice.domain.entity;
 
 import lombok.*;
 import me.tuhin47.audit.UserDateAudit;
+import me.tuhin47.productservice.domain.enums.ProductType;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -9,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Product.countByProductType", query = "select p.productType as productType, count(p) as count from Product p group by p.productType order by p.productType", lockMode = LockModeType.READ),
+})
 @Getter
 @Setter
 @ToString

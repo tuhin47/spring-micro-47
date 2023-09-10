@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.payload.response.ProductResponse;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import me.tuhin47.searchspec.SearchCriteria;
@@ -40,6 +41,10 @@ public interface ProductController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
     ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @ApiOperation(value = "Get products count by product type")
+    ResponseEntity<List<ProductTypeCountReport>> getProductTypeCount();
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation("Export Items")
