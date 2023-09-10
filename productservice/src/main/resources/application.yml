@@ -3,3 +3,17 @@ spring:
     name: PRODUCT-SERVICE
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+
+  flyway:
+    url: jdbc:mysql://127.0.0.1:3306/productdb
+    password: root
+    user : root
+  jpa:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: change_${spring.application.name}.sql

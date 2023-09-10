@@ -1,41 +1,28 @@
+-- Insert into company table (5 records)
+SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TABLE company (
-  id VARCHAR(255) NOT NULL,
-   created_by VARCHAR(255) NULL,
-   updated_by VARCHAR(255) NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   name VARCHAR(255) NULL,
-   address VARCHAR(255) NULL,
-   CONSTRAINT pk_company PRIMARY KEY (id)
-);
-CREATE TABLE product (
-  id VARCHAR(36) NOT NULL,
-   created_by VARCHAR(255) NULL,
-   updated_by VARCHAR(255) NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   product_name VARCHAR(50) NOT NULL,
-   price DOUBLE NOT NULL,
-   quantity BIGINT NOT NULL,
-   product_type VARCHAR(255) NULL,
-   company_id VARCHAR(255) NULL,
-   CONSTRAINT pk_product PRIMARY KEY (id)
-);
+truncate table company;
+INSERT INTO company (id, created_at, updated_at, created_by, updated_by, address, name)
+VALUES
+    ('1', '2023-09-11 08:00:00', '2023-09-11 08:00:00', 'John Doe', 'John Doe', '123 Main St', 'Company 1'),
+    ('2', '2023-09-11 08:30:00', '2023-09-11 08:30:00', 'Jane Smith', 'Jane Smith', '456 Elm St', 'Company 2'),
+    ('3', '2023-09-11 09:00:00', '2023-09-11 09:00:00', 'Alice Johnson', 'Alice Johnson', '789 Oak St', 'Company 3'),
+    ('4', '2023-09-11 09:30:00', '2023-09-11 09:30:00', 'Bob Wilson', 'Bob Wilson', '101 Pine St', 'Company 4'),
+    ('5', '2023-09-11 10:00:00', '2023-09-11 10:00:00', 'Eve Brown', 'Eve Brown', '202 Cedar St', 'Company 5');
 
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_COMPANY FOREIGN KEY (company_id) REFERENCES company (id);
+-- Insert into product table (10 records)
+truncate table product;
+INSERT INTO product (id, created_at, updated_at, created_by, updated_by, description, price, product_name, product_type, quantity, company_id)
+VALUES
+    ('1', '2023-09-11 08:00:00', '2023-09-11 08:00:00', 'John Doe', 'John Doe', 'Product 1 description', 19.99, 'Product 1', 'ELECTRONIC', 100, '1'),
+    ('2', '2023-09-11 08:30:00', '2023-09-11 08:30:00', 'Jane Smith', 'Jane Smith', 'Product 2 description', 29.99, 'Product 2', 'FOOD', 150, '2'),
+    ('3', '2023-09-11 09:00:00', '2023-09-11 09:00:00', 'Alice Johnson', 'Alice Johnson', 'Product 3 description', 9.99, 'Product 3', 'DRESS', 75, '1'),
+    ('4', '2023-09-11 09:30:00', '2023-09-11 09:30:00', 'Bob Wilson', 'Bob Wilson', 'Product 4 description', 49.99, 'Product 4', 'FURNITURE', 200, '3'),
+    ('5', '2023-09-11 10:00:00', '2023-09-11 10:00:00', 'Eve Brown', 'Eve Brown', 'Product 5 description', 14.99, 'Product 5', 'ELECTRONIC', 120, '2'),
+    ('6', '2023-09-11 10:30:00', '2023-09-11 10:30:00', 'Grace Wilson', 'Grace Wilson', 'Product 6 description', 39.99, 'Product 6', 'FOOD', 80, '4'),
+    ('7', '2023-09-11 11:00:00', '2023-09-11 11:00:00', 'Sam Brown', 'Sam Brown', 'Product 7 description', 14.99, 'Product 7', 'DRESS', 200, '1'),
+    ('8', '2023-09-11 11:30:00', '2023-09-11 11:30:00', 'Olivia Taylor', 'Olivia Taylor', 'Product 8 description', 24.99, 'Product 8', 'FURNITURE', 125, '2'),
+    ('9', '2023-09-11 12:00:00', '2023-09-11 12:00:00', 'Henry Johnson', 'Henry Johnson', 'Product 9 description', 19.99, 'Product 9', 'ELECTRONIC', 90, '5'),
+    ('10', '2023-09-11 12:30:00', '2023-09-11 12:30:00', 'Lily Smith', 'Lily Smith', 'Product 10 description', 34.99, 'Product 10', 'FOOD', 150, '3');
 
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('05d6158b-0acc-4440-8d3c-f4549497348c', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 19.33, 'Towels','DRESS', 245, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('16fc7797-6302-48b3-ab6a-e6deff6669e2', '2023-09-04 18:48:05', '2023-09-04 18:48:05', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 458.57, 'Table','FURNITURE', 827, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('32b052e6-87b0-46d8-8fe5-60417e99b2e7', '2023-09-04 18:48:07', '2023-09-04 18:48:07', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 907.27, 'Car','DRESS', 619, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('3d9da85f-04b0-4347-b770-2a30759c8bb6', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 6.0, 'Towels','DRESS', 383, null);
-
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('54a23aa0-2ae4-4b61-a876-e2e987aed34f', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 63.63, 'Salad','DRESS', 310, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('643f083d-1f6c-4c38-a337-e3550436c25a', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 306.06, 'Pants','DRESS', 685, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('911db8a8-26ce-434c-9d36-df1c02542e9d', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 864.88, 'Cheese','DRESS', 116, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('c210c45c-3ee4-45ae-b783-4fd7521b28be', '2023-09-04 18:48:06', '2023-09-04 18:48:06', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 817.11, 'Salad','FOOD', 257, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('c50b94a2-33e7-414b-a39d-4e37643a5309', '2023-09-04 18:48:07', '2023-09-04 18:48:07', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 763.14, 'Shoes','DRESS', 78, null);
-insert into product (id, created_at, updated_at, created_by, updated_by, price, product_name, product_type, quantity, company_id) values ('d8235cc7-15b3-4503-b666-be33426e993c', '2023-09-04 18:48:05', '2023-09-04 18:48:05', '99eadd96-f133-43c3-928c-4edfcc9c2888', '99eadd96-f133-43c3-928c-4edfcc9c2888', 330.27, 'Gloves','DRESS', 8, null);
-
-
-
+SET FOREIGN_KEY_CHECKS = 1;

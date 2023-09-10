@@ -1,4 +1,4 @@
-package me.tuhin47.productservice.conttoller;
+package me.tuhin47.productservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

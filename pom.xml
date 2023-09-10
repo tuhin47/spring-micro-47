@@ -24,6 +24,7 @@
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
         <docker-compose-plugin.version>1.0.0</docker-compose-plugin.version>
+        <flyway-core.version>8.5.13</flyway-core.version>
     </properties>
 
     <modules>

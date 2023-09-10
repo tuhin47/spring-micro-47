@@ -1,10 +1,10 @@
-package me.tuhin47.productservice.conttoller.Impl;
+package me.tuhin47.productservice.controller.Impl;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.exporter.ExporterUtils;
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.conttoller.ProductController;
+import me.tuhin47.productservice.controller.ProductController;
 import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;

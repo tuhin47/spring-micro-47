@@ -1,21 +1,21 @@
-package me.tuhin47.productservice.conttoller;
+package me.tuhin47.productservice.controller;
 
 import io.restassured.http.ContentType;
 import me.tuhin47.config.CommonBean;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.jwt.TokenProvider;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.Set;
@@ -23,30 +23,44 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT, properties = "spring.config.name=application-test")
-@RunWith(SpringRunner.class)
+@Testcontainers
 public class ProductControllerTest {
 
-    @ClassRule
-    public static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:latest")).withDatabaseName("integration-tests-db").withUsername("root").withPassword("root");
+    // Already defined on application-test
+   /* @Container
+    private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
+        .withDatabaseName("testdb")
+        .withUsername("root")
+        .withPassword("root");*/
 
-    @LocalServerPort
-    private Integer port;
+    @Container
+    public static final GenericContainer redisContainer = new GenericContainer(DockerImageName.parse("redis:latest"))
+        .withExposedPorts(6379);
 
-    @MockBean
-    private RedisUserService userDetailsService;
 
     @Autowired
     private TokenProvider tokenProvider;
 
+    @LocalServerPort
+    private Integer port;
+
+    @Autowired
+    private RedisUserService userDetailsService;
+
+    @DynamicPropertySource
+    static void redisProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.redis.host", redisContainer::getHost);
+        registry.add("spring.redis.port", () -> redisContainer.getMappedPort(6379));
+    }
+
     @Test
     @Sql("/test-data.sql")
     public void getAllProductBySearch() {
-        when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new UserRedis(CommonBean.ADMIN_USER_MAIL, UUID.randomUUID().toString(), "Admin", "random", "local", Set.of("ROLE_USER", "ROLE_ADMIN", "ROLE_MODERATOR)"), ""));
+
+        userDetailsService.saveLocalUser(new UserRedis(CommonBean.ADMIN_USER_MAIL, UUID.randomUUID().toString(), "Admin", "random", "local", Set.of("ROLE_USER", "ROLE_ADMIN", "ROLE_MODERATOR)"), ""));
 
         given()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenProvider.createToken(true, CommonBean.ADMIN_USER_MAIL))
@@ -63,5 +77,4 @@ public class ProductControllerTest {
             .body("first", equalTo(true))
             .body("last", equalTo(false));
     }
-
 }
