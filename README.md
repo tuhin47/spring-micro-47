@@ -1,6 +1,8 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/circleci-project-setup.svg?style=svg&circle-token=c3bff6da9f705c694ae54f87d58e69f857234eb2)](https://dl.circleci.com/status-badge/redirect/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/circleci-project-setup)
+
 # Project Summary
 
-This is a microservice-based Spring Boot project aimed at providing a comprehensive solution for managing distributed platform. 
+This is a microservice-based Spring Boot project aimed at providing a comprehensive solution for managing distributed platform.
 The project incorporates the following components:
 
 - **API Gateway**: Serves as a central entry point for accessing the microservices within the system.
@@ -24,7 +26,7 @@ The project includes YAML files for both production and development environments
 
 In addition, the project follows the Gitflow workflow for managing continuous integration (CI) and versioning. It generates automated GitHub pages for each version.
 
-## Getting Started 
+## Getting Started
 
 For Production follow [this](./command.md)
 

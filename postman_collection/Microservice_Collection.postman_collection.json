@@ -56,9 +56,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{AUTH}}/auth/signup",
+							"raw": "{{API_GATEWAY}}/auth/signup",
 							"host": [
-								"{{AUTH}}"
+								"{{API_GATEWAY}}"
 							],
 							"path": [
 								"auth",

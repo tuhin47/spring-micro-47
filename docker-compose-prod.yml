@@ -158,6 +158,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - MYSQL_DB=productdb
       - ZIPKIN_URL
       - REDIS_HOST
       - NOAUTH_ENABLE
@@ -354,7 +355,7 @@ services:
       - backend
   axonserver:
     image: axoniq/axonserver
-    hostname: axonserve
+    hostname: axonserver
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata
@@ -363,6 +364,19 @@ services:
       - '8024:8024'
       - '8124:8124'
       - '8224:8224'
+    networks:
+      - backend
+
+  testservice:
+    container_name: testservice
+    profiles:
+      - test
+    build:
+      context: postman_collection
+      dockerfile: test.Dockerfile
+    image: 'tuhin47/testservice:${PROD_IMAGE_TAG}'
+    restart: 'no'
+    #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
     networks:
       - backend
 
@@ -377,19 +391,19 @@ volumes:
     driver: local
   axonserver-data:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/data
-      o: bind
+#    driver_opts:
+#      type: none
+#      device: ${PWD}/axon/data
+#      o: bind
   axonserver-events:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/events
-      o: bind
+#    driver_opts:
+#      type: none
+#      device: ${PWD}/axon/events
+#      o: bind
   axonserver-config:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/config
-      o: bind
+#    driver_opts:
+#      type: none
+#      device: ${PWD}/axon/config
+#      o: bind

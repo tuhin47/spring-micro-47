@@ -72,8 +72,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductTypeCountReport> getProductTypeReport() {
 
-        List<Product> byPriceBetween = productRepository.findByPriceBetween(500.0, null);
-
         return productRepository.countByProductType();
     }
 

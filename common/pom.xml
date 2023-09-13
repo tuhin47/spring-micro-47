@@ -185,6 +185,7 @@
                         <argument>Microservice_Collection.postman_collection.json</argument>
                         <argument>--delay-request=500</argument>
                         <argument>--iteration-count=2</argument>
+                        <argument>--reporters=cli,junit</argument>
                     </arguments>
                 </configuration>
             </plugin>

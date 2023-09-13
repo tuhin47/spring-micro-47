@@ -10,3 +10,4 @@
 *.log
 /node_modules/
 change_*.sql
+/postman_collection/newman/

@@ -68,12 +68,11 @@
                         <REDIS_HOST>redis</REDIS_HOST>
                         <REDIS_URL>redis://redis:6379</REDIS_URL>
                         <ALLOWED_ORIGINS>http://localhost:4200,http://localhost:8080</ALLOWED_ORIGINS>
-                        <AXON_DATA>${project.basedir}/../axon</AXON_DATA>
                         <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
                         <PROD_IMAGE_TAG>latest</PROD_IMAGE_TAG>
                         <NOAUTH_ENABLE>false</NOAUTH_ENABLE>
                     </env>
-                    <projectName>micro_47</projectName>
+                    <projectName>microproject</projectName>
                     <file>docker-compose-prod.yml</file>
                     <wait>
                         <value>240</value>
