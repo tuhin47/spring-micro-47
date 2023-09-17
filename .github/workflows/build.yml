@@ -3,8 +3,6 @@ name: Project Build
 on:
   push:
     branches: [ "develop" ,"main" , "feature/*" , "release/*" ]
-  pull_request:
-    branches: [ "develop" , "main" ]
 
 jobs:
   javabuild:

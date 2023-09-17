@@ -18,21 +18,9 @@ jobs:
           docker_layer_caching: true
           version: 20.10.14
       - run: mvn clean install -DskipTests
-#      - store_artifacts:
-#          path: apigateway/target/apigateway-0.3.6.jar
-#          destination: apigateway-0.3.6.jar
-#      - store_artifacts:
-#          path: authservice/target/authservice-0.3.6.jar
-#          destination: authservice-0.3.6.jar
-#      - store_artifacts:
-#          path: configserver/target/configserver-0.3.6.jar
-#          destination: configserver-0.3.6.jar
-#      - store_artifacts:
-#          path: orderservice/target/orderservice-0.3.6.jar
-#          destination: orderservice-0.3.6.jar
-#      - store_artifacts:
-#          path: productservice/target/productservice-0.3.6.jar
-#          destination: productservice-0.3.6.jar
+      #      - store_artifacts:
+      #          path: apigateway/target/apigateway-0.3.6.jar
+      #          destination: apigateway-0.3.6.jar
       - run: mvn docker-compose:up -pl ./ -f pom.xml
       - run:
           name: Run Postman test
@@ -49,12 +37,12 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  java-build-workflow:
     jobs:
-      - java-build :
+      - java-build:
           filters:
             branches:
               only:
                 - main
                 - develop
-                - feature/*
+                - /feature\/.*/
