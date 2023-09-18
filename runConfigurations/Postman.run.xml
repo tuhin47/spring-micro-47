@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Postman" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value=" newman run Microservice\ Collection.postman_collection.json --delay-request=500 -n 2" />
+    <option name="SCRIPT_TEXT" value="newman run Microservice_Collection.postman_collection.json --delay-request=500 -n 2" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />

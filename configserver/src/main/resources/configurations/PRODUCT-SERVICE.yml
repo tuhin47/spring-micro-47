@@ -17,6 +17,14 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: change_${spring.application.name}.sql
 
 springfox:
   documentation:

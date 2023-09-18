@@ -18,7 +18,7 @@ spring:
                 fallbackuri: forward:/orderServiceFallBack
             - name: RequestRateLimiter
               args:
-                redis-rate-limiter.replenishRate: 1 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
+                redis-rate-limiter.replenishRate: 3 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
                 redis-rate-limiter.burstCapacity: 10 # maximum number of requests a user is allowed to do in a single second (500 requests per second)0
         - id: PAYMENT-SERVICE
           uri: lb://PAYMENT-SERVICE
@@ -31,7 +31,7 @@ spring:
                 fallbackuri: forward:/paymentServiceFallBack
             - name: RequestRateLimiter
               args:
-                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.replenishRate: 3
                 redis-rate-limiter.burstCapacity: 10
         - id: PRODUCT-SERVICE
           uri: lb://PRODUCT-SERVICE
@@ -44,7 +44,7 @@ spring:
                 fallbackuri: forward:/productServiceFallBack
             - name: RequestRateLimiter
               args:
-                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.replenishRate: 3
                 redis-rate-limiter.burstCapacity: 10
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
@@ -57,7 +57,7 @@ spring:
                 fallbackuri: forward:/authServiceFallBack
             - name: RequestRateLimiter
               args:
-                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.replenishRate: 3
                 redis-rate-limiter.burstCapacity: 10
         - id: CHAT-SERVICE
           uri: lb://CHAT-SERVICE
@@ -70,7 +70,7 @@ spring:
                 fallbackuri: forward:/chatServiceFallBack
             - name: RequestRateLimiter
               args:
-                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.replenishRate: 3
                 redis-rate-limiter.burstCapacity: 10
 
 logging:

@@ -36,7 +36,7 @@ public interface ProductController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Delete a product by ID")
-    void deleteProductById(@PathVariable("id") String productId);
+    ResponseEntity<Void> deleteProductById(@PathVariable("id") String productId);
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Get All product By Search, Pagination supported")

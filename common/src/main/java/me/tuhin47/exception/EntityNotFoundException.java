@@ -1,6 +1,8 @@
 package me.tuhin47.exception;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +10,16 @@ import java.util.stream.IntStream;
 
 public class EntityNotFoundException extends RuntimeException {
 
+    @Getter
+    private HttpStatus status = HttpStatus.NOT_FOUND;
+
     public EntityNotFoundException(Class<?> clazz, String... searchParamsMap) {
         super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    }
+
+    public EntityNotFoundException(Class<?> clazz, HttpStatus status, String... searchParamsMap) {
+        this(clazz, searchParamsMap);
+        this.status = status;
     }
 
     private static String generateMessage(String entity, Map<String, String> searchParams) {

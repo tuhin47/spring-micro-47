@@ -1,4 +1,4 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main.svg?style=svg&circle-token=bdaab008db5675ca388793362feaa7f5b9c83c3e)](https://dl.circleci.com/status-badge/redirect/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main.svg?style=svg&circle-token=bdaab008db5675ca388793362feaa7f5b9c83c3e)](https://dl.circleci.com/status-badge/redirect/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main) [![Github CI](https://github.com/tuhin47/spring-micro-47/workflows/Project%20Build/badge.svg)](https://github.com/tuhin47/spring-micro-47)
 
 # Project Summary
 

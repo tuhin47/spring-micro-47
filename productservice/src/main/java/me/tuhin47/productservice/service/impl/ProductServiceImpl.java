@@ -2,6 +2,7 @@ package me.tuhin47.productservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.domain.entity.Product;
 import me.tuhin47.productservice.exception.ProductServiceExceptions;
@@ -15,6 +16,7 @@ import me.tuhin47.searchspec.GenericSpecification;
 import me.tuhin47.searchspec.RecordNavigationManager;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +62,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(String productId) {
-        if (!productRepository.existsById(productId)) {
-            log.info("Im in this loop {}", !productRepository.existsById(productId));
-            throw ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId);
-        }
+
         log.info("Deleting Product with id: {}", productId);
-        productRepository.deleteById(productId);
+        try {
+            productRepository.deleteById(productId);
+        } catch (RuntimeException e) {
+            throw new EntityNotFoundException(Product.class, HttpStatus.UNPROCESSABLE_ENTITY, "id", productId);
+        }
 
     }
 

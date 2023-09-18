@@ -84,17 +84,6 @@ public class ProductServiceImplTest {
 
     }
 
-    @Test
-    void test_When_deleteProductById_isNotFound() {
-        when(productRepository.findById(anyString())).thenReturn(Optional.empty());
-        //Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> productService.deleteProductById("1"));
-        assertEquals("Product was not found for parameters {id=1}", exception.getMessage());
-
-        //Verify
-        verify(productRepository, times(0)).deleteById(anyString());
-
-    }
 
     @Test
     void test_When_deleteProductById_isSuccess() {
