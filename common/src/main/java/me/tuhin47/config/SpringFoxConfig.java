@@ -29,7 +29,7 @@ public class SpringFoxConfig {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("me.tuhin47"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo);

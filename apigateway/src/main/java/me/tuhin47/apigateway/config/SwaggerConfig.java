@@ -15,26 +15,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SwaggerConfig implements SwaggerResourcesProvider {
 
-  private final RouteLocator routeLocator;
+    private final RouteLocator routeLocator;
 
-  @Override
-  public List<SwaggerResource> get() {
-    List<SwaggerResource> resources = new ArrayList<>();
+    @Override
+    public List<SwaggerResource> get() {
+        List<SwaggerResource> resources = new ArrayList<>();
 
-    routeLocator.getRoutes().subscribe(route -> {
-      String name = route.getId().split("-")[0];
-      resources.add(swaggerResource(name, "/" + name.toLowerCase() + "/v3/api-docs", "1.0"));
-    });
+        routeLocator.getRoutes().subscribe(route -> {
+            String name = route.getId().split("-")[0];
+            resources.add(swaggerResource(name, "/" + name.toLowerCase() + "/v3/api-docs", "1.0"));
+        });
 
-    return resources;
-  }
+        return resources;
+    }
 
-  private SwaggerResource swaggerResource(final String name, final String location,
-      final String version) {
-    SwaggerResource swaggerResource = new SwaggerResource();
-    swaggerResource.setName(name);
-    swaggerResource.setLocation(location);
-    swaggerResource.setSwaggerVersion(version);
-    return swaggerResource;
-  }
+    private SwaggerResource swaggerResource(final String name, final String location,
+                                            final String version) {
+        SwaggerResource swaggerResource = new SwaggerResource();
+        swaggerResource.setName(name);
+        swaggerResource.setLocation(location);
+        swaggerResource.setSwaggerVersion(version);
+        return swaggerResource;
+    }
 }

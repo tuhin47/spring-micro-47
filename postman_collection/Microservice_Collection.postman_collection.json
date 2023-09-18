@@ -11,7 +11,7 @@
 			"name": "AuthService",
 			"item": [
 				{
-					"name": "Auth Service | Create User",
+					"name": "Auth Service | Signup",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -70,14 +70,13 @@
 					"response": []
 				},
 				{
-					"name": "Auth Service | Login Created User",
+					"name": "Auth Service | Login User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();",
-									"console.log(jsonData);",
 									"pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -113,6 +112,78 @@
 							"path": [
 								"auth",
 								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/user",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Public",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/all",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"all"
 							]
 						}
 					},
@@ -168,6 +239,78 @@
 					"response": []
 				},
 				{
+					"name": "Auth Service | Moderator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/mod",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"mod"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service | Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/admin",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Auth Service | My Info",
 					"event": [
 						{
@@ -204,6 +347,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Auth Service | User Summery ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/auth/users/summaries",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"auth",
+								"users",
+								"summaries"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Authentication using JWT and oauth2"
@@ -218,7 +398,17 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"",
+									"var itemsAvailable = ",
+									"[",
+									"   \"ELECTRONIC\",",
+									"    \"FOOD\",",
+									"    \"DRESS\",",
+									"    \"FURNITURE\"",
+									"];",
+									"var item = _.sample(itemsAvailable);",
+									"console.log(\"Item Picked: \" + item);",
+									"pm.environment.set(\"TYPE\", item);"
 								],
 								"type": "text/javascript"
 							}
@@ -247,7 +437,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"quantity\" : {{$randomInt}}\r\n}",
+							"raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"productType\" : \"{{TYPE}}\",\r\n    \"quantity\" : {{$randomInt}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -500,6 +690,29 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Product Service | Report By Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{API_GATEWAY}}/product/report",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"product",
+								"report"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -693,26 +906,26 @@
 		},
 		{
 			"key": "API_GATEWAY",
-			"value": "http://127.0.0.1:9090"
+			"value": "http://localhost:9090"
 		},
 		{
 			"key": "AUTH",
-			"value": "http://127.0.0.1:9090",
+			"value": "http://localhost:9090",
 			"type": "string"
 		},
 		{
 			"key": "PRODUCT",
-			"value": "http://127.0.0.1:9090",
+			"value": "http://localhost:9090",
 			"type": "string"
 		},
 		{
 			"key": "ORDER",
-			"value": "http://127.0.0.1:9090",
+			"value": "http://localhost:9090",
 			"type": "string"
 		},
 		{
 			"key": "PAY",
-			"value": "http://127.0.0.1:9090",
+			"value": "http://localhost:9090",
 			"type": "string"
 		},
 		{

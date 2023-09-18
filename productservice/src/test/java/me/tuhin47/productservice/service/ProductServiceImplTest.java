@@ -4,6 +4,7 @@ import me.tuhin47.exception.CustomException;
 import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.domain.entity.Product;
+import me.tuhin47.productservice.domain.enums.ProductType;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.repository.ProductRepository;
@@ -155,6 +156,6 @@ public class ProductServiceImplTest {
     }
 
     private ProductRequest getMockProductRequest() {
-        return new ProductRequest("iphone", 1000, 10);
+        return new ProductRequest("iphone", ProductType.ELECTRONIC, 1000, 10);
     }
 }

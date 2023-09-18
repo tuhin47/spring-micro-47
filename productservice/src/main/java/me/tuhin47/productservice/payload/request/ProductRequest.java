@@ -1,6 +1,6 @@
 package me.tuhin47.productservice.payload.request;
 
-import lombok.Value;
+import me.tuhin47.productservice.domain.enums.ProductType;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -10,15 +10,9 @@ import java.io.Serializable;
 /**
  * DTO for {@link me.tuhin47.productservice.domain.entity.Product}
  */
-@Value
-public class ProductRequest implements Serializable {
-    @NotBlank
-    @Length(max = 50)
-    String productName;
 
-    @PositiveOrZero
-    double price;
-
-    @PositiveOrZero
-    long quantity;
+public record ProductRequest(@NotBlank @Length(max = 50) String productName,
+                             ProductType productType,
+                             @PositiveOrZero double price,
+                             @PositiveOrZero long quantity) implements Serializable {
 }

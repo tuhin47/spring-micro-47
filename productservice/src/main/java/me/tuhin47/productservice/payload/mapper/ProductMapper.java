@@ -16,5 +16,4 @@ public interface ProductMapper {
 
     @Mapping(source = "id", target = "productId")
     ProductResponseExporter toExporterDto(Product product);
-
 }

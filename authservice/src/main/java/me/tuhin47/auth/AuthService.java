@@ -18,7 +18,7 @@ import springfox.documentation.service.ApiInfo;
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.auth", "me.tuhin47.config", "me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
-@Import({ AxonConfig.class })
+@Import({AxonConfig.class})
 @EnableAspectJAutoProxy
 public class AuthService extends SpringBootServletInitializer {
 
@@ -41,9 +41,9 @@ public class AuthService extends SpringBootServletInitializer {
     @Primary
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Auth Service")
-                .description("API endpoints for managing Auth api")
-                .version("1.0.0")
-                .build();
+            .title("Auth Service")
+            .description("API endpoints for managing Auth api")
+            .version("1.0.0")
+            .build();
     }
 }

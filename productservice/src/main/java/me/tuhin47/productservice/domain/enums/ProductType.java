@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ProductType {
-    ELECTRONIC("electronic"),
+    ELECTRONIC("Electronic"),
     FOOD("Food"),
     DRESS("Dress"),
     FURNITURE("Furniture");
