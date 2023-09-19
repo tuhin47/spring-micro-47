@@ -17,7 +17,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
           version: 20.10.14
-      - run: mvn clean install -DskipTests
+      - run: mvn clean install
       #      - store_artifacts:
       #          path: apigateway/target/apigateway-0.3.6.jar
       #          destination: apigateway-0.3.6.jar

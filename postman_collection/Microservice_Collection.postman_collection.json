@@ -56,9 +56,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/signup",
+							"raw": "{{AUTH}}/auth/signup",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -141,9 +141,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/user",
+							"raw": "{{AUTH}}/auth/user",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -177,9 +177,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/all",
+							"raw": "{{AUTH}}/auth/all",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -262,9 +262,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/mod",
+							"raw": "{{AUTH}}/auth/mod",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -298,9 +298,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/admin",
+							"raw": "{{AUTH}}/auth/admin",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -372,9 +372,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/auth/users/summaries",
+							"raw": "{{AUTH}}/auth/users/summaries",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{AUTH}}"
 							],
 							"path": [
 								"auth",
@@ -702,9 +702,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_GATEWAY}}/product/report",
+							"raw": "{{PRODUCT}}/product/report",
 							"host": [
-								"{{API_GATEWAY}}"
+								"{{PRODUCT}}"
 							],
 							"path": [
 								"product",
