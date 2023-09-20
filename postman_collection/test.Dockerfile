@@ -1,4 +1,4 @@
-FROM postman/newman_alpine33
+FROM postman/newman:5-alpine
 WORKDIR /app
 COPY . ./
 

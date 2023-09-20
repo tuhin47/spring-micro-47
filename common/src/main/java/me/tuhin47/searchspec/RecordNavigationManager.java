@@ -55,6 +55,7 @@ public class RecordNavigationManager {
                     return 0;
             }
         }
+        assert paramValue != null;
         return Integer.parseInt(paramValue);
     }
 

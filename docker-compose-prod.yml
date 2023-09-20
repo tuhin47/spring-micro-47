@@ -15,16 +15,16 @@ services:
     profiles:
       - frontend
       - all
-    image: 'tuhin47/boilerplate:${PROD_IMAGE_TAG}'
+    image: tuhin47/boilerplate:${PROD_IMAGE_TAG}
     network_mode: "host"
 
   serviceregistry:
     build:
       context: service-registry
       dockerfile: ../Dockerfile
-    image: 'tuhin47/serviceregistry:${PROD_IMAGE_TAG}'
+    image: tuhin47/serviceregistry:${PROD_IMAGE_TAG}
     ports:
-      - 8761:8761
+      - "8761:8761"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
       interval: 10s
@@ -40,7 +40,6 @@ services:
     image: tuhin47/configserver:${PROD_IMAGE_TAG}
     ports:
       - "9296:9296"
-      - "19296:19296"
     environment:
       - EUREKA_SERVER_ADDRESS
     healthcheck:
@@ -57,8 +56,11 @@ services:
     build:
       context: apigateway
       dockerfile: ../Dockerfile
-    image: 'tuhin47/gateway:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/gateway:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "9090:9090"
     environment:
@@ -69,10 +71,14 @@ services:
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
     depends_on:
-      - configserver
-      - zipkin
-      - redis
-      - serviceregistry
+      configserver:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      redis:
+        condition: service_started
+      serviceregistry:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://apigateway:9090/actuator/health" ]
       interval: 10s
@@ -88,9 +94,6 @@ services:
     # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
     environment:
       - STORAGE_TYPE=mem
-#      - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
-#      - SCRIBE_ENABLED=false
-#      - SELF_TRACING_ENABLED=true
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - "9411:9411"
@@ -110,8 +113,11 @@ services:
     build:
       context: authservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/authservice:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/authservice:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "7777:7777"
       - "35729:35729"
@@ -135,9 +141,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    links:
-      - database
-      - configserver
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     #      - logstash
     networks:
       - backend
@@ -147,8 +155,11 @@ services:
     build:
       context: productservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/productservice:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/productservice:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "8081:8081"
     environment:
@@ -167,10 +178,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    links:
-      - database
-      - configserver
-      - zipkin
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
 
@@ -178,8 +190,11 @@ services:
     build:
       context: orderservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/orderservice:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/orderservice:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "8082:8082"
     environment:
@@ -189,6 +204,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - MYSQL_DB=orderdb
       - ZIPKIN_URL
       - REDIS_HOST
       - AXON_SERVER_URL
@@ -199,9 +215,10 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      - database
-      - configserver
-      - zipkin
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
 
@@ -211,8 +228,11 @@ services:
       dockerfile: ../Dockerfile
     profiles:
       - all
-    image: 'tuhin47/chatservice:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/chatservice:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "8084:8084"
     environment:
@@ -227,9 +247,10 @@ services:
       - ZIPKIN_URL
       - NOAUTH_ENABLE
     depends_on:
-      - mongo
-      - configserver
-      - zipkin
+      mongo:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
 
@@ -238,8 +259,11 @@ services:
     build:
       context: paymentservice
       dockerfile: ../Dockerfile
-    image: 'tuhin47/paymentservice:${PROD_IMAGE_TAG}'
-    restart: on-failure:3
+    image: tuhin47/paymentservice:${PROD_IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     ports:
       - "8083:8083"
     environment:
@@ -260,22 +284,23 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      - database
-      - configserver
-      - zipkin
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
 
   database:
     container_name: database
-    image: 'mysql:latest'
+    image: mysql:latest
     ports:
       - ${MYSQL_PORT}:3306
     restart: always
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
-      - MYSQL_PASSWORD=root
+      - MYSQL_PASSWORD
       - MYSQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD
       - MYSQL_DB=userdb
     volumes:
@@ -290,7 +315,10 @@ services:
   mongo:
     image: mongo
     container_name: mongo
-    restart: on-failure:3
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     profiles:
       - all
     ports:
@@ -374,7 +402,7 @@ services:
     build:
       context: postman_collection
       dockerfile: test.Dockerfile
-    image: 'tuhin47/testservice:${PROD_IMAGE_TAG}'
+    image: tuhin47/testservice:${PROD_IMAGE_TAG}
     restart: 'no'
     #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
     networks:
@@ -391,16 +419,16 @@ volumes:
     driver: local
   axonserver-data:
     driver: local
-#    driver_opts:
-#      type: none
-#      device: ${PWD}/axon/data
-#      o: bind
+  #    driver_opts:
+  #      type: none
+  #      device: ${PWD}/axon/data
+  #      o: bind
   axonserver-events:
     driver: local
-#    driver_opts:
-#      type: none
-#      device: ${PWD}/axon/events
-#      o: bind
+  #    driver_opts:
+  #      type: none
+  #      device: ${PWD}/axon/events
+  #      o: bind
   axonserver-config:
     driver: local
 #    driver_opts:

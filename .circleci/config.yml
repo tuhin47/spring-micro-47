@@ -26,7 +26,7 @@ jobs:
           name: Run Postman test
           command: |
             set -e
-            sleep 5
+            sleep 10
             docker-compose -f docker-compose-prod.yml -p microproject up --build testservice
             docker cp testservice:/app/newman ./postman_collection/
       - store_test_results:

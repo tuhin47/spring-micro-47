@@ -28,4 +28,4 @@ create table
 
 alter table product
 add
-    constraint FKghawd5rtv8ok565nwpdyyuto9 foreign key (company_id) references company (id);
+    constraint FK_company_product foreign key (company_id) references company (id);

@@ -1,5 +1,7 @@
 package me.tuhin47.apigateway.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,28 +9,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class FallbackController {
 
     @RequestMapping ("/orderServiceFallBack")
-    public String orderServiceFallback() {
-        return "Order Service is down!";
+    public ResponseEntity<String> orderServiceFallback() {
+        return new ResponseEntity<>("Order Service is down!", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @RequestMapping("/paymentServiceFallBack")
-    public String paymentServiceFallback() {
-        return "Payment Service is down!";
+    public ResponseEntity<String> paymentServiceFallback() {
+        return new ResponseEntity<>("Payment Service is down!", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @RequestMapping("/productServiceFallBack")
-    public String productServiceFallback() {
-        return "Product Service is down!";
+    public ResponseEntity<String> productServiceFallback() {
+        return new ResponseEntity<>("Product Service is down!", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @RequestMapping("/authServiceFallBack")
-    public String authServiceFallback() {
-        return "Auth Service is down!";
+    public ResponseEntity<String> authServiceFallback() {
+        return new ResponseEntity<>("Auth Service is down!", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @RequestMapping("/chatServiceFallBack")
-    public String chatServiceFallback() {
-        return "Chat Service is down!";
+    public ResponseEntity<String> chatServiceFallback() {
+        return new ResponseEntity<>("Chat Service is down!", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 }

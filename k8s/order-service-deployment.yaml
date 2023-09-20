@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: order-service-app
-          image: tuhin47/orderservice:prod
+          image: tuhin47/orderservice:0.3.7
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082

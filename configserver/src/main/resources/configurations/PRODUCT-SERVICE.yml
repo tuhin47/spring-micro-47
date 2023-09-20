@@ -4,7 +4,7 @@ server:
 spring:
   flyway:
     url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:3306/${MYSQL_DB:productdb}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USER:root}
+    user: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   datasource:
