@@ -87,12 +87,14 @@ services:
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
     depends_on:
-      - configserver
-      - zipkin
-      - redis
-      - database
-      - axonserver
-      - serviceregistry
+      configserver:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      redis:
+        condition: service_started
+      serviceregistry:
+        condition: service_healthy
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -113,9 +115,6 @@ services:
     # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
     environment:
       - STORAGE_TYPE=mem
-    #      - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
-    #      - SCRIBE_ENABLED=false
-    #      - SELF_TRACING_ENABLED=true
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - "9411:9411"
@@ -164,9 +163,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    links:
-      - database
-      - configserver
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     #      - logstash
     networks:
       - backend
@@ -192,6 +193,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - MYSQL_DB=productdb
       - ZIPKIN_URL
       - REDIS_HOST
       - NOAUTH_ENABLE
@@ -203,9 +205,10 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      - database
-      - configserver
-      - zipkin
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
     volumes:
@@ -229,6 +232,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - MYSQL_DB=orderdb
       - ZIPKIN_URL
       - REDIS_HOST
       - AXON_SERVER_URL
@@ -240,10 +244,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    links:
-      - database
-      - configserver
-      - zipkin
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
     volumes:
@@ -276,9 +281,10 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
-      - mongo
-      - configserver
-      - zipkin
+      mongo:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
     volumes:
@@ -316,9 +322,10 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
-      - database
-      - configserver
-      - zipkin
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
     networks:
       - backend
     volumes:
@@ -338,18 +345,21 @@ services:
       - MYSQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD
       - MYSQL_DB=userdb
     volumes:
-      - /mnt/Others/personal/docker/mysql:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
       - backend
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
       timeout: 20s
       retries: 10
 
   mongo:
     image: mongo
     container_name: mongo
-    restart: on-failure
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
     profiles:
       - all
     ports:
@@ -415,7 +425,7 @@ services:
 
   axonserver:
     image: axoniq/axonserver
-    hostname: axonserve
+    hostname: axonserver
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata
@@ -427,29 +437,43 @@ services:
     networks:
       - backend
 
+  testservice:
+    container_name: testservice
+    profiles:
+      - test
+    build:
+      context: postman_collection
+      dockerfile: test.Dockerfile
+    image: tuhin47/testservice:${PROD_IMAGE_TAG}
+    restart: 'no'
+    #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
+    networks:
+      - backend
+
 
 networks:
   backend:
     driver: bridge
 
 volumes:
+  db-data:
   mongo-volume:
     driver: local
   axonserver-data:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/data
-      o: bind
+  #    driver_opts:
+  #      type: none
+  #      device: ${PWD}/axon/data
+  #      o: bind
   axonserver-events:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/events
-      o: bind
+  #    driver_opts:
+  #      type: none
+  #      device: ${PWD}/axon/events
+  #      o: bind
   axonserver-config:
     driver: local
-    driver_opts:
-      type: none
-      device: $AXON_DATA/config
-      o: bind
+#    driver_opts:
+#      type: none
+#      device: ${PWD}/axon/config
+#      o: bind

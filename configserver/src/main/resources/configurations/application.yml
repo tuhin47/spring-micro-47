@@ -63,7 +63,7 @@ logging:
     org:
       springframework: INFO
       hibernate:
-        SQL: DEBUG
+        SQL: INFO
         type:
           descriptor:
             sql:

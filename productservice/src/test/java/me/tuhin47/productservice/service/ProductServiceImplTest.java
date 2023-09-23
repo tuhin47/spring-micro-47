@@ -88,9 +88,6 @@ public class ProductServiceImplTest {
     @Test
     void test_When_deleteProductById_isSuccess() {
 
-        Product product = getMockProductDetails();
-        when(productRepository.existsById(product.getId())).thenReturn(true);
-
         productService.deleteProductById("1");
         //Verification
         verify(productRepository, times(1)).deleteById(anyString());
