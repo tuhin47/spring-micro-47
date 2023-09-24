@@ -38,7 +38,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/service-registry:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
     environment:
       - DEUBG_PORT=18761
 
@@ -67,7 +67,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/configserver:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
   apigateway:
     build:
@@ -106,7 +106,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/apigateway:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
 
   zipkin:
@@ -173,7 +173,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/authservice:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
 
   productservice:
@@ -213,7 +213,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/productservice:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
   orderservice:
     build:
@@ -253,7 +253,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/orderservice:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
   chatservice:
     build:
@@ -289,7 +289,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/chat-service:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
 
   paymentservice:
@@ -330,7 +330,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/paymentservice:/app
-      - $MAVEN_REPO:/root/.m2
+      - $MAVEN_CONFIG:/root/.m2
 
   database:
     container_name: database

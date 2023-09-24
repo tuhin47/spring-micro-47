@@ -2,6 +2,8 @@
 
 # Project Summary
 
+![Alt](https://repobeats.axiom.co/api/embed/39def8d5d6959f820c33863f34b78036f1b5c7be.svg "Repobeats analytics image")
+
 This is a microservice-based Spring Boot project aimed at providing a comprehensive solution for managing distributed platform.
 The project incorporates the following components:
 
