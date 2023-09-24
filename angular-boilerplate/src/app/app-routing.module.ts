@@ -1,10 +1,10 @@
 // Angular modules
-import { NgModule } from '@angular/core';
+import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
 import { AccessDeniedComponent } from './static/access-denied/access-denied.component';
-import { NotFoundComponent } from './static/not-found/not-found.component';
+import { NotFoundComponent }     from './static/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'product',
     loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
+  },
+  {
+    path: 'common',
+    loadChildren: () => import('./static/static.module').then(m => m.StaticModule),
   },
   {
     path: 'access-denied',
