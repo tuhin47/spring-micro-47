@@ -1,19 +1,19 @@
 // Angular modules
-import { Injectable }   from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // Internal modules
-import { environment }  from '@env/environment';
+import { environment } from '@env/environment';
 
 // Enums
-import { StorageKey }   from '@enums/storage-key.enum';
+import { StorageKey } from '@enums/storage-key.enum';
 
 // Models
 import { AuthResponse } from '@models/auth-response.model';
+import { UserInfo } from '@models/user.model';
 
 @Injectable()
-export class StorageHelper
-{
-  private static storagePrefix : string = environment.appName + '_' + environment.version + '_';
+export class StorageHelper {
+  private static storagePrefix: string = environment.appName + '_' + environment.version + '_';
 
   // ----------------------------------------------------------------------------------------------
   // SECTION Methods ------------------------------------------------------------------------------
@@ -32,22 +32,30 @@ export class StorageHelper
     StorageHelper.setItem(StorageKey.TOKEN, token);
   }
 
-  public static removeToken() : void
-  {
+  public static removeToken(): void {
     StorageHelper.removeItem(StorageKey.AUTH_RESPONSE);
     StorageHelper.removeItem(StorageKey.TOKEN);
   }
 
-  public static getUser() : AuthResponse | null
-  {
-    const data = StorageHelper.getItem(StorageKey.AUTH_RESPONSE) ;
-    return data ? data : null;
+  public static getUser(): AuthResponse {
+    return StorageHelper.getItem(StorageKey.AUTH_RESPONSE);
   }
 
-  public static getToken() : AuthResponse | null
-  {
-    const data = StorageHelper.getItem(StorageKey.TOKEN) ;
-    return data ? data : null;
+  public static hasAnyRole(roles: string[]): boolean {
+
+    if (roles.length == 0) {
+      return true;
+    }
+    const response = this.getUser();
+    if (!response?.user) {
+      return false;
+    }
+    const user: UserInfo = response.user;
+    return user.roles.length != 0 && user.roles.some((role: string) => roles.includes(role));
+  }
+
+  public static getToken(): string {
+    return StorageHelper.getItem(StorageKey.TOKEN);
   }
 
   // !SECTION Methods
@@ -56,14 +64,12 @@ export class StorageHelper
   // SECTION LocalStorage -------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------------------
 
-  public static setItem(key : string, value : any, prefix : boolean = true) : void
-  {
+  public static setItem(key: string, value: any, prefix: boolean = true): void {
     const itemKey = this.prefixer(key, prefix);
     localStorage.setItem(itemKey, JSON.stringify(value));
   }
 
-  public static getItem(key : string, prefix : boolean = true) : any
-  {
+  public static getItem(key: string, prefix: boolean = true): any {
     const itemKey = this.prefixer(key, prefix);
     const res = localStorage.getItem(itemKey);
     if (res !== 'undefined')
@@ -72,15 +78,13 @@ export class StorageHelper
     return null;
   }
 
-  public static removeItem(key : string, prefix : boolean = true) : void
-  {
+  public static removeItem(key: string, prefix: boolean = true): void {
     const itemKey = this.prefixer(key, prefix);
     localStorage.removeItem(itemKey);
   }
 
-  public static getKeys(all : boolean = false) : string[]
-  {
-    const keys : string[] = [];
+  public static getKeys(all: boolean = false): string[] {
+    const keys: string[] = [];
     // NOTE Keys
     for (const key in localStorage)
       keys.push(key);
@@ -90,11 +94,9 @@ export class StorageHelper
     return keys.filter((item) => item.startsWith(this.storagePrefix));
   }
 
-  public static clearItems(all : boolean = false) : void
-  {
+  public static clearItems(all: boolean = false): void {
     // NOTE Keys
-    if (all)
-    {
+    if (all) {
       localStorage.clear();
       return;
     }
@@ -104,8 +106,7 @@ export class StorageHelper
       this.removeItem(prefixedKey, false);
   }
 
-  public static clearItemsWithoutCurrentPrefix() : void
-  {
+  public static clearItemsWithoutCurrentPrefix(): void {
     const allKeys = this.getKeys(true);
     for (const key of allKeys)
       if (!key.startsWith(this.storagePrefix))
@@ -116,8 +117,7 @@ export class StorageHelper
 
   // NOTE Private
 
-  private static prefixer(key : string, autoPrefix : boolean) : string
-  {
+  private static prefixer(key: string, autoPrefix: boolean): string {
     let itemKey = key;
     if (autoPrefix)
       itemKey = this.storagePrefix + key;

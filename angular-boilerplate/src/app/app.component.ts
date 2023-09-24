@@ -6,6 +6,8 @@ import { OnInit }           from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {EventBusService} from "./shared/event/event-bus.service";
 import {Subscription} from "rxjs";
+import { Router } from '@angular/router';
+import { StorageHelper } from '@helpers/storage.helper';
 
 @Component({
   selector    : 'app-root',
@@ -17,7 +19,8 @@ export class AppComponent implements OnInit
   constructor
   (
     private translateService : TranslateService,
-    private eventBusService: EventBusService
+    private eventBusService: EventBusService,
+    private router : Router,
 
   )
   {
@@ -38,7 +41,16 @@ export class AppComponent implements OnInit
   public ngOnInit() : void
   {
     this.eventBusSub = this.eventBusService.on('logout', () => {
-      console.log("Logout event triggered");
+      this.logoutAction();
+
+    });
+     this.eventBusService.on('denied', () => {
+      if(StorageHelper.getToken() != null){
+        this.router.navigate(['/access-denied']);
+      }
+      else{
+        this.logoutAction();
+      }
     });
   }
 
@@ -46,6 +58,11 @@ export class AppComponent implements OnInit
   // NOTE Actions ------------------------------------------------------------------
   // -------------------------------------------------------------------------------
 
+
+  logoutAction() {
+    StorageHelper.removeToken();
+    this.router.navigate(['/auth/login']);
+  }
   // -------------------------------------------------------------------------------
   // NOTE Computed props -----------------------------------------------------------
   // -------------------------------------------------------------------------------

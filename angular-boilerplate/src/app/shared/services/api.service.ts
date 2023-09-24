@@ -41,12 +41,12 @@ export class ApiService {
             const headers: HttpHeaders = new HttpHeaders({ 'Content-Encoding': 'gzip', 'Content-Type': 'application/octet-stream' });
 
             return this.httpClient.post(apiURL, pako.gzip(JSON.stringify(param)).buffer, { headers: headers, responseType: "json" });
-        } 
+        }
         else if(isBlob){
             return this.httpClient.post(
                 apiURL, param, {
                     responseType: 'blob',
-                    observe: 'response' //When this is not defined, it will directly return only BLOB
+                    observe: 'response'
                 }
             );
         }

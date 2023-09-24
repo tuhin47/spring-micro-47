@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit
   }
 
     ngOnInit(): void {
-        const token: string | null = this.route.snapshot.queryParamMap.get("token");
+        const token: string | null = (this.route.snapshot.queryParamMap.get("token") || StorageHelper.getToken());
         if(token) {
             StorageHelper.setToken(token);
             this.userService.getCurrentUser()

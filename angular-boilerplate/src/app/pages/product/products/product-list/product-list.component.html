@@ -1,4 +1,4 @@
-<p-table #dt [columns]="columns" [value]="products" [paginator]="true"
+<p-table #dt [columns]="columns" [value]="products" [paginator]="true" id="contentToConvert"
          [rows]="5" [exportHeader]="'customExportHeader'">
   <ng-template pTemplate="caption">
     <div class="ui-table-caption-container ui-helper-clearfix">
@@ -13,6 +13,8 @@
       <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF"
               tooltipPosition="bottom"></button>
       <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto"
+              pTooltip="Selection Only" tooltipPosition="bottom"></button>
+      <button type="button" pButton pRipple icon="pi pi-camera" (click)="captureScreen(dt)" class="p-button-info ml-auto"
               pTooltip="Selection Only" tooltipPosition="bottom"></button>
     </div>
   </ng-template>

@@ -14,8 +14,8 @@
       <div class="mb-3">
         <label for="email" class="form-label text-start w-100">{{ 'EMAIL' | translate }}</label>
         <input type="email" class="form-control" id="email"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
+               formControlName="email"
+               [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
         <!-- NOTE Errors -->
         <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">
           {{ 'FIELD_REQUIRED' | translate }}
@@ -29,8 +29,8 @@
       <div class="mb-3">
         <label for="password" class="form-label text-start w-100">{{ 'PASSWORD' | translate }}</label>
         <input type="password" class="form-control" id="password"
-          formControlName="password"
-          [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
+               formControlName="password"
+               [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
         <!-- NOTE Errors -->
         <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">
           {{ 'FIELD_REQUIRED' | translate }}
@@ -48,31 +48,27 @@
       </div>
 
       <div class="text-center">
-        <a  routerLink="/auth/register" type="button" class="btn btn-primary mb-3 px-5" >
+        <a routerLink="/auth/register" type="button" class="btn btn-primary mb-3 px-5">
           <span class="px-4 d-block">{{ 'SIGN_UP' | translate }}</span>
         </a>
       </div>
 
-        <div class="form-group">
-            <p class="content-divider center mt-3">
-                <span>or</span>
-            </p>
-            <p class="social-login text-center">
-                Sign in with:
-                <a href="{{ googleURL }}" class="ml-2">
-                    <img alt="Login with Google" src="/assets/img/auth/google.png" class="btn-img">
-                </a>
-                <a href="{{ facebookURL }}">
-                    <img alt="Login with Facebook" src="/assets/img/auth/facebook.png" class="btn-img">
-                </a>
-                <a href="{{ githubURL }}">
-                    <img alt="Login with Github" src="/assets/img/auth/github.png" class="btn-img">
-                </a>
-                <a href="{{ linkedinURL }}">
-                    <img alt="Login with Linkedin" src="/assets/img/auth/linkedin.png" class="btn-img-linkedin">
-                </a>
-            </p>
-        </div>
+      <div class="form-group">
+        <p class="content-divider center mt-3">
+          <span>or <strong>Sign in with</strong></span>
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-between social-buttons">
+        <img [routerLink]="googleURL" alt="Login with Google" src="/assets/img/auth/google.png"
+             class="rounded float-start">
+        <img [routerLink]="facebookURL" alt="Login with Facebook" src="/assets/img/auth/facebook.png"
+             class="rounded float-start">
+        <img [routerLink]="githubURL" alt="Login with Github" src="/assets/img/auth/github.png"
+             class="rounded float-start">
+        <img [routerLink]="linkedinURL" alt="Login with Linkedin" src="/assets/img/auth/linkedin.png"
+             class="rounded float-start">
+      </div>
 
     </form>
   </div>

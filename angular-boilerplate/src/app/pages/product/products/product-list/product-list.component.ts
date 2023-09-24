@@ -1,9 +1,11 @@
-import { Component }                    from '@angular/core';
-import { SearchOperationEnum }          from '@enums/search-operation.enum';
-import { ProductModel }                 from '@models/product.model';
+import { Component } from '@angular/core';
+import { SearchOperationEnum } from '@enums/search-operation.enum';
+import { ProductModel } from '@models/product.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ProductService }               from '@services/product.service';
-import * as FileSaver                   from 'file-saver';
+import { ProductService } from '@services/product.service';
+import * as FileSaver from 'file-saver';
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
 
 
 interface ExportColumn {
@@ -58,7 +60,7 @@ export class ProductListComponent {
 
   ngOnInit() {
     this.getProducts();
-    this.exportColumns = this.columns.map((col) => ({title: col.header, dataKey: col.field}));
+    this.exportColumns = this.columns.map((col) => ({ title: col.header, dataKey: col.field }));
   }
 
   next() {
@@ -93,11 +95,33 @@ export class ProductListComponent {
     });
   }
 
+  captureScreen(dom:any)
+  {
+    const data = dom.el?.nativeElement?.querySelector("div.p-datatable-wrapper");
+
+    if(data){
+      html2canvas(data).then(canvas => {
+        // Few necessary setting options
+        const imgWidth = 208;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        // const pageHeight = 295;
+        // const heightLeft = imgHeight;
+
+        const contentDataURL = canvas.toDataURL('image/png')
+        const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+        const position = 0;
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+        pdf.save('MYPdf.pdf'); // Generated PDF
+      });
+    }
+
+  }
+
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(this.products);
-      const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
-      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, 'products');
     });
   }
@@ -116,13 +140,7 @@ export class ProductListComponent {
       {
         key: 'productName',
         operation: SearchOperationEnum.MATCH,
-        value: 'Pro',
-        groupId: 'G1',
-      },
-      {
-        key: 'productName',
-        operation: SearchOperationEnum.MATCH,
-        value: 'Pro2',
+        value: 'a',
         groupId: 'G1',
       },
       /* {
@@ -146,25 +164,25 @@ export class ProductListComponent {
       {
         key: 'price',
         operation: SearchOperationEnum.LESS_THAN,
-        value: 100,
+        value: 5000,
         className: 'java.lang.Long',
         groupId: 'G2',
       },
-      {
-        key: 'company.name',
-        operation: SearchOperationEnum.MATCH,
-        value: "abc",
-      },
+      /*   {
+          key: 'company.name',
+          operation: SearchOperationEnum.MATCH,
+          value: "abc",
+        }, */
     ];
 
     this.productService
-        .getAllData(param) // TODO params should be generated
-        .pipe(untilDestroyed(this))
-        .subscribe({
-          next: (data: any) => {
-            this.products = data.content;
-          },
-          error: (err) => console.error(err),
-        });
+      .getAllData(param) // TODO params should be generated
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (data: any) => {
+          this.products = data.content;
+        },
+        error: (err) => console.error(err),
+      });
   }
 }

@@ -1,11 +1,11 @@
 // Angular modules
-import { Component }   from '@angular/core';
-import { OnInit }      from '@angular/core';
-import { Router }      from '@angular/router';
+import { Component, DoCheck, OnInit } from '@angular/core';
 
 // Internal modules
-import { environment } from '@env/environment';
-import {StorageHelper} from "@helpers/storage.helper";
+import { environment }     from '@env/environment';
+import { StorageHelper }   from '@helpers/storage.helper';
+import { EventBusService } from 'src/app/shared/event/event-bus.service';
+import { EventData }       from 'src/app/shared/event/event.class';
 
 @Component({
   selector    : 'app-layout-header',
@@ -16,10 +16,11 @@ export class LayoutHeaderComponent implements OnInit
 {
   public appName         : string  = environment.appName;
   public isMenuCollapsed : boolean = true;
+  public authenticated  = false;
 
   constructor
   (
-    private router : Router,
+    private eventBusService : EventBusService,
   )
   {
 
@@ -27,7 +28,7 @@ export class LayoutHeaderComponent implements OnInit
 
   public ngOnInit() : void
   {
-
+    this.authenticated = StorageHelper.getUser()?.authenticated || false
   }
 
   // -------------------------------------------------------------------------------
@@ -40,9 +41,7 @@ export class LayoutHeaderComponent implements OnInit
 
   public async onClickLogout() : Promise<void>
   {
-    // NOTE Redirect to login
-    StorageHelper.removeToken();
-    this.router.navigate(['/auth/login']);
+    this.eventBusService.emit(new EventData('logout', null));
   }
 
   // -------------------------------------------------------------------------------

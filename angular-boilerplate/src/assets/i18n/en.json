@@ -1,5 +1,6 @@
 {
   "NOT_FOUND"          : "404 - Page not found",
+  "ACCESS_DENIED"      : "401 - Access Denied",
   "GO_TO_HOMEPAGE"     : "Go to homepage",
   "WELCOME_TO"         : "Welcome to",
   "PROJECT_DESC"       : "This is a boilerplate solution",
