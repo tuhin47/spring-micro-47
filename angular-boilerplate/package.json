@@ -31,6 +31,7 @@
     "@fortawesome/angular-fontawesome": "^0.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@lottiefiles/lottie-player": "^2.0.2",
     "@ng-bootstrap/ng-bootstrap": "15.1.1",
     "@ngneat/until-destroy": "^9.2.3",
     "@ngx-translate/core": "^14.0.0",

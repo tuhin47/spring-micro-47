@@ -1,15 +1,15 @@
-
 <app-page-layout>
-    <div class="container my-3">
-
-        <div class="not-found-container">
-            <div class="not-found text-center">
-                <h1 class="mb-3">{{ 'ACCESS_DENIED' | translate }}</h1>
-                <a class="btn btn-lg btn-primary" routerLink="/">
-                    {{ 'GO_TO_HOMEPAGE' | translate }}
-                </a>
-            </div>
-        </div>
-
+  <div class="offset-4 col-4">
+    <lottie-player
+      src="https://gist.githubusercontent.com/tuhin47/13cd08a7bc8c642621d360ad7344ba34/raw/animation_lmxjnec9.json"
+      background="transparent" speed="1"
+      loop autoplay style="width: 100%">
+    </lottie-player>
+    <div class="text-center">
+      <a class="btn btn-lg btn-primary" routerLink="/">
+        {{ 'GO_TO_HOMEPAGE' | translate }}
+      </a>
     </div>
-  </app-page-layout>
+  </div>
+
+</app-page-layout>
