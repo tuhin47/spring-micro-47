@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.ts",
+    "start-postman": "API_TARGET=https://45fb9817-695b-4664-89b6-5bc6efcc4494.mock.pstmn.io npm run start",
     "mock": "node mock/server/index.js",
     "serve": "ng serve",
     "build": "ng build",
