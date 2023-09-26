@@ -1,7 +1,7 @@
 const proxyConfig = [
     {
         context: ["/api/**"],
-        target: "http://localhost:9090",
+        target: "http://localhost:3000", //mock server
         pathRewrite: {'^/api': ''},
         secure: false,
         changeOrigin: true

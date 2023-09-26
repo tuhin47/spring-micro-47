@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.ts",
+    "mock": "node mock/server/index.js",
     "serve": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -37,6 +38,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.6",
+    "@r35007/mock-server": "^18.0.1",
     "angular-svg-icon": "^15.0.0",
     "axios": "^1.3.3",
     "bootstrap": "5.2.3",

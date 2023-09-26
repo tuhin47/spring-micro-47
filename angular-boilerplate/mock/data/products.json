@@ -1,0 +1,77 @@
+ {
+    "content": [
+      {
+        "productId": "f98bff44-7bd2-4606-ade0-1378fff2dbc0",
+        "productName": "Computer",
+        "quantity": 548,
+        "price": 909.74
+      },
+      {
+        "productId": "f911cf00-bdde-4056-96c2-75d65bbebb91",
+        "productName": "Sausages",
+        "quantity": 50,
+        "price": 276.12
+      },
+      {
+        "productId": "ac490e78-01ad-458a-b7b3-18ad8e4b833e",
+        "productName": "D34",
+        "quantity": 55,
+        "price": 314.73
+      },
+      {
+        "productId": "ab9c1134-9217-483d-9bcf-bf729abb4db7",
+        "productName": "Table",
+        "quantity": 50,
+        "price": 281.07
+      },
+      {
+        "productId": "a92787e9-d9a3-4ba9-8e9d-34221fae77b9",
+        "productName": "Sausages",
+        "quantity": 694,
+        "price": 174.78
+      },
+      {
+        "productId": "6467fa8a-3bdc-4f01-aa0f-ae2de067c151",
+        "productName": "Bike",
+        "quantity": 243,
+        "price": 559.66
+      },
+      {
+        "productId": "1ce6dce6-5966-471c-b35d-3acbd53db82c",
+        "productName": "D23",
+        "quantity": 50,
+        "price": 838.39
+      },
+      {
+        "productId": "12d0da4f-116a-46c7-b44e-1f9313e28a98",
+        "productName": "Table",
+        "quantity": 628,
+        "price": 317.65
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "empty": false,
+        "unsorted": false,
+        "sorted": true
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 2147483647,
+      "paged": true,
+      "unpaged": false
+    },
+    "last": true,
+    "totalPages": 1,
+    "totalElements": 8,
+    "size": 2147483647,
+    "number": 0,
+    "sort": {
+      "empty": false,
+      "unsorted": false,
+      "sorted": true
+    },
+    "first": true,
+    "numberOfElements": 8,
+    "empty": false
+  }
