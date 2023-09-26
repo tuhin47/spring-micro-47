@@ -47,7 +47,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   selectionChanged(item: TreeNodeSelectEvent) {
-    item.node.expanded = true;
+    item.node.expanded = !item.node.expanded;
   };
 
   private toggleSideBar() {

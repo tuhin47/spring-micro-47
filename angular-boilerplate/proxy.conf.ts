@@ -1,10 +1,10 @@
-var process = require("process");
-var api_target = process.env.API_TARGET;
+const {env: {API_TARGET: api_target}} = require('process');
+
 console.log('Proxy configuration: ' + api_target);
 const proxyConfig = [
     {
         context: ["/api/**"],
-        target: api_target || "http://localhost:3000", //mock server
+        target: api_target || "http://localhost:9090", //mock server
         pathRewrite: {'^/api': ''},
         secure: false,
         changeOrigin: true

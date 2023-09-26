@@ -12,7 +12,7 @@ module.exports = {
   snapshots: "snapshots", // Path to snapshots
   static: "public", // Path to host a static files. Set to empty string to avoid hosting default public folder
 
-  port: 3000, // Set Port to 0 to pick a random available port.
+  port: 9090, // Set Port to 0 to pick a random available port.
   host: "localhost", // Set host to empty string to set your local ip address
   base: "", // Mount db on a base url
   id: "id", // Set db id attribute.

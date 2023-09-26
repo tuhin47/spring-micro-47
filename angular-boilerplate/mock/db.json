@@ -14,21 +14,12 @@
   },
   "/auth/signin": {
     "_config": true,
-    "mock": {
-      "accessToken": "sometokentosave",
-      "authenticated": true,
-      "user": {
-        "id": "82d3b742-2f42-4b24-a743-8803e8c15309",
-        "displayName": "admin@tuhin47.com",
-        "email": "admin@tuhin47.com",
-        "avatar": "https://bootdey.com/img/Content/avatar/avatar1.png",
-        "roles": [
-          "ROLE_USER",
-          "ROLE_ADMIN",
-          "ROLE_MODERATOR"
-        ]
-      }
-    }
+    "mock": [
+      "/auth/admin"
+    ],
+    "middlewares": [
+      "_IterateRoutes"
+    ]
   },
   "/auth/users/summaries": {
     "_config": true,
@@ -39,6 +30,11 @@
     "_config": true,
     "description": "The given fetch path will be relative to the root path given in config",
     "fetch": "./data/products.json"
+  },
+  "/product/excel": {
+    "_config": true,
+    "description": "The given fetch path will be relative to the root path given in config",
+    "fetch": "./data/products.xlsx"
   },
   "/customDelay": {
     "_config": true,
@@ -96,7 +92,7 @@
   "/fetch/404/skipFetchError": {
     "_config": true,
     "description": "Bu default fetch returns the actual error if occur. If you set `skipFetchError` flag to true. the If any error occur in fetch call it will then skips the fetch error and return you the mock data",
-    "fetch": "http://localhost:3000/404",
+    "fetch": "http://localhost:9090/404",
     "skipFetchError": true,
     "mock": "This data is returned due to some error in fetch call. You can see the error in 'fetchError' attribute",
     "fetchCount": -1,
@@ -167,6 +163,8 @@
   "/injectors/1": "I am from /injectors/1",
   "/injectors/2": "I am from /injectors/2",
   "/injectors/:id": {},
+  "/auth/user": {},
+  "/auth/admin": {},
   "/getStoreValue": {
     "_config": true,
     "description": "This will call the below middleware and send the store value.",
