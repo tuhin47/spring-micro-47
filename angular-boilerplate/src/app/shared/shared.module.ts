@@ -27,11 +27,14 @@ import { PageLayoutComponent }   from '@layouts/page-layout/page-layout.componen
 // Directives
 import { ModalWrapperDirective } from '@directives/modal-wrapper.directive';
 import { RippleModule }          from 'primeng/ripple';
+import { SidebarModule }         from 'primeng/sidebar';
 
 //PrimeNG
-import { TableModule }   from 'primeng/table';
-import { ButtonModule }  from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
+import { TableModule }       from 'primeng/table';
+import { ButtonModule }      from 'primeng/button';
+import { TooltipModule }     from 'primeng/tooltip';
+import { TreeModule }        from 'primeng/tree';
+import { SideMenuComponent } from './components/layouts/side-menu/side-menu.component';
 
 
 @NgModule({
@@ -47,6 +50,9 @@ import { TooltipModule } from 'primeng/tooltip';
       TranslateModule,
       AngularSvgIconModule,
       NgbModule,
+      TreeModule,
+      SidebarModule,
+      ButtonModule
     ],
   declarations:
     [
@@ -63,11 +69,13 @@ import { TooltipModule } from 'primeng/tooltip';
       // Layouts
       LayoutHeaderComponent,
       PageLayoutComponent,
+      SideMenuComponent,
 
       // Pipes
 
       // Directives
-      ModalWrapperDirective
+      ModalWrapperDirective,
+      SideMenuComponent,
     ],
   exports:
     [

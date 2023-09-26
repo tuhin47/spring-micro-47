@@ -44,6 +44,9 @@ export class LayoutHeaderComponent implements OnInit
     this.eventBusService.emit(new EventData('logout', null));
   }
 
+  toggleSideBar() {
+    this.eventBusService.emit(new EventData('sidebar', null));
+  }
   // -------------------------------------------------------------------------------
   // NOTE Computed props -----------------------------------------------------------
   // -------------------------------------------------------------------------------

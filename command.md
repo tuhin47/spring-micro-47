@@ -23,7 +23,7 @@ docker-compose --env-file .env -f docker-compose-prod.yml  up
 
 ## Monitor docker containers using lazydocker
 
-## Kubernetes**
+## Kubernetes
 
 - Install minikube to access this link https://minikube.sigs.k8s.io/docs/start/
 

@@ -1,7 +1,4 @@
 # EasyAngular
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.4.
-
 ## Usage
 - Rename `EasyAngular` and `easy-angular` with your project name
 - Place favicon generated with [RealFavIconGenerator](https://realfavicongenerator.net/) into `src/assets/img/favicon` folder
@@ -57,3 +54,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+```shell
+docker run -p 4000:4000 -d hhaluk/mocktail:2.0.1
+```

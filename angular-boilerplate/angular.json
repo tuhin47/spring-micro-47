@@ -20,6 +20,17 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "dompurify",
+              "file-saver",
+              "html2canvas",
+              "jspdf-autotable",
+              "raf",
+              "rgbcolor",
+              "sockjs-client",
+              "stompjs"
+            ],
             "customWebpackConfig": {
               "path": "custom-webpack.config.js"
             },

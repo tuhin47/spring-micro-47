@@ -1,0 +1,5 @@
+<p-sidebar [(visible)]="sidebar" position="left">
+<!--  <button pButton type="button" label="Expand all" (click)="expandAll()" class="mr-2"></button>
+  <button pButton type="button" label="Collapse all" (click)="collapseAll()"></button>-->
+  <p-tree [value]="files" class="p-tree-sidebar w-full md:w-30rem" selectionMode="single" (onNodeSelect)="selectionChanged($event)"></p-tree>
+</p-sidebar>

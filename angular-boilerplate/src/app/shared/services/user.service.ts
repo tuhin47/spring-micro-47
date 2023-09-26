@@ -34,4 +34,8 @@ export class UserService {
   getUsers() {
     return this.apiService.get(Endpoint.FRIEND_LIST);
   }
+
+  getFiles() {
+    return this.apiService.get(Endpoint.MENU_LIST);
+  }
 }

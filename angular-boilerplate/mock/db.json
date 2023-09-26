@@ -1,5 +1,9 @@
 {
-
+  "/auth/menu": {
+    "_config": true,
+    "description": "The given fetch path will be relative to the root path given in config",
+    "fetch": "./data/menu.json"
+  },
   "/auth/signup": {
     "statusCode": 201,
     "_config": true,
@@ -26,7 +30,6 @@
       }
     }
   },
-
   "/auth/users/summaries": {
     "_config": true,
     "description": "The given fetch path will be relative to the root path given in config",
