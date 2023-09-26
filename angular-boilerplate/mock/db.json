@@ -93,7 +93,7 @@
   "/fetch/404/skipFetchError": {
     "_config": true,
     "description": "Bu default fetch returns the actual error if occur. If you set `skipFetchError` flag to true. the If any error occur in fetch call it will then skips the fetch error and return you the mock data",
-    "fetch": "http://localhost:3000/404",
+    "fetch": "http://localhost:9090/404",
     "skipFetchError": true,
     "mock": "This data is returned due to some error in fetch call. You can see the error in 'fetchError' attribute",
     "fetchCount": -1,
