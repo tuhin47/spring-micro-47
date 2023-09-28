@@ -7,4 +7,5 @@ export enum Endpoint {
     SIGNUP = 'auth/signup',
     MY_INFO = 'auth/user/me',
     FRIEND_LIST = 'auth/users/summaries',
+    MENU_LIST ="auth/menu",
 }
