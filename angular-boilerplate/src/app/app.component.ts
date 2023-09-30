@@ -1,13 +1,12 @@
 // Angular modules
-import { Component } from '@angular/core';
-import { OnInit }    from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
+import { StorageHelper }     from '@helpers/storage.helper';
 
 // External modules
 import { TranslateService } from '@ngx-translate/core';
-import { EventBusService }  from './shared/event/event-bus.service';
 import { Subscription }     from 'rxjs';
-import { Router }           from '@angular/router';
-import { StorageHelper }    from '@helpers/storage.helper';
+import { EventBusService }  from './shared/event/event-bus.service';
 
 @Component({
   selector: 'app-root',
