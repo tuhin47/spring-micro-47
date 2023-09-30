@@ -1,5 +1,41 @@
 [
   {
+    "routes": ["/auth/user"],
+    "override": true,
+    "mock":  {
+      "accessToken": "sometokentosave",
+      "authenticated": true,
+      "user": {
+        "id": "82d3b742-2f42-4b24-a743-8803e8c15309",
+        "displayName": "user@tuhin47.com",
+        "email": "user@tuhin47.com",
+        "avatar": "https://bootdey.com/img/Content/avatar/avatar1.png",
+        "roles": [
+          "ROLE_USER"
+        ]
+      }
+    }
+  },
+  {
+    "routes": ["/auth/admin"],
+    "override": true,
+    "mock":  {
+      "accessToken": "sometokentosave",
+      "authenticated": true,
+      "user": {
+        "id": "82d3b742-2f42-4b24-a743-8803e8c15309",
+        "displayName": "admin@tuhin47.com",
+        "email": "admin@tuhin47.com",
+        "avatar": "https://bootdey.com/img/Content/avatar/avatar1.png",
+        "roles": [
+          "ROLE_USER",
+          "ROLE_ADMIN",
+          "ROLE_MODERATOR"
+        ]
+      }
+    }
+  },
+  {
     "routes": ["/injectors/:id"],
     "description": "This description is injected using the injectors by matching the pattern '/injectors/:id'."
   },

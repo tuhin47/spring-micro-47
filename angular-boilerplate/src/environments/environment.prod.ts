@@ -17,7 +17,7 @@ const LINKEDIN_AUTH_URL = OAUTH2_URL + "linkedin" + REDIRECT_URL;
 export const environment = {
   production      : true,
   version         : packageInfo.version,
-  appName         : 'Boilerplate tuhin47',
+  appName         : 'Boilerplate Micro47',
   envName         : $ENV.ENVIRONMENT || EnvName.PROD,
   defaultLanguage : 'en',
   apiBaseUrl      : '/',
