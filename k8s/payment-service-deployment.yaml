@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: payment-service-app
-          image: tuhin47/paymentservice:0.3.7
+          image: tuhin47/paymentservice:0.3.8
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8083

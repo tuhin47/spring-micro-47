@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.tuhin47.services</groupId>
     <artifactId>all-services</artifactId>
-    <version>0.3.7</version>
+    <version>0.3.8</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -68,7 +68,7 @@
                         <REDIS_URL>redis://redis:6379</REDIS_URL>
                         <ALLOWED_ORIGINS>http://localhost:4200,http://localhost:8080</ALLOWED_ORIGINS>
                         <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
-                        <PROD_IMAGE_TAG>0.3.7</PROD_IMAGE_TAG>
+                        <PROD_IMAGE_TAG>0.3.8</PROD_IMAGE_TAG>
                         <NOAUTH_ENABLE>false</NOAUTH_ENABLE>
                     </env>
                     <projectName>microproject</projectName>
