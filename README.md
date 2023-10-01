@@ -1,4 +1,4 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main.svg?style=svg&circle-token=bdaab008db5675ca388793362feaa7f5b9c83c3e)](https://app.circleci.com/pipelines/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn) [![Github CI](https://github.com/tuhin47/spring-micro-47/workflows/Project%20Build/badge.svg)](https://github.com/tuhin47/spring-micro-47)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn/tree/main.svg?style=svg&circle-token=bdaab008db5675ca388793362feaa7f5b9c83c3e)](https://app.circleci.com/pipelines/circleci/MgvxEwdpnJ3irCvVZbs4M2/6mxMGr251EXuYKkuQNrzHn) [![Github CI](https://github.com/tuhin47/spring-micro-47/workflows/Project%20Build/badge.svg)](https://github.com/tuhin47/spring-micro-47) [![Netlify Status](https://api.netlify.com/api/v1/badges/c746a9ab-9a46-4dc6-875c-bf54263ddd21/deploy-status)](https://app.netlify.com/sites/spring-micro-47/deploys)
 
 # Project Summary
 
@@ -23,6 +23,10 @@ The project incorporates the following components:
 - **Elasticsearch**: A search engine used for indexing and searching data.
 - **Logstash**: A data pipeline tool used for collecting, processing, and forwarding logs and metrics.
 - **Kibana**: A visualization and exploration tool used for analyzing and visualizing log data.
+- **CircleCI**: Continuous integration using CircleCI.
+- **Netlify**: Frontend Deployment in netlify.
+- **Postman**: Postman Integration Testing using Newman and CircleCI
+- **Swagger**: Swagger Documentation and deployed in github.
 
 The project includes YAML files for both production and development environments, allowing easy configuration and deployment in different settings.
 

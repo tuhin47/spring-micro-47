@@ -35,24 +35,32 @@ export class ApiService {
     }
 
     post(url: string, param?: any, compress: boolean = false, isBlob: boolean = false): Observable<any> {
-        let apiURL = this.apiBase + url;
+      let apiURL = this.apiBase + url;
+      if (compress) {
+        const headers: HttpHeaders = new HttpHeaders({
+          'Content-Encoding': 'gzip',
+          'Content-Type': 'application/octet-stream',
+          'Access-Control-Allow-Origin': '*'
+        });
 
-        if (compress) {
-            const headers: HttpHeaders = new HttpHeaders({ 'Content-Encoding': 'gzip', 'Content-Type': 'application/octet-stream' });
-
-            return this.httpClient.post(apiURL, pako.gzip(JSON.stringify(param)).buffer, { headers: headers, responseType: "json" });
-        }
-        else if(isBlob){
-            return this.httpClient.post(
-                apiURL, param, {
-                    responseType: 'blob',
-                    observe: 'response'
-                }
-            );
-        }
-        else {
-            return this.httpClient.post(apiURL, param);
-        }
+        return this.httpClient.post(apiURL, pako.gzip(JSON.stringify(param)).buffer, {
+          headers: headers,
+          responseType: 'json'
+        });
+      } else if (isBlob) {
+        return this.httpClient.post(
+          apiURL, param, {
+            responseType: 'blob',
+            observe: 'response'
+          }
+        );
+      } else {
+        return this.httpClient.post(apiURL, param, {
+          headers: new HttpHeaders({
+            'Access-Control-Allow-Origin': '*'
+          }),
+        });
+      }
     }
 
     put(url: string, param?: any): Observable<any> {
