@@ -83,7 +83,7 @@ services:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
       - ZIPKIN_URL
-      - REDIS_HOST
+      - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
     depends_on:
@@ -152,7 +152,7 @@ services:
       - CLIENT_ID
       - CLIENT_SECRET
       - ZIPKIN_URL
-      - REDIS_HOST
+      - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
     working_dir: /app
@@ -195,7 +195,7 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_DB=productdb
       - ZIPKIN_URL
-      - REDIS_HOST
+      - REDIS_URL
       - NOAUTH_ENABLE
     working_dir: /app
     command: sh /script/run.sh
@@ -234,7 +234,7 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_DB=orderdb
       - ZIPKIN_URL
-      - REDIS_HOST
+      - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
     working_dir: /app
@@ -311,7 +311,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - ZIPKIN_URL
-      - REDIS_HOST
+      - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
     working_dir: /app

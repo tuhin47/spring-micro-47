@@ -28,9 +28,7 @@ spring:
     multipart:
       location: /data/upload_tmp
   redis:
-    host: ${REDIS_HOST:localhost}
-    port: 6379
-#    client-type: jedis
+    url: ${REDIS_URL:redis://localhost:6379}
   zipkin:
     baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
   output:

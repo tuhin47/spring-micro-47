@@ -39,11 +39,11 @@ spec:
                 configMapKeyRef:
                   name: mysql-cm
                   key: hostname
-            - name: REDIS_HOST
+            - name: REDIS_URL
               valueFrom:
                 configMapKeyRef:
                   name: redis-cm
-                  key: redis-host
+                  key: redis-url
             - name: ZIPKIN_URL
               valueFrom:
                 configMapKeyRef:

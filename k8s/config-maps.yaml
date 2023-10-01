@@ -45,7 +45,7 @@ kind: ConfigMap
 metadata:
   name: redis-cm
 data:
-  redis-host: redis
+  redis-url: "redis://redis:6379"
 ---
 
 apiVersion: v1

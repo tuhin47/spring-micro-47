@@ -29,11 +29,11 @@ spec:
                 configMapKeyRef:
                   name: eureka-cm
                   key: eureka_service_address
-            - name: REDIS_HOST
+            - name: REDIS_URL
               valueFrom:
                 configMapKeyRef:
                   name: redis-cm
-                  key: redis-host
+                  key: redis-url
             - name: ZIPKIN_URL
               valueFrom:
                 configMapKeyRef:

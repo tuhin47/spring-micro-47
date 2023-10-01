@@ -65,7 +65,6 @@
                         <MONGO_USERNAME>root</MONGO_USERNAME>
                         <MONGO_PASSWORD>rootpassword</MONGO_PASSWORD>
                         <MONGO_AUTHENTICATION_DATABASE>admin</MONGO_AUTHENTICATION_DATABASE>
-                        <REDIS_HOST>redis</REDIS_HOST>
                         <REDIS_URL>redis://redis:6379</REDIS_URL>
                         <ALLOWED_ORIGINS>http://localhost:4200,http://localhost:8080</ALLOWED_ORIGINS>
                         <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
