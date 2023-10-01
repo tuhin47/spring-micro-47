@@ -38,7 +38,10 @@ export class ApiService {
         let apiURL = this.apiBase + url;
 
         if (compress) {
-            const headers: HttpHeaders = new HttpHeaders({ 'Content-Encoding': 'gzip', 'Content-Type': 'application/octet-stream' });
+          const headers: HttpHeaders = new HttpHeaders({
+            'Content-Encoding': 'gzip', 'Content-Type': 'application/octet-stream',
+            'Access-Control-Allow-Origin': '*'
+          });
 
             return this.httpClient.post(apiURL, pako.gzip(JSON.stringify(param)).buffer, { headers: headers, responseType: "json" });
         }
