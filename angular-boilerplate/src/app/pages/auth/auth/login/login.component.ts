@@ -1,20 +1,18 @@
 // Angular modules
-import {Component, OnInit} from '@angular/core';
-import { FormGroup }    from '@angular/forms';
-import { FormControl }  from '@angular/forms';
-import { Validators }   from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit }                  from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router }             from '@angular/router';
 
 // Internal modules
-import { environment }  from '@env/environment';
-import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import { environment }                  from '@env/environment';
+import { StorageHelper }                from '@helpers/storage.helper';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 // Services
 import { AppService }   from '@services/app.service';
+import { AuthService }  from '@services/auth.service';
 import { StoreService } from '@services/store.service';
-import {UserService} from "@services/user.service";
-import {StorageKey} from "@enums/storage-key.enum";
-import {StorageHelper} from "@helpers/storage.helper";
+import { UserService }  from '@services/user.service';
 
 @UntilDestroy()
 @Component({
@@ -41,7 +39,8 @@ export class LoginComponent implements OnInit
     private storeService : StoreService,
     private appService   : AppService,
     private route : ActivatedRoute,
-    private userService : UserService
+    private userService : UserService,
+    private authService: AuthService,
   )
   {
     this.initFormGroup();
@@ -103,15 +102,28 @@ export class LoginComponent implements OnInit
 
     const email    = this.formGroup.controls.email.getRawValue();
     const password = this.formGroup.controls.password.getRawValue();
-    const success  = await this.appService.authenticate(email, password);
+    // const success  = await this.appService.authenticate(email, password);
 
-    this.storeService.setIsLoading(false);
-
-    if (!success)
-      return;
-
+    this.authService
+        .login(email, password)
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          {
+            next: value => {
+              console.log(value)
+              StorageHelper.removeToken();
+              StorageHelper.setAuthResponse(value);
+              this.router.navigate(['/home']);
+            },
+            error: err => {
+              console.error(err)
+            },
+            complete: () => {
+              this.storeService.setIsLoading(false);
+            }
+          }
+        );
     // NOTE Redirect to home
-    this.router.navigate(['/home']);
   }
 
   // -------------------------------------------------------------------------------

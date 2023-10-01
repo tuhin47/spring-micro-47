@@ -28,6 +28,16 @@ export class AuthService {
     );
   }
 
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(
+      Endpoint.AUTHENTICATE,
+      {
+        email,
+        password
+      }
+    );
+  }
+
   logout(): Observable<any> {
     return of(null);
     // return this.http.post(AUTH_API + 'signout', { }, httpOptions);
