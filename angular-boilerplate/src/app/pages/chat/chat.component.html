@@ -1,126 +1,31 @@
 <app-page-layout>
   <div class="main-container">
-    <div class="container app">
-      <div class="row app-container">
-
-        <!--Contact list section-->
-        <div class="col-12 col-md-4 side">
-          <div class="side-mainArea">
-            <div class="row heading">
-
-            </div>
-
-            <!--navigation buttons-->
-            <div class="row tabsContainer">
-              <div class="col-sm-12 tabsContainer-inner">
-                <div class="form-group has-feedback">
-
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-tabs tabs-container">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#chat">
-                        <fa-icon [icon]="faCommentDots" class="faIcon"></fa-icon>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#contacts">
-                        <fa-icon [icon]="faUser" class="faIcon"></fa-icon>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#search">
-                        <fa-icon [icon]="faSearch" class="faIcon"></fa-icon>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!--contacts section-->
-            <div class="tab-content">
-              <div class="tab-pane mb-1  active" id="chat">
-                <div class="row sideBar">
-                  <!--contact component-->
-                  <app-contact></app-contact>
-                </div>
-              </div>
-              <div class="tab-pane mb-1 fade" id="contacts">
-                All Contacts Section
-              </div>
-              <div class="tab-pane mb-1 fade" id="search">
-                <!--contact component-->
-<!--                <app-contact></app-contact>-->
-
-              </div>
-            </div>
-
-          </div>
-
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-4">
+          <app-contact></app-contact>
         </div>
-
-        <!--main chat section-->
-        <div class="col-12 col-md-8 conversation">
-
-          <!--header section-->
-          <div class="row heading heading-container">
-            <div class="col-sm-10 col-md-10 col-xs-10">
-              <div class="heading-contact-container">
-                <div class="heading-avatar">
-                  <div class="heading-avatar-icon">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
-                  </div>
-                </div>
-                <div class="heading-name">
-                  <a class="heading-name-details">{{webSocketService.activeContact?.displayName}}
-                  </a>
-                  <span class="heading-online">Online</span>
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              Chat Room
+            </div>
+            <div class="card-body chat-container">
+              <!-- Chat messages go here -->
+                <app-sent-message></app-sent-message>
+                <app-received-message></app-received-message>
+              <!-- Add more messages dynamically with JavaScript -->
+            </div>
+            <div class="card-footer">
+              <div class="input-group">
+                <input type="text" id="messageInput" class="form-control" placeholder="Type your message">
+                <div class="input-group-append">
+                  <button id="sendMessageBtn" class="btn btn-primary">Send</button>
                 </div>
               </div>
-            </div>
-
-            <!--Settings-->
-            <div class="col-sm-1 col-md-1 col-xs-1  heading-dot float-right">
-              <fa-icon [icon]="faSetting" class="faIcon"></fa-icon>
-            </div>
-          </div>
-
-          <!--messages section-->
-          <div class="row message" id="conversation">
-            <div class="col-12 col-md-12">
-
-              <!--Messages-->
-
-              <!--received message component-->
-              <app-received-message></app-received-message>
-              <!--sent message component-->
-              <app-sent-message></app-sent-message>
-              <app-sent-message></app-sent-message>
-
-              <!--received message component-->
-              <app-received-message></app-received-message>
-              <!--sent message component-->
-              <app-sent-message></app-sent-message>
-
-
-            </div>
-          </div>
-
-          <!--reply section-->
-          <div class="row reply">
-            <div class="col-1 col-sm-1 paperClip">
-              <fa-icon [icon]="faPaperClip" class="faIcon"></fa-icon>
-            </div>
-            <div class="col-9 col-sm-9 reply-main">
-              <textarea [(ngModel)]="message" class="form-control" rows="1" id="comment"
-                        placeholder="write a message..."></textarea>
-            </div>
-            <div class="col-2 col-sm-2 reply-send">
-              <button type="button" class="btn btn-info btn-send" (click)="sendMessage(message)">Send</button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

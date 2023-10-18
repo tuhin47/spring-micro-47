@@ -12,6 +12,6 @@ RUN npm run build
 ### STAGE 2: Run ###
 FROM nginx:1.20-alpine
 COPY default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /usr/src/app/dist/easy-angular /usr/share/nginx/html
-#COPY ./dist/easy-angular /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/micro-47 /usr/share/nginx/html
+#COPY ./dist/micro-47 /usr/share/nginx/html
 EXPOSE 80

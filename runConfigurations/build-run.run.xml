@@ -61,8 +61,6 @@
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
-    <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="all-services [clean,install]" run_configuration_type="MavenRunConfiguration" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>
