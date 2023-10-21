@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {Endpoint} from "@enums/endpoint.enum";
-import {ApiService} from "@services/api.service";
+import { HttpHeaders }    from '@angular/common/http';
+import { Injectable }     from '@angular/core';
+import { ApiService }     from '@services/api.service';
+import { Observable, of } from 'rxjs';
 
 
 const httpOptions = {
@@ -17,7 +16,7 @@ export class AuthService {
 
   register(displayName: string, email: string, password: string): Observable<any> {
     return this.http.post(
-      Endpoint.SIGNUP,
+      'auth/signup',
       {
         displayName,
         email,
@@ -30,7 +29,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(
-      Endpoint.AUTHENTICATE,
+      'auth/signin',
       {
         email,
         password

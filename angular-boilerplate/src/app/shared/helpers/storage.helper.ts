@@ -9,7 +9,7 @@ import { StorageKey } from '@enums/storage-key.enum';
 
 // Models
 import { AuthResponse } from '@models/auth-response.model';
-import { UserInfo } from '@models/user.model';
+import { UserInfo }     from '@models/user.model';
 
 @Injectable()
 export class StorageHelper {
@@ -39,6 +39,10 @@ export class StorageHelper {
 
   public static getUser(): AuthResponse {
     return StorageHelper.getItem(StorageKey.AUTH_RESPONSE);
+  }
+
+  public static getUserID(): string {
+    return this.getUser().user.id;
   }
 
   public static hasAnyRole(roles: string[]): boolean {

@@ -424,7 +424,7 @@ services:
       - backend
 
   axonserver:
-    image: axoniq/axonserver
+    image: axoniq/axonserver@sha256:1ee3484f094d73bcaea860dd76ea9f97b5834c69cd365e87bf711be9df1dc741
     hostname: axonserver
     volumes:
       - axonserver-data:/data

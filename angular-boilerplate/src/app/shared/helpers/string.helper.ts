@@ -14,6 +14,13 @@ export class StringHelper
     return argumentArray.reduce(_r, theString);
   }
 
+  static formatString(str: string, ...val: string[]) {
+    for (let index = 0; index < val.length; index++) {
+      str = str.replace(`{${index}}`, val[index]);
+    }
+    return str;
+  }
+
   public static buildURIParams(parameters : object) : string
   {
     const parts = new URLSearchParams()

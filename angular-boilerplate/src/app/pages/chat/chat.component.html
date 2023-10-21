@@ -12,15 +12,17 @@
             </div>
             <div class="card-body chat-container">
               <!-- Chat messages go here -->
-                <app-sent-message></app-sent-message>
-                <app-received-message></app-received-message>
+              <div *ngFor="let chat of messages">
+                <app-sent-message [chat]="chat"></app-sent-message>
+              </div>
+              <app-received-message></app-received-message>
               <!-- Add more messages dynamically with JavaScript -->
             </div>
             <div class="card-footer">
               <div class="input-group">
-                <input type="text" id="messageInput" class="form-control" placeholder="Type your message">
+                <input [(ngModel)]="message" type="text" id="messageInput" class="form-control" placeholder="Type your message">
                 <div class="input-group-append">
-                  <button id="sendMessageBtn" class="btn btn-primary">Send</button>
+                  <button id="sendMessageBtn" class="btn btn-primary" (click)="sendMessage(message)">Send</button>
                 </div>
               </div>
             </div>

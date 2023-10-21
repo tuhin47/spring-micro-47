@@ -1,7 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ApiService} from "@services/api.service";
-import {Endpoint} from "@enums/endpoint.enum";
+import { Injectable } from '@angular/core';
+import { ApiService } from '@services/api.service';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -28,14 +27,14 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<any> {
-      return this.apiService.get(Endpoint.MY_INFO);
+      return this.apiService.get('auth/user/me');
   }
 
   getUsers() {
-    return this.apiService.get(Endpoint.FRIEND_LIST);
+    return this.apiService.get('auth/users/summaries');
   }
 
   getFiles() {
-    return this.apiService.get(Endpoint.MENU_LIST);
+    return this.apiService.get('auth/menu');
   }
 }

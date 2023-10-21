@@ -1,24 +1,23 @@
 // Angular modules
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-
-// External modules
-import {TranslateService} from '@ngx-translate/core';
-import axios, {AxiosError, AxiosInstance, CreateAxiosDefaults} from 'axios';
+import { Injectable } from '@angular/core';
+import { Router }     from '@angular/router';
 
 // Internal modules
-import {ToastManager} from '@blocks/toast/toast.manager';
-import {environment} from '@env/environment';
-
-// Helpers
-import {StorageHelper} from '@helpers/storage.helper';
+import { ToastManager } from '@blocks/toast/toast.manager';
 
 // Enums
-import {Endpoint} from '@enums/endpoint.enum';
+import { environment } from '@env/environment';
+
+// Helpers
+import { StorageHelper } from '@helpers/storage.helper';
+
+// External modules
+import { TranslateService }                                      from '@ngx-translate/core';
+import axios, { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
 
 // Models
 // Services
-import {StoreService} from './store.service';
+import { StoreService }                                          from './store.service';
 
 @Injectable()
 export class AppService
@@ -60,21 +59,6 @@ export class AppService
   // SECTION Methods ------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------------------
 
-  public async authenticate(email : string, password : string) : Promise<boolean>
-  {
-    // return Promise.resolve(true);
-
-    StorageHelper.removeToken();
-
-    const url      = Endpoint.AUTHENTICATE;
-    const { data } = await this.api.post(url, { email, password });
-
-    if (!data)
-      return false;
-    StorageHelper.setAuthResponse(data);
-    this.initAuthHeader();
-    return true;
-  }
 
   public async forgotPassword(email : string) : Promise<boolean>
   {

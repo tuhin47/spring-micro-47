@@ -79,26 +79,6 @@
                     </wait>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>npm</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>npm</executable>
-                    <workingDirectory>${project.basedir}</workingDirectory>
-                    <arguments>
-                        <argument>install</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
         </plugins>
 
     </build>

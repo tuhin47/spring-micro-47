@@ -23,36 +23,9 @@ export class StoreService
   readonly pageTitle$ = this._pageTitleSource.asObservable();
   readonly isLoading$ = this._isLoadingSource.asObservable();
 
-  constructor
-  (
-    private translateService : TranslateService
-  )
-  {
-  }
-
-  // -------------------------------------------------------------------------------
-  // NOTE Page title ---------------------------------------------------------------
-  // -------------------------------------------------------------------------------
-
-  public getPageTitle() : string
-  {
-    return this._pageTitleSource.getValue();
-  }
-
-  public setPageTitle(title : string, translate : boolean = true) : void
-  {
-    const pageTitle = translate ? this.translateService.instant(title) : title;
-    this._pageTitleSource.next(pageTitle);
-  }
-
   // -------------------------------------------------------------------------------
   // NOTE Is loading ---------------------------------------------------------------
   // -------------------------------------------------------------------------------
-
-  public getIsLoading() : boolean
-  {
-    return this._isLoadingSource.getValue();
-  }
 
   public setIsLoading(state : boolean) : void
   {
