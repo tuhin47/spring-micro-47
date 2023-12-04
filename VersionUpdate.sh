@@ -13,6 +13,6 @@ fi
 npm -C ./angular-boilerplate version $newVersion
 /opt/apache-maven-3.6.0/bin/mvn -B versions:set -DnewVersion=$newVersion -DgenerateBackupPoms=false
 
-sed -i "s/^PROD_IMAGE_TAG=.*/PROD_IMAGE_TAG=$newVersion/" .env*
+sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=$newVersion/" .env*
 sed -i "s/$previous_version/$newVersion/" k8s/*.yaml
-sed -i "s/<PROD_IMAGE_TAG>$previous_version<\/PROD_IMAGE_TAG>/<PROD_IMAGE_TAG>$newVersion<\/PROD_IMAGE_TAG>/" pom.xml
+sed -i "s/<IMAGE_TAG>$previous_version<\/IMAGE_TAG>/<IMAGE_TAG>$newVersion<\/IMAGE_TAG>/" pom.xml

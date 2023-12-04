@@ -27,16 +27,16 @@ public class Product extends UserDateAudit<String> {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 
-    @Column(name = "PRODUCT_NAME", nullable = false, length = 50)
+    @Column(name = "product_name", nullable = false, length = 50)
     private String productName;
 
     @PositiveOrZero
-    @Column(name = "PRICE", nullable = false)
+    @Column(name = "price", nullable = false)
     @NumberFormat(style = NumberFormat.Style.CURRENCY)
     private double price;
 
     @PositiveOrZero
-    @Column(name = "QUANTITY", nullable = false)
+    @Column(name = "quantity", nullable = false)
     private long quantity;
 
     @Enumerated(EnumType.STRING)

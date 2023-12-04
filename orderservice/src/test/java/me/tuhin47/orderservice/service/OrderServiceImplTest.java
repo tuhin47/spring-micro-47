@@ -68,7 +68,7 @@ public class OrderServiceImplTest {
 
         //Assert
         assertNotNull(orderResponse);
-        assertEquals(order.getId(), orderResponse.getId());
+        assertEquals(order.getId(), orderResponse.id());
     }
 
     @DisplayName("Get Orders - Failure Scenario")

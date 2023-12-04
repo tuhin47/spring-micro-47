@@ -19,8 +19,8 @@ public class Company extends UserDateAudit<String> {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
     private String name;
     private String address;

@@ -108,7 +108,6 @@ services:
       - $PROJECT_PATH/apigateway:/app
       - $MAVEN_CONFIG:/root/.m2
 
-
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -128,7 +127,6 @@ services:
       - "6379:6379"
     networks:
       - backend
-
 
   authservice:
     build:
@@ -174,7 +172,6 @@ services:
     volumes:
       - $PROJECT_PATH/authservice:/app
       - $MAVEN_CONFIG:/root/.m2
-
 
   productservice:
     build:
@@ -290,7 +287,6 @@ services:
     volumes:
       - $PROJECT_PATH/chat-service:/app
       - $MAVEN_CONFIG:/root/.m2
-
 
   paymentservice:
     build:
@@ -444,7 +440,7 @@ services:
     build:
       context: postman_collection
       dockerfile: test.Dockerfile
-    image: tuhin47/testservice:${PROD_IMAGE_TAG}
+    image: tuhin47/testservice:${IMAGE_TAG}
     restart: 'no'
     #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
     networks:

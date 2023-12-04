@@ -59,6 +59,8 @@ logging:
     me:
       tuhin47: DEBUG
     org:
+      springframework.orm.jpa: DEBUG
+      springframework.transaction: DEBUG
       springframework: INFO
       hibernate:
         SQL: INFO

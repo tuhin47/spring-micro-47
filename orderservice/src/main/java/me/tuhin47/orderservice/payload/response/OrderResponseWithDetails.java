@@ -1,8 +1,8 @@
 package me.tuhin47.orderservice.payload.response;
 
-import lombok.Value;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.payload.response.ProductResponse;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -10,13 +10,8 @@ import java.time.Instant;
 /**
  * DTO for {@link me.tuhin47.orderservice.model.Order}
  */
-@Value
-public class OrderResponseWithDetails implements Serializable {
-    String id;
-    long quantity;
-    Instant orderDate;
-    String orderStatus;
-    double amount;
-    ProductResponse productResponse;
-    PaymentResponse paymentResponse;
+public record OrderResponseWithDetails(String id, long quantity, Instant orderDate, String orderStatus,
+                                       @NumberFormat(pattern = "$###,###,###.00", style = NumberFormat.Style.CURRENCY) double amount,
+                                       ProductResponse productResponse,
+                                       PaymentResponse paymentResponse) implements Serializable {
 }

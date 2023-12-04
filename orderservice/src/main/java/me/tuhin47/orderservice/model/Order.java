@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "ORDER_DETAILS")
+@Table(name = "order_details")
 @Getter
 @Setter
 @ToString
@@ -23,18 +23,18 @@ public class Order extends UserDateAudit<String> {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 
-    @Column(name = "PRODUCT_ID")
+    @Column(name = "product_id")
     private String productId;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "quantity")
     private long quantity;
 
-    @Column(name = "ORDER_DATE")
+    @Column(name = "order_date")
     private Instant orderDate;
 
-    @Column(name = "STATUS")
+    @Column(name = "status", length = 50)
     private String orderStatus;
 
-    @Column(name = "TOTAL_AMOUNT")
+    @Column(name = "total_amount")
     private double amount;
 }

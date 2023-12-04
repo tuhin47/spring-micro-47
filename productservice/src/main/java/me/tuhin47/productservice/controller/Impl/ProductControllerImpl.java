@@ -26,7 +26,7 @@ import java.util.List;
 public class ProductControllerImpl implements ProductController {
 
     private final ProductService productService;
-    private final ApplicationContext applicationContext;
+    private final ExporterUtils exporterUtils;
 
     @Override
     @PostMapping
@@ -73,7 +73,7 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<byte[]> exportExcel(List<SearchCriteria> searchCriteria, ExporterType exporterType, HttpServletRequest request) {
         var products = productService.getAllProductBySearch(searchCriteria, request);
         var content = products.getContent();
-        var excelExporter = ExporterUtils.getDataExporter(applicationContext, exporterType);
+        var excelExporter = exporterUtils.getDataExporter(exporterType);
         return new ResponseEntity<>(excelExporter.generate(content), excelExporter.getHTTPHeaders(), HttpStatus.OK);
     }
 }

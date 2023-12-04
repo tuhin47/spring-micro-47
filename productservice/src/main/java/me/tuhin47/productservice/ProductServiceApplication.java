@@ -1,13 +1,16 @@
 package me.tuhin47.productservice;
 
+import me.tuhin47.exporter.ExporterUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.productservice", "me.tuhin47.config", "me.tuhin47.jwt"})
+@Import(ExporterUtils.class)
 public class ProductServiceApplication {
 
     public static void main(String[] args) {

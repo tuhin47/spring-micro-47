@@ -15,14 +15,14 @@ services:
     profiles:
       - frontend
       - all
-    image: tuhin47/boilerplate:${PROD_IMAGE_TAG}
+    image: tuhin47/boilerplate:${IMAGE_TAG}
     network_mode: "host"
 
   serviceregistry:
     build:
       context: service-registry
       dockerfile: ../Dockerfile
-    image: tuhin47/serviceregistry:${PROD_IMAGE_TAG}
+    image: tuhin47/serviceregistry:${IMAGE_TAG}
     ports:
       - "8761:8761"
     healthcheck:
@@ -37,7 +37,7 @@ services:
     build:
       context: configserver
       dockerfile: ../Dockerfile
-    image: tuhin47/configserver:${PROD_IMAGE_TAG}
+    image: tuhin47/configserver:${IMAGE_TAG}
     ports:
       - "9296:9296"
     environment:
@@ -56,7 +56,7 @@ services:
     build:
       context: apigateway
       dockerfile: ../Dockerfile
-    image: tuhin47/gateway:${PROD_IMAGE_TAG}
+    image: tuhin47/gateway:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -113,7 +113,7 @@ services:
     build:
       context: authservice
       dockerfile: ../Dockerfile
-    image: tuhin47/authservice:${PROD_IMAGE_TAG}
+    image: tuhin47/authservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -155,7 +155,7 @@ services:
     build:
       context: productservice
       dockerfile: ../Dockerfile
-    image: tuhin47/productservice:${PROD_IMAGE_TAG}
+    image: tuhin47/productservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -190,7 +190,7 @@ services:
     build:
       context: orderservice
       dockerfile: ../Dockerfile
-    image: tuhin47/orderservice:${PROD_IMAGE_TAG}
+    image: tuhin47/orderservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -228,7 +228,7 @@ services:
       dockerfile: ../Dockerfile
     profiles:
       - all
-    image: tuhin47/chatservice:${PROD_IMAGE_TAG}
+    image: tuhin47/chatservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -259,7 +259,7 @@ services:
     build:
       context: paymentservice
       dockerfile: ../Dockerfile
-    image: tuhin47/paymentservice:${PROD_IMAGE_TAG}
+    image: tuhin47/paymentservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
@@ -402,7 +402,7 @@ services:
     build:
       context: postman_collection
       dockerfile: test.Dockerfile
-    image: tuhin47/testservice:${PROD_IMAGE_TAG}
+    image: tuhin47/testservice:${IMAGE_TAG}
     restart: 'no'
     #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
     networks:
