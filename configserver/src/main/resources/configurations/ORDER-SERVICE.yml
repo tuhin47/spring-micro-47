@@ -22,13 +22,13 @@ feign:
   client:
     config:
       default:
-        errorDecoder: me.tuhin47.orderservice.external.decoder.CustomErrorDecoder
+        errorDecoder: me.tuhin47.config.decoder.CustomErrorDecoder
       stores:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: FULL
         requestInterceptors:
-          - me.tuhin47.orderservice.config.FeignConfig
+          - me.tuhin47.config.FeignConfig
 
 springfox:
   documentation:

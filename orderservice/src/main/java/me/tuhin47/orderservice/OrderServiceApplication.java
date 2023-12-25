@@ -1,7 +1,7 @@
 package me.tuhin47.orderservice;
 
 import me.tuhin47.config.AxonConfig;
-import me.tuhin47.orderservice.config.FeignConfig;
+import me.tuhin47.config.FeignConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -17,7 +17,7 @@ import springfox.documentation.service.ApiInfo;
 
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.orderservice", "me.tuhin47.config", "me.tuhin47.jwt"})
 @EnableFeignClients
-@Import({ AxonConfig.class })
+@Import({AxonConfig.class, FeignConfig.class})
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
@@ -28,10 +28,10 @@ public class OrderServiceApplication {
     @Primary
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Order Service")
-                .description("API endpoints for managing Order api")
-                .version("1.0.0")
-                .build();
+            .title("Order Service")
+            .description("API endpoints for managing Order api")
+            .version("1.0.0")
+            .build();
     }
 
     @Bean

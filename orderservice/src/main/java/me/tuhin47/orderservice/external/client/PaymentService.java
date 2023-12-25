@@ -2,10 +2,11 @@ package me.tuhin47.orderservice.external.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import me.tuhin47.exception.CustomException;
-import me.tuhin47.orderservice.config.FeignConfig;
+import me.tuhin47.config.FeignConfig;
 import me.tuhin47.orderservice.payload.request.PaymentRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +30,7 @@ public interface PaymentService
             throw ((CustomException) e);
         }
 
-        throw new CustomException("Payment Service is not available",
-                "UNAVAILABLE",
-                500);
+        throw new CustomException("Payment Service is not available", "UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE.value());
     }
+
 }
