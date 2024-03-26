@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: product-service-app
-          image: tuhin47/productservice:0.3.8
+          image: tuhin47/productservice:0.3.9
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
