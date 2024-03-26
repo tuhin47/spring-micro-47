@@ -2,7 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:tc:mysql:latest:///testdb
+    url: jdbc:tc:mysql:8.1.0:///testdb
     username: root
     password: root
     driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver

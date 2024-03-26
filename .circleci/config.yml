@@ -27,7 +27,7 @@ jobs:
           command: |
             set -e
             sleep 10
-            docker-compose -f docker-compose-prod.yml -p microproject up --build testservice
+            docker-compose -f docker-compose-prod.yml -p spring-micro-47 up --build testservice
             docker cp testservice:/app/newman ./postman_collection/
       - store_test_results:
           name: Collect postman output
