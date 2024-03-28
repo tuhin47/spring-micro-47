@@ -4,18 +4,24 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.config.CurrentUser;
+import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
 import me.tuhin47.orderservice.payload.response.OrderResponseWithDetails;
 import me.tuhin47.orderservice.service.OrderService;
+import me.tuhin47.payload.response.TopOrderDto;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
+import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -44,7 +50,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel) {
+    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel, @CurrentUser UserRedis userRedis) {
 
         Order order = orderService.placeOrderRequest(orderRestModel);
 
@@ -63,5 +69,13 @@ public class OrderController {
         commandGateway.sendAndWait(createOrderCommand);
 
         return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/top-orders-by-date-range")
+    public ResponseEntity<List<TopOrderDto>> getTop10OrderByDateRange(
+        @RequestParam(value = "startDate", required = false) Instant startDate,
+        @RequestParam(value = "endDate", required = false) Instant endDate) {
+
+        return new ResponseEntity<>(orderService.getTop10OrderByDateRange(startDate, endDate), HttpStatus.OK);
     }
 }

@@ -1,9 +1,11 @@
 package me.tuhin47.orderservice.service;
 
+import me.tuhin47.client.PaymentService;
+import me.tuhin47.client.ProductService;
+import me.tuhin47.client.UserService;
 import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.exception.EntityNotFoundException;
-import me.tuhin47.orderservice.external.client.PaymentService;
-import me.tuhin47.orderservice.external.client.ProductService;
+import me.tuhin47.orderservice.dummy.TopOrderDtoDummy;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.mapper.OrderMapper;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
@@ -12,6 +14,7 @@ import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.impl.OrderServiceImpl;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.payload.response.ProductResponse;
+import me.tuhin47.payload.response.TopOrderDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,10 +23,15 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,14 +45,16 @@ public class OrderServiceImplTest {
     private OrderRepository orderRepository;
     private ProductService productService;
     private PaymentService paymentService;
+    private UserService userService;
 
     @BeforeEach
     void setup() {
         orderRepository = mock(OrderRepository.class);
         productService = mock(ProductService.class);
         paymentService = mock(PaymentService.class);
+        userService = mock(UserService.class);
         var orderMapper = Mappers.getMapper(OrderMapper.class);
-        orderService = new OrderServiceImpl(orderMapper, orderRepository, productService, paymentService);
+        orderService = new OrderServiceImpl(orderMapper, orderRepository, productService, paymentService, userService);
     }
 
     @DisplayName("Get Order - Success Scenario")
@@ -132,7 +142,7 @@ public class OrderServiceImplTest {
         return ResponseEntity.status(HttpStatus.OK).body(iPhone);
     }
 
-    private Order getMockOrder() {
+    public static Order getMockOrder() {
         return Order.builder()
                     .orderStatus("PLACED")
                     .orderDate(Instant.now())
@@ -141,5 +151,38 @@ public class OrderServiceImplTest {
                     .quantity(200)
                     .productId("1")
                     .build();
+    }
+
+    @Test
+    void getOrderDetails() {
+        // TODO :
+    }
+
+    @Test
+    void placeOrderRequest() {
+        // TODO :
+    }
+
+    @Test
+    void getTop10OrderByDateRange() {
+
+        var topOrderDtos = Arrays.asList(
+            TopOrderDtoDummy.getFirstTopOrderDto(),
+            TopOrderDtoDummy.getSecondTopOrderDto()
+        );
+        // Given
+        when(orderRepository.getTopOrderByDateRange(any(Instant.class), any(Instant.class), eq("APPROVED"), any(PageRequest.class)))
+            .thenReturn(new PageImpl<>(topOrderDtos));
+        when(userService.getAllUsers(any(String[].class)))
+            .thenReturn(new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK));
+
+
+        // When
+        List<TopOrderDto> result = orderService.getTop10OrderByDateRange(Instant.now(), Instant.now().plusSeconds(60));
+
+        // Then
+        assertEquals(2, result.size());
+        assertEquals("buyer1", result.get(0).getBuyerId());
+        assertEquals("buyer2", result.get(1).getBuyerId());
     }
 }

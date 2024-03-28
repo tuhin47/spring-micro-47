@@ -8,6 +8,7 @@ import me.tuhin47.productservice.domain.enums.ProductType;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.repository.ProductRepository;
+import me.tuhin47.productservice.rules.DiscountRuleEngine;
 import me.tuhin47.productservice.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,12 +33,14 @@ public class ProductServiceImplTest {
 
     private ProductRepository productRepository;
     private ProductService productService;
+    private DiscountRuleEngine discountRuleEngine;
 
     @BeforeEach
     void setup() {
         ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
         productRepository = mock(ProductRepository.class);
-        productService = new ProductServiceImpl(mapper, productRepository);
+        discountRuleEngine = mock(DiscountRuleEngine.class);
+        productService = new ProductServiceImpl(mapper, productRepository, discountRuleEngine);
     }
 
     @Test

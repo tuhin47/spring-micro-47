@@ -6,6 +6,7 @@ import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.config.redis.UserRedis;
+import me.tuhin47.payload.response.UserResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -31,4 +32,12 @@ public interface UserService extends UserDetailsService {
 	List<User> findAll();
 
     JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis userRedis);
+
+    List<UserResponse> getAllUsers(String[] ids);
+
+    User updateUser(String id, User user);
+
+    void deleteUser(String id);
 }
+
+

@@ -77,7 +77,7 @@ public class PaymentServiceImplTest {
 
         //Assert
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentDetailsByOrderId("1"));
-        assertEquals("TransactionDetails was not found for parameters {order id=1}", exception.getMessage());
+        assertEquals("Transactional Details was not found for parameters {order id=1}", exception.getMessage());
 
         //Verify
         verify(transactionDetailsRepository, times(1)).findByOrderId(anyString());

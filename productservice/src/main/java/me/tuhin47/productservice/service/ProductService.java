@@ -1,9 +1,10 @@
 package me.tuhin47.productservice.service;
 
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
+import me.tuhin47.payload.response.ProductsPrice;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 
@@ -23,4 +24,6 @@ public interface ProductService {
     List<ProductTypeCountReport> getProductTypeReport();
 
     Page<ProductResponseExporter> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request);
+
+    ProductsPrice getProductsPrice(String[] ids);
 }

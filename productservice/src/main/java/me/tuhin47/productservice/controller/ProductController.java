@@ -4,9 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
+import me.tuhin47.payload.response.ProductsPrice;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.searchspec.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -49,4 +50,7 @@ public interface ProductController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation("Export Items")
     ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria,@RequestParam(value = "type",defaultValue = "EXCEL") ExporterType exporterType, @ApiIgnore HttpServletRequest request) throws IOException;
+
+    @ApiOperation("Get Prices for products")
+    ResponseEntity<ProductsPrice> getProductPrices(String[] ids);
 }

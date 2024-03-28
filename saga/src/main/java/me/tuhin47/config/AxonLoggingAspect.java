@@ -19,6 +19,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 @Slf4j
+//TODO : Need to check the configuration
 public class AxonLoggingAspect {
 
     /**

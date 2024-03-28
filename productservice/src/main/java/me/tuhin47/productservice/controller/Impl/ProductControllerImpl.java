@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.exporter.ExporterUtils;
 import me.tuhin47.payload.response.ProductResponse;
+import me.tuhin47.payload.response.ProductsPrice;
 import me.tuhin47.productservice.controller.ProductController;
-import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
+import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.service.ProductService;
 import me.tuhin47.searchspec.SearchCriteria;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +27,7 @@ public class ProductControllerImpl implements ProductController {
 
     private final ProductService productService;
     private final ExporterUtils exporterUtils;
+
 
     @Override
     @PostMapping
@@ -75,6 +76,12 @@ public class ProductControllerImpl implements ProductController {
         var content = products.getContent();
         var excelExporter = exporterUtils.getDataExporter(exporterType);
         return new ResponseEntity<>(excelExporter.generate(content), excelExporter.getHTTPHeaders(), HttpStatus.OK);
+    }
+
+    @Override
+    @GetMapping("/price/all")
+    public ResponseEntity<ProductsPrice> getProductPrices(@RequestParam("ids") String[] ids) {
+        return new ResponseEntity<>(productService.getProductsPrice(ids), HttpStatus.OK);
     }
 }
 

@@ -1,5 +1,6 @@
 package me.tuhin47.auth.security.oauth2;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import lombok.Getter;
 @Getter
 public class LocalUser extends User implements OidcUser {
 
+    @Serial
     private static final long serialVersionUID = -2845160792248762779L;
 
     @Id

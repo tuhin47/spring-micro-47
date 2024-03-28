@@ -86,11 +86,10 @@ services:
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     depends_on:
       configserver:
         condition: service_healthy
-      zipkin:
-        condition: service_started
       redis:
         condition: service_started
       serviceregistry:
@@ -153,6 +152,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     restart: on-failure
@@ -194,6 +194,7 @@ services:
       - ZIPKIN_URL
       - REDIS_URL
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -234,6 +235,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -310,6 +312,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:

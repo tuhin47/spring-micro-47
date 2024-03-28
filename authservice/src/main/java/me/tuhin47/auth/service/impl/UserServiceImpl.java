@@ -1,4 +1,4 @@
-package me.tuhin47.auth.service;
+package me.tuhin47.auth.service.impl;
 
 import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
@@ -15,27 +15,27 @@ import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
+import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
+import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
+import me.tuhin47.payload.response.UserResponse;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-/**
- * @author Chinna
- * @since 26/3/18
- */
+
 @Service
 @RequiredArgsConstructor
 @Primary
@@ -164,8 +164,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis localUser) {
         UserRedis userByEmail = findUserByEmail(localUser.getEmail());
-        boolean authenticated = userByEmail != null ;/*&& !userByEmail.isUsing2FA();*/
+        boolean authenticated = userByEmail != null;
         String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
         return new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(userByEmail) : null);
+    }
+
+    @Override
+    public User updateUser(String id, User user) {
+        User updatedUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+        updatedUser.setDisplayName(user.getDisplayName());
+        updatedUser.setEmail(user.getEmail());
+        return updatedUser;
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers(String[] ids) {
+        List<User> users;
+        if (ids != null && ids.length > 0) {
+            users = userRepository.findAllById(Arrays.asList(ids));
+        } else {
+            users = userRepository.findAll();
+        }
+        return users.stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+        userRepository.delete(existingUser);
     }
 }

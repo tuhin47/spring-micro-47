@@ -16,7 +16,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.orderservice", "me.tuhin47.config", "me.tuhin47.jwt"})
-@EnableFeignClients
+@EnableFeignClients(basePackages = "me.tuhin47.client")
 @Import({AxonConfig.class, FeignConfig.class})
 public class OrderServiceApplication {
 

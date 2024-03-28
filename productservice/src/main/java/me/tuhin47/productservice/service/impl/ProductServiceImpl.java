@@ -3,14 +3,16 @@ package me.tuhin47.productservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.exception.EntityNotFoundException;
+import me.tuhin47.exception.common.ProductServiceExceptions;
 import me.tuhin47.payload.response.ProductResponse;
+import me.tuhin47.payload.response.ProductsPrice;
 import me.tuhin47.productservice.domain.entity.Product;
-import me.tuhin47.productservice.exception.ProductServiceExceptions;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;
 import me.tuhin47.productservice.payload.response.ProductTypeCountReport;
 import me.tuhin47.productservice.repository.ProductRepository;
+import me.tuhin47.productservice.rules.DiscountRuleEngine;
 import me.tuhin47.productservice.service.ProductService;
 import me.tuhin47.searchspec.GenericSpecification;
 import me.tuhin47.searchspec.RecordNavigationManager;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -31,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
+    private final DiscountRuleEngine discountRuleEngine;
 
     @Override
     public String addProduct(ProductRequest productRequest) {
@@ -84,4 +88,16 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(productSpecification, RecordNavigationManager.getPageable(request)).map(productMapper::toExporterDto);
     }
 
+    @Override
+    public ProductsPrice getProductsPrice(String[] ids) {
+        if (ids == null || ids.length <= 0) {
+            return null;
+        }
+        List<ProductResponse> productResponses = productRepository.findAllById(Arrays.asList(ids))
+                                                                  .stream().map(productMapper::toDto).toList();
+        ProductsPrice productsPrice = new ProductsPrice(productResponses, productResponses.stream().mapToDouble(ProductResponse::getPrice).sum());
+        discountRuleEngine.applyRules(productsPrice);
+
+        return productsPrice;
+    }
 }

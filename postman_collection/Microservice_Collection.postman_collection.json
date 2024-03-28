@@ -628,7 +628,63 @@
 					},
 					"response": []
 				},
-				{
+        {
+          "name": "Product Service | Price By Ids",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  " pm.test(\"Status code is 200\", function () {",
+                  "        pm.response.to.have.status(200);",
+                  "    });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{CLOUD_SHELL}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{PRODUCT}}/product/price/all?ids={{PRODUCT_ID}}",
+              "host": [
+                "{{PRODUCT}}"
+              ],
+              "path": [
+                "product",
+                "price",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "ids",
+                  "value": "{{PRODUCT_ID}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
 					"name": "Product Service | Excel Export",
 					"event": [
 						{

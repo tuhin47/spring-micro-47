@@ -20,7 +20,6 @@ spring:
 springfox:
   documentation:
     enabled: false
-
 eureka:
   client:
     enabled: false

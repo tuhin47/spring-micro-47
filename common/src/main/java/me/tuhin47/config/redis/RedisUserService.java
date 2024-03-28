@@ -1,6 +1,7 @@
 package me.tuhin47.config.redis;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,5 +26,9 @@ public class RedisUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return getUser(username).orElse(null);
+    }
+
+    public UserRedis getCurrentUser() {
+        return (UserRedis) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
