@@ -31,4 +31,12 @@ public interface UserService extends UserDetailsService {
 	List<User> findAll();
 
     JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis userRedis);
+
+    List<User> getAllUsers();
+
+    User updateUser(String id, User user);
+
+    void deleteUser(String id);
 }
+
+

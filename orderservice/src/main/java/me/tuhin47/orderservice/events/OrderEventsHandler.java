@@ -3,7 +3,7 @@ package me.tuhin47.orderservice.events;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
-import me.tuhin47.orderservice.exception.OrderServiceExceptions;
+import me.tuhin47.exception.common.OrderServiceExceptions;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.saga.events.OrderCancelledEvent;

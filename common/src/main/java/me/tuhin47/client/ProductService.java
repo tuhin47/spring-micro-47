@@ -1,4 +1,4 @@
-package me.tuhin47.orderservice.external.client;
+package me.tuhin47.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import me.tuhin47.config.FeignConfig;

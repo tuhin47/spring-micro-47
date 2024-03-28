@@ -3,7 +3,7 @@ package me.tuhin47.paymentservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.payload.response.PaymentResponse;
-import me.tuhin47.paymentservice.exception.PaymentServiceExceptions;
+import me.tuhin47.exception.common.PaymentServiceExceptions;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.payload.PaymentRequest;
 import me.tuhin47.paymentservice.payload.TransactionDetailsMapper;

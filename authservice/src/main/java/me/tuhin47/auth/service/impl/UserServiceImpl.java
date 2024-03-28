@@ -1,4 +1,4 @@
-package me.tuhin47.auth.service;
+package me.tuhin47.auth.service.impl;
 
 import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,11 @@ import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
+import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
+import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,10 +34,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
-/**
- * @author Chinna
- * @since 26/3/18
- */
+
 @Service
 @RequiredArgsConstructor
 @Primary
@@ -164,8 +163,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis localUser) {
         UserRedis userByEmail = findUserByEmail(localUser.getEmail());
-        boolean authenticated = userByEmail != null ;/*&& !userByEmail.isUsing2FA();*/
+        boolean authenticated = userByEmail != null;
         String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
         return new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(userByEmail) : null);
+    }
+
+    @Override
+    public User updateUser(String id, User user) {
+        User updatedUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+        updatedUser.setDisplayName(user.getDisplayName());
+        updatedUser.setEmail(user.getEmail());
+        return updatedUser;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+        userRepository.delete(existingUser);
     }
 }

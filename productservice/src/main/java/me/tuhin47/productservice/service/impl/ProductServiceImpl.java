@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.domain.entity.Product;
-import me.tuhin47.productservice.exception.ProductServiceExceptions;
+import me.tuhin47.exception.common.ProductServiceExceptions;
 import me.tuhin47.productservice.payload.mapper.ProductMapper;
 import me.tuhin47.productservice.payload.request.ProductRequest;
 import me.tuhin47.productservice.payload.response.ProductResponseExporter;

@@ -1,5 +1,6 @@
 package me.tuhin47.exception;
 
+import me.tuhin47.exception.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

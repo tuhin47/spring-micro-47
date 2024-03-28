@@ -2,8 +2,8 @@ package me.tuhin47.orderservice.service;
 
 import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.exception.EntityNotFoundException;
-import me.tuhin47.orderservice.external.client.PaymentService;
-import me.tuhin47.orderservice.external.client.ProductService;
+import me.tuhin47.client.PaymentService;
+import me.tuhin47.client.ProductService;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.mapper.OrderMapper;
 import me.tuhin47.orderservice.payload.request.OrderRequest;

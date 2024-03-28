@@ -1,4 +1,4 @@
-package me.tuhin47.orderservice.payload.request;
+package me.tuhin47.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

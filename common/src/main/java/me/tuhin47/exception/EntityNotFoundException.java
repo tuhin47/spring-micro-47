@@ -13,12 +13,12 @@ public class EntityNotFoundException extends RuntimeException {
     @Getter
     private HttpStatus status = HttpStatus.NOT_FOUND;
 
-    public EntityNotFoundException(Class<?> clazz, String... searchParamsMap) {
-        super(EntityNotFoundException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
+    public EntityNotFoundException(String simpleName, String... searchParamsMap) {
+        super(EntityNotFoundException.generateMessage(simpleName, toMap(String.class, String.class, searchParamsMap)));
     }
 
     public EntityNotFoundException(Class<?> clazz, HttpStatus status, String... searchParamsMap) {
-        this(clazz, searchParamsMap);
+        this(clazz.getSimpleName(), searchParamsMap);
         this.status = status;
     }
 
