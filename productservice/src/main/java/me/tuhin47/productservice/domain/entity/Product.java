@@ -40,7 +40,7 @@ public class Product extends UserDateAudit<String> {
     private long quantity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "product_type")
+    @Column(name = "product_type", length = 50)
     private ProductType productType;
 
     @ToString.Exclude

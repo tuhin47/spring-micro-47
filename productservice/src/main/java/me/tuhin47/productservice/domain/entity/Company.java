@@ -18,11 +18,12 @@ import java.util.Set;
 public class Company extends UserDateAudit<String> {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(generator = "system-uuid")
+    @Column(nullable = false, updatable = false, length = 36)
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+    @Column(length = 50)
     private String name;
+    @Column(length = 50)
     private String address;
 
     @ToString.Exclude

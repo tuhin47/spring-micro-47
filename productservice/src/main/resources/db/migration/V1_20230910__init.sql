@@ -1,12 +1,12 @@
 create table
     company (
-        id varchar(255) not null,
+                id         varchar(36) not null,
         created_at datetime not null,
         updated_at datetime not null,
-        created_by varchar(255),
-        updated_by varchar(255),
-        address varchar(255),
-        name varchar(255),
+                created_by varchar(36),
+                updated_by varchar(36),
+                address    varchar(100),
+                name       varchar(50),
         primary key (id)
     ) engine = InnoDB;
 
@@ -15,14 +15,14 @@ create table
         id varchar(36) not null,
         created_at datetime not null,
         updated_at datetime not null,
-        created_by varchar(255),
-        updated_by varchar(255),
+        created_by   varchar(36),
+        updated_by   varchar(36),
         description varchar(250),
         price double precision not null,
         product_name varchar(50) not null,
-        product_type varchar(255),
+        product_type varchar(50),
         quantity bigint not null,
-        company_id varchar(255),
+        company_id   varchar(36),
         primary key (id)
     ) engine = InnoDB;
 

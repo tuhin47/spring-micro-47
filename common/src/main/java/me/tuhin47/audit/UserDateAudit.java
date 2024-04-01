@@ -25,10 +25,10 @@ public abstract class UserDateAudit<U> extends DateAudit{
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
-    @Column(name = "created_by", updatable = false, length = 40)
+    @Column(name = "created_by", updatable = false, length = 36)
     private U createdBy;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 40)
+    @Column(name = "updated_by", length = 36)
     private U updatedBy;
 }
