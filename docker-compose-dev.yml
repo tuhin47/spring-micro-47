@@ -333,7 +333,7 @@ services:
 
   database:
     container_name: database
-    image: 'mysql:latest'
+    image: 'mysql:8.1.0'
     ports:
       - "${MYSQL_PORT}:3306"
     restart: on-failure
