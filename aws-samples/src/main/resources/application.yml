@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: AWS-SERVICES
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+  r2dbc:
+    url: r2dbc:mysql://127.0.0.1:3306/aws?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    pool:
+      enabled: true
+      initial-size: 5
+    properties:
+      useUnicode: true
+      characterEncoding: utf-8
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+  flyway:
+    url: jdbc:mysql://127.0.0.1:3306/aws
+    password: root
+    user: root
+  jpa:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: change_${spring.application.name}.sql
+
+config:
+  aws:
+    region: us-east-1
+    s3:
+      url: http://127.0.0.1:4566
+      bucket-name: dandelion-s3-bucket
+      access-key: localstack
+      secret-key: localstack

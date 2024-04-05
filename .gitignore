@@ -11,3 +11,4 @@
 /node_modules/
 change_*.sql
 /postman_collection/newman/
+/aws-samples/script/.aws/

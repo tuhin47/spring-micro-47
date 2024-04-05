@@ -435,7 +435,23 @@ services:
       - '8224:8224'
     networks:
       - backend
-
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:2.3.2
+    environment:
+      - DEBUG=1
+      - USE_SSL=0
+      - AWS_CBOR_DISABLE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME=localstack
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./aws-samples/files:/tmp/localstack
+      - ./aws-samples/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
   testservice:
     container_name: testservice
     profiles:
