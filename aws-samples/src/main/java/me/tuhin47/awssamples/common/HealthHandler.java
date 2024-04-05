@@ -1,4 +1,4 @@
-package me.tuhin47.awssamples.s3.api.handler;
+package me.tuhin47.awssamples.common;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
@@ -15,6 +15,6 @@ public class HealthHandler {
     @NonNull
     public Mono<ServerResponse> health(ServerRequest request) {
         return ok().contentType(APPLICATION_JSON)
-                   .body(Mono.just("{\"status\": \"S3 - Healthy!\"}"), String.class);
+                   .body(Mono.just("{\"status\": \"AWS - Healthy!\"}"), String.class);
     }
 }

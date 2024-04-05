@@ -24,21 +24,25 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/aws
     password: root
     user: root
-  jpa:
-    properties:
-      javax:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              action: update
-              create-target: change_${spring.application.name}.sql
 
 config:
   aws:
     region: us-east-1
+    access-key: localstack
+    secret-key: localstack
+    url: http://127.0.0.1:4566
     s3:
-      url: http://127.0.0.1:4566
-      bucket-name: dandelion-s3-bucket
-      access-key: localstack
-      secret-key: localstack
+      bucket-name: spring47-s3
+    sns:
+      topic-name: spring47-item-info-topic
+    sqs:
+      queue-name: spring47-item-info-queue
+
+cloud:
+  aws:
+    rds:
+      enabled: false
+    stack:
+      auto: false
+    region:
+      static: us-east-1

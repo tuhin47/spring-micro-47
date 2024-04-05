@@ -1,6 +1,7 @@
 package me.tuhin47.config;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 
 @Getter
+@Setter
 @Component
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
@@ -20,26 +22,21 @@ public class AppProperties {
     public static class Config {
         private String qrIssuer;
         private Boolean noAuth;
+
         public void setQrIssuer(String qrIssuer) {
             this.qrIssuer = qrIssuer;
         }
-        public void setNoAuth(Boolean noAuth){
+
+        public void setNoAuth(Boolean noAuth) {
             this.noAuth = noAuth;
         }
     }
 
     @Getter
+    @Setter
     public static class Auth {
         private String tokenSecret;
         private long tokenExpirationMsec;
-
-        public void setTokenSecret(String tokenSecret) {
-            this.tokenSecret = tokenSecret;
-        }
-
-        public void setTokenExpirationMsec(long tokenExpirationMsec) {
-            this.tokenExpirationMsec = tokenExpirationMsec;
-        }
     }
 
     @Getter
