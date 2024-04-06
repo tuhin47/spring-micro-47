@@ -18,6 +18,8 @@ public class AWSInitializer implements CommandLineRunner {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        String[] copyReadme = {"cp", "README.md", "/tmp/"};
+        executeCommand(copyReadme);
         String[] s3Bucket = {"docker", "exec", "localstack", "/docker-entrypoint-initaws.d/init-s3-bucket.sh"};
         executeCommand(s3Bucket);
         String[] sqsSnwBucket = {"docker", "exec", "localstack", "/docker-entrypoint-initaws.d/init-sns-sqs.sh"};
