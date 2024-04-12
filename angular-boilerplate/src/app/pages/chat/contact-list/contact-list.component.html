@@ -1,0 +1,19 @@
+<div class="bg-light border-right contact-header">
+  <h4 class="p-3 mb-0">Contacts</h4>
+</div>
+<div class="contact-list">
+  <div class="list-group list-group-flush">
+    <a *ngFor="let contact of filteredContacts" (click)="setCurrentUser(contact)"
+       class="list-group-item list-group-item-action contact-item d-flex">
+      <img [src]="contact.avatar" class="contact-img rounded-circle" alt="John Doe">
+      <div>
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ contact.displayName }}</h5>
+          <!--          <small>3 days ago</small>-->
+        </div>
+        <p class="mb-1">Hey, how are you?</p>
+      </div>
+    </a>
+    <!-- Repeat for more contacts -->
+  </div>
+</div>

@@ -1,119 +1,73 @@
-// Angular modules
 import { CommonModule }                     from '@angular/common';
 import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule }                     from '@angular/router';
-
-// External modules
-import { TranslateModule }      from '@ngx-translate/core';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { NgbModule }            from '@ng-bootstrap/ng-bootstrap';
-
-// Components
-import { ToastComponent }       from '@blocks/toast/toast.component';
-import { ProgressBarComponent } from '@blocks/progress-bar/progress-bar.component';
-
-// Forms
-import { FormConfirmComponent } from '@forms/form-confirm/form-confirm.component';
-
-// Modals
-import { ModalWrapperComponent } from '@modals/modal-wrapper/modal-wrapper.component';
-
-// Layouts
-import { LayoutHeaderComponent } from '@layouts/layout-header/layout-header.component';
-import { PageLayoutComponent }   from '@layouts/page-layout/page-layout.component';
-
-// Pipes
-// Directives
-import { ModalWrapperDirective } from '@directives/modal-wrapper.directive';
-import { RippleModule }          from 'primeng/ripple';
-import { SidebarModule }         from 'primeng/sidebar';
-
-//PrimeNG
-import { TableModule }       from 'primeng/table';
-import { ButtonModule }      from 'primeng/button';
-import { TooltipModule }     from 'primeng/tooltip';
-import { TreeModule }        from 'primeng/tree';
-import { SideMenuComponent } from './components/layouts/side-menu/side-menu.component';
-
+import { ProgressBarComponent }             from '@blocks/progress-bar/progress-bar.component';
+import { ToastComponent }                   from '@blocks/toast/toast.component';
+import { ModalWrapperDirective }            from '@directives/modal-wrapper.directive';
+import { FormConfirmComponent }             from '@forms/form-confirm/form-confirm.component';
+import { FontAwesomeModule }                from '@fortawesome/angular-fontawesome';
+import { LayoutHeaderComponent }            from '@layouts/layout-header/layout-header.component';
+import { PageLayoutComponent }              from '@layouts/page-layout/page-layout.component';
+import { SideMenuComponent }                from '@layouts/side-menu/side-menu.component';
+import { ModalWrapperComponent }            from '@modals/modal-wrapper/modal-wrapper.component';
+import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule }                  from '@ngx-translate/core';
+import { AngularSvgIconModule }             from 'angular-svg-icon';
+import { ButtonModule }                     from 'primeng/button';
+import { RippleModule }                     from 'primeng/ripple';
+import { SidebarModule }                    from 'primeng/sidebar';
+import { TableModule }                      from 'primeng/table';
+import { TooltipModule }                    from 'primeng/tooltip';
+import { TreeModule }                       from 'primeng/tree';
 
 @NgModule({
   imports:
     [
-      // Angular modules
-      CommonModule,
-      RouterModule,
-      FormsModule,
-      ReactiveFormsModule,
-
-      // External modules
-      TranslateModule,
       AngularSvgIconModule,
+      ButtonModule,
+      CommonModule,
+      FontAwesomeModule,
+      FormsModule,
       NgbModule,
-      TreeModule,
+      ReactiveFormsModule,
+      RouterModule,
       SidebarModule,
-      ButtonModule
+      TranslateModule,
+      TreeModule,
     ],
   declarations:
     [
-      // Components
-      ToastComponent,
-      ProgressBarComponent,
-
-      // Forms
       FormConfirmComponent,
-
-      // Modals
-      ModalWrapperComponent,
-
-      // Layouts
       LayoutHeaderComponent,
-      PageLayoutComponent,
-      SideMenuComponent,
-
-      // Pipes
-
-      // Directives
+      ModalWrapperComponent,
       ModalWrapperDirective,
+      PageLayoutComponent,
+      ProgressBarComponent,
       SideMenuComponent,
+      SideMenuComponent,
+      ToastComponent,
     ],
   exports:
     [
-      // Angular modules
-      CommonModule,
-      RouterModule,
-      FormsModule,
-      ReactiveFormsModule,
-
-      // External modules
-      TranslateModule,
       AngularSvgIconModule,
-      NgbModule,
-
-      // Components
-      ToastComponent,
-      ProgressBarComponent,
-
-      // Forms
-      FormConfirmComponent,
-
-      // Modals
-      ModalWrapperComponent,
-
-      // Layouts
-      LayoutHeaderComponent,
-      PageLayoutComponent,
-
-      // Pipes
-
-      // Directives
-      ModalWrapperDirective,
-
-      //Primeng
-      TableModule,
       ButtonModule,
+      CommonModule,
+      FormConfirmComponent,
+      FormsModule,
+      LayoutHeaderComponent,
+      ModalWrapperComponent,
+      ModalWrapperDirective,
+      NgbModule,
+      PageLayoutComponent,
+      ProgressBarComponent,
+      ReactiveFormsModule,
       RippleModule,
+      RouterModule,
+      TableModule,
+      ToastComponent,
       TooltipModule,
+      TranslateModule,
     ],
   providers:
     []

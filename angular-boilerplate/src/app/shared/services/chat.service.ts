@@ -10,6 +10,6 @@ export class ChatService {
   }
 
   getAllChats(senderId: string, recipientId: string): Observable<any> {
-    return this.apiService.get('/chat/messages/' + `${senderId}/${recipientId}`);
+    return this.apiService.get('chat/messages/' + `${senderId}/${recipientId}`);
   }
 }

@@ -25,36 +25,35 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {
-        var chatId = chatRoomService
-                .getChatId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
+        var chatId = chatRoomService.getChatId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
         chatMessage.setChatId(chatId.get());
 
         ChatMessage saved = chatMessageService.save(chatMessage);
         messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),"/queue/messages",
-                new ChatNotification(
-                        saved.getId(),
-                        saved.getSenderId(),
-                        saved.getSenderName()));
+            chatMessage.getRecipientId(), "/queue/messages",
+            new ChatNotification(
+                saved.getId(),
+                saved.getSenderId(),
+                saved.getSenderName()));
     }
 
     @GetMapping("/messages/{senderId}/{recipientId}")
-    public ResponseEntity<?> findChatMessages ( @PathVariable String senderId,
-                                                @PathVariable String recipientId) {
+    public ResponseEntity<?> findChatMessages(@PathVariable String senderId,
+                                              @PathVariable String recipientId) {
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
     }
 
     @GetMapping("/messages/count/{senderId}/{recipientId}")
     public ResponseEntity<Long> countNewMessages(
-            @PathVariable String senderId,
-            @PathVariable String recipientId) {
+        @PathVariable String senderId,
+        @PathVariable String recipientId) {
 
         return ResponseEntity.ok(chatMessageService.countNewMessages(senderId, recipientId));
     }
 
     @GetMapping("/messages/{id}")
-    public ResponseEntity<?> findMessage ( @PathVariable String id) {
+    public ResponseEntity<?> findMessage(@PathVariable String id) {
         return ResponseEntity
-                .ok(chatMessageService.findById(id));
+            .ok(chatMessageService.findById(id));
     }
 }

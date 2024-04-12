@@ -1,10 +1,11 @@
-import * as Stomp from 'stompjs';
-import {Client} from 'stompjs';
-import * as SockJS from 'sockjs-client';
-import {StorageHelper} from "@helpers/storage.helper";
-import {UserService} from "@services/user.service";
-import {Injectable} from "@angular/core";
-import {UserInfo} from "@models/user.model";
+import { Injectable }    from '@angular/core';
+import { StorageHelper } from '@helpers/storage.helper';
+import { UserInfo }      from '@models/user.model';
+import { UserService }   from '@services/user.service';
+import { Subject }       from 'rxjs';
+import * as SockJS       from 'sockjs-client';
+import * as Stomp        from 'stompjs';
+import { Client }        from 'stompjs';
 
 // import { AppComponent } from './app.component';
 
@@ -18,9 +19,15 @@ export class WebsocketService {
   constructor(private userService: UserService) {
   }
 
-  private stompClient: Client = Stomp.over(new SockJS("/api/ws"));
-  private currentUser: UserInfo | undefined = StorageHelper.getUser()?.user;
+  private stompClient: Client = Stomp.over(new SockJS('/api/ws'));
   private _activeContact: UserInfo | undefined;
+  loadMessageSub = new Subject<string>();
+  loadMessageObservable = this.loadMessageSub.asObservable();
+
+
+  get currentUser(): UserInfo | undefined {
+    return StorageHelper.getUser()?.user;
+  }
 
   connect = () => {
     this.stompClient.connect({}, this.onConnected, this.onError);
@@ -28,11 +35,11 @@ export class WebsocketService {
 
   onConnected = () => {
     this.stompClient
-      .subscribe(
-      "/user/" + (this.currentUser?.id) + "/queue/messages",
-      this.onMessageReceived,
-      this.onError
-    );
+        .subscribe(
+          '/user/' + (this.currentUser?.id) + '/queue/messages',
+          this.onMessageReceived,
+          this.onError
+        );
   };
 
   onError = (err: any) => {
@@ -58,7 +65,7 @@ export class WebsocketService {
   };
 
   sendMessage = (msg: any) => {
-    if (msg.trim() !== "") {
+    if (msg.trim() !== '') {
       const message = {
         senderId: this.currentUser?.id,
         recipientId: this._activeContact?.id,
@@ -67,7 +74,7 @@ export class WebsocketService {
         content: msg,
         timestamp: new Date(),
       };
-      this.stompClient.send("/app/chat", {}, JSON.stringify(message));
+      this.stompClient.send('/app/chat', {}, JSON.stringify(message));
 
       /* const newMessages = [...messages];
        newMessages.push(message);

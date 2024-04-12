@@ -277,6 +277,7 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
       - NOAUTH_ENABLE
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     depends_on:

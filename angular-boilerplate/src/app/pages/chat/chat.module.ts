@@ -1,24 +1,24 @@
-import { NgModule } from '@angular/core';
+import { NgOptimizedImage }  from '@angular/common';
+import { NgModule }          from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedModule }      from '../../shared/shared.module';
+import { ChatRoutingModule } from './chat-routing.module';
 
-import { ChatComponent }            from './chat.component';
-import { FontAwesomeModule }        from '@fortawesome/angular-fontawesome';
-import { ContactComponent }         from './contact/contact.component';
-import { ReceivedMessageComponent } from './received-message/received-message.component';
-import { SentMessageComponent }     from './sent-message/sent-message.component';
-import { ChatRoutingModule }        from './chat-routing.module';
-import { SharedModule }             from '../../shared/shared.module';
+import { ChatComponent }        from './chat.component';
+import { ContactListComponent } from './contact-list/contact-list.component';
+import { MessagesComponent }    from './messages/messages.component';
 
 @NgModule({
   declarations: [
     ChatComponent,
-    ContactComponent,
-    ReceivedMessageComponent,
-    SentMessageComponent,
+    ContactListComponent,
+    MessagesComponent,
   ],
   imports: [
     FontAwesomeModule,
     SharedModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    NgOptimizedImage
   ],
   providers: [],
 })
