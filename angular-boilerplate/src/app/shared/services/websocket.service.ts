@@ -1,5 +1,6 @@
 import { Injectable }    from '@angular/core';
 import { StorageHelper } from '@helpers/storage.helper';
+import { ChatMessage }   from '@models/chat-message.model';
 import { UserInfo }      from '@models/user.model';
 import { UserService }   from '@services/user.service';
 import { Subject }       from 'rxjs';
@@ -26,7 +27,7 @@ export class WebsocketService {
 
 
   get currentUser(): UserInfo | undefined {
-    return StorageHelper.getUser()?.user;
+    return StorageHelper.getAuthResponse()?.user;
   }
 
   connect = () => {
@@ -64,22 +65,13 @@ export class WebsocketService {
     this.loadContacts();
   };
 
-  sendMessage = (msg: any) => {
-    if (msg.trim() !== '') {
-      const message = {
-        senderId: this.currentUser?.id,
-        recipientId: this._activeContact?.id,
-        senderName: this.currentUser?.displayName,
-        recipientName: this._activeContact?.displayName,
-        content: msg,
-        timestamp: new Date(),
-      };
-      this.stompClient.send('/app/chat', {}, JSON.stringify(message));
-
-      /* const newMessages = [...messages];
-       newMessages.push(message);
-       setMessages(newMessages);*/
+  async sendMessage(msg: string) {
+    if (msg.trim() !== '' && this.activeContact) {
+      const message = new ChatMessage(this.activeContact.id, this.activeContact.displayName, msg);
+      let response = await this.stompClient.send('/app/chat', {}, JSON.stringify(message));
+      return {response, message};
     }
+    return null;
   };
 
   loadContacts = () => {

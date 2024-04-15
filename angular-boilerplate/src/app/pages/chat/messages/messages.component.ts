@@ -1,5 +1,6 @@
 import { Component }                    from '@angular/core';
 import { StorageHelper }                from '@helpers/storage.helper';
+import { ChatMessage }                  from '@models/chat-message.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ChatService }                  from '@services/chat.service';
 import { WebsocketService }             from '@services/websocket.service';
@@ -12,7 +13,8 @@ import { WebsocketService }             from '@services/websocket.service';
 })
 export class MessagesComponent {
 
-  messages: any[] = [];
+  messages: ChatMessage[] = [];
+  message: string = '';
 
   constructor(private chatService: ChatService, private webSocketService: WebsocketService) {
     this.webSocketService.loadMessageObservable
@@ -21,14 +23,26 @@ export class MessagesComponent {
   }
 
   private loadMessages(recipient: string) {
+    let userID = StorageHelper.getUserID();
     this.chatService
-        .getAllChats(StorageHelper.getUserID(), recipient)
+        .getAllChats(userID, recipient)
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (value) => {
+            (value || []).forEach((message: ChatMessage) => {
+              message.own = (message.senderId === userID);
+            });
             this.messages = value;
           },
           error: (err) => console.error(err),
         })
+  }
+
+  async sendMessage(event: any) {
+    let response = await this.webSocketService.sendMessage(this.message);
+    if (response) {
+      this.messages.push(response.message);
+      this.message = '';
+    }
   }
 }

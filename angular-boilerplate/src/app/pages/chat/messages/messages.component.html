@@ -2,22 +2,26 @@
   <h4 class="p-3 mb-0">Chat</h4>
 </div>
 <div class="chat-messages">
-  <!-- My Message -->
-  <div class="message-right">
-    <div class="message-content">Hello, world!</div>
-    <img src="https://via.placeholder.com/40" class="rounded-circle" alt="user">
+  <div class="chat-messages">
+    <ng-container *ngFor="let message of messages">
+      <!-- My Message -->
+      <div *ngIf="message.own" class="message-right">
+        <div class="message-content">{{ message.content }}</div>
+        <img src="https://via.placeholder.com/40" class="rounded-circle" alt="user">
+      </div>
+      <!-- Receiver's Message -->
+      <div *ngIf="!message.own" class="message-left">
+        <img src="https://via.placeholder.com/40" class="rounded-circle" alt="user">
+        <div class="message-content">{{ message.content }}</div>
+      </div>
+    </ng-container>
   </div>
-  <!-- Receiver's Message -->
-  <div class="message-left">
-    <img src="https://via.placeholder.com/40" class="rounded-circle" alt="user">
-    <div class="message-content">Hi there! How are you?</div>
+  <div class="border-top send-group">
+    <div class="input-group">
+    <textarea class="form-control message-input" [(ngModel)]="message" placeholder="Type a message"
+              (keydown.control.enter)="sendMessage($event)"></textarea>
+      <button class="my-2 btn btn-lg btn-primary send-button" type="button" (click)="sendMessage($event)">
+        <i class="pi pi-send"></i>
+      </button>
+    </div>
   </div>
-</div>
-<div class="border-top">
-  <div class="input-group">
-    <textarea class="form-control message-input" placeholder="Type a message"></textarea>
-    <button class="my-2 btn btn-lg btn-primary send-button" type="button">
-      <i class="pi pi-send"></i>
-    </button>
-  </div>
-</div>

@@ -1,11 +1,11 @@
 // Angular modules
 import { Injectable } from '@angular/core';
 
-// Internal modules
-import { environment } from '@env/environment';
-
 // Enums
 import { StorageKey } from '@enums/storage-key.enum';
+
+// Internal modules
+import { environment } from '@env/environment';
 
 // Models
 import { AuthResponse } from '@models/auth-response.model';
@@ -37,12 +37,16 @@ export class StorageHelper {
     StorageHelper.removeItem(StorageKey.TOKEN);
   }
 
-  public static getUser(): AuthResponse {
+  public static getAuthResponse(): AuthResponse {
     return StorageHelper.getItem(StorageKey.AUTH_RESPONSE);
   }
 
   public static getUserID(): string {
-    return this.getUser().user.id;
+    return this.getAuthResponse().user.id;
+  }
+
+  public static getUser(): UserInfo {
+    return this.getAuthResponse().user;
   }
 
   public static hasAnyRole(roles: string[]): boolean {
@@ -50,7 +54,7 @@ export class StorageHelper {
     if (roles.length == 0) {
       return true;
     }
-    const response = this.getUser();
+    const response = this.getAuthResponse();
     if (!response?.user) {
       return false;
     }

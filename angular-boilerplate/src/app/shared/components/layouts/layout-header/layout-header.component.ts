@@ -1,5 +1,5 @@
 // Angular modules
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // Internal modules
 import { environment }     from '@env/environment';
@@ -8,27 +8,24 @@ import { EventBusService } from 'src/app/shared/event/event-bus.service';
 import { EventData }       from 'src/app/shared/event/event.class';
 
 @Component({
-  selector    : 'app-layout-header',
-  templateUrl : './layout-header.component.html',
-  styleUrls   : ['./layout-header.component.scss']
+  selector: 'app-layout-header',
+  templateUrl: './layout-header.component.html',
+  styleUrls: ['./layout-header.component.scss']
 })
-export class LayoutHeaderComponent implements OnInit
-{
-  public appName         : string  = environment.appName;
-  public isMenuCollapsed : boolean = true;
-  public authenticated  = false;
+export class LayoutHeaderComponent implements OnInit {
+  public appName: string = environment.appName;
+  public isMenuCollapsed: boolean = true;
+  public authenticated = false;
 
   constructor
   (
-    private eventBusService : EventBusService,
-  )
-  {
+    private eventBusService: EventBusService,
+  ) {
 
   }
 
-  public ngOnInit() : void
-  {
-    this.authenticated = StorageHelper.getUser()?.authenticated || false
+  public ngOnInit(): void {
+    this.authenticated = StorageHelper.getAuthResponse()?.authenticated || false
   }
 
   // -------------------------------------------------------------------------------
@@ -39,14 +36,14 @@ export class LayoutHeaderComponent implements OnInit
   // NOTE Actions ------------------------------------------------------------------
   // -------------------------------------------------------------------------------
 
-  public async onClickLogout() : Promise<void>
-  {
+  public async onClickLogout(): Promise<void> {
     this.eventBusService.emit(new EventData('logout', null));
   }
 
   toggleSideBar() {
     this.eventBusService.emit(new EventData('sidebar', null));
   }
+
   // -------------------------------------------------------------------------------
   // NOTE Computed props -----------------------------------------------------------
   // -------------------------------------------------------------------------------

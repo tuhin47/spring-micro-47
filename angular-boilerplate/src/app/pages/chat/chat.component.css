@@ -64,3 +64,9 @@
   border-radius: 50%;
   margin-right: 15px;
 }
+
+.send-group {
+  position: fixed;
+  bottom: 0;
+  width: -webkit-fill-available;
+}

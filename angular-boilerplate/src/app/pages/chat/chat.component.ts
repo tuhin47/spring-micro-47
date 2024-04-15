@@ -10,13 +10,11 @@ import { WebsocketService }  from '@services/websocket.service';
 export class ChatComponent implements OnInit {
 
   message: string = '';
-  sendMessage: any;
 
   constructor(public webSocketService: WebsocketService) {
   }
 
   ngOnInit(): void {
-    this.sendMessage = this.webSocketService.sendMessage;
     this.webSocketService.connect();
   }
 }
