@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>me.tuhin47</groupId>
-    <artifactId>aws-samples</artifactId>
+    <artifactId>aws-reactive</artifactId>
     <name>aws-samples</name>
     <description>aws-samples</description>
 

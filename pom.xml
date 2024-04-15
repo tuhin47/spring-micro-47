@@ -31,7 +31,7 @@
     <modules>
         <module>common</module>
         <module>saga</module>
-        <module>aws-samples</module>
+        <module>aws-reactive</module>
         <module>apigateway</module>
         <module>chat-service</module>
         <module>configserver</module>
