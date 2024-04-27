@@ -99,6 +99,13 @@ services:
       - "9411:9411"
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
 
   redis:
     image: redis
