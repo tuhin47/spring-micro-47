@@ -2,6 +2,8 @@ package me.tuhin47.auth.controller.impl;
 
 import me.tuhin47.auth.controller.UserController;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.request.ChangeInfoRequest;
+import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.payload.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,13 @@ public class UserControllerImpl implements UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
-        return new ResponseEntity<>(userService.findUserById(id).orElseThrow(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
+    public ResponseEntity<UserInfo> updateUser(@PathVariable String id, @RequestBody ChangeInfoRequest user) {
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.ACCEPTED);
     }
 
 

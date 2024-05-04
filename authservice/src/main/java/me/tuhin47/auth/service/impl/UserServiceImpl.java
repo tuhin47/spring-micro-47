@@ -7,8 +7,10 @@ import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.mapper.UserMapper;
+import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
+import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.auth.repo.RoleRepository;
 import me.tuhin47.auth.repo.UserRepository;
 import me.tuhin47.auth.security.oauth2.LocalUser;
@@ -152,8 +154,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserById(String id) {
-        return userRepository.findById(id);
+    public User findUserById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
     }
 
     @Override
@@ -170,11 +172,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(String id, User user) {
-        User updatedUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
-        updatedUser.setDisplayName(user.getDisplayName());
-        updatedUser.setEmail(user.getEmail());
-        return updatedUser;
+    public UserInfo updateUser(String id, ChangeInfoRequest user) {
+        User existingUser = findUserById(id);
+        return userMapper.toUserInfo(userMapper.changeInfoRequest(user, existingUser));
     }
 
     @Override
@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String id) {
-        User existingUser = userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+        User existingUser = findUserById(id);
         userRepository.delete(existingUser);
     }
 }

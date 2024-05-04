@@ -35,11 +35,11 @@ public class GeneralUtils {
     }
 
     public static UserInfo buildUserInfo(UserRedis user) {
-        List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        Set<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         return buildUserInfo(user, roles);
     }
 
-    public static UserInfo buildUserInfo(UserRedis user, List<String> roles) {
+    public static UserInfo buildUserInfo(UserRedis user, Set<String> roles) {
         return UserInfo.builder()
                        .id(user.getUserId())
                        .displayName(user.getDisplayName())

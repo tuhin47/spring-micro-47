@@ -1,9 +1,9 @@
 package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.*;
-import me.tuhin47.config.CurrentUser;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
+import me.tuhin47.config.annotations.CurrentUser;
 import me.tuhin47.config.redis.UserRedis;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,21 +14,21 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-@Api(value = "Authentication API", tags = "AUTH-API" ,description = "Operations related to user authentication and authorization")
+@Api(value = "Authentication API", tags = "AUTH-API", description = "Operations related to user authentication and authorization")
 public interface AuthController {
 
     @ApiOperation(value = "Authenticate user", notes = "Authenticates a user with email and password")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User authenticated successfully"),
-            @ApiResponse(code = 400, message = "Invalid login credentials")
+        @ApiResponse(code = 200, message = "User authenticated successfully"),
+        @ApiResponse(code = 400, message = "Invalid login credentials")
     })
     ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest);
 
     @ApiOperation(value = "Register user", notes = "Registers a new user")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User registered successfully"),
-            @ApiResponse(code = 400, message = "Email address already in use!"),
-            @ApiResponse(code = 400, message = "Unable to generate QR code!")
+        @ApiResponse(code = 200, message = "User registered successfully"),
+        @ApiResponse(code = 400, message = "Email address already in use!"),
+        @ApiResponse(code = 400, message = "Unable to generate QR code!")
     })
     ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
 
@@ -36,8 +36,8 @@ public interface AuthController {
     @PreAuthorize("hasRole('PRE_VERIFICATION_USER')")
     @ApiOperation(value = "Verify code", notes = "Verifies the code for two-factor authentication")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Code verification successful"),
-            @ApiResponse(code = 400, message = "Invalid code")
+        @ApiResponse(code = 200, message = "Code verification successful"),
+        @ApiResponse(code = 400, message = "Invalid code")
     })
     ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @ApiIgnore @CurrentUser UserRedis userRedis);
 

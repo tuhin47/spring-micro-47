@@ -3,7 +3,7 @@ package me.tuhin47.auth.payload.response;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -11,5 +11,5 @@ import java.util.List;
 public class UserInfo {
     private String id;
     private String displayName, email, avatar;
-    private List<String> roles;
+    private Set<String> roles;
 }

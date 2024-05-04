@@ -7,7 +7,6 @@ import dev.samstevens.totp.qr.QrDataFactory;
 import dev.samstevens.totp.qr.QrGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.config.CurrentUser;
 import me.tuhin47.auth.controller.AuthController;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
@@ -20,6 +19,7 @@ import me.tuhin47.auth.payload.response.SignUpResponse;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
+import me.tuhin47.config.annotations.CurrentUser;
 import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
@@ -114,7 +114,7 @@ public class AuthControllerImpl implements AuthController {
                                             .stream()
                                             .filter(user -> !user.getEmail().equals(userRedis.getUsername()))
                                             .map(userMapper::toUserRedis)
-                                            .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptyList())));
+                                            .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptySet())));
     }
 
     @Override

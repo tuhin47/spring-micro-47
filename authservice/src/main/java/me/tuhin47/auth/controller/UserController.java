@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.request.ChangeInfoRequest;
+import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.payload.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,8 +45,8 @@ public interface UserController {
         @ApiResponse(code = 404, message = "The resource you requested could not be found")
     })
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    //TODO: USER request projection
-    ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user);
+        //TODO: Admin/Self
+    ResponseEntity<UserInfo> updateUser(@PathVariable String id, @RequestBody ChangeInfoRequest user);
 
     @ApiOperation(value = "Delete a user", response = Void.class)
     @ApiResponses(value = {
