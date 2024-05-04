@@ -8,5 +8,5 @@ import java.io.Serializable;
  * DTO for {@link me.tuhin47.auth.model.User}
  */
 public record ChangeInfoRequest(@Email String email, @NotNull String displayName,
-                                @NotNull byte[] password) implements Serializable {
+                                @NotNull String password) implements Serializable {
 }
