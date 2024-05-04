@@ -162,6 +162,12 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>3.1.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>2.9.0</version> <!-- Use the latest version as appropriate -->
+        </dependency>
     </dependencies>
 
     <build>
