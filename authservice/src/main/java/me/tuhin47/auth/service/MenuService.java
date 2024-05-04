@@ -2,9 +2,9 @@ package me.tuhin47.auth.service;
 
 import me.tuhin47.auth.payload.response.MenuData;
 
-import java.util.Optional;
+import java.util.Set;
 
 public interface MenuService {
 
-    Optional<MenuData> getMenuData(long id);
+    Set<MenuData> getMenus(long id);
 }

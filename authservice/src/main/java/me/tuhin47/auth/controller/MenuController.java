@@ -5,11 +5,11 @@ import io.swagger.annotations.ApiOperation;
 import me.tuhin47.auth.payload.response.MenuData;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.Set;
 
-@Api(value = "Menu API", tags = "MENU" ,description = "Operations related to get menus")
+@Api(value = "Menu API", tags = "MENU", description = "Operations related to get menus")
 public interface MenuController {
 
     @ApiOperation(value = "Get Document")
-    ResponseEntity<Optional<MenuData>> getMenuData();
+    ResponseEntity<Set<MenuData>> getMenuData();
 }

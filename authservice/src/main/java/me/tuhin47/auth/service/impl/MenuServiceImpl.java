@@ -7,7 +7,8 @@ import me.tuhin47.auth.service.MenuService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -18,7 +19,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    public Optional<MenuData> getMenuData(long id) {
-        return menuRepository.getAllMenuDataFromRoot(id);
+    public Set<MenuData> getMenus(long id) {
+        return menuRepository.getAllMenuDataFromRoot(id).map(MenuData::getChildren).orElse(Collections.emptySet());
     }
 }

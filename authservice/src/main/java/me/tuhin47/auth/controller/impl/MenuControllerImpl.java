@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -19,11 +19,13 @@ import java.util.Optional;
 @RequestMapping("/auth/menu")
 public class MenuControllerImpl implements MenuController {
 
+    public static final int ROOT_ID = -1;
     private final MenuService menuService;
+
     @Override
     @GetMapping
-    public ResponseEntity<Optional<MenuData>> getMenuData() {
-        return new ResponseEntity<>(menuService.getMenuData(0), HttpStatus.OK);
+    public ResponseEntity<Set<MenuData>> getMenuData() {
+        return new ResponseEntity<>(menuService.getMenus(ROOT_ID), HttpStatus.OK);
     }
 
 }

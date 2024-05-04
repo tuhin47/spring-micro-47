@@ -445,6 +445,8 @@ services:
       - backend
   localstack:
     container_name: localstack
+    profiles:
+      - localstack
     image: localstack/localstack:3.2.0
     environment:
       - DEBUG=1
