@@ -27,6 +27,9 @@ CREATE TABLE user
     provider         VARCHAR(255) NULL,
     using_2fa        BIT(1)       NULL,
     secret           VARCHAR(255) NULL,
+    deleted_at       datetime     NULL,
+    is_deleted       bit          NOT NULL,
+
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

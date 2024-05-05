@@ -7,9 +7,12 @@ import lombok.Setter;
 import lombok.ToString;
 import me.tuhin47.audit.DateAudit;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Set;
 
 /**
@@ -19,6 +22,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE user set is_deleted=true , deleted_at = now() where id=?")
+@Where(clause = "is_deleted = false")
 public class User extends DateAudit implements Serializable {
 
     private static final long serialVersionUID = 65981149772133526L;
@@ -29,7 +34,7 @@ public class User extends DateAudit implements Serializable {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 
-    @Column(name = "PROVIDER_USER_ID")
+    @Column(name = "provider_user_id")
     private String providerUserId;
 
     @Column(nullable = false, unique = true)
@@ -38,7 +43,7 @@ public class User extends DateAudit implements Serializable {
     @Column(name = "enabled", columnDefinition = "BIT", length = 1)
     private boolean enabled;
 
-    @Column(name = "DISPLAY_NAME")
+    @Column(name = "display_name")
     private String displayName;
 
     @ToString.Exclude
@@ -48,14 +53,19 @@ public class User extends DateAudit implements Serializable {
 
     private String provider;
 
-    @Column(name = "USING_2FA")
+    @Column(name = "using_2fa")
     private boolean using2FA;
 
     private String secret;
 
     // bi-directional many-to-many association to Role
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+    private boolean isDeleted = false;
+
+    private Instant deletedAt;
+
 }

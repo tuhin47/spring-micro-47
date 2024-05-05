@@ -25,6 +25,7 @@ import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -119,8 +120,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(signUpRequest.getEmail());
         if (user != null) {
             if (!user.getProvider().equals(registrationId) && !user.getProvider().equals(SocialProvider.LOCAL.getProviderType())) {
-                throw new OAuth2AuthenticationProcessingException(
-                    "Looks like you're signed up with " + user.getProvider() + " account. Please use your " + user.getProvider() + " account to login.");
+                throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " + user.getProvider() + " account. Please use your " + user.getProvider() + " account to login.");
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
@@ -133,8 +133,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private LocalUser createLocalUser(User user) {
-        return new LocalUser(user.getEmail(), new String(user.getPassword()), user.isEnabled(), true, true, true,
-            GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()), user.getId());
+        return new LocalUser(user.getEmail(), new String(user.getPassword()), user.isEnabled(), true, true, true, GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()), user.getId());
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
@@ -144,13 +143,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private SignUpRequest toUserRegistrationObject(String registrationId, OAuth2UserInfo oAuth2UserInfo) {
-        return SignUpRequest.getBuilder()
-                            .addProviderUserID(oAuth2UserInfo.getId())
-                            .addDisplayName(oAuth2UserInfo.getName())
-                            .addEmail(oAuth2UserInfo.getEmail())
-                            .addSocialProvider(GeneralUtils.toSocialProvider(registrationId))
-                            .addPassword("changeit")
-                            .build();
+        return SignUpRequest.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addDisplayName(oAuth2UserInfo.getName()).addEmail(oAuth2UserInfo.getEmail()).addSocialProvider(GeneralUtils.toSocialProvider(registrationId)).addPassword("changeit").build();
     }
 
     @Override
@@ -190,7 +183,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String id) {
-        User existingUser = findUserById(id);
-        userRepository.delete(existingUser);
+        try {
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw UserServiceExceptions.USER_NOT_FOUND.apply(id);
+        }
     }
 }
