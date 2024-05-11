@@ -160,6 +160,10 @@ services:
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
       - SPRING_PROFILES_ACTIVE
+      - SPRING_MAIL_HOST
+      - SPRING_MAIL_PORT
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
     working_dir: /app
     command: sh /script/run.sh
     restart: on-failure
@@ -463,6 +467,13 @@ services:
       #      - ./aws-samples/files:/tmp/localstack
       - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
       - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080' # MailCatcher web interface
+      - '1025:1025' # MailCatcher SMTP server
+
   testservice:
     container_name: testservice
     profiles:

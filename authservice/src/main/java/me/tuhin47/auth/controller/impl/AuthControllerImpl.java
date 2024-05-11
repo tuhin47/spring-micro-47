@@ -16,6 +16,7 @@ import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.ApiResponse;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.payload.response.SignUpResponse;
+import me.tuhin47.auth.service.EmailService;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
@@ -51,6 +52,7 @@ public class AuthControllerImpl implements AuthController {
     private final QrGenerator qrGenerator;
     private final CodeVerifier verifier;
     private final UserMapper userMapper;
+    private final EmailService emailService;
 
     @Override
     @PostMapping("/signin")
@@ -78,6 +80,7 @@ public class AuthControllerImpl implements AuthController {
                 String qrCodeImage = getDataUriForImage(qrGenerator.generate(data), qrGenerator.getImageMimeType());
                 return ResponseEntity.ok().body(new SignUpResponse(true, qrCodeImage));
             }
+            emailService.sendSimpleMessage(user.getEmail(), "Successfully signed up", "Thank you for signing up");
         } catch (UserAlreadyExistAuthenticationException e) {
             log.error("Exception Occurred", e);
             return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);

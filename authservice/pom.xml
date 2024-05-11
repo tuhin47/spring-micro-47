@@ -95,7 +95,10 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
     </dependencies>
     <dependencyManagement>
