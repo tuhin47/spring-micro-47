@@ -18,6 +18,9 @@ public class AwsS3Router {
         RequestPredicate uploadS3Route =
             RequestPredicates.POST("/s3/upload")
                              .and(RequestPredicates.accept(MediaType.APPLICATION_JSON));
+        RequestPredicate uploadLargeS3Route =
+            RequestPredicates.POST("/s3/upload-large")
+                             .and(RequestPredicates.accept(MediaType.APPLICATION_JSON));
 
         RequestPredicate downloadFromS3Route =
             RequestPredicates.GET("/s3/download/{name}")
@@ -36,6 +39,7 @@ public class AwsS3Router {
                              .and(RequestPredicates.accept(MediaType.APPLICATION_JSON));
 
         return RouterFunctions.route(uploadS3Route, awsS3Handler::upload2S3)
+                              .andRoute(uploadLargeS3Route, awsS3Handler::uploadLargeFile2S3)
                               .andRoute(viewFileRoute, awsS3Handler::fileInfoFromDb)
                               .andRoute(viewAllFromDbRoute, awsS3Handler::viewAllFromDb)
                               .andRoute(viewAllFromS3Route, awsS3Handler::viewFromS3)

@@ -119,7 +119,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health"]
+      test: [ "CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -461,8 +461,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #      - ./aws-samples/files:/tmp/localstack
-      - ./aws-samples/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
-      - ./aws-samples/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
+      - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
+      - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
   testservice:
     container_name: testservice
     profiles:
