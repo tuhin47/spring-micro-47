@@ -29,37 +29,47 @@ public class AwsS3Service {
     public FileInfo uploadLargeFileWithProgress(String fileName, byte[] fileData, final String sessionId) {
         String bucketName = amazonProperties.getS3().getBucketName();
         log.info("Uploading large file '{}' to bucket: '{}' with progress tracking", fileName, bucketName);
-
+        int contentLength = fileData.length;
+        ProgressListener progressListener = getProgressListener(sessionId, contentLength);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(fileData.length);
-
+        objectMetadata.setContentLength(contentLength);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, byteArrayInputStream, objectMetadata)
+            .withGeneralProgressListener(progressListener);
+        Upload upload = transferManager.upload(putObjectRequest);
+        boolean isUploadSuccessFull = true;
         try {
-            ProgressListener progressListener = new ProgressListener() {
-                private long bytesUploaded = 0; // Track the amount of data uploaded
-                private final long totalBytes = objectMetadata.getContentLength(); // Total size of the file
-
-                @Override
-                public void progressChanged(ProgressEvent progressEvent) {
-                    bytesUploaded += progressEvent.getBytesTransferred(); // Update the uploaded byte count
-                    if (totalBytes > 0) {
-                        Long percentUploaded = (bytesUploaded * 100) / totalBytes;
-                        socketService.sendMessageTo(sessionId, percentUploaded.toString());
-                        log.info(String.format("Upload progress: %d%%", percentUploaded));
-                    }
-                }
-            };
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, byteArrayInputStream, objectMetadata).withGeneralProgressListener(progressListener);
-            Upload upload = transferManager.upload(putObjectRequest);
             upload.waitForCompletion();
             log.info("Upload complete.");
-            String fileUrl = amazonProperties.getUrl() + "/" + bucketName + "/" + fileName;
-            return new FileInfo(fileName, fileUrl, true);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.error("Upload was interrupted.", e);
+            isUploadSuccessFull = false;
         }
-        return null;
+        return createFileInfo(fileName, isUploadSuccessFull);
+    }
+
+    public FileInfo createFileInfo(String fileName, boolean isUploadSuccessFull) {
+        String bucketName = amazonProperties.getS3().getBucketName();
+        String fileUrl = amazonProperties.getUrl() + "/" + bucketName + "/" + fileName;
+        return new FileInfo(fileName, fileUrl, isUploadSuccessFull);
+    }
+
+    private ProgressListener getProgressListener(String sessionId, final long contentLength) {
+        return new ProgressListener() {
+            private long bytesUploaded = 0;
+            private final long totalBytes = contentLength;
+
+            @Override
+            public void progressChanged(ProgressEvent progressEvent) {
+                bytesUploaded += progressEvent.getBytesTransferred();
+                if (totalBytes > 0) {
+                    double percentUploaded = (double) (bytesUploaded * 100) / totalBytes;
+                    socketService.sendMessageTo(sessionId, Double.toString(percentUploaded));
+                    log.info(String.format("Upload progress: %.2f%%", percentUploaded));
+                }
+            }
+        };
     }
 
 
@@ -69,9 +79,9 @@ public class AwsS3Service {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(fileData.length);
-        String fileUrl = amazonProperties.getUrl() + "/" + bucketName + "/" + fileName;
         PutObjectResult putObjectResult = amazonS3.putObject(bucketName, fileName, byteArrayInputStream, objectMetadata);
-        return new FileInfo(fileName, fileUrl, Objects.nonNull(putObjectResult));
+        log.info("Uploading completed {} ", putObjectResult);
+        return createFileInfo(fileName, Objects.nonNull(putObjectResult));
     }
 
     public S3ObjectInputStream downloadFileFromS3Bucket(final String fileName) {

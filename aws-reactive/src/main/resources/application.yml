@@ -24,6 +24,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/aws
     password: root
     user: root
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 150MB
 
 config:
   aws:

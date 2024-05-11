@@ -77,9 +77,7 @@ public class AwsS3Handler {
     private Mono<FileInfo> handleByteBuffer(ServerRequest request, List<ByteBuffer> byteBuffers, String fileName) {
         long totalSize = byteBuffers.stream().mapToLong(Buffer::remaining).sum();
         ByteBuffer combinedBuffer = ByteBuffer.allocate((int) totalSize);
-
         byteBuffers.forEach(combinedBuffer::put);
-
         byte[] fileData = combinedBuffer.array();
 
         log.info("Upload large file '{}' started", fileName);
