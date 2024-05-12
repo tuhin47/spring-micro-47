@@ -72,6 +72,11 @@
                         <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
                         <IMAGE_TAG>0.5.0</IMAGE_TAG>
                         <NOAUTH_ENABLE>false</NOAUTH_ENABLE>
+                        <SPRING_MAIL_HOST>mailcatcher</SPRING_MAIL_HOST>
+                        <SPRING_MAIL_PORT>1025</SPRING_MAIL_PORT>
+                        <SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH>false</SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH>
+                        <SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE>false
+                        </SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE>
                     </env>
                     <projectName>spring-micro-47</projectName>
                     <file>docker-compose-prod.yml</file>

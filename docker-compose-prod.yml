@@ -100,7 +100,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health"]
+      test: [ "CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -142,6 +142,10 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - SPRING_MAIL_HOST
+      - SPRING_MAIL_PORT
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
     working_dir: /app
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
@@ -149,6 +153,8 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
+      mailcatcher:
+        condition: service_started
       database:
         condition: service_healthy
       configserver:
@@ -399,6 +405,35 @@ services:
       - '8024:8024'
       - '8124:8124'
       - '8224:8224'
+    networks:
+      - backend
+
+  localstack:
+    container_name: localstack
+    profiles:
+      - localstack
+    image: localstack/localstack:3.2.0
+    environment:
+      - DEBUG=1
+      - USE_SSL=0
+      - AWS_CBOR_DISABLE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME=localstack
+      - SERVICES=s3,sns,sqs
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
+      - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
+
+  mailcatcher:
+    container_name: mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
+      - '1025:1025'
     networks:
       - backend
 
