@@ -2,6 +2,7 @@ package me.tuhin47.auth.service.impl;
 
 import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.config.TransactionEmailEvent;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.Role;
@@ -24,6 +25,7 @@ import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -51,6 +53,7 @@ public class UserServiceImpl implements UserService {
     private final TokenProvider tokenProvider;
     private final RedisUserService redisUserService;
     private final UserMapper userMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
 
     @Override
@@ -70,6 +73,7 @@ public class UserServiceImpl implements UserService {
         User user = buildUser(signUpRequest);
         user = userRepository.save(user);
         userRepository.flush();
+        applicationEventPublisher.publishEvent(new TransactionEmailEvent(this, user.getEmail(), "Your registration is successfully completed", "Successful Registration"));
         return user;
     }
 
