@@ -12,3 +12,7 @@ spring:
     name: AUTH-SERVICE
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  task:
+    scheduling:
+      pool:
+        size: 2
