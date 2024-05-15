@@ -1,27 +1,31 @@
 package me.tuhin47.auth.controller.impl;
 
+import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.config.MyRequestBean;
 import me.tuhin47.auth.controller.UserController;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.payload.response.UserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/auth/users")
+@RequiredArgsConstructor
 public class UserControllerImpl implements UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final MyRequestBean myRequestBean;
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers(@RequestParam("ids") String[] ids) {
+        myRequestBean.getData().put("ids", Arrays.toString(ids));
         return new ResponseEntity<>(userService.getAllUsers(ids), HttpStatus.OK);
     }
 

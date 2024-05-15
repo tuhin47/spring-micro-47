@@ -2,6 +2,8 @@ package me.tuhin47.auth.service.impl;
 
 import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.auth.config.MyRequestBean;
 import me.tuhin47.auth.config.TransactionEmailEvent;
 import me.tuhin47.auth.exception.OAuth2AuthenticationProcessingException;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
@@ -44,6 +46,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Primary
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -54,6 +57,7 @@ public class UserServiceImpl implements UserService {
     private final RedisUserService redisUserService;
     private final UserMapper userMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final MyRequestBean myRequestBean;
 
 
     @Override
@@ -177,6 +181,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers(String[] ids) {
         List<User> users;
+        log.info("getAllUsers {}", myRequestBean.getData().get("ids"));
         if (ids != null && ids.length > 0) {
             users = userRepository.findAllById(Arrays.asList(ids));
         } else {
