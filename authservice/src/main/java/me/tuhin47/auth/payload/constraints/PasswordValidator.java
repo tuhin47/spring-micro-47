@@ -8,10 +8,6 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Cha
     public static final String VALID_PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{8,}$";
 
     @Override
-    public void initialize(ValidPassword constraintAnnotation) {
-    }
-
-    @Override
     public boolean isValid(CharSequence password, ConstraintValidatorContext context) {
         if (password == null) {
             return false;
