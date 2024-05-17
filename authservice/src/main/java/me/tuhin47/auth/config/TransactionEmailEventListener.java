@@ -18,7 +18,7 @@ public class TransactionEmailEventListener {
     @EventListener
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleTransactionEvent(TransactionEmailEvent event) {
-        log.info("handleTransactionEvent() called with: event = [" + event + "]");
+        log.info("handleTransactionEvent() called with: event = [{}]", event);
         emailService.sendSimpleMessage(event.getToAddress(), event.getTitle(), event.getBody());
     }
 }

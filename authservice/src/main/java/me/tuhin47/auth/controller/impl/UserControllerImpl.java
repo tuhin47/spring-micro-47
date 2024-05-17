@@ -1,11 +1,11 @@
 package me.tuhin47.auth.controller.impl;
 
 import lombok.RequiredArgsConstructor;
-import me.tuhin47.auth.config.MyRequestBean;
 import me.tuhin47.auth.controller.UserController;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.response.UserInfo;
+import me.tuhin47.auth.service.MyRequestBean;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.payload.response.UserResponse;
 import org.springframework.http.HttpStatus;
