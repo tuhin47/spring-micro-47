@@ -1,4 +1,4 @@
-package me.tuhin47.auth.service;
+package me.tuhin47.auth.service.impl;
 
 import lombok.Data;
 import org.springframework.context.annotation.ScopedProxyMode;

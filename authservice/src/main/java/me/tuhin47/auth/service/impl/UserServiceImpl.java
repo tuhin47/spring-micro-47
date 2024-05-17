@@ -19,7 +19,6 @@ import me.tuhin47.auth.security.oauth2.LocalUser;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
-import me.tuhin47.auth.service.MyRequestBean;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.redis.RedisUserService;
@@ -27,6 +26,7 @@ import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final MyRequestBean myRequestBean;
+    private final ApplicationContext applicationContext;
 
 
     @Override
@@ -181,12 +182,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers(String[] ids) {
         List<User> users;
+        var myProtoTypeBean = applicationContext.getBean(MyProtoTypeBean.class);
         log.info("getAllUsers {}", myRequestBean.getData().get("ids"));
         if (ids != null && ids.length > 0) {
             users = userRepository.findAllById(Arrays.asList(ids));
         } else {
             users = userRepository.findAll();
         }
+        myProtoTypeBean.showSpentTime();
         return users.stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
