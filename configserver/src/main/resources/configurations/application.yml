@@ -53,6 +53,16 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        # include: "health,info"
+  endpoint:
+    health:
+      show-details: always
+
 logging:
   level:
     com: INFO

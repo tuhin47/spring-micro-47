@@ -1,9 +1,12 @@
 package me.tuhin47.auth.config;
 
-import java.util.Set;
-
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.model.Role;
+import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.mapper.UserMapper;
+import me.tuhin47.auth.repo.RoleRepository;
+import me.tuhin47.auth.repo.UserRepository;
+import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.config.CommonBean;
 import me.tuhin47.config.redis.RedisUserService;
 import org.springframework.context.ApplicationListener;
@@ -12,17 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.model.User;
-import me.tuhin47.auth.repo.RoleRepository;
-import me.tuhin47.auth.repo.UserRepository;
-import me.tuhin47.auth.security.oauth2.SocialProvider;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private boolean alreadySetup = false;
+    private boolean alreadySetup = true; // added to flyway for faster startup
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;

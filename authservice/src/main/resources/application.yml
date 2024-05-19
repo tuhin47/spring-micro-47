@@ -1,6 +1,6 @@
 spring:
   mail:
-    host: ${SPRING_MAIL_HOST:localhost}
+    host: ${SPRING_MAIL_HOST:127.0.0.1}
     port: ${SPRING_MAIL_PORT:1025}
     properties:
       mail:
