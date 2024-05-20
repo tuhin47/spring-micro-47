@@ -4,11 +4,11 @@ POST http://localhost:9090/auth/signup
 Content-Type: application/json
 
 {
-  "displayName": "Towhidul",
-  "email": "sample@gmail.com",
-  "password": "123456",
-  "matchingPassword": "123456",
-  "socialProvider": "LOCAL"
+    "displayName": "Towhidul",
+    "email": "sample@gmail.com",
+    "password": "123456",
+    "matchingPassword": "123456",
+    "socialProvider": "LOCAL"
 }
 
 ###
@@ -18,45 +18,45 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "admin@tuhin47.com",
-  "password": "admin@"
+    "email": "{{username}}",
+    "password": "{{password}}"
 }
 
+> {%
+    client.global.set("token", response.body.accessToken);
+%}
+
 
 ###
-
-# curl -X GET "http://localhost:9090/auth/user/me" -H "accept: */*" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwMTA2NiwiZXhwIjoxNjkwNTY1MDY2fQ.i-Samp8yv7B5U49TAzqT93UpyLiDlWlvoAo4bz7fLc0P3EDdg_nls14C1OOp2OcjVr9VYrR5DPO6-5Z539Zaww"
 GET http://localhost:7777/auth/user/me
 accept: */*
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg
+Authorization: Bearer {{token}}
 
 ###
 
-# curl -X POST "http://localhost:9090/order" -H "accept: */*" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg" -H "Content-Type: application/json" -d "{\"name\":\"Pro 1\",\"price\":10,\"quantity\":10}"
 POST http://localhost:8081/product
 accept: */*
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg
 Content-Type: application/json
 
 {
-  "name": "Pro 1",
-  "price": 20,
-  "quantity": 20
+    "name": "Pro 1",
+    "price": 20,
+    "quantity": 20
 }
 
 ###
 
-# curl -X POST "http://localhost:8082/order" -H "accept: */*" -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg" -H "Content-Type: application/json" -d "{\"paymentMode\":\"CARD\",\"productId\":1,\"quantity\":1,\"totalAmount\":10}"
 POST http://localhost:8082/order
 accept: */*
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTY4OTcwNDQ2MSwiZXhwIjoxNjkwNTY4NDYxfQ.HQ0enIoInbAZX7582EQa2FT_ulUGX0JUn4aasTrtNkvC1XBSQaE8bhjWX8coCp90bjswrPu1uMYSHeJL9fhTHg
 Content-Type: application/json
 
 {
-  "paymentMode": "DEBIT_CARD",
-  "productId": 2,
-  "quantity": 1,
-  "totalAmount": 10
+    "paymentMode": "DEBIT_CARD",
+    "productId": 2,
+    "quantity": 1,
+    "totalAmount": 10
 }
 
 ###
@@ -65,8 +65,18 @@ POST http://localhost:99993/
 Content-Type: application/json
 
 {
-  "name": "pro1",
-  "price": 111,
-  "quantity": 10
+    "name": "pro1",
+    "price": 111,
+    "quantity": 10
 }
 
+###
+
+POST http://localhost:7777/actuator/loggers/{{package}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "configuredLevel": "{{logLevel}}",
+    "effectiveLevel": "{{logLevel}}"
+}
