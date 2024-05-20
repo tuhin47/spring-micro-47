@@ -10,8 +10,8 @@
 
     <groupId>me.tuhin47</groupId>
     <artifactId>aws-reactive</artifactId>
-    <name>aws-samples</name>
-    <description>aws-samples</description>
+    <name>aws-reactive</name>
+    <description>aws-reactive</description>
 
     <properties>
         <aws-java-sdk.version>1.11.1003</aws-java-sdk.version>
