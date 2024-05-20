@@ -1,4 +1,4 @@
-package me.tuhin47.audit;
+package me.tuhin47.entity.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -17,10 +17,10 @@ import javax.persistence.MappedSuperclass;
 @ToString
 @RequiredArgsConstructor
 @JsonIgnoreProperties(
-        value = { "createdBY", "updatedBy" },
-        allowGetters = true
+    value = {"createdBY", "updatedBy"},
+    allowGetters = true
 )
-public abstract class UserDateAudit<U> extends DateAudit{
+public abstract class UserDateAudit<U> extends DateAudit {
 
     private static final long serialVersionUID = 1L;
 

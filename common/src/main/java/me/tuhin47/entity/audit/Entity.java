@@ -1,4 +1,4 @@
-package me.tuhin47.audit;
+package me.tuhin47.entity.audit;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public abstract class Entity{
+public abstract class Entity {
 
     private static final long serialVersionUID = 65981149772133526L;
 

@@ -1,4 +1,4 @@
-package me.tuhin47.audit;
+package me.tuhin47.entity.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

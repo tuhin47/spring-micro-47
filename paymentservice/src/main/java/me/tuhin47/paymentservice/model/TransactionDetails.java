@@ -1,11 +1,10 @@
 package me.tuhin47.paymentservice.model;
 
 import lombok.*;
-import me.tuhin47.audit.UserDateAudit;
+import me.tuhin47.entity.audit.UserDateAudit;
 import me.tuhin47.core.enums.PaymentMode;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class TransactionDetails extends UserDateAudit<String> {
     @Column(name = "ORDER_ID", nullable = false, updatable = false)
     private String orderId;
 
-    @Column(name = "MODE", nullable = false, length = 20 )
+    @Column(name = "MODE", nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode = PaymentMode.CASH;
 

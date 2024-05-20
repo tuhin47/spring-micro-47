@@ -1,7 +1,7 @@
 package me.tuhin47.productservice.domain.entity;
 
 import lombok.*;
-import me.tuhin47.audit.UserDateAudit;
+import me.tuhin47.entity.audit.UserDateAudit;
 import me.tuhin47.productservice.domain.enums.ProductType;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.NumberFormat;

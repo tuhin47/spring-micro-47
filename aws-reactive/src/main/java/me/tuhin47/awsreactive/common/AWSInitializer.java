@@ -27,7 +27,7 @@ public class AWSInitializer implements CommandLineRunner {
     }
 
     private static void executeCommand(String... command) throws IOException, InterruptedException {
-        log.info("Executing command" + Arrays.toString(command));
+        log.info("Executing command : {}", Arrays.toString(command));
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.redirectErrorStream(true); // Combine stdout and stderr
         Process process = processBuilder.start();
@@ -43,7 +43,7 @@ public class AWSInitializer implements CommandLineRunner {
         int exitCode = process.exitValue();
 
         if (exitCode != 0) {
-            log.error("Error initializing S3 bucket. Exit code: " + exitCode);
+            log.error("Error initializing S3 bucket. Exit code: {}", exitCode);
         }
         log.info("Execution completed");
     }
