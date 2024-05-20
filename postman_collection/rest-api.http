@@ -80,3 +80,11 @@ Content-Type: application/json
     "configuredLevel": "{{logLevel}}",
     "effectiveLevel": "{{logLevel}}"
 }
+
+###
+GET http://localhost:7777/auth/all
+
+###
+
+POST http://localhost:7777/actuator/refresh
+Accept: application/json

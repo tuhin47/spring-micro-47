@@ -7,6 +7,7 @@ import dev.samstevens.totp.qr.QrDataFactory;
 import dev.samstevens.totp.qr.QrGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.auth.config.ConfigurationPropertiesRefreshConfigBean;
 import me.tuhin47.auth.controller.AuthController;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
@@ -51,6 +52,7 @@ public class AuthControllerImpl implements AuthController {
     private final QrGenerator qrGenerator;
     private final CodeVerifier verifier;
     private final UserMapper userMapper;
+    private final ConfigurationPropertiesRefreshConfigBean refreshConfigBean;
 
     @Override
     @PostMapping("/signin")
@@ -120,6 +122,7 @@ public class AuthControllerImpl implements AuthController {
     @Override
     @GetMapping("/all")
     public ResponseEntity<?> getContent() {
+        refreshConfigBean.setColor(ConfigurationPropertiesRefreshConfigBean.getRandomColor());
         return ResponseEntity.ok("Public content goes here");
     }
 
