@@ -28,7 +28,7 @@ public class RedisUserService implements UserDetailsService {
         return getUser(username).orElse(null);
     }
 
-    public UserRedis getCurrentUser() {
+    public static UserRedis getCurrentUser() {
         return (UserRedis) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

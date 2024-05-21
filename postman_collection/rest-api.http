@@ -1,11 +1,11 @@
 ###
 
-POST http://localhost:9090/auth/signup
+POST http://localhost:7777/auth/signup
 Content-Type: application/json
 
 {
     "displayName": "Towhidul",
-    "email": "sample@gmail.com",
+    "email": "sample123@gmail.com",
     "password": "123456",
     "matchingPassword": "123456",
     "socialProvider": "LOCAL"
@@ -18,8 +18,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "{{username}}",
-    "password": "{{password}}"
+    "email": "sample123@gmail.com",
+    "password": "123456"
 }
 
 > {%
