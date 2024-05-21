@@ -3,6 +3,7 @@ package me.tuhin47.entity.security;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.redis.RedisUserService;
@@ -27,6 +28,8 @@ public class SensitiveReadSerializer extends StdSerializer<Object> {
 
         if (!allowedRoles.isEmpty() && allowedRoles.stream().noneMatch(userRoles::contains)) {
             gen.writeString("");
+        } else if (provider instanceof DefaultSerializerProvider defaultSerializerProvider) {
+            defaultSerializerProvider.serializeValue(gen, value);
         } else {
             gen.writeString(value.toString());
         }

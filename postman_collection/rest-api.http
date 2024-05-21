@@ -18,8 +18,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "sample123@gmail.com",
-    "password": "123456"
+    "email": "{{username}}",
+    "password": "{{password}}"
 }
 
 > {%

@@ -11,6 +11,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
@@ -26,6 +27,7 @@ import java.util.Set;
 @Where(clause = "is_deleted = false")
 public class User extends DateAudit implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 65981149772133526L;
 
     @Id
