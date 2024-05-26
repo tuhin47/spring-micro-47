@@ -2,22 +2,6 @@ version: '3.7'
 
 services:
 
-  boilerplate:
-    build:
-      context: ./angular-boilerplate
-      dockerfile: Dockerfile
-      args:
-        - ENVIRONMENT
-        - API_BASE
-        - API_CONTEXT
-        - OAUTH_REDIRECT_URL
-    container_name: boilerplate
-    profiles:
-      - frontend
-      - all
-    image: 'tuhin47/boilerplate:dev'
-    network_mode: "host"
-
   serviceregistry:
     build:
       context: service-registry
@@ -106,33 +90,6 @@ services:
     volumes:
       - $PROJECT_PATH/apigateway:/app
       - $MAVEN_CONFIG:/root/.m2
-
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
-    # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
-    environment:
-      - STORAGE_TYPE=mem
-    ports:
-      # Port used for the Zipkin UI and HTTP Api
-      - "9411:9411"
-    networks:
-      - backend
-    healthcheck:
-      test: [ "CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
 
   authservice:
     build:
@@ -343,130 +300,57 @@ services:
       - $PROJECT_PATH/paymentservice:/app
       - $MAVEN_CONFIG:/root/.m2
 
+  boilerplate:
+    extends:
+      file: docker-compose.common.yml
+      service: boilerplate
+
+  zipkin:
+    extends:
+      service: zipkin
+      file: docker-compose.common.yml
+
+
+  redis:
+    extends:
+      service: redis
+      file: docker-compose.common.yml
+
   database:
-    container_name: database
-    image: 'mysql:8.1.0'
-    ports:
-      - "${MYSQL_PORT}:3306"
-    restart: on-failure
-    environment:
-      - MYSQL_USER=extra
-      - MYSQL_PORT
-      - MYSQL_PASSWORD=root
-      - MYSQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD
-      - MYSQL_DB=userdb
-    volumes:
-      - db-data:/var/lib/mysql
-    networks:
-      - backend
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
-      timeout: 20s
-      retries: 10
+    extends:
+      service: database
+      file: docker-compose.common.yml
 
   mongo:
-    image: mongo
-    container_name: mongo
-    deploy:
-      restart_policy:
-        max_attempts: 3
-        condition: on-failure
-    profiles:
-      - all
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-volume:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/admin --quiet
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-    networks:
-      - backend
+    extends:
+      service: mongo
+      file: docker-compose.common.yml
 
   elasticsearch:
-    build: elk/elasticsearch/
-    container_name: elasticsearch
-    profiles:
-      - elk
-      - all
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-    networks:
-      - backend
+    extends:
+      service: elasticsearch
+      file: docker-compose.common.yml
 
   logstash:
-    build: elk/logstash/
-    container_name: logstash
-    profiles:
-      - elk
-      - all
-    command: -f /etc/logstash/conf.d/
-    volumes:
-      - ./elk/logstash/config:/etc/logstash/conf.d
-    ports:
-      - "9999:9999"
-    depends_on:
-      - elasticsearch
-    networks:
-      - backend
+    extends:
+      service: logstash
+      file: docker-compose.common.yml
 
   kibana:
-    build: elk/kibana/
-    container_name: kibana
-    profiles:
-      - elk
-      - all
-    volumes:
-      - ./elk/kibana/config/:/opt/kibana/config/
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - backend
+    extends:
+      service: kibana
+      file: docker-compose.common.yml
 
   axonserver:
-    image: axoniq/axonserver@sha256:1ee3484f094d73bcaea860dd76ea9f97b5834c69cd365e87bf711be9df1dc741
-    hostname: axonserver
-    volumes:
-      - axonserver-data:/data
-      - axonserver-events:/eventdata
-      - axonserver-config:/config:ro
-    ports:
-      - '8024:8024'
-      - '8124:8124'
-      - '8224:8224'
-    networks:
-      - backend
+    extends:
+      service: axonserver
+      file: docker-compose.common.yml
+
+
   localstack:
-    container_name: localstack
-    profiles:
-      - localstack
-    image: localstack/localstack:3.2.0
-    environment:
-      - DEBUG=1
-      - USE_SSL=0
-      - AWS_CBOR_DISABLE=1
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - HOSTNAME=localstack
-      - SERVICES=s3,sns,sqs
-      - AWS_DEFAULT_REGION=us-east-1
-    ports:
-      - '4566-4583:4566-4583'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      #      - ./aws-samples/files:/tmp/localstack
-      - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
-      - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
+    extends:
+      service: localstack
+      file: docker-compose.common.yml
 
   mailcatcher:
     image: schickling/mailcatcher
@@ -477,18 +361,9 @@ services:
       - '1025:1025' # MailCatcher SMTP server
 
   testservice:
-    container_name: testservice
-    profiles:
-      - test
-    build:
-      context: postman_collection
-      dockerfile: test.Dockerfile
-    image: tuhin47/testservice:${IMAGE_TAG}
-    restart: 'no'
-    #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
-    networks:
-      - backend
-
+    extends:
+      service: testservice
+      file: docker-compose.common.yml
 
 networks:
   backend:
