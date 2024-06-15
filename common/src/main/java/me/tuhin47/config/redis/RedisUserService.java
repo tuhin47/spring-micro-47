@@ -1,6 +1,8 @@
 package me.tuhin47.config.redis;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +31,7 @@ public class RedisUserService implements UserDetailsService {
     }
 
     public static UserRedis getCurrentUser() {
-        return (UserRedis) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object user = Optional.ofNullable(SecurityContextHolder.getContext()).map(SecurityContext::getAuthentication).map(Authentication::getPrincipal).orElse(null);
+        return user instanceof UserRedis ? (UserRedis) user : null;
     }
 }

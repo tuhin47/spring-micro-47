@@ -16,11 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Role implements Serializable {
-    public static final String USER = "USER";
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_MODERATOR = "ROLE_MODERATOR";
-    public static final String ROLE_PRE_VERIFICATION_USER = "ROLE_PRE_VERIFICATION_USER";
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

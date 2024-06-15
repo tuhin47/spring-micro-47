@@ -1,8 +1,8 @@
 package me.tuhin47.paymentservice.model;
 
 import lombok.*;
-import me.tuhin47.entity.audit.UserDateAudit;
 import me.tuhin47.core.enums.PaymentMode;
+import me.tuhin47.entity.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.time.Instant;

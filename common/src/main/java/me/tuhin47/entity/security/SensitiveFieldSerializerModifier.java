@@ -15,7 +15,7 @@ public class SensitiveFieldSerializerModifier extends BeanSerializerModifier {
             if (sensitiveRead != null) {
                 writer.assignSerializer(new SensitiveReadSerializer(writer, sensitiveRead.rolesAllowed()));
             }
-            // Similar logic for deserialization
+            // TODO : Similar logic for deserialization
         }
         return beanProperties;
     }

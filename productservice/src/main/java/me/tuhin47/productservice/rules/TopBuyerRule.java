@@ -32,7 +32,7 @@ public class TopBuyerRule implements ProductDiscount {
     @Override
     public boolean evaluate(ProductsPrice productsPrice) {
 
-        UserRedis currentUser = redisUserService.getCurrentUser();
+        UserRedis currentUser = RedisUserService.getCurrentUser();
         if (currentUser == null || currentUser.getUserId() == null) {
             return false;
         }

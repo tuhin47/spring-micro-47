@@ -9,6 +9,7 @@ import me.tuhin47.auth.repo.UserRepository;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.config.CommonBean;
 import me.tuhin47.config.redis.RedisUserService;
+import me.tuhin47.utils.RoleUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,9 +36,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         if (alreadySetup) {
             return;
         }
-        Role userRole = createRoleIfNotFound(Role.ROLE_USER);
-        Role adminRole = createRoleIfNotFound(Role.ROLE_ADMIN);
-        Role modRole = createRoleIfNotFound(Role.ROLE_MODERATOR);
+        Role userRole = createRoleIfNotFound(RoleUtils.ROLE_USER);
+        Role adminRole = createRoleIfNotFound(RoleUtils.ROLE_ADMIN);
+        Role modRole = createRoleIfNotFound(RoleUtils.ROLE_MODERATOR);
         createUserIfNotFound(CommonBean.ADMIN_USER_MAIL, Set.of(userRole, adminRole, modRole));
         alreadySetup = true;
     }

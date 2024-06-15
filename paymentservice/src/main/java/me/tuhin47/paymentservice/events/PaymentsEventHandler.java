@@ -21,7 +21,6 @@ public class PaymentsEventHandler {
 
     @EventHandler
     public void on(PaymentProcessedEvent event) {
-        log.info("on() called with: event = [" + event + "]");
         TransactionDetails payment = TransactionDetails.builder()
                                                        .id(event.getPaymentId())
                                                        .orderId(event.getOrderId())
@@ -37,7 +36,6 @@ public class PaymentsEventHandler {
 
     @EventHandler
     public void on(PaymentCancelledEvent event) {
-        log.info("on() called with: event = [" + event + "]");
         TransactionDetails payment = paymentRepository.findById(event.getPaymentId()).get();
         payment.setPaymentStatus(event.getPaymentStatus());
         paymentRepository.save(payment);

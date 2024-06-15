@@ -26,6 +26,7 @@ import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
+import me.tuhin47.utils.RoleUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
@@ -88,7 +89,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(formDTO.getEmail());
         user.setPassword(passwordEncoder.encode(formDTO.getPassword()).getBytes());
         final Set<Role> roles = new HashSet<Role>();
-        roles.add(roleRepository.findByName(Role.ROLE_USER));
+        roles.add(roleRepository.findByName(RoleUtils.ROLE_USER));
         user.setRoles(roles);
         user.setProvider(formDTO.getSocialProvider().getProviderType());
         user.setEnabled(true);

@@ -10,3 +10,4 @@ import java.lang.annotation.Target;
 public @interface SensitiveWrite {
     String[] rolesAllowed();
 }
+// TODO : Work for write and deserialization
