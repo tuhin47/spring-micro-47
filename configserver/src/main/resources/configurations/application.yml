@@ -8,16 +8,27 @@ eureka:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
 
 spring:
+  flyway:
+    user: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    driverClassName: com.mysql.cj.jdbc.Driver
   datasource:
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: change_${spring.application.name}.sql
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -53,6 +64,31 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10 # buffer size 10
+        failure-rate-threshold: 50 #
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true # half open enabled
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10 # record the outcome of calls when the CircuitBreaker is closed
+        sliding-window-type: COUNT_BASED # the type of the sliding window
+
+feign:
+  client:
+    config:
+      default:
+        errorDecoder: me.tuhin47.config.decoder.CustomErrorDecoder
+      stores:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: FULL
+        requestInterceptors:
+          - me.tuhin47.config.FeignConfig
+
 management:
   endpoints:
     web:
@@ -69,7 +105,7 @@ logging:
     me:
       tuhin47: DEBUG
     org:
-      springframework.orm.jpa: DEBUG
+      springframework.orm.jpa: INFO
       springframework.transaction: DEBUG
       springframework: INFO
       hibernate:
