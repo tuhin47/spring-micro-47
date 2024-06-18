@@ -21,14 +21,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      javax:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              action: update
-              create-target: change_${spring.application.name}.sql
   main:
     allow-bean-definition-overriding: true
   mvc:

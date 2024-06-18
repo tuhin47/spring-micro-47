@@ -7,6 +7,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: change_${spring.application.name}.sql
   security:
     oauth2:
       client:

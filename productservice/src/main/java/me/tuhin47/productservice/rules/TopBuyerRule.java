@@ -23,8 +23,6 @@ public class TopBuyerRule implements ProductDiscount {
 
 
     private final OrderService orderService;
-    private final RedisUserService redisUserService;
-
 
     @Resource(name = "requestScopedBean")
     private RequestDataHolder requestDataHolder;
