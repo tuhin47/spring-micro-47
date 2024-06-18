@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponse> productResponses = productRepository.findAllById(Arrays.asList(ids))
                                                                   .stream().map(productMapper::toDto).toList();
         ProductsPrice productsPrice = new ProductsPrice(productResponses, productResponses.stream().mapToDouble(ProductResponse::getPrice).sum());
-//        discountRuleEngine.applyRules(productsPrice);
+        discountRuleEngine.applyRules(productsPrice);
 
         return productsPrice;
     }

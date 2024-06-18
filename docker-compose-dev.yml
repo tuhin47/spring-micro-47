@@ -70,7 +70,7 @@ services:
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
     depends_on:
       configserver:
         condition: service_healthy
@@ -116,7 +116,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
       - SPRING_MAIL_HOST
       - SPRING_MAIL_PORT
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
@@ -162,7 +162,7 @@ services:
       - ZIPKIN_URL
       - REDIS_URL
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -203,7 +203,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -245,7 +245,7 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
@@ -281,7 +281,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
