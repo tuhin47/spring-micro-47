@@ -30,7 +30,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: [ "CMD", "wget", "-q", "-O", "-", "http://localhost:9411/health" ]
+      test: [ "CMD", "wget", "-q", "-O", "-", "http://zipkin:9411/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -42,6 +42,12 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - backend
 
@@ -136,7 +142,7 @@ services:
     networks:
       - backend
   axonserver:
-    image: axoniq/axonserver@sha256:1ee3484f094d73bcaea860dd76ea9f97b5834c69cd365e87bf711be9df1dc741
+    image: axoniq/axonserver:4.6.11
     hostname: axonserver
     volumes:
       - axonserver-data:/data
@@ -177,6 +183,11 @@ services:
       - '1025:1025'
     networks:
       - backend
+    healthcheck:
+      test: [ "CMD", "wget", "--spider" , "http://mailcatcher:1080" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   testservice:
     container_name: testservice

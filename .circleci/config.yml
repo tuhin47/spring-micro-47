@@ -7,7 +7,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.14
       - run: mvn clean install
       - run: mvn docker-compose:up -pl ./ -f pom.xml
       - run:
