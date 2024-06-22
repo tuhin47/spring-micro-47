@@ -70,6 +70,7 @@ services:
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
     depends_on:
       configserver:
@@ -89,6 +90,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/apigateway:/app
+      - $PROJECT_PATH/logs:/tmp/logs
       - $MAVEN_CONFIG:/root/.m2
 
   authservice:
@@ -116,6 +118,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
       - SPRING_MAIL_HOST
       - SPRING_MAIL_PORT
@@ -139,6 +142,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/authservice:/app
+      - $PROJECT_PATH/logs:/tmp/logs
       - $MAVEN_CONFIG:/root/.m2
 
   productservice:
@@ -162,6 +166,7 @@ services:
       - ZIPKIN_URL
       - REDIS_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
@@ -179,6 +184,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/productservice:/app
+      - $PROJECT_PATH/logs:/tmp/logs
       - $MAVEN_CONFIG:/root/.m2
 
   orderservice:
@@ -203,6 +209,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
@@ -220,6 +227,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/orderservice:/app
+      - $PROJECT_PATH/logs:/tmp/logs
       - $MAVEN_CONFIG:/root/.m2
 
   chatservice:
@@ -245,6 +253,7 @@ services:
       - MONGO_USERNAME
       - ZIPKIN_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
@@ -281,6 +290,7 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
     working_dir: /app
     command: sh /script/run.sh
@@ -298,6 +308,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/paymentservice:/app
+      - $PROJECT_PATH/logs:/tmp/logs
       - $MAVEN_CONFIG:/root/.m2
 
   boilerplate:

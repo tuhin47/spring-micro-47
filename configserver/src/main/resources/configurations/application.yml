@@ -43,6 +43,7 @@ axon:
 
 app:
   version: @project.version@
+  logstash: ${LOGSTASH_HOST:localhost}
   config:
     qrIssuer: tuhin47
     noAuth: ${NOAUTH_ENABLE:false}
