@@ -24,6 +24,10 @@ docker-compose --env-file .env -f docker-compose-prod.yml  up
 
 ## Monitor docker containers using lazydocker
 
+```bash
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+```
+
 ## Kubernetes
 
 - Install minikube to access this link https://minikube.sigs.k8s.io/docs/start/

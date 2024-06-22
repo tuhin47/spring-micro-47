@@ -10,7 +10,7 @@
     <groupId>me.tuhin47</groupId>
     <artifactId>orderservice</artifactId>
     <name>order-service</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Order Service for Microservice</description>
 
     <dependencies>
         <dependency>
@@ -21,10 +21,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -73,11 +69,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>

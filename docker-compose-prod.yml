@@ -32,8 +32,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    depends_on:
-      - serviceregistry
     networks:
       - backend
 
@@ -289,17 +287,21 @@ services:
   elasticsearch:
     extends:
       service: elasticsearch
-      file: docker-compose.common.yml
+      file: docker-compose.elk.yml
 
   logstash:
+    depends_on:
+      - elasticsearch
     extends:
       service: logstash
-      file: docker-compose.common.yml
+      file: docker-compose.elk.yml
 
   kibana:
+    depends_on:
+      - elasticsearch
     extends:
       service: kibana
-      file: docker-compose.common.yml
+      file: docker-compose.elk.yml
 
   axonserver:
     extends:
@@ -345,7 +347,9 @@ volumes:
   #      o: bind
   axonserver-config:
     driver: local
-#    driver_opts:
-#      type: none
-#      device: ${PWD}/axon/config
-#      o: bind
+  #    driver_opts:
+  #      type: none
+  #      device: ${PWD}/axon/config
+  #      o: bind
+  esdata:
+    driver: local

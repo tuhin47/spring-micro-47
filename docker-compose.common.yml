@@ -36,7 +36,6 @@ services:
       retries: 3
       start_period: 10s
 
-
   redis:
     image: redis
     container_name: redis
@@ -97,50 +96,6 @@ services:
     networks:
       - backend
 
-  elasticsearch:
-    build: elk/elasticsearch/
-    #    container_name: elasticsearch
-    profiles:
-      - elk
-      - all
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-    networks:
-      - backend
-
-  logstash:
-    build: elk/logstash/
-    #    container_name: logstash
-    profiles:
-      - elk
-      - all
-    command: -f /etc/logstash/conf.d/
-    volumes:
-      - ./elk/logstash/config:/etc/logstash/conf.d
-    ports:
-      - "9999:9999"
-    depends_on:
-      - elasticsearch
-    networks:
-      - backend
-
-  kibana:
-    build: elk/kibana/
-    #    container_name: kibana
-    profiles:
-      - elk
-      - all
-    volumes:
-      - ./elk/kibana/config/:/opt/kibana/config/
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - backend
   axonserver:
     image: axoniq/axonserver:4.6.11
     hostname: axonserver
@@ -154,6 +109,7 @@ services:
       - '8224:8224'
     networks:
       - backend
+
   localstack:
     container_name: localstack
     profiles:

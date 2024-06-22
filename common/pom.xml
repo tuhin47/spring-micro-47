@@ -182,6 +182,12 @@
             <version>2.33.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: elasticsearch
+    profiles:
+      - elk
+      - all
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - backend
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.1
+    container_name: logstash
+    profiles:
+      - elk
+      - all
+    volumes:
+      - ./elk/logstash/config:/usr/share/logstash/pipeline
+    ports:
+      - "9999:9999"
+      - "9600:9600"
+    networks:
+      - backend
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.1
+    container_name: kibana
+    profiles:
+      - elk
+      - all
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - backend

@@ -14,7 +14,7 @@
                         <option value="mailcatcher"/>
                     </list>
                 </option>
-                <option name="sourceFilePath" value="docker-compose-prod.yml"/>
+                <option name="sourceFilePath" value="docker-compose-dev.yml"/>
             </settings>
         </deployment>
         <method v="2"/>

@@ -1,0 +1,2 @@
+logging:
+  config: ${CONFIG_SERVER_URL:http://localhost:9296}/${spring.application.name}/default/master/logback-spring.xml

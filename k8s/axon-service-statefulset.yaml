@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: axonserver
-          image: axoniq/axonserver@sha256:1ee3484f094d73bcaea860dd76ea9f97b5834c69cd365e87bf711be9df1dc741
+          image: axoniq/axonserver:4.6.11
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
