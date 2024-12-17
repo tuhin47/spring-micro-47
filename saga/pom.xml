@@ -17,7 +17,7 @@
     <parent>
         <groupId>me.tuhin47.services</groupId>
         <artifactId>all-services</artifactId>
-        <version>0.5.0</version>
+        <version>0.6.0</version>
     </parent>
     <groupId>me.tuhin47</groupId>
     <artifactId>saga</artifactId>
