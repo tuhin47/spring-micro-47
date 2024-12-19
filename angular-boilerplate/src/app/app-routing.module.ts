@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
   },
   {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule),
+  },
+  {
     path: 'common',
     loadChildren: () => import('./static/static.module').then(m => m.StaticModule),
   },
@@ -31,12 +35,13 @@ const routes: Routes = [
     path: 'access-denied',
     component: AccessDeniedComponent,
   },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

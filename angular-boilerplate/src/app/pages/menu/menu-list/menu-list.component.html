@@ -1,0 +1,48 @@
+<app-page-layout>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6 col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Menus</h2>
+            <p-table [value]="menus" [paginator]="true" [rows]="10">
+              <ng-template pTemplate="header">
+                <button (click)="addMenu()" class="btn btn-success btn-block">Add Menu</button>
+                <tr>
+                  <th *ngFor="let col of columns">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-menu>
+                <tr>
+                  <td>{{ menu.id }}</td>
+                  <td>{{ menu.label }}</td>
+                  <td><i class="{{ menu.icon }}"></i></td>
+                  <td>{{ menu.parent || 'None' }}</td>
+                  <td>
+                    <button (click)="editMenu(menu.id)" class="btn btn-warning btn-sm">Edit</button>
+                    <button (click)="deleteMenu(menu.id)" class="btn btn-danger btn-sm">Delete</button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center">No Data found - please try again.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </div>
+        </div>
+      </div>
+      <div *ngIf="editMenuId" class="col-6 col-sm-6">
+        <app-menu-form [id]="editMenuId"></app-menu-form>
+      </div>
+    </div>
+  </div>
+  <p-dialog [(visible)]="isAdd" [modal]="true" [closable]="true"
+            [style]="{width: '1000px',height: '600px'}">
+    <app-menu-form></app-menu-form>
+  </p-dialog>
+</app-page-layout>

@@ -1,4 +1,14 @@
 {
+  "/auth/menu/options": {
+    "_config": true,
+    "description": "The given menu options",
+    "fetch": "./data/menu-options.json"
+  },
+  "/auth/menu/:id": {
+    "_config": true,
+    "description": "The given menu options",
+    "fetch": "./data/menu-1.json"
+  },
   "/auth/menu": {
     "_config": true,
     "description": "The given fetch path will be relative to the root path given in config",

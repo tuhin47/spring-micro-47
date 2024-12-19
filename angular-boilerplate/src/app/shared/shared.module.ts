@@ -15,6 +15,8 @@ import { NgbModule }                        from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule }                  from '@ngx-translate/core';
 import { AngularSvgIconModule }             from 'angular-svg-icon';
 import { ButtonModule }                     from 'primeng/button';
+import { DropdownModule }                   from 'primeng/dropdown';
+import { InputTextModule }                  from 'primeng/inputtext';
 import { RippleModule }                     from 'primeng/ripple';
 import { SidebarModule }                    from 'primeng/sidebar';
 import { TableModule }                      from 'primeng/table';
@@ -35,6 +37,8 @@ import { TreeModule }                       from 'primeng/tree';
       SidebarModule,
       TranslateModule,
       TreeModule,
+      DropdownModule,
+      InputTextModule
     ],
   declarations:
     [
@@ -68,6 +72,8 @@ import { TreeModule }                       from 'primeng/tree';
       ToastComponent,
       TooltipModule,
       TranslateModule,
+      DropdownModule,
+      InputTextModule
     ],
   providers:
     []

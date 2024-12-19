@@ -1,12 +1,14 @@
 <!-- NOTE Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="authenticated" >
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="authenticated">
   <div class="container-fluid">
     <p-button type="button" class="mx-1" (click)="toggleSideBar()" icon="pi pi-arrow-right"></p-button>
     <a class="navbar-brand" [routerLink]="['/dashboard']">
-<!--      <img src="./assets/img/project/logo.svg" [alt]="appName + ' Logo'" class="img-fluid me-2"/>-->
+      <!--      <img src="./assets/img/project/logo.svg" [alt]="appName + ' Logo'" class="img-fluid me-2"/>-->
       {{ appName }}
     </a>
-    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -20,11 +22,16 @@
           <a class="nav-link" [routerLink]="['/chat']" [routerLinkActive]="['active']">{{ 'CHAT' | translate }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/product']" [routerLinkActive]="['active']">{{ 'PRODUCT' | translate }}</a>
+          <a class="nav-link" [routerLink]="['/product']"
+             [routerLinkActive]="['active']">{{ 'PRODUCT' | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/menu']" [routerLinkActive]="['active']">{{ 'MENU' | translate }}</a>
         </li>
 
         <li class="nav-item dropdown" ngbDropdown>
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'USER' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="navbarDropdown">

@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "label": "Documents",
+    "data": "Documents Folder",
+    "icon": "pi pi-fw pi-inbox",
+    "parent": 5
+  },
+  {
+    "id": 2,
+    "label": "Home",
+    "data": "Home Folder",
+    "icon": "pi pi-fw pi-home",
+    "parent": 1
+  },
+  {
+    "id": 3,
+    "label": "Invoices.txt",
+    "icon": "pi pi-fw pi-file",
+    "data": "Invoices for this month",
+    "parent": 2
+  },
+  {
+    "id": 4,
+    "label": "Work",
+    "data": "Work Folder",
+    "icon": "pi pi-fw pi-cog",
+    "parent": 3
+  },
+  {
+    "id": 5,
+    "label": "Expenses.doc",
+    "icon": "pi pi-fw pi-file",
+    "data": "Expenses Document",
+    "parent": 4
+  },
+  {
+    "id": 6,
+    "label": "Resume.doc",
+    "icon": "pi pi-fw pi-file",
+    "data": "Resume Document"
+  }
+]
