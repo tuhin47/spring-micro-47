@@ -26,7 +26,7 @@ public interface UserService extends UserDetailsService {
 
     UserRedis findUserByEmail(String email);
 
-    User findUserById(String id);
+    UserInfo findUserInfoById(String id);
 
     LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
 

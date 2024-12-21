@@ -1,0 +1,14 @@
+<div
+  [class]="{'no-click': !_user }"
+  *ngFor="let role of (roles$ | async) || []" class="form-check">
+  <p-checkbox
+    [inputId]="'role-' + role.id"
+    [(ngModel)]="selectedRoles"
+    [value]="role"
+    [binary]="false"
+  >
+  </p-checkbox>
+  <label class="form-check-label" [for]="'role-' + role.id">
+    {{ role.name }}
+  </label>
+</div>

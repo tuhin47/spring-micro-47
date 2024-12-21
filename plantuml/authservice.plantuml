@@ -8,6 +8,7 @@ class Menu {
   - children: Set<Menu>
   - id: Long
   - label: String
+  - privileges: Set<Privilege>
 }
 
 class Role {
@@ -47,5 +48,6 @@ User "1" *-[#595959,plain]-> "roles\n*" Role
 Role "1" *-[#595959,plain]-> "privileges\n*" Privilege
 Privilege "1" *-[#595959,plain]-> "roles\n*" Role
 User "1" *-[#595959,plain]-> "privileges\n*" Privilege
+Menu "1" *-[#595959,plain]-> "privileges\n*" Privilege
 
 @enduml

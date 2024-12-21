@@ -1,8 +1,8 @@
 package me.tuhin47.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import me.tuhin47.exception.CustomException;
 import me.tuhin47.config.FeignConfig;
+import me.tuhin47.config.exception.apierror.CustomException;
 import me.tuhin47.payload.request.PaymentRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import org.springframework.cloud.openfeign.FeignClient;

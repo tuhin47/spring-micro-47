@@ -1,0 +1,18 @@
+<div class="container" *ngIf="role">
+  <h2 class="text-center">{{ role.id ? "Edit Role" : "Add Role" }}</h2>
+  <i class="pi pi"></i>
+  <form #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+    <div class="mb-3">
+      <label for="roleName" class="form-label">Role Name</label>
+      <input type="text" class="form-control" id="roleName" placeholder="Enter role name" required
+             [(ngModel)]="role.name" name="roleName">
+    </div>
+    <div class="mb-3">
+      <label for="roleDescription" class="form-label">Role Description</label>
+      <textarea class="form-control" id="roleDescription" rows="3" placeholder="Enter role description" required
+                [(ngModel)]="role.name" name="roleDescription"></textarea>
+    </div>
+    <button [disabled]="roleForm.invalid || roleForm.untouched" type="submit" class="btn btn-primary float-end">Save
+    </button>
+  </form>
+</div>

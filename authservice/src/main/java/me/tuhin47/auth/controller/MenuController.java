@@ -1,15 +1,9 @@
 package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import me.tuhin47.auth.payload.response.MenuData;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Set;
+import me.tuhin47.core.BaseController;
 
 @Api(value = "Menu API", tags = "MENU", description = "Operations related to get menus")
-public interface MenuController {
+public interface MenuController extends BaseController {
 
-    @ApiOperation(value = "Get Document")
-    ResponseEntity<Set<MenuData>> getMenuData();
 }

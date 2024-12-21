@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import reactor.core.publisher.Mono;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.config.security", "me.tuhin47.apigateway"})
 @EnableEurekaClient
 @Import({AppProperties.class, TokenProvider.class})
 public class ApigatewayApplication {

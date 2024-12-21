@@ -1,7 +1,7 @@
 package me.tuhin47.productservice.service;
 
-import me.tuhin47.exception.CustomException;
-import me.tuhin47.exception.EntityNotFoundException;
+import me.tuhin47.config.exception.apierror.CustomException;
+import me.tuhin47.config.exception.apierror.EntityNotFoundException;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.productservice.domain.entity.Product;
 import me.tuhin47.productservice.domain.enums.ProductType;

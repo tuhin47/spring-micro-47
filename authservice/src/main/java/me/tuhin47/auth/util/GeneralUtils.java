@@ -1,16 +1,18 @@
 package me.tuhin47.auth.util;
 
+import me.tuhin47.auth.model.Privilege;
 import me.tuhin47.auth.model.Role;
+import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
 import me.tuhin47.config.redis.UserRedis;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Chinna
@@ -35,17 +37,24 @@ public class GeneralUtils {
     }
 
     public static UserInfo buildUserInfo(UserRedis user) {
-        Set<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-        return buildUserInfo(user, roles);
-    }
-
-    public static UserInfo buildUserInfo(UserRedis user, Set<String> roles) {
         return UserInfo.builder()
                        .id(user.getUserId())
                        .displayName(user.getDisplayName())
                        .email(user.getEmail())
-                       .roles(roles)
+                       .authorityNames(user.getAuthorityNames())
                        .avatar("https://bootdey.com/img/Content/avatar/avatar1.png")
                        .build();
+    }
+
+    public static Set<String> getUserAuthorities(User user) {
+        return Stream.concat(
+            user.getRoles().stream()
+                .flatMap(role -> Stream.concat(
+                    role.getPrivileges().stream().map(Privilege::getName),
+                    Stream.of(role.getName())
+                )),
+
+            user.getPrivileges().stream().map(Privilege::getName)
+        ).collect(Collectors.toSet());
     }
 }

@@ -26,32 +26,32 @@
       "ES2021.String"
     ],
     "paths": {
+      "@actions/*": [
+        "src/app/shared/actions/*"
+      ],
       "@blocks/*": [
         "src/app/shared/components/blocks/*"
-      ],
-      "@forms/*": [
-        "src/app/shared/components/forms/*"
-      ],
-      "@layouts/*": [
-        "src/app/shared/components/layouts/*"
-      ],
-      "@modals/*": [
-        "src/app/shared/components/modals/*"
-      ],
-      "@enums/*": [
-        "src/app/shared/enums/*"
       ],
       "@directives/*": [
         "src/app/shared/directives/*"
       ],
-      "@pipes/*": [
-        "src/app/shared/pipes/*"
+      "@effects/*": [
+        "src/app/shared/effects/*"
       ],
-      "@validators/*": [
-        "src/app/shared/validators/*"
+      "@enums/*": [
+        "src/app/shared/enums/*"
+      ],
+      "@env/*": [
+        "src/environments/*"
+      ],
+      "@event/*": [
+        "src/app/shared/event/*"
       ],
       "@factories/*": [
         "src/app/shared/factories/*"
+      ],
+      "@forms/*": [
+        "src/app/shared/components/forms/*"
       ],
       "@guards/*": [
         "src/app/shared/guards/*"
@@ -59,17 +59,29 @@
       "@helpers/*": [
         "src/app/shared/helpers/*"
       ],
+      "@interfaces/*": [
+        "src/app/shared/interfaces/*"
+      ],
+      "@layouts/*": [
+        "src/app/shared/components/layouts/*"
+      ],
+      "@modals/*": [
+        "src/app/shared/components/modals/*"
+      ],
       "@models/*": [
         "src/app/shared/models/*"
       ],
-      "@interfaces/*": [
-        "src/app/shared/interfaces/*"
+      "@pipes/*": [
+        "src/app/shared/pipes/*"
+      ],
+      "@reducers/*": [
+        "src/app/shared/reducers/*"
       ],
       "@services/*": [
         "src/app/shared/services/*"
       ],
-      "@env/*": [
-        "src/environments/*"
+      "@validators/*": [
+        "src/app/shared/validators/*"
       ]
     },
     "useDefineForClassFields": false

@@ -1,7 +1,7 @@
 package me.tuhin47.paymentservice.service;
 
+import me.tuhin47.config.exception.apierror.EntityNotFoundException;
 import me.tuhin47.core.enums.PaymentMode;
-import me.tuhin47.exception.EntityNotFoundException;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import me.tuhin47.paymentservice.payload.PaymentRequest;

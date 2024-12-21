@@ -59,7 +59,7 @@ export class StorageHelper {
       return false;
     }
     const user: UserInfo = response.user;
-    return user.roles.length != 0 && user.roles.some((role: string) => roles.includes(role));
+    return user.authorityNames.length != 0 && user.authorityNames.some((role: string) => roles.includes(role));
   }
 
   public static getToken(): string {

@@ -5,7 +5,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://127.0.0.1:8761/eureka}
 
 spring:
   flyway:
@@ -31,19 +31,19 @@ spring:
     multipart:
       location: /data/upload_tmp
   redis:
-    url: ${REDIS_URL:redis://localhost:6379}
+    url: ${REDIS_URL:redis://127.0.0.1:6379}
   zipkin:
-    baseUrl: ${ZIPKIN_URL:http://localhost:9411/}
+    baseUrl: ${ZIPKIN_URL:http://127.0.0.1:9411/}
   output:
     ansi:
       enabled: ALWAYS
 axon:
   axonserver:
-    servers: ${AXON_SERVER_URL:localhost:8124}
+    servers: ${AXON_SERVER_URL:127.0.0.1:8124}
 
 app:
   version: @project.version@
-  logstash: ${LOGSTASH_HOST:localhost}
+  logstash: ${LOGSTASH_HOST:127.0.0.1}
   config:
     qrIssuer: tuhin47
     noAuth: ${NOAUTH_ENABLE:false}
@@ -55,7 +55,7 @@ app:
     # we'll be generating an auth token for the user and sending the token to the
     # redirectUri mentioned by the frontend client in the /oauth2/authorization request.
     # We're not using cookies because they won't work well in mobile clients.
-    authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
+    authorizedRedirectUris: http://127.0.0.1:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 
 resilience4j:
   circuitbreaker:

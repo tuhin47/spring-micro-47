@@ -1,18 +1,18 @@
 [
   {
-    "id": "0",
+    "id": 1,
     "label": "Documents",
     "data": "Documents Folder",
     "icon": "pi pi-fw pi-inbox",
     "children": [
       {
-        "id": "0-1",
+        "id": 2,
         "label": "Home",
         "data": "Home Folder",
         "icon": "pi pi-fw pi-home",
         "children": [
           {
-            "id": "0-1-0",
+            "id": 3,
             "label": "Invoices.txt",
             "icon": "pi pi-fw pi-file",
             "data": "Invoices for this month"
@@ -22,19 +22,19 @@
     ]
   },
   {
-    "id": "0-0",
+    "id": 4,
     "label": "Work",
     "data": "Work Folder",
     "icon": "pi pi-fw pi-cog",
     "children": [
       {
-        "id": "0-0-0",
+        "id": 5,
         "label": "Expenses.doc",
         "icon": "pi pi-fw pi-file",
         "data": "Expenses Document"
       },
       {
-        "id": "0-0-1",
+        "id": 6,
         "label": "Resume.doc",
         "icon": "pi pi-fw pi-file",
         "data": "Resume Document"

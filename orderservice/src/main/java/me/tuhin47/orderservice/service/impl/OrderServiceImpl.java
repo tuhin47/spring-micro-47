@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.client.PaymentService;
 import me.tuhin47.client.ProductService;
 import me.tuhin47.client.UserService;
-import me.tuhin47.exception.common.OrderServiceExceptions;
+import me.tuhin47.config.exception.common.OrderServiceExceptions;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.mapper.OrderMapper;
 import me.tuhin47.orderservice.payload.request.OrderRequest;

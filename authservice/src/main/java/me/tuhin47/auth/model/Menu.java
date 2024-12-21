@@ -8,6 +8,7 @@ import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,9 +33,16 @@ public class Menu implements Serializable {
     @Column(name = "icon", length = 20)
     private String icon;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Menu> children;
+
+    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "menu_privileges",
+        joinColumns = @JoinColumn(name = "menu_id"),
+        inverseJoinColumns = @JoinColumn(name = "privilege_id"))
+    private Set<Privilege> privileges = new LinkedHashSet<>();
 
     @Override
     public final boolean equals(Object o) {

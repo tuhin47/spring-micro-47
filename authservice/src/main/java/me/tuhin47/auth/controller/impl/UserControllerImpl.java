@@ -2,7 +2,6 @@ package me.tuhin47.auth.controller.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.controller.UserController;
-import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.auth.service.UserService;
@@ -24,14 +23,14 @@ public class UserControllerImpl implements UserController {
     private final MyRequestBean myRequestBean;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers(@RequestParam("ids") String[] ids) {
+    public ResponseEntity<List<UserResponse>> getAllUsers(@RequestParam(value = "ids", required = false) String[] ids) {
         myRequestBean.getData().put("ids", Arrays.toString(ids));
         return new ResponseEntity<>(userService.getAllUsers(ids), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
+    public ResponseEntity<UserInfo> getUserById(@PathVariable String id) {
+        return new ResponseEntity<>(userService.findUserInfoById(id), HttpStatus.OK);
     }
 
 

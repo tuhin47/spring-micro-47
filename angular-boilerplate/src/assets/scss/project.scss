@@ -29,6 +29,7 @@
 .toast-header {
   background-color: transparent;
 }
+
 .toast-body {
   background-color: rgba(255, 255, 255, 0.85);
 }
@@ -47,7 +48,11 @@
 
 // NOTE Sortable table --------------------------------------------------------------------------
 
-.p-tree-sidebar > div{
+.p-tree-sidebar > div {
   border: unset;
   padding: 0;
+}
+
+.no-click {
+  pointer-events: none;
 }

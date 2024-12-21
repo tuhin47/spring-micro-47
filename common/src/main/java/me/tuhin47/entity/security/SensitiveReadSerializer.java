@@ -9,22 +9,21 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.redis.RedisUserService;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
 public class SensitiveReadSerializer extends StdSerializer<Object> {
-    private final List<String> allowedRoles;
+    private final Set<String> allowedRoles;
 
     public SensitiveReadSerializer(BeanPropertyWriter writer, String[] rolesAllowed) {
         super(writer.getType());
-        this.allowedRoles = Arrays.asList(rolesAllowed);
+        this.allowedRoles = Set.of(rolesAllowed);
     }
 
     @Override
     public void serialize(Object value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        Set<String> userRoles = RedisUserService.getCurrentUser().getRoleNames();
+        var userRoles = Objects.requireNonNull(RedisUserService.getCurrentUser()).getAuthorityNames();
 
         if (!allowedRoles.isEmpty() && allowedRoles.stream().noneMatch(userRoles::contains)) {
             gen.writeString("");

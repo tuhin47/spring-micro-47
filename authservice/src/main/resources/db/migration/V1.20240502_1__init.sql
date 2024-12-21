@@ -1,16 +1,17 @@
 CREATE TABLE menu
 (
-    id     BIGINT       NOT NULL,
+    id     BIGINT NOT NULL,
     label  VARCHAR(255) NULL,
-    parent BIGINT       NULL,
-    icon   VARCHAR(20)  NULL,
+    parent BIGINT NULL,
+    icon   VARCHAR(20) NULL,
     CONSTRAINT pk_menu PRIMARY KEY (id)
 );
 
 CREATE TABLE role
 (
-    role_id BIGINT AUTO_INCREMENT NOT NULL,
-    name    VARCHAR(255)          NULL,
+    role_id     BIGINT AUTO_INCREMENT NOT NULL,
+    name        VARCHAR(20) NULL,
+    description varchar(50),
     CONSTRAINT pk_role PRIMARY KEY (role_id)
 );
 
@@ -21,13 +22,13 @@ CREATE TABLE user
     updated_at       datetime     NOT NULL,
     provider_user_id VARCHAR(255) NULL,
     email            VARCHAR(255) NOT NULL,
-    enabled          BIT          NULL,
+    enabled          BIT NULL,
     display_name     VARCHAR(255) NULL,
     password         BLOB         NOT NULL,
     provider         VARCHAR(255) NULL,
-    using_2fa        BIT(1)       NULL,
+    using_2fa        BIT(1) NULL,
     secret           VARCHAR(255) NULL,
-    deleted_at       datetime     NULL,
+    deleted_at       datetime NULL,
     is_deleted       bit          NOT NULL,
 
     CONSTRAINT pk_user PRIMARY KEY (id)

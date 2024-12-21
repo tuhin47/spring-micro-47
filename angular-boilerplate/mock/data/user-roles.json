@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "privileges": [
+      {
+        "privilegeId": 1,
+        "name": "VIEW_DASHBOARD",
+        "description": "Allows viewing the dashboard"
+      },
+      {
+        "privilegeId": 2,
+        "name": "EDIT_PROFILE",
+        "description": "Allows editing user profile"
+      },
+      {
+        "privilegeId": 3,
+        "name": "MANAGE_USERS",
+        "description": "Allows managing user accounts"
+      },
+      {
+        "privilegeId": 4,
+        "name": "VIEW_REPORTS",
+        "description": "Allows viewing reports"
+      },
+      {
+        "privilegeId": 5,
+        "name": "DELETE_CONTENT",
+        "description": "Allows deleting content"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "User",
+    "privileges": [
+      {
+        "privilegeId": 1,
+        "name": "VIEW_DASHBOARD",
+        "description": "Allows viewing the dashboard"
+      },
+      {
+        "privilegeId": 2,
+        "name": "EDIT_PROFILE",
+        "description": "Allows editing user profile"
+      }
+    ]
+  },
+  {
+    "roleId": 3,
+    "name": "Viewer",
+    "privileges": [
+      {
+        "privilegeId": 1,
+        "name": "VIEW_DASHBOARD",
+        "description": "Allows viewing the dashboard"
+      }
+    ]
+  }
+]

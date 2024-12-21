@@ -2,9 +2,9 @@ spring:
   application:
     name: CHAT-SERVICE
   config:
-    import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+    import: configserver:${CONFIG_SERVER_URL:http://127.0.0.1:9296}
   zipkin:
-    base-url: ${ZIPKIN_URL:http://localhost:9411/}
+    base-url: ${ZIPKIN_URL:http://127.0.0.1:9411/}
   data:
     mongodb:
       database: ${MONGO_DATABASE:chat_service}
@@ -12,6 +12,6 @@ spring:
       username: ${MONGO_USERNAME:root}
       password: ${MONGO_PASSWORD:rootpassword}
       authentication-database: ${MONGO_AUTHENTICATION_DATABASE:admin}
-      host: ${MONGO_HOST:localhost}
+      host: ${MONGO_HOST:127.0.0.1}
 server:
   port: 8084

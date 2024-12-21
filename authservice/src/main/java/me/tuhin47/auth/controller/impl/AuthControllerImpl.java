@@ -11,12 +11,15 @@ import me.tuhin47.auth.config.ConfigurationPropertiesRefreshConfigBean;
 import me.tuhin47.auth.controller.AuthController;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
+import me.tuhin47.auth.payload.common.MenuDto;
 import me.tuhin47.auth.payload.mapper.UserMapper;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.ApiResponse;
 import me.tuhin47.auth.payload.response.JwtAuthenticationResponse;
 import me.tuhin47.auth.payload.response.SignUpResponse;
+import me.tuhin47.auth.payload.response.UserInfo;
+import me.tuhin47.auth.service.MenuService;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.AppProperties;
@@ -34,7 +37,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
@@ -46,6 +50,7 @@ public class AuthControllerImpl implements AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final MenuService menuService;
     private final TokenProvider tokenProvider;
     private final AppProperties appProperties;
     private final QrDataFactory qrDataFactory;
@@ -109,14 +114,12 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllUserSummaries(@CurrentUser UserRedis userRedis) {
+    public ResponseEntity<Stream<UserInfo>> findAllUserSummaries(@CurrentUser UserRedis userRedis) {
         log.info("retrieving all users summaries");
 
         return ResponseEntity.ok(userService.findAll()
                                             .stream()
-                                            .filter(user -> !user.getEmail().equals(userRedis.getUsername()))
-                                            .map(userMapper::toUserRedis)
-                                            .map(user -> GeneralUtils.buildUserInfo(user, Collections.emptySet())));
+                                            .map(userMapper::toUserInfo));
     }
 
     @Override
@@ -142,5 +145,11 @@ public class AuthControllerImpl implements AuthController {
     @GetMapping("/mod")
     public ResponseEntity<?> getModeratorContent() {
         return ResponseEntity.ok("Moderator content goes here");
+    }
+
+    @GetMapping("/menu")
+    @Override
+    public ResponseEntity<Set<MenuDto>> getAuthMenus(@CurrentUser UserRedis userRedis) {
+        return new ResponseEntity<>(menuService.getMenusByUser(userRedis), HttpStatus.OK);
     }
 }

@@ -1,0 +1,14 @@
+<div
+  [class]="{'no-click': !_user }"
+  *ngFor="let privilege of (privileges$ | async) || []" class="form-check">
+  <p-checkbox
+    [inputId]="'privilege-' + privilege.id"
+    [(ngModel)]="selectedPrivileges"
+    [value]="privilege"
+    [binary]="false"
+  >
+  </p-checkbox>
+  <label class="form-check-label" [for]="'privilege-' + privilege.id">
+    {{ privilege.description }}
+  </label>
+</div>

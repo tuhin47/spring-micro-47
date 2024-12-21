@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.auth.service.ScheduleService;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    @Scheduled(fixedDelay = FIXED_DELAY_AUDIT_MS)
+    //@Scheduled(fixedDelay = FIXED_DELAY_AUDIT_MS)
     public void auditLastLoggedInUsers() {
 
         boolean lockAcquired = Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(AUDIT_TASK_LOCK, "lock", FIXED_DELAY_AUDIT_MS, TimeUnit.MILLISECONDS));

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Privilege }  from '@models/privilege.model';
+import { Role }       from '@models/role.model';
+import { UserInfo }   from '@models/user.model';
 import { ApiService } from '@services/api.service';
 import { Observable } from 'rxjs';
 
@@ -8,7 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {
+  }
 
   getPublicContent(): Observable<any> {
     return this.apiService.get('all');
@@ -27,14 +31,22 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<any> {
-      return this.apiService.get('auth/user/me');
-  }
-
-  getUsers() {
-    return this.apiService.get('auth/users/summaries');
+    return this.apiService.get('auth/user/me');
   }
 
   getFiles() {
     return this.apiService.get('auth/menu');
+  }
+
+  getUsers(): Observable<UserInfo[]> {
+    return this.apiService.get('auth/users');
+  }
+
+  getRoles(userId: string): Observable<Role[]> {
+    return this.apiService.get(`roles/users/${userId}`);
+  }
+
+  getPrivileges(userId: string): Observable<Privilege[]> {
+    return this.apiService.get(`privileges/users/${userId}`);
   }
 }

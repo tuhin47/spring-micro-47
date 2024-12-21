@@ -1,13 +1,11 @@
 {
-  "/auth/menu/options": {
+  "/menus": {
     "_config": true,
     "description": "The given menu options",
-    "fetch": "./data/menu-options.json"
-  },
-  "/auth/menu/:id": {
-    "_config": true,
-    "description": "The given menu options",
-    "fetch": "./data/menu-1.json"
+    "fetch": "./data/menu-options.json",
+    "middlewares": [
+      "_AdvancedSearch"
+    ]
   },
   "/auth/menu": {
     "_config": true,
@@ -31,10 +29,30 @@
       "_IterateRoutes"
     ]
   },
-  "/auth/users/summaries": {
+  "/auth/users": {
     "_config": true,
     "description": "The given fetch path will be relative to the root path given in config",
     "fetch": "./data/users.json"
+  },
+  "/roles/users/:userId": {
+    "_config": true,
+    "description": "Give you users roles",
+    "fetch": "./data/user-roles.json"
+  },
+  "/roles": {
+    "_config": true,
+    "description": "The given fetch path will be relative to the root path given in config",
+    "fetch": "./data/user-roles.json"
+  },
+  "/privileges/users/:userId": {
+    "_config": true,
+    "description": "The given fetch path will be relative to the root path given in config",
+    "fetch": "./data/user-privs.json"
+  },
+  "/privileges": {
+    "_config": true,
+    "description": "The given fetch path will be relative to the root path given in config",
+    "fetch": "./data/privs.json"
   },
   "/product/all": {
     "_config": true,

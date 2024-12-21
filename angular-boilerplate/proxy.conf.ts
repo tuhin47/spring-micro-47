@@ -1,24 +1,23 @@
-const {env: {API_TARGET: api_target}} = require('process');
+const {env: {API_TARGET: api_target, API_HOST: host}} = require('process');
 
-console.log('Proxy configuration: ' + api_target);
+console.log({api_target, host});
 const proxyConfig = [
   {
     context: ['/api/ws/**', '/api/chat/**'],
-    target: api_target || 'http://localhost:8084',
+    target: api_target || `http://${host ? host : 'localhost'}:8084`,
     pathRewrite: {'^/api': ''},
     secure: false,
     changeOrigin: true
   }, {
     context: ['/api/**'],
-    target: api_target || 'http://localhost:9090', //mock server
+    target: api_target || `http://${host ? host : 'localhost'}:9090`,
     pathRewrite: {'^/api': ''},
     secure: false,
     changeOrigin: true
   },
   {
     context: ['/oauth2/**'],
-    target: 'http://localhost:7777',
-    // pathRewrite: {'^/links': ''},
+    target: api_target || `http://${host ? host : 'localhost'}:7777`,
     secure: false,
     changeOrigin: true
   }

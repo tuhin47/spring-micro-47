@@ -1,0 +1,17 @@
+[
+  {
+    "privilegeId": 1,
+    "name": "VIEW_DASHBOARD",
+    "description": "Allows viewing the dashboard"
+  },
+  {
+    "privilegeId": 2,
+    "name": "EDIT_PROFILE",
+    "description": "Allows editing user profile"
+  },
+  {
+    "privilegeId": 5,
+    "name": "DELETE_CONTENT",
+    "description": "Allows deleting content"
+  }
+]

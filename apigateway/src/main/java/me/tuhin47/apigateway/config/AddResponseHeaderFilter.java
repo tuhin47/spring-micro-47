@@ -26,9 +26,11 @@ public class AddResponseHeaderFilter implements WebFilter {
         response.beforeCommit(() -> {
             Span span = exchange.getAttribute(Span.class.getName());
             if (span != null) {
-                log.info("Span :"+ span.context().spanId());
-                exchange.getResponse().getHeaders().add(TRACE_ID, span.context().traceId());
-                exchange.getResponse().getHeaders().add(SPAN_ID, span.context().spanId());
+                String traceId = span.context().traceId();
+                String spanId = span.context().spanId();
+                log.info("Span : {} Trace : {}", spanId, traceId);
+                exchange.getResponse().getHeaders().add(TRACE_ID, traceId);
+                exchange.getResponse().getHeaders().add(SPAN_ID, spanId);
             } else {
                 log.info("Span not found");
             }

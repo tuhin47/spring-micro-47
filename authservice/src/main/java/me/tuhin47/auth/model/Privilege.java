@@ -23,6 +23,7 @@ public class Privilege implements Serializable {
     @Column(name = "PRIVILEGE_ID")
     private Long privilegeId;
 
+    @Column(unique = true)
     private String name;
 
     private String description;
@@ -33,4 +34,7 @@ public class Privilege implements Serializable {
     @ManyToMany(mappedBy = "privileges")
     private Set<User> users;
 
+    public Privilege(Long privilegeId) {
+        this.privilegeId = privilegeId;
+    }
 }

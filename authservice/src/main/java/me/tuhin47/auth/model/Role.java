@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -17,13 +18,18 @@ import java.util.Set;
 @NoArgsConstructor
 public class Role implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLE_ID")
     private Long roleId;
 
+    @Column(nullable = false, unique = true, length = 20)
     private String name;
+
+    @Column(name = "description", length = 50)
+    private String description;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
@@ -38,6 +44,10 @@ public class Role implements Serializable {
 
     public Role(String name) {
         this.name = name;
+    }
+
+    public Role(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override

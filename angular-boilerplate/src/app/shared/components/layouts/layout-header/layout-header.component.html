@@ -28,13 +28,16 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/menu']" [routerLinkActive]="['active']">{{ 'MENU' | translate }}</a>
         </li>
-
         <li class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown" role="button"
              data-bs-toggle="dropdown" aria-expanded="false">
-            {{ 'USER' | translate }}
+            {{ 'ADMIN' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item cursor-pointer" [routerLink]="['/admin/user']"
+                   [routerLinkActive]="['active']">{{ 'USER' | translate }}</a></li>
+            <li><a class="dropdown-item cursor-pointer" [routerLink]="['/admin/role']"
+                   [routerLinkActive]="['active']">{{ 'ROLE' | translate }}</a></li>
             <li><a class="dropdown-item cursor-pointer" (click)="onClickLogout()">{{ 'LOGOUT' | translate }}</a></li>
           </ul>
         </li>

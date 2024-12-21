@@ -7,3 +7,11 @@ export class EventData {
     this.value = value;
   }
 }
+
+export const EVENT_TYPES = {
+  LOGIN: 'login',
+  LOGOUT: 'logout',
+  SIDEBAR: 'sidebar',
+  EDIT_ROLE: 'edit_role',
+  ADD_ROLE: 'add_role',
+}

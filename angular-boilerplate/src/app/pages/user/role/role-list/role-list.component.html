@@ -1,0 +1,23 @@
+<div class="container">
+
+  <h2 class="text-center">List of Roles</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Role Name</th>
+      <th>Number of Users</th>
+      <th>Actions</th>
+      <i class="pi pi-plus" (click)="updateRole(undefined)"></i>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let role of roles$ | async">
+      <td>{{ role.name }}</td>
+      <td>{{ role.privileges.length }}</td>
+      <td>
+        <button (click)="updateRole(role)" class="btn btn-warning btn-sm">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

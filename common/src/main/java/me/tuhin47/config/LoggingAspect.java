@@ -1,7 +1,7 @@
 package me.tuhin47.config;
 
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.exception.CustomException;
+import me.tuhin47.config.exception.apierror.CustomException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;

@@ -49,7 +49,7 @@ public class Order extends UserDateAudit<String> implements IOwner {
         if (currentUser == null) {
             return false;
         }
-        return Objects.equals(currentUser.getUserId(), getCreatedBy()) || currentUser.getRoleNames().contains(RoleUtils.ROLE_ADMIN);
+        return Objects.equals(currentUser.getUserId(), getCreatedBy()) || currentUser.getAuthorityNames().contains(RoleUtils.ROLE_ADMIN);
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,12 +26,16 @@ public class UserRedis implements Serializable, UserDetails {
     String displayName;
     String password;
     String provider;
-    Set<String> roleNames;
+    Set<String> authorityNames;
     String secret;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleNames.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return getSimpleGrantedAuthorities(authorityNames);
+    }
+
+    public static List<SimpleGrantedAuthority> getSimpleGrantedAuthorities(Set<String> authorities) {
+        return authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override

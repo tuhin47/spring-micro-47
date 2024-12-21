@@ -1,0 +1,29 @@
+<app-layout-header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Users</h2>
+        <ul class="list-group">
+          <li *ngFor="let user of users$ | async"
+              class="list-group-item"
+              (click)="onSelectUser(user.id)"
+              [ngClass]="{'active': selectedUserId === user.id}">
+            {{ user.displayName }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h3>Roles</h3>
+        <ul class="list-group">
+          <li *ngFor="let role of roles$ | async" class="list-group-item">
+            {{ role.name }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h3>Privileges</h3>
+        <app-privilege-checklist></app-privilege-checklist>
+      </div>
+    </div>
+  </div>
+</app-layout-header>

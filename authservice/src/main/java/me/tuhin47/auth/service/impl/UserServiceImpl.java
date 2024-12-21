@@ -21,9 +21,9 @@ import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
+import me.tuhin47.config.exception.common.AuthServiceExceptions;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
-import me.tuhin47.exception.common.UserServiceExceptions;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
 import me.tuhin47.utils.RoleUtils;
@@ -31,6 +31,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -143,7 +144,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private LocalUser createLocalUser(User user) {
-        return new LocalUser(user.getEmail(), new String(user.getPassword()), user.isEnabled(), true, true, true, GeneralUtils.buildSimpleGrantedAuthorities(user.getRoles()), user.getId());
+        return new LocalUser(user, getAuthorities(user));
+    }
+
+    private List<SimpleGrantedAuthority> getAuthorities(User user) {
+        Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+        return UserRedis.getSimpleGrantedAuthorities(roles);
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
@@ -157,8 +163,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(String id) {
-        return userRepository.findById(id).orElseThrow(() -> UserServiceExceptions.USER_NOT_FOUND.apply(id));
+    public UserInfo findUserInfoById(String id) {
+        return userMapper.toUserInfo(findUserById(id));
+    }
+
+    private User findUserById(String id) {
+        return userRepository.findById(id)
+                             .orElseThrow(AuthServiceExceptions.USER_NOT_FOUND.apply(id));
     }
 
     @Override
@@ -199,7 +210,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw UserServiceExceptions.USER_NOT_FOUND.apply(id);
+            throw AuthServiceExceptions.USER_NOT_FOUND.apply(id).get();
         }
     }
 }

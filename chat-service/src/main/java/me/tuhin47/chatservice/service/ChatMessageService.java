@@ -1,7 +1,6 @@
 package me.tuhin47.chatservice.service;
 
 import lombok.RequiredArgsConstructor;
-import me.tuhin47.chatservice.exception.ResourceNotFoundException;
 import me.tuhin47.chatservice.model.ChatMessage;
 import me.tuhin47.chatservice.model.MessageStatus;
 import me.tuhin47.chatservice.repository.ChatMessageRepository;
@@ -51,7 +50,7 @@ public class ChatMessageService {
                 return repository.save(chatMessage);
             })
             .orElseThrow(() ->
-                new ResourceNotFoundException("can't find message (" + id + ")"));
+                new RuntimeException("can't find message (" + id + ")"));
     }
 
     public void updateStatuses(String senderId, String recipientId, MessageStatus status) {

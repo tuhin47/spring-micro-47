@@ -1,0 +1,76 @@
+GET http://{{host}}:7777/auth/users/summaries
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+###
+GET http://localhost:7777/auth/user/me
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+###
+POST http://localhost:7777/roles
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "ROLE_UNIQUE"
+}
+
+###
+PUT http://localhost:7777/roles/6
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "ROLE_UNIQUE",
+  "privileges": [1,15]
+}
+
+<> 2024-12-26T015137.404.json
+<> 2024-12-26T015117.404.json
+<> 2024-12-26T013818.500.json
+<> 2024-12-26T013750.500.json
+<> 2024-12-26T013651.500.json
+<> 2024-12-26T013636.500.json
+<> 2024-12-26T013308.500.json
+<> 2024-12-26T013014.500.json
+<> 2024-12-26T012805.500.json
+<> 2024-12-26T012440.500.json
+<> 2024-12-26T012058.500.json
+<> 2024-12-26T011927.500.json
+<> 2024-12-26T011623.500.json
+<> 2024-12-26T011330.500.json
+<> 2024-12-26T011318.500.json
+<> 2024-12-26T010405.500.json
+<> 2024-12-26T010344.200.json
+<> 2024-12-26T010326.200.json
+<> 2024-12-26T010322.200.json
+<> 2024-12-26T010315.200.json
+<> 2024-12-26T010054.200.json
+<> 2024-12-26T010043.200.json
+<> 2024-12-26T010035.400.json
+<> 2024-12-26T010002.200.json
+
+
+
+
+###
+POST http://localhost:7777/privileges
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name" : "GD_PRIV",
+  "description": "God Level User"
+}
+
+
+
+
+###
+

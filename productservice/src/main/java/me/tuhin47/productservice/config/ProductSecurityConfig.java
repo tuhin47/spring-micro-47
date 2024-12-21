@@ -1,8 +1,8 @@
 package me.tuhin47.productservice.config;
 
 import lombok.RequiredArgsConstructor;
-import me.tuhin47.config.security.JWTAccessDeniedHandler;
-import me.tuhin47.config.security.RestAuthenticationEntryPoint;
+import me.tuhin47.config.exception.JWTAccessDeniedHandler;
+import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,26 +29,26 @@ public class ProductSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(whiteList).permitAll()
-                .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")
-                .antMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)
-                .and()
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers(whiteList).permitAll()
+            .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
+            .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
+            .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
+            .and()
+            .authorizeRequests().anyRequest().authenticated()
+            .and()
+            .formLogin().disable()
+            .httpBasic().disable()
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler)
+            .and()
+            .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.response.UserInfo;
+import me.tuhin47.core.BaseController;
 import me.tuhin47.payload.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Api(value = "USER API", tags = "USER-API", description = "Operations related to user information")
-public interface UserController {
+public interface UserController extends BaseController {
 
     @ApiOperation(value = "Get all users", response = List.class)
     @ApiResponses(value = {
@@ -34,7 +35,7 @@ public interface UserController {
         @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
         @ApiResponse(code = 404, message = "The resource you requested could not be found")
     })
-    ResponseEntity<User> getUserById(@PathVariable String id);
+    ResponseEntity<UserInfo> getUserById(@PathVariable String id);
 
     @ApiOperation(value = "Update an existing user", response = User.class)
     @ApiResponses(value = {

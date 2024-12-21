@@ -1,21 +1,27 @@
 package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.*;
+import me.tuhin47.auth.payload.common.MenuDto;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
+import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.config.annotations.CurrentUser;
 import me.tuhin47.config.redis.UserRedis;
+import me.tuhin47.core.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @Api(value = "Authentication API", tags = "AUTH-API", description = "Operations related to user authentication and authorization")
-public interface AuthController {
+public interface AuthController extends BaseController {
 
     @ApiOperation(value = "Authenticate user", notes = "Authenticates a user with email and password")
     @ApiResponses(value = {
@@ -49,7 +55,7 @@ public interface AuthController {
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "Get all user summaries", notes = "Retrieves summaries of all registered users")
     @ApiResponse(code = 200, message = "User summaries retrieved successfully")
-    ResponseEntity<?> findAllUserSummaries(@ApiIgnore @CurrentUser UserRedis userRedis);
+    ResponseEntity<Stream<UserInfo>> findAllUserSummaries(@ApiIgnore @CurrentUser UserRedis userRedis);
 
     @ApiOperation(value = "Get public content", notes = "Retrieves public content")
     @ApiResponse(code = 200, message = "Public content retrieved successfully")
@@ -67,4 +73,8 @@ public interface AuthController {
 
     @PreAuthorize("hasRole('MODERATOR')")
     ResponseEntity<?> getModeratorContent();
+
+    @GetMapping("/menu")
+    @PreAuthorize("hasRole('USER')")
+    ResponseEntity<Set<MenuDto>> getAuthMenus(UserRedis userRedis);
 }

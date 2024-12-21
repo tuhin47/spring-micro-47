@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.exception.CustomException;
+import me.tuhin47.config.exception.apierror.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;

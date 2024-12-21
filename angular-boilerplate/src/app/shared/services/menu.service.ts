@@ -10,11 +10,11 @@ export class MenuService {
   }
 
   saveMenu(menuData: any): Observable<any> {
-    return this.http.post<any>(`api/auth/menu`, menuData);
+    return this.http.post<any>(`api/menus`, menuData);
   }
 
   getMenus(): Observable<any[]> {
-    return this.http.get<any[]>('api/auth/menu/options');
+    return this.http.get<any[]>('api/menus');
   }
 
   deleteMenu(id: number): Observable<any> {
@@ -22,6 +22,6 @@ export class MenuService {
   }
 
   getMenuById(id: number) {
-    return this.http.get<any[]>(`api/auth/menu/${id}`);
+    return this.http.get<any[]>(`api/menus/${id}`);
   }
 }

@@ -2,8 +2,8 @@ package me.tuhin47.productservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.exception.EntityNotFoundException;
-import me.tuhin47.exception.common.ProductServiceExceptions;
+import me.tuhin47.config.exception.apierror.EntityNotFoundException;
+import me.tuhin47.config.exception.common.ProductServiceExceptions;
 import me.tuhin47.payload.response.ProductResponse;
 import me.tuhin47.payload.response.ProductsPrice;
 import me.tuhin47.productservice.domain.entity.Product;

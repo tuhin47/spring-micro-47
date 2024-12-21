@@ -1,17 +1,22 @@
 // Angular modules
-import { DatePipe }                            from '@angular/common';
-import { HttpClient, HttpClientModule }        from '@angular/common/http';
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
-import { BrowserModule }                       from '@angular/platform-browser';
-import { BrowserAnimationsModule }             from '@angular/platform-browser/animations';
+import { DatePipe }                                       from '@angular/common';
+import { HttpClient, HttpClientModule }                   from '@angular/common/http';
+import { APP_INITIALIZER, Injector, isDevMode, NgModule } from '@angular/core';
+import { BrowserModule }                                  from '@angular/platform-browser';
+import { BrowserAnimationsModule }                        from '@angular/platform-browser/animations';
+import { UserEffects }                                    from '@effects/user.effects';
 
 // Factories
 import { appInitFactory }           from '@factories/app-init.factory';
 import { authInterceptorProviders } from '@helpers/auth.interceptor';
+import { EffectsModule }            from '@ngrx/effects';
+import { StoreModule }              from '@ngrx/store';
+import { StoreDevtoolsModule }      from '@ngrx/store-devtools';
 
 // External modules
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader }                                from '@ngx-translate/http-loader';
+import { userReducer }                                        from '@reducers/user.reducer';
 
 // Services
 import { AppService }           from '@services/app.service';
@@ -45,7 +50,10 @@ import { SharedModule } from './shared/shared.module';
 
     // Internal modules
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot({user: userReducer}, {}),
+    EffectsModule.forRoot([UserEffects]),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()})
   ],
   declarations: [
     AppComponent
