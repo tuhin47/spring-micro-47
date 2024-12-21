@@ -1,0 +1,51 @@
+@startuml
+top to bottom direction
+skinparam linetype ortho
+
+class Menu {
+  - parent: Menu
+  - icon: String
+  - children: Set<Menu>
+  - id: Long
+  - label: String
+}
+
+class Role {
+  - roleId: Long
+  - users: Set<User>
+  - privileges: Set<Privilege>
+  - serialVersionUID: long
+  - name: String
+}
+
+class User {
+  - serialVersionUID: long
+  - providerUserId: String
+  - displayName: String
+  - using2FA: boolean
+  - deletedAt: Instant
+  - enabled: boolean
+  - provider: String
+  - email: String
+  - roles: Set<Role>
+  - id: String
+  - password: byte[]
+  - isDeleted: boolean
+  - secret: String
+  - privileges: Set<Privilege>
+}
+
+class Privilege {
+  - privilegeId: Long
+  - name: String
+  - description: String
+  - roles: Set<Role>
+}
+
+Role "1" *-[#595959,plain]-> "users\n*" User
+User "1" *-[#595959,plain]-> "roles\n*" Role
+Role "1" *-[#595959,plain]-> "privileges\n*" Privilege
+Privilege "1" *-[#595959,plain]-> "roles\n*" Role
+User "1" *-[#595959,plain]-> "privileges\n*" Privilege
+
+@enduml

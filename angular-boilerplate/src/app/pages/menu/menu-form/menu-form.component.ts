@@ -1,8 +1,7 @@
-import { Component, Input, OnInit }           from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router }                             from '@angular/router';
-import { UntilDestroy, untilDestroyed }       from '@ngneat/until-destroy';
-import { MenuService }                        from '@services/menu.service';
+import { Component, Input, OnInit }     from '@angular/core';
+import { Router }                       from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MenuService }                  from '@services/menu.service';
 
 @UntilDestroy()
 @Component({
@@ -14,25 +13,23 @@ export class MenuFormComponent implements OnInit {
 
   @Input() id?: number;
 
-  menuForm: FormGroup;
+  menu: any = {
+    label: '',
+    icon: '',
+    parent: ''
+  };
   parentMenus: any[] = [];
 
   constructor(
-    private fb: FormBuilder,
     private menuService: MenuService,
     private router: Router
   ) {
-    this.menuForm = this.fb.group({
-      label: ['', Validators.required],
-      icon: ['', Validators.required],
-      parent: ''
-    });
   }
 
   ngOnInit(): void {
     if (this.id) {
       this.menuService.getMenuById(this.id).pipe(untilDestroyed(this)).subscribe(menu => {
-        this.menuForm.patchValue(menu);
+        this.menu = menu;
       });
     }
     this.populateMenus();
@@ -45,11 +42,9 @@ export class MenuFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.menuForm.valid) {
-      const menuData = this.menuForm.value;
-      this.menuService.saveMenu(menuData).pipe(untilDestroyed(this)).subscribe(() => {
-        this.router.navigate(['/menu']);
-      });
+    if (this.menu.label && this.menu.icon) {
+      this.router.navigate(['/menu']);
+      // this.menuService.saveMenu(this.menu).pipe(untilDestroyed(this)).subscribe(() => {});
     }
   }
 }

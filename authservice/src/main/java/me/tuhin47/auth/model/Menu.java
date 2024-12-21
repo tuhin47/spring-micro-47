@@ -34,7 +34,7 @@ public class Menu implements Serializable {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     @ToString.Exclude
-    Set<Menu> children;
+    private Set<Menu> children;
 
     @Override
     public final boolean equals(Object o) {

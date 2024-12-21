@@ -25,9 +25,16 @@ public class Role implements Serializable {
 
     private String name;
 
-    // bi-directional many-to-many association to User
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
+
+    @ManyToMany
+    @JoinTable(
+        name = "role_privilege",
+        joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "privilege_id")
+    )
+    private Set<Privilege> privileges;
 
     public Role(String name) {
         this.name = name;

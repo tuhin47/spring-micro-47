@@ -3,7 +3,7 @@
     "id": 1,
     "label": "Documents",
     "data": "Documents Folder",
-    "icon": "pi pi-fw pi-inbox",
+    "icon": "pi pi-file",
     "parent": 5
   },
   {

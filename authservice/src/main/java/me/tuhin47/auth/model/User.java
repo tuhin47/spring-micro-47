@@ -16,9 +16,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 
-/**
- * The persistent class for the user database table.
- */
 @Entity
 @NoArgsConstructor
 @Getter
@@ -60,11 +57,19 @@ public class User extends DateAudit implements Serializable {
 
     private String secret;
 
-    // bi-directional many-to-many association to Role
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "user_privilege",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "privilege_id")
+    )
+    private Set<Privilege> privileges;
 
     private boolean isDeleted = false;
 
