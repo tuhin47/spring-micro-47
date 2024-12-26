@@ -1,16 +1,17 @@
 package me.tuhin47.auth.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.command.RolePayload;
 import me.tuhin47.auth.command.handler.RoleCommandHandler;
 import me.tuhin47.auth.controller.RoleController;
 import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.payload.common.RoleDto;
 import me.tuhin47.auth.payload.mapper.RoleMapper;
+import me.tuhin47.auth.payload.response.RoleDto;
 import me.tuhin47.auth.service.RoleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,15 +26,16 @@ public class RoleControllerImpl implements RoleController {
 
     @Override
     @PostMapping
-    public ResponseEntity<Role> addRole(@RequestBody RoleDto roleDto) {
-        Role role = roleCommandHandler.addRole(roleDto);
-        return ResponseEntity.ok(role);
+    public ResponseEntity<RoleDto> addRole(@RequestBody RolePayload payload) {
+        Role role = roleCommandHandler.addRole(payload);
+        return new ResponseEntity<>(roleMapper.toDto(role), HttpStatus.CREATED);
     }
+
 
     @Override
     @PutMapping("/{roleId}")
-    public ResponseEntity<RoleDto> editRole(@PathVariable Long roleId, @RequestBody @Valid RoleDto roleDto) {
-        return ResponseEntity.ok(roleMapper.toDto(roleCommandHandler.editRole(roleId, roleDto)));
+    public ResponseEntity<RoleDto> editRole(@PathVariable Long roleId, @RequestBody RolePayload payload) {
+        return ResponseEntity.ok(roleMapper.toDto(roleCommandHandler.editRole(roleId, payload)));
     }
 
     @Override
@@ -44,8 +46,8 @@ public class RoleControllerImpl implements RoleController {
 
     @Override
     @GetMapping("/{roleId}")
-    public ResponseEntity<Role> getRoleById(@PathVariable Long roleId) {
+    public ResponseEntity<RoleDto> getRoleById(@PathVariable Long roleId) {
         Role role = roleService.getRoleById(roleId);
-        return ResponseEntity.ok(role);
+        return ResponseEntity.ok(roleMapper.toDto(role));
     }
 }

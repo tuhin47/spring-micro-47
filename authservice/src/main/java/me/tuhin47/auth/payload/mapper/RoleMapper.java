@@ -1,20 +1,17 @@
 package me.tuhin47.auth.payload.mapper;
 
+import me.tuhin47.auth.command.RolePayload;
 import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.payload.common.RoleDto;
+import me.tuhin47.auth.payload.response.RoleDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class})
 public interface RoleMapper {
 
-
-    @Mapping(source = "id", target = "roleId")
-    Role toEntity(RoleDto roleDto);
-
-    @Mapping(source = "roleId", target = "id")
     RoleDto toDto(Role role);
 
+    Role toEntity(RolePayload payload);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(source = "id", target = "roleId")
-    Role partialUpdate(RoleDto roleDto, @MappingTarget Role role);
+    Role partialUpdate(RolePayload payload, @MappingTarget Role role);
 }

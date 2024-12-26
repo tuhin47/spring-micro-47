@@ -1,0 +1,14 @@
+
+###
+
+POST http://{{host}}:8082/order
+accept: */*
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "paymentMode": "DEBIT_CARD",
+    "productId": 2,
+    "quantity": 1,
+    "totalAmount": 10
+}

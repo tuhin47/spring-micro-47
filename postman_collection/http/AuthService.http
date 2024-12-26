@@ -1,0 +1,105 @@
+# Auth Controller
+### /auth/users
+GET http://{{host}}:{{port}}/auth/users
+Accept: application/json
+Authorization: Bearer {{token}}
+
+> {%
+    client.global.set("id", response.body[0].id);
+%}
+
+### /auth/signup
+POST http://{{host}}:{{port}}/auth/signup
+Content-Type: application/json
+
+{
+    "displayName": "Towhidul",
+    "email": "{{$random.email}}",
+    "password": "{{password}}",
+    "matchingPassword": "{{password}}",
+    "socialProvider": "LOCAL"
+}
+
+> {%
+    client.global.set("id", response.body.userInfo?.id);
+%}
+
+### /auth/users/{{id}}
+GET http://{{host}}:{{port}}/auth/users/{{id}}
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### PUT /auth/users/{{id}}
+PUT http://{{host}}:{{port}}/auth/users/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "displayName": "Mr. Breast",
+    "password": "{{password}}"
+}
+
+###
+DELETE http://{{host}}:{{port}}/auth/users/{{id}}
+Authorization: Bearer {{token}}
+
+### /auth/users/summaries
+GET http://{{host}}:{{port}}/auth/users/summaries
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### /auth/user/me
+GET http://{{host}}:{{port}}/auth/user/me
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### GET /roles
+GET http://{{host}}:{{port}}/roles
+Authorization: Bearer {{token}}
+
+
+### /roles
+POST http://{{host}}:{{port}}/roles
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "ROLE_{{$random.alphabetic(5)}}",
+    "privileges": [
+        {
+            "id": 4
+        }
+    ]
+}
+
+### /roles/1
+PUT http://{{host}}:{{port}}/roles/1
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "ROLE_USER",
+    "privileges": [
+        {
+            "id": 1
+        },
+        {
+            "id": 2
+        }
+    ]
+}
+
+### POST /privileges
+POST http://{{host}}:{{port}}/privileges
+Accept: application/json
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "PRIV_{{$random.alphabetic(5)}}",
+    "description": "NEW "
+}
+

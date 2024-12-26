@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
-@SpringBootApplication(scanBasePackages = {"me.tuhin47.auth", "me.tuhin47.config", "me.tuhin47.jwt"})
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.auth", "me.tuhin47.entity", "me.tuhin47.config", "me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
 @Import({AxonConfig.class})

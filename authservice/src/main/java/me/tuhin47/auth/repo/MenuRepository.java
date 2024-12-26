@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface MenuRepository extends CrudRepository<Menu, Long> {
 
-    @Query("select d from Menu d join fetch d.children  where d.id = ?1")
+    // TODO - Entity Graph
+    @Query("select distinct d from Menu d left join fetch d.children  where d.id = ?1")
     Optional<Menu> getMenuFromParent(Long id);
 }

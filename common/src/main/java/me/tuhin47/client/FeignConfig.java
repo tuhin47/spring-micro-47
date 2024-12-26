@@ -1,4 +1,4 @@
-package me.tuhin47.config;
+package me.tuhin47.client;
 
 import com.google.common.net.HttpHeaders;
 import feign.RequestInterceptor;

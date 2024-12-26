@@ -1,5 +1,6 @@
 package me.tuhin47.paymentservice.payload;
 
+import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.model.TransactionDetails;
 import org.mapstruct.Mapper;
@@ -15,6 +16,6 @@ public interface TransactionDetailsMapper {
 
     @Mapping(target = "paymentDate", expression = "java(Instant.now())")
     @Mapping(target = "paymentStatus", constant = "SUCCESS")
-    TransactionDetails toEntity(PaymentRequest paymentRequest);
+    TransactionDetails toEntity(TransactionRequest transactionRequest);
 
 }

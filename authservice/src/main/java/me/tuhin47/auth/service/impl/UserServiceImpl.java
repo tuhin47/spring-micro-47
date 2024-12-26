@@ -1,5 +1,9 @@
 package me.tuhin47.auth.service.impl;
 
+import dev.samstevens.totp.exceptions.QrGenerationException;
+import dev.samstevens.totp.qr.QrData;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.qr.QrGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +25,7 @@ import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
+import me.tuhin47.config.AppProperties;
 import me.tuhin47.config.exception.common.AuthServiceExceptions;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
@@ -41,8 +46,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 
 @Service
@@ -61,7 +69,9 @@ public class UserServiceImpl implements UserService {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final MyRequestBean myRequestBean;
     private final ApplicationContext applicationContext;
-
+    private final QrDataFactory qrDataFactory;
+    private final QrGenerator qrGenerator;
+    private final AppProperties appProperties;
 
     @Override
     @Transactional
@@ -70,36 +80,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(value = "transactionManager")
+    @Transactional(propagation = Propagation.REQUIRED)
     public User registerNewUser(final SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException {
-        if (signUpRequest.getUserID() != null && userRepository.existsById(signUpRequest.getUserID())) {
-            throw new UserAlreadyExistAuthenticationException("User with User id " + signUpRequest.getUserID() + " already exist");
-        } else if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new UserAlreadyExistAuthenticationException("User with email id " + signUpRequest.getEmail() + " already exist");
         }
-        User user = buildUser(signUpRequest);
+
+        User user = userMapper.toEntity(signUpRequest, this);
+        setUserRole(user);
         user = userRepository.save(user);
-        userRepository.flush();
+
+        try {
+            if (signUpRequest.isUsing2FA()) {
+                QrData data = qrDataFactory.newBuilder()
+                                           .label(user.getEmail())
+                                           .secret(user.getSecret())
+                                           .issuer(appProperties.getConfig().getQrIssuer())
+                                           .build();
+                log.debug("Generate the QR code image data as a base64 string which can be used in an <img> tag ");
+                String qrCodeImage = getDataUriForImage(qrGenerator.generate(data), qrGenerator.getImageMimeType());
+            }
+        } catch (QrGenerationException e) {
+            log.error("QR Generation Exception Occurred", e);
+            user.setUsing2FA(false);
+        }
+
         applicationEventPublisher.publishEvent(new TransactionEmailEvent(this, user.getEmail(), "Your registration is successfully completed", "Successful Registration"));
+
         return user;
     }
 
-    private User buildUser(final SignUpRequest formDTO) {
-        User user = new User();
-        user.setDisplayName(formDTO.getDisplayName());
-        user.setEmail(formDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(formDTO.getPassword()).getBytes());
+    private void setUserRole(User user) {
         final Set<Role> roles = new HashSet<Role>();
         roles.add(roleRepository.findByName(RoleUtils.ROLE_USER));
         user.setRoles(roles);
-        user.setProvider(formDTO.getSocialProvider().getProviderType());
-        user.setEnabled(true);
-        user.setProviderUserId(formDTO.getProviderUserId());
-        if (formDTO.isUsing2FA()) {
-            user.setUsing2FA(true);
-            user.setSecret(secretGenerator.generate());
-        }
-        return user;
+    }
+
+    @Override
+    public String getEncodedPassword(@NotBlank byte[] password) {
+        return passwordEncoder.encode(new String(password));
     }
 
     @Override
@@ -114,9 +134,9 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User " + email + " was not found in the database");
         }
         UserRedis userRedis = userMapper.toUserRedis(user);
-
         return redisUserService.saveLocalUser(userRedis);
     }
+
 
     @Override
     @Transactional
@@ -159,7 +179,16 @@ public class UserServiceImpl implements UserService {
     }
 
     private SignUpRequest toUserRegistrationObject(String registrationId, OAuth2UserInfo oAuth2UserInfo) {
-        return SignUpRequest.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addDisplayName(oAuth2UserInfo.getName()).addEmail(oAuth2UserInfo.getEmail()).addSocialProvider(GeneralUtils.toSocialProvider(registrationId)).addPassword("changeit").build();
+
+        SignUpRequest signUpRequest = new SignUpRequest();
+        signUpRequest.setProviderUserId(oAuth2UserInfo.getId());
+        signUpRequest.setDisplayName(oAuth2UserInfo.getName());
+        signUpRequest.setEmail(oAuth2UserInfo.getEmail());
+        signUpRequest.setSocialProvider(GeneralUtils.toSocialProvider(registrationId));
+        signUpRequest.setPassword("changeit");
+        signUpRequest.setMatchingPassword("changeit");
+
+        return signUpRequest;
     }
 
     @Override
@@ -168,8 +197,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private User findUserById(String id) {
-        return userRepository.findById(id)
-                             .orElseThrow(AuthServiceExceptions.USER_NOT_FOUND.apply(id));
+        return userRepository.getReferenceById(id);
     }
 
     @Override
@@ -178,17 +206,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis localUser) {
-        UserRedis userByEmail = findUserByEmail(localUser.getEmail());
+    public JwtAuthenticationResponse getJwtAuthenticationResponse(String email) {
+        UserRedis userByEmail = findUserByEmail(email);
         boolean authenticated = userByEmail != null;
-        String jwt = tokenProvider.createToken(authenticated, localUser.getEmail());
+        String jwt = tokenProvider.createToken(authenticated, email);
         return new JwtAuthenticationResponse(jwt, authenticated, authenticated ? GeneralUtils.buildUserInfo(userByEmail) : null);
     }
 
     @Override
+    @Transactional
     public UserInfo updateUser(String id, ChangeInfoRequest user) {
         User existingUser = findUserById(id);
-        return userMapper.toUserInfo(userMapper.changeInfoRequest(user, existingUser));
+        User changed = userRepository.save(userMapper.changeInfoRequest(user, existingUser, this));
+        return userMapper.toUserInfo(changed);
     }
 
     @Override

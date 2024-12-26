@@ -49,7 +49,7 @@ spring:
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**
+            - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**,/menu/**
           filters:
             - name: CircuitBreaker
               args:

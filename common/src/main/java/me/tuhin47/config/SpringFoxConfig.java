@@ -2,6 +2,7 @@ package me.tuhin47.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -21,18 +22,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpringFoxConfig {
 
-    private final ApiInfo apiInfo;
+    @Bean
+    @ConditionalOnMissingBean(ApiInfo.class)
+    public ApiInfo apiInfo() {
+        return ApiInfo.DEFAULT;
+    }
 
     @Bean
-    public Docket api() {
+    public Docket api(ApiInfo apiInfo) {
         return new Docket(DocumentationType.SWAGGER_2)
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Collections.singletonList(apiKey()))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("me.tuhin47"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo);
+            .securityContexts(Collections.singletonList(securityContext()))
+            .securitySchemes(Collections.singletonList(apiKey()))
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("me.tuhin47"))
+            .paths(PathSelectors.any())
+            .build()
+            .apiInfo(apiInfo);
     }
 
     private ApiKey apiKey() {

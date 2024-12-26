@@ -26,6 +26,7 @@ public interface UserController extends BaseController {
         @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
         @ApiResponse(code = 404, message = "The resource you requested could not be found")
     })
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<List<UserResponse>> getAllUsers(String[] ids);
 
     @ApiOperation(value = "Get user by id", response = User.class)
@@ -45,8 +46,7 @@ public interface UserController extends BaseController {
         @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
         @ApiResponse(code = 404, message = "The resource you requested could not be found")
     })
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-        //TODO: Admin/Self
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<UserInfo> updateUser(@PathVariable String id, @RequestBody ChangeInfoRequest user);
 
     @ApiOperation(value = "Delete a user", response = Void.class)
@@ -57,6 +57,6 @@ public interface UserController extends BaseController {
         @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
         @ApiResponse(code = 404, message = "The resource you requested could not be found")
     })
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<Void> deleteUser(@PathVariable String id);
 }

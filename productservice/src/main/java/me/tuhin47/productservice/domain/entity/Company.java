@@ -5,6 +5,7 @@ import me.tuhin47.entity.audit.UserDateAudit;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class Company extends UserDateAudit<String> {
+
+    @Serial
+    private static final long serialVersionUID = 3650934719204477753L;
 
     @Id
     @Column(nullable = false, updatable = false, length = 36)

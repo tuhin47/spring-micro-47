@@ -1,22 +1,24 @@
 package me.tuhin47.auth.payload.request;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import me.tuhin47.auth.payload.constraints.PasswordMatches;
 import me.tuhin47.auth.payload.constraints.ValidPassword;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
-import me.tuhin47.auth.validator.PasswordMatches;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
- * @author Chinna
- * @since 26/3/18
+ * DTO for {@link me.tuhin47.auth.model.User}
  */
 @Data
 @PasswordMatches
+@NoArgsConstructor
 public class SignUpRequest {
 
-    private String userID;
 
     private String providerUserId;
 
@@ -27,62 +29,22 @@ public class SignUpRequest {
     @Email
     private String email;
 
-    private SocialProvider socialProvider = SocialProvider.LOCAL;
+    private SocialProvider socialProvider;
 
+    @NotNull
     @ValidPassword(message = "{Size.userDto.password}")
-    private CharSequence password;
+    private byte[] password;
 
-    @NotEmpty
-    private CharSequence matchingPassword;
+    @NotNull
+    private byte[] matchingPassword;
 
     private boolean using2FA;
 
-    public SignUpRequest(String providerUserId, String displayName, String email, String password, SocialProvider socialProvider) {
-        this.providerUserId = providerUserId;
-        this.displayName = displayName;
-        this.email = email;
-        this.password = password;
-        this.socialProvider = socialProvider;
+    public void setPassword(@NotBlank String password) {
+        this.password = password.getBytes();
     }
 
-    public static Builder getBuilder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private String providerUserID;
-        private String displayName;
-        private String email;
-        private String password;
-        private SocialProvider socialProvider;
-
-        public Builder addProviderUserID(final String userID) {
-            this.providerUserID = userID;
-            return this;
-        }
-
-        public Builder addDisplayName(final String displayName) {
-            this.displayName = displayName;
-            return this;
-        }
-
-        public Builder addEmail(final String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder addPassword(final String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder addSocialProvider(final SocialProvider socialProvider) {
-            this.socialProvider = socialProvider;
-            return this;
-        }
-
-        public SignUpRequest build() {
-            return new SignUpRequest(providerUserID, displayName, email, password, socialProvider);
-        }
+    public void setMatchingPassword(@NotBlank String matchingPassword) {
+        this.matchingPassword = matchingPassword.getBytes();
     }
 }

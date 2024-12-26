@@ -3,25 +3,34 @@ package me.tuhin47.auth.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import me.tuhin47.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Privilege implements Serializable {
+@NamedEntityGraph(
+    name = "Privilege.withUsersRoles",
+    attributeNodes = {@NamedAttributeNode(value = "users"), @NamedAttributeNode(value = "roles")}
+)
+@ToString
+public class Privilege extends BaseEntity<Long> implements Serializable {
+
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 917893631751753550L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRIVILEGE_ID")
-    private Long privilegeId;
+    private Long id;
 
     @Column(unique = true)
     private String name;
@@ -29,12 +38,10 @@ public class Privilege implements Serializable {
     private String description;
 
     @ManyToMany(mappedBy = "privileges")
-    private Set<Role> roles;
+    @ToString.Exclude
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(mappedBy = "privileges")
-    private Set<User> users;
-
-    public Privilege(Long privilegeId) {
-        this.privilegeId = privilegeId;
-    }
+    @ToString.Exclude
+    private Set<User> users = new HashSet<>();
 }

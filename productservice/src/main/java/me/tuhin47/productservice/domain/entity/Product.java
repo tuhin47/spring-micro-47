@@ -8,6 +8,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serial;
 
 @Entity
 @NamedQueries({
@@ -21,6 +22,8 @@ import javax.validation.constraints.PositiveOrZero;
 @Builder
 public class Product extends UserDateAudit<String> {
 
+    @Serial
+    private static final long serialVersionUID = 9153625892766185972L;
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")

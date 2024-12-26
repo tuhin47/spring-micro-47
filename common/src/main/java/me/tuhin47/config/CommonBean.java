@@ -10,13 +10,11 @@ import org.springframework.boot.actuate.endpoint.web.*;
 import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
-import springfox.documentation.service.ApiInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,25 +26,17 @@ import java.util.List;
 public class CommonBean {
 
     public static final String ADMIN_USER_MAIL = "admin@tuhin47.com";
-    private final AppProperties appProperties;
 
     @Bean
-    @ConditionalOnMissingBean(ApiInfo.class)
-    public ApiInfo apiInfo() {
-        return ApiInfo.DEFAULT;
-    }
-
-    @Bean
-    public String[] whiteList() {
-        List<String> whiteList = List.of(
-            "/zipkin/**", "/auth/v3/api-docs/**", "/swagger**", "/actuator/**",
-            "/order/v3/api-docs/**","/payment/v3/api-docs/**","/product/v3/api-docs/**"
-        );
+    public String[] whiteList(AppProperties appProperties) {
         if (appProperties.getConfig().getNoAuth()) {
-            whiteList = List.of("/**");
+            return new String[]{"/**"};
         }
 
-        return whiteList.toArray(new String[0]);
+        return new String[]{
+            "/zipkin/**", "/auth/v3/api-docs/**", "/swagger**", "/actuator/**",
+            "/order/v3/api-docs/**", "/payment/v3/api-docs/**", "/product/v3/api-docs/**"
+        };
     }
 
 

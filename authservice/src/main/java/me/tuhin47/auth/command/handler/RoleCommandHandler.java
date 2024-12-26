@@ -1,8 +1,8 @@
 package me.tuhin47.auth.command.handler;
 
 import lombok.RequiredArgsConstructor;
+import me.tuhin47.auth.command.RolePayload;
 import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.payload.common.RoleDto;
 import me.tuhin47.auth.payload.mapper.RoleMapper;
 import me.tuhin47.auth.repo.RoleRepository;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,14 @@ public class RoleCommandHandler {
     private final RoleMapper roleMapper;
 
     @Transactional
-    public Role addRole(RoleDto roleDto) {
-        return roleRepository.save(roleMapper.toEntity(roleDto));
+    public Role addRole(RolePayload payload) {
+        return roleRepository.save(roleMapper.toEntity(payload));
     }
 
     @Transactional
-    public Role editRole(Long roleId, RoleDto roleDto) {
+    public Role editRole(Long roleId, RolePayload payload) {
         Role role = roleRepository.getReferenceById(roleId);
-        return roleRepository.save(roleMapper.partialUpdate(roleDto, role));
+        Role entity = roleMapper.partialUpdate(payload, role);
+        return roleRepository.save(entity);
     }
 }

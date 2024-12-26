@@ -49,13 +49,16 @@ public class LoggingAspect {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
+        log.warn("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
             joinPoint.getSignature().getName(), e.getCause() != null ? e.getCause() : e.getMessage());
         if (log.isDebugEnabled()) {
-            if (e instanceof CustomException && !((CustomException) e).isLogged()) {
+            if (!(e instanceof CustomException)) {
+                log.warn(e.getMessage(), e);
+            } else if (!((CustomException) e).isLogged()) {
                 ((CustomException) e).setLogged(true);
-                e.printStackTrace();
+                log.warn(e.getMessage(), e);
             }
+
         }
     }
 

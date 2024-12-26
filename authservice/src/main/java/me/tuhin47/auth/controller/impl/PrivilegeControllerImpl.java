@@ -5,7 +5,10 @@ import me.tuhin47.auth.command.PrivilegePayload;
 import me.tuhin47.auth.command.handler.PrivilegeCommandHandler;
 import me.tuhin47.auth.controller.PrivilegeController;
 import me.tuhin47.auth.model.Privilege;
+import me.tuhin47.auth.payload.mapper.PrivilegeMapper;
+import me.tuhin47.auth.payload.response.PrivilegeDto;
 import me.tuhin47.auth.service.PrivilegeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,29 +22,32 @@ public class PrivilegeControllerImpl implements PrivilegeController {
 
     private final PrivilegeCommandHandler privilegeCommandHandler;
     private final PrivilegeService privilegeService;
-
+    private final PrivilegeMapper privilegeMapper;
 
     @PostMapping
-    public ResponseEntity<Privilege> addPrivilege(@RequestBody @Valid PrivilegePayload command) {
+    @Override
+    public ResponseEntity<PrivilegeDto> addPrivilege(@RequestBody @Valid PrivilegePayload command) {
         Privilege privilege = privilegeCommandHandler.addPrivilege(command);
-        return ResponseEntity.ok(privilege);
+        return new ResponseEntity<>(privilegeMapper.toDto(privilege), HttpStatus.CREATED);
     }
 
+    @Override
     @PutMapping("/{privilegeId}")
     public ResponseEntity<Privilege> editPrivilege(@PathVariable Long privilegeId, @RequestBody PrivilegePayload command) {
         Privilege privilege = privilegeCommandHandler.editPrivilege(privilegeId, command);
         return ResponseEntity.ok(privilege);
     }
 
+    @Override
     @GetMapping
-    public ResponseEntity<List<Privilege>> getAllPrivileges() {
-        List<Privilege> privileges = privilegeService.getAllPrivileges();
-        return ResponseEntity.ok(privileges);
+    public ResponseEntity<List<PrivilegeDto>> getAllPrivileges() {
+        return ResponseEntity.ok(privilegeService.getAllPrivileges());
     }
 
+    @Override
     @GetMapping("/{privilegeId}")
-    public ResponseEntity<Privilege> getPrivilegeById(@PathVariable Long privilegeId) {
+    public ResponseEntity<PrivilegeDto> getPrivilegeById(@PathVariable Long privilegeId) {
         Privilege privilege = privilegeService.getPrivilegeById(privilegeId);
-        return ResponseEntity.ok(privilege);
+        return ResponseEntity.ok(privilegeMapper.toDto(privilege));
     }
 }

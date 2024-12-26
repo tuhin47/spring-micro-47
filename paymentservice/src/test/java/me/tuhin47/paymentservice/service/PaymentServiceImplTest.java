@@ -2,9 +2,9 @@ package me.tuhin47.paymentservice.service;
 
 import me.tuhin47.config.exception.apierror.EntityNotFoundException;
 import me.tuhin47.core.enums.PaymentMode;
+import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.model.TransactionDetails;
-import me.tuhin47.paymentservice.payload.PaymentRequest;
 import me.tuhin47.paymentservice.payload.TransactionDetailsMapper;
 import me.tuhin47.paymentservice.repository.TransactionDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,12 +40,12 @@ public class PaymentServiceImplTest {
     @Test
     void test_When_doPayment_isSuccess() {
 
-        PaymentRequest paymentRequest = getMockPaymentRequest();
+        TransactionRequest transactionRequest = getMockPaymentRequest();
 
         TransactionDetails transactionDetails = getMockTransactionDetails();
         when(transactionDetailsRepository.save(any(TransactionDetails.class))).thenReturn(transactionDetails);
 
-        String transactionId = paymentService.doPayment(paymentRequest);
+        String transactionId = paymentService.doPayment(transactionRequest);
         verify(transactionDetailsRepository, times(1))
             .save(any());
 
@@ -83,13 +83,8 @@ public class PaymentServiceImplTest {
         verify(transactionDetailsRepository, times(1)).findByOrderId(anyString());
     }
 
-    private PaymentRequest getMockPaymentRequest() {
-        return PaymentRequest.builder()
-                             .amount(500)
-                             .orderId("1")
-                             .paymentMode(PaymentMode.CASH)
-                             .referenceNumber(null)
-                             .build();
+    private TransactionRequest getMockPaymentRequest() {
+        return new TransactionRequest("1", 500.0, null, PaymentMode.CASH);
 
     }
 

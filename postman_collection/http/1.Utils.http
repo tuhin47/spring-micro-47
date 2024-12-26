@@ -1,0 +1,26 @@
+### Signin
+POST http://{{host}}:{{port}}/auth/signin
+Content-Type: application/json
+
+{
+    "email": "{{username}}",
+    "password": "{{password}}"
+}
+
+> {%
+    client.global.set("token", response.body?.accessToken);
+%}
+
+### Update Log levels
+POST http://{{host}}:{{port}}/actuator/loggers/{{springPackage}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "configuredLevel": "{{logLevel}}",
+    "effectiveLevel": "{{logLevel}}"
+}
+
+### refresh actuator
+POST http://{{host}}:{{port}}/actuator/refresh
+Accept: application/json

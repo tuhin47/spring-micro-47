@@ -2,7 +2,6 @@ package me.tuhin47.config.exception;
 
 import me.tuhin47.config.exception.apierror.CustomException;
 import me.tuhin47.config.exception.apierror.EntityNotFoundException;
-import me.tuhin47.config.exception.apierror.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -41,7 +40,4 @@ public interface ProjectExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<Object> handleException(Exception e);
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException e);
 }

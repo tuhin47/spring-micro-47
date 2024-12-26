@@ -3,9 +3,9 @@ package me.tuhin47.paymentservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.exception.common.PaymentServiceExceptions;
+import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.model.TransactionDetails;
-import me.tuhin47.paymentservice.payload.PaymentRequest;
 import me.tuhin47.paymentservice.payload.TransactionDetailsMapper;
 import me.tuhin47.paymentservice.repository.TransactionDetailsRepository;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final TransactionDetailsRepository transactionDetailsRepository;
 
     @Override
-    public String doPayment(PaymentRequest paymentRequest) {
+    public String doPayment(TransactionRequest transactionRequest) {
 
-        TransactionDetails details = transactionDetailsMapper.toEntity(paymentRequest);
+        TransactionDetails details = transactionDetailsMapper.toEntity(transactionRequest);
 
         var transactionDetails = transactionDetailsRepository.save(details);
 

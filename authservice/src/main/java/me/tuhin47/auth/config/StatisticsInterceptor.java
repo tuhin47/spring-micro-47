@@ -2,7 +2,7 @@ package me.tuhin47.auth.config;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.service.StatisticsService;
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,7 +24,7 @@ public class StatisticsInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
-        if (request.getRequestURI().equals("/auth/signin") && response.getStatus() == HttpStatus.SC_OK) {
+        if (request.getRequestURI().equals("/auth/signin") && response.getStatus() == HttpStatus.OK.value()) {
             statisticsService.userLoggedIn();
         }
     }

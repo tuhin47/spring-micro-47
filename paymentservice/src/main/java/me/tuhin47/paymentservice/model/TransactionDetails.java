@@ -5,6 +5,7 @@ import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.entity.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ import java.util.UUID;
 @Builder
 public class TransactionDetails extends UserDateAudit<String> {
 
+    @Serial
+    private static final long serialVersionUID = 364934052767700643L;
     @Id
     @Column(length = 36, nullable = false, unique = true, updatable = false)
     private String id = UUID.randomUUID().toString();

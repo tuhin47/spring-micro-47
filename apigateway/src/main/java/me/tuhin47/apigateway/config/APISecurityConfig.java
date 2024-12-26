@@ -13,9 +13,12 @@ public class APISecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
 
-        serverHttpSecurity.cors().and()
-                .csrf().disable()
-                .authorizeExchange(exchange -> exchange.anyExchange().permitAll());
+        serverHttpSecurity.cors().and().csrf().disable()
+//                          .exceptionHandling()
+//                          .accessDeniedHandler(accessDeniedHandler)
+//                          .authenticationEntryPoint(authenticationEntryPoint)
+//                          .and()
+                          .authorizeExchange(exchange -> exchange.anyExchange().permitAll());
         return serverHttpSecurity.build();
     }
 

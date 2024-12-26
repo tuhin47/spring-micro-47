@@ -2,8 +2,8 @@ package me.tuhin47.auth.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.model.Menu;
-import me.tuhin47.auth.payload.common.MenuDto;
 import me.tuhin47.auth.payload.mapper.MenuMapper;
+import me.tuhin47.auth.payload.response.MenuDto;
 import me.tuhin47.auth.repo.MenuRepository;
 import me.tuhin47.auth.service.MenuService;
 import me.tuhin47.config.redis.UserRedis;

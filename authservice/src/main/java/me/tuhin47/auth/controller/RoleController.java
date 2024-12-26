@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.payload.common.RoleDto;
+import me.tuhin47.auth.command.RolePayload;
+import me.tuhin47.auth.payload.response.RoleDto;
 import me.tuhin47.core.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,17 +18,17 @@ public interface RoleController extends BaseController {
 
     @ApiOperation(value = "Add a new role", notes = "Creates a new role")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Role created successfully"),
+        @ApiResponse(code = 201, message = "Role created successfully"),
         @ApiResponse(code = 400, message = "Invalid input")
     })
-    ResponseEntity<Role> addRole(@RequestBody RoleDto roleDto);
+    ResponseEntity<RoleDto> addRole(@RequestBody RolePayload payload);
 
     @ApiOperation(value = "Edit an existing role", notes = "Updates an existing role")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Role updated successfully"),
         @ApiResponse(code = 404, message = "Role not found")
     })
-    ResponseEntity<RoleDto> editRole(@PathVariable Long roleId, @RequestBody RoleDto roleDto);
+    ResponseEntity<RoleDto> editRole(@PathVariable Long roleId, @RequestBody RolePayload payload);
 
     @ApiOperation(value = "Get all roles", notes = "Retrieves all roles")
     @ApiResponse(code = 200, message = "Roles retrieved successfully")
@@ -39,5 +39,5 @@ public interface RoleController extends BaseController {
         @ApiResponse(code = 200, message = "Role retrieved successfully"),
         @ApiResponse(code = 404, message = "Role not found")
     })
-    ResponseEntity<Role> getRoleById(@PathVariable Long roleId);
+    ResponseEntity<RoleDto> getRoleById(@PathVariable Long roleId);
 }

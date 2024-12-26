@@ -6,10 +6,11 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+
 @Getter
 public class TopOrderDto implements Serializable {
     @Serial
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 1704759362817709990L;
     private String buyerId;
     private long quantity;
     private double amount;
@@ -31,9 +32,9 @@ public class TopOrderDto implements Serializable {
     @Override
     public String toString() {
         return "TopOrderDto[" +
-                "buyerId=" + buyerId + ", " +
-                "quantity=" + quantity + ", " +
-                "amount=" + amount + ']';
+            "buyerId=" + buyerId + ", " +
+            "quantity=" + quantity + ", " +
+            "amount=" + amount + ']';
     }
 
 

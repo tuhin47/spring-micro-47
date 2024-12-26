@@ -62,4 +62,14 @@ public class UserRedis implements Serializable, UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "UserRedis{" +
+            "email='" + email + '\'' +
+            ", userId='" + userId + '\'' +
+            ", provider='" + provider + '\'' +
+            ", secret='" + secret + '\'' +
+            '}';
+    }
 }

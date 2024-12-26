@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.io.Serial;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class LocalUser extends User implements OidcUser {
     private Map<String, Object> attributes;
 
     public LocalUser(me.tuhin47.auth.model.User user, final Collection<? extends GrantedAuthority> authorities) {
-        this(user.getEmail(), Arrays.toString(user.getPassword()), user.isEnabled(), true, true, true, authorities, null, null, user.getId());
+        this(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, authorities, null, null, user.getId());
     }
 
     public LocalUser(final String userNameOrEmail, final String password, final boolean enabled, final boolean accountNonExpired, final boolean credentialsNonExpired, final boolean accountNonLocked, final Collection<? extends GrantedAuthority> authorities, OidcIdToken idToken, OidcUserInfo userInfo, String userId) {

@@ -23,33 +23,33 @@ import java.util.List;
 
 @Api(tags = "Product API")
 public interface ProductController {
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @ApiOperation(value = "Add a new product")
     ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest);
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @ApiOperation(value = "Get a product by ID")
     ResponseEntity<ProductResponse> getProductById(@PathVariable("id") String productId);
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @ApiOperation(value = "Reduce the quantity of a product")
     ResponseEntity<Void> reduceQuantity(@PathVariable("id") String productId, @RequestParam long quantity);
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     @ApiOperation(value = "Delete a product by ID")
     ResponseEntity<Void> deleteProductById(@PathVariable("id") String productId);
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     @ApiOperation(value = "Get All product By Search, Pagination supported")
     ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @ApiIgnore HttpServletRequest request);
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     @ApiOperation(value = "Get products count by product type")
     ResponseEntity<List<ProductTypeCountReport>> getProductTypeCount();
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     @ApiOperation("Export Items")
-    ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria,@RequestParam(value = "type",defaultValue = "EXCEL") ExporterType exporterType, @ApiIgnore HttpServletRequest request) throws IOException;
+    ResponseEntity<byte[]> exportExcel(@RequestBody(required = false) List<SearchCriteria> searchCriteria, @RequestParam(value = "type", defaultValue = "EXCEL") ExporterType exporterType, @ApiIgnore HttpServletRequest request) throws IOException;
 
     @ApiOperation("Get Prices for products")
     ResponseEntity<ProductsPrice> getProductPrices(String[] ids);

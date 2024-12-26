@@ -1,9 +1,9 @@
 package me.tuhin47.auth.command;
 
-import javax.validation.constraints.NotBlank;
-
+/**
+ * DTO for {@link me.tuhin47.auth.model.Privilege}
+ */
 public record PrivilegePayload(
-    @NotBlank String name,
-    String description, Long parentId) {
-
+    String name,
+    String description) {
 }

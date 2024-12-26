@@ -1,6 +1,6 @@
 package me.tuhin47.auth.service;
 
-import me.tuhin47.auth.payload.common.MenuDto;
+import me.tuhin47.auth.payload.response.MenuDto;
 import me.tuhin47.config.redis.UserRedis;
 
 import java.util.Set;

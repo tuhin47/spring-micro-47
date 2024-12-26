@@ -2,6 +2,8 @@ package me.tuhin47.auth.config;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.security.oauth2.*;
+import me.tuhin47.config.exception.JWTAccessDeniedHandler;
+import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +44,9 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final String[] whiteList;
+    private final JWTAccessDeniedHandler accessDeniedHandler;
+    private final RestAuthenticationEntryPoint authenticationEntryPoint;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,8 +60,12 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable().formLogin().disable().httpBasic().disable()
             .authorizeRequests()
             .antMatchers(whiteList).permitAll()
-            .antMatchers("/", "/error", "/api/all", "/auth/**", "/oauth2/**").permitAll()
+            .antMatchers("/", "/error", "/api/all", "/auth/*", "/oauth2/**").permitAll()
             .anyRequest().authenticated()
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler)
             .and()
             .oauth2Login().authorizationEndpoint()
             .authorizationRequestRepository(cookieAuthorizationRequestRepository()).and()

@@ -1,0 +1,16 @@
+
+###
+
+POST http://{{host}}:8081/product
+accept: */*
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Pro 1",
+    "price": 20,
+    "quantity": 20
+}
+
+
+

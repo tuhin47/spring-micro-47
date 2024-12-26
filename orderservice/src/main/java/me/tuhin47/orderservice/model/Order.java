@@ -9,6 +9,7 @@ import me.tuhin47.utils.RoleUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -22,6 +23,9 @@ import java.util.Objects;
 @Builder
 public class Order extends UserDateAudit<String> implements IOwner {
 
+    @Serial
+    private static final long serialVersionUID = -629300147502691040L;
+    
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")

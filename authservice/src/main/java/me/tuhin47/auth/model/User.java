@@ -14,15 +14,24 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@ToString
 @NoArgsConstructor
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE user set is_deleted=true , deleted_at = now() where id=?")
 @Where(clause = "is_deleted = false")
-public class User extends DateAudit implements Serializable {
+@NamedEntityGraph(
+    name = "User.withRolesPrivileges",
+    attributeNodes = {
+        @NamedAttributeNode(value = "roles"),
+        @NamedAttributeNode(value = "privileges")
+    }
+)
+public class User extends DateAudit<String> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 65981149772133526L;
@@ -47,8 +56,8 @@ public class User extends DateAudit implements Serializable {
 
     @ToString.Exclude
     @JsonIgnore
-    @Column(nullable = false, length = 200)
-    private byte[] password;
+    @Column(nullable = false, length = 20)
+    private String password;
 
     private String provider;
 
@@ -57,19 +66,21 @@ public class User extends DateAudit implements Serializable {
 
     private String secret;
 
-    @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "user_role",
+        joinColumns = {@JoinColumn(name = "user_id")},
+        inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @ToString.Exclude
+    private Set<Role> roles = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "user_privilege",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "privilege_id")
     )
-    private Set<Privilege> privileges;
+    @ToString.Exclude
+    private Set<Privilege> privileges = new HashSet<>();
 
     private boolean isDeleted = false;
 

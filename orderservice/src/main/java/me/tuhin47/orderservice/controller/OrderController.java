@@ -33,7 +33,7 @@ public class OrderController {
     private final CommandGateway commandGateway;
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @GetMapping("/{orderId}")
     @ApiOperation("Get order details by ID")
     public ResponseEntity<OrderResponseWithDetails> getOrderDetails(@PathVariable String orderId) {
@@ -47,7 +47,7 @@ public class OrderController {
         return new ResponseEntity<>(orderResponse, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @PostMapping
     public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel, @CurrentUser UserRedis userRedis) {
 

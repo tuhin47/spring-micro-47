@@ -2,8 +2,8 @@ package me.tuhin47.auth.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.model.Role;
-import me.tuhin47.auth.payload.common.RoleDto;
 import me.tuhin47.auth.payload.mapper.RoleMapper;
+import me.tuhin47.auth.payload.response.RoleDto;
 import me.tuhin47.auth.repo.RoleRepository;
 import me.tuhin47.auth.service.RoleService;
 import org.springframework.stereotype.Service;

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public interface UserService extends UserDetailsService {
 
     User registerNewUser(SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException;
 
+    String getEncodedPassword(@NotBlank byte[] password);
+
     UserRedis findUserByEmail(String email);
 
     UserInfo findUserInfoById(String id);
@@ -32,7 +35,7 @@ public interface UserService extends UserDetailsService {
 
     List<User> findAll();
 
-    JwtAuthenticationResponse getJwtAuthenticationResponse(UserRedis userRedis);
+    JwtAuthenticationResponse getJwtAuthenticationResponse(String email);
 
     List<UserResponse> getAllUsers(String[] ids);
 

@@ -1,7 +1,7 @@
 package me.tuhin47.orderservice;
 
+import me.tuhin47.client.FeignConfig;
 import me.tuhin47.config.AxonConfig;
-import me.tuhin47.config.FeignConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
