@@ -1,5 +1,6 @@
 package me.tuhin47.auth.controller.impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.auth.command.PrivilegePayload;
 import me.tuhin47.auth.command.handler.PrivilegeCommandHandler;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

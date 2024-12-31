@@ -33,8 +33,6 @@ public class SensitiveReadSerializer extends StdSerializer<Object> {
             gen.writeString(value.toString());
         }
     }
-
-
 }
 
 // TODO : Similar implementation for SensitiveWriteDeserializer

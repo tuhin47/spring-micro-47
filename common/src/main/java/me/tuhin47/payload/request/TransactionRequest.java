@@ -1,9 +1,8 @@
 package me.tuhin47.payload.request;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PositiveOrZero;
 import me.tuhin47.core.enums.PaymentMode;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.PositiveOrZero;
 
 /**
  * DTO for {@link me.tuhin47.paymentservice.model.TransactionDetails}

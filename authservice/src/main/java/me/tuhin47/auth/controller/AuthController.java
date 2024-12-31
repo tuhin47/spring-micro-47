@@ -1,6 +1,8 @@
 package me.tuhin47.auth.controller;
 
 import io.swagger.annotations.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import me.tuhin47.auth.payload.request.LoginRequest;
 import me.tuhin47.auth.payload.request.SignUpRequest;
 import me.tuhin47.auth.payload.response.MenuDto;
@@ -14,8 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 import java.util.stream.Stream;
 

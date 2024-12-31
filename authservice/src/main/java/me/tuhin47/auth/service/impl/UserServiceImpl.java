@@ -1,10 +1,6 @@
 package me.tuhin47.auth.service.impl;
 
-import dev.samstevens.totp.exceptions.QrGenerationException;
-import dev.samstevens.totp.qr.QrData;
-import dev.samstevens.totp.qr.QrDataFactory;
-import dev.samstevens.totp.qr.QrGenerator;
-import dev.samstevens.totp.secret.SecretGenerator;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.auth.config.TransactionEmailEvent;
@@ -46,11 +42,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 
 @Service
@@ -62,15 +55,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SecretGenerator secretGenerator;
+    //    private final SecretGenerator secretGenerator;
+//      private final QrDataFactory qrDataFactory;
+//    private final QrGenerator qrGenerator;
     private final TokenProvider tokenProvider;
     private final RedisUserService redisUserService;
     private final UserMapper userMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final MyRequestBean myRequestBean;
     private final ApplicationContext applicationContext;
-    private final QrDataFactory qrDataFactory;
-    private final QrGenerator qrGenerator;
+
     private final AppProperties appProperties;
 
     @Override
@@ -91,7 +85,15 @@ public class UserServiceImpl implements UserService {
         setUserRole(user);
         user = userRepository.save(user);
 
-        try {
+        qrGenerator(signUpRequest, user);
+
+        applicationEventPublisher.publishEvent(new TransactionEmailEvent(this, user.getEmail(), "Your registration is successfully completed", "Successful Registration"));
+
+        return user;
+    }
+
+    private void qrGenerator(SignUpRequest signUpRequest, User user) {
+        /*try {
             if (signUpRequest.isUsing2FA()) {
                 QrData data = qrDataFactory.newBuilder()
                                            .label(user.getEmail())
@@ -104,11 +106,7 @@ public class UserServiceImpl implements UserService {
         } catch (QrGenerationException e) {
             log.error("QR Generation Exception Occurred", e);
             user.setUsing2FA(false);
-        }
-
-        applicationEventPublisher.publishEvent(new TransactionEmailEvent(this, user.getEmail(), "Your registration is successfully completed", "Successful Registration"));
-
-        return user;
+        }*/
     }
 
     private void setUserRole(User user) {

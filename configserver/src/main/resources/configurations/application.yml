@@ -17,7 +17,7 @@ spring:
     password: ${MYSQL_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -48,7 +48,7 @@ app:
     qrIssuer: tuhin47
     noAuth: ${NOAUTH_ENABLE:false}
   auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenSecret: 2a0d3feeb0312fe7a3e577046a54bedbc16e3d0c25428b7ba46de5bcad73d1f62f4f3f9d86fb75601fe4cdfc85921742a96acf848bcbeff938b0f40c5eeb622f
     tokenExpirationMsec: 864000000
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,

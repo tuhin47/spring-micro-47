@@ -1,11 +1,11 @@
 package me.tuhin47.auth.payload.response;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.payload.common.PrivilegeIdDto;
 import me.tuhin47.auth.payload.common.UserIdDto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Set;
 

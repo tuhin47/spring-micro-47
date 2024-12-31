@@ -5,17 +5,16 @@ import me.tuhin47.auth.security.oauth2.*;
 import me.tuhin47.config.exception.JWTAccessDeniedHandler;
 import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +23,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,9 +31,10 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
-public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
+public class AuthSecurityConfig {
 
 
     private final UserDetailsService userDetailsService;
@@ -48,62 +49,57 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
 
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        return http.cors(AbstractHttpConfigurer::disable)
+                   .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                   .csrf(AbstractHttpConfigurer::disable)
+                   .formLogin(AbstractHttpConfigurer::disable)
+                   .httpBasic(AbstractHttpConfigurer::disable)
+//                   .authorizeHttpRequests(r -> r.anyRequest().authenticated())
+                   .authorizeHttpRequests(r -> r.requestMatchers(whiteList).permitAll())
+                   .authorizeHttpRequests(r -> r.requestMatchers("/", "/error", "/api/all", "/auth/*", "/oauth2/**").permitAll())
+                   .authorizeHttpRequests(r -> r.anyRequest().authenticated())
+                   .exceptionHandling(configurer -> configurer.authenticationEntryPoint(authenticationEntryPoint)
+                                                              .accessDeniedHandler(accessDeniedHandler)
+                   )
+                   .oauth2Login(
+                       loginConfigurer -> loginConfigurer.authorizationEndpoint(config -> config.authorizationRequestRepository(cookieAuthorizationRequestRepository()))
+                                                         //                    .redirectionEndpoint(redirectionEndpointConfig -> )
+                                                         .userInfoEndpoint(
+                                                             userInfoEndpointConfig -> userInfoEndpointConfig.oidcUserService(customOidcUserService)
+                                                                                                             .userService(customOAuth2UserService)
+                                                         ).tokenEndpoint(tokenEndpointConfig ->
+                               tokenEndpointConfig.accessTokenResponseClient(authorizationCodeTokenResponseClient())
+                           ).successHandler(oAuth2AuthenticationSuccessHandler)
+                                                         .failureHandler(oAuth2AuthenticationFailureHandler)
+                   ).addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
+
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .csrf().disable().formLogin().disable().httpBasic().disable()
-            .authorizeRequests()
-            .antMatchers(whiteList).permitAll()
-            .antMatchers("/", "/error", "/api/all", "/auth/*", "/oauth2/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPoint)
-            .accessDeniedHandler(accessDeniedHandler)
-            .and()
-            .oauth2Login().authorizationEndpoint()
-            .authorizationRequestRepository(cookieAuthorizationRequestRepository()).and()
-            .redirectionEndpoint().and().userInfoEndpoint().oidcUserService(customOidcUserService)
-            .userService(customOAuth2UserService).and().tokenEndpoint().accessTokenResponseClient(authorizationCodeTokenResponseClient()).and()
-            .successHandler(oAuth2AuthenticationSuccessHandler).failureHandler(oAuth2AuthenticationFailureHandler);
-
-        // Add our custom Token based authentication filter
-        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    /*
-     * By default, Spring OAuth2 uses
-     * HttpSessionOAuth2AuthorizationRequestRepository to save the authorization
-     * request. But, since our service is stateless, we can't save it in the
-     * session. We'll save the request in a Base64 encoded cookie instead.
-     */
     @Bean
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
-    // This bean is load the user specific data when form login is used.
-    @Override
-    public UserDetailsService userDetailsService() {
-        return userDetailsService;
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
     }
 
-
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
         OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
-        tokenResponseHttpMessageConverter.setTokenResponseConverter(new OAuth2AccessTokenResponseConverterWithDefaults());
+        tokenResponseHttpMessageConverter.setAccessTokenResponseConverter(new OAuth2AccessTokenResponseConverterWithDefaults());
         RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         DefaultAuthorizationCodeTokenResponseClient tokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();

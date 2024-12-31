@@ -5,6 +5,7 @@
     <properties>
         <axon-spring-boot-starter.version>4.5.2</axon-spring-boot-starter.version>
         <spring-cloud.version>3.1.4</spring-cloud.version>
+        <jedis.version>4.4.0</jedis.version>
     </properties>
 
     <parent>
@@ -53,25 +54,39 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                     <groupId>org.springframework.boot</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>nimbus-jose-jwt</artifactId>
+                    <groupId>com.nimbusds</groupId>
+                </exclusion>
             </exclusions>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-        </dependency>
+            <version>4.0.1</version>
+        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${org.projectlombok.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
             <scope>compile</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -85,7 +100,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.4.0</version>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>
@@ -98,6 +113,10 @@
                     <artifactId>springfox-swagger-ui</artifactId>
                     <groupId>io.springfox</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>mapstruct</artifactId>
+                    <groupId>org.mapstruct</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -107,13 +126,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>2.2.3</version>
-            <scope>compile</scope>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
@@ -129,6 +142,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <version>6.6.4.Final</version>
         </dependency>
 
         <dependency>

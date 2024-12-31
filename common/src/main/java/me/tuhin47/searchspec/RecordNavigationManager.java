@@ -1,12 +1,11 @@
 package me.tuhin47.searchspec;
 
-import com.sun.istack.NotNull;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +44,7 @@ public class RecordNavigationManager {
         return orders;
     }
 
-    private static int getValueFromRequest(HttpServletRequest request, @NotNull String param) {
+    private static int getValueFromRequest(HttpServletRequest request, String param) {
         String paramValue = request.getParameter(param);
         if (paramValue == null) {
             switch (param) {

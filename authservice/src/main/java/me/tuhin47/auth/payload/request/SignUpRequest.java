@@ -1,15 +1,14 @@
 package me.tuhin47.auth.payload.request;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.tuhin47.auth.payload.constraints.PasswordMatches;
 import me.tuhin47.auth.payload.constraints.ValidPassword;
 import me.tuhin47.auth.security.oauth2.SocialProvider;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * DTO for {@link me.tuhin47.auth.model.User}

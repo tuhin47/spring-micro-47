@@ -1,6 +1,9 @@
 package me.tuhin47.auth.controller.impl;
 
-import dev.samstevens.totp.code.CodeVerifier;
+//import dev.samstevens.totp.code.CodeVerifier;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.auth.controller.AuthController;
@@ -24,8 +27,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -39,7 +40,7 @@ public class AuthControllerImpl implements AuthController {
     private final UserService userService;
     private final MenuService menuService;
     private final TokenProvider tokenProvider;
-    private final CodeVerifier verifier;
+    //    private final CodeVerifier verifier;
     private final UserMapper userMapper;
 
     @Override
@@ -63,7 +64,7 @@ public class AuthControllerImpl implements AuthController {
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCode(@NotEmpty @RequestBody String code, @CurrentUser UserRedis userRedis) {
 
-        if (!verifier.isValidCode(userRedis.getSecret(), code)) {
+        if (false /*!verifier.isValidCode(userRedis.getSecret(), code)*/) {
             return new ResponseEntity<>(new ApiResponse(false, "Invalid Code!"), HttpStatus.BAD_REQUEST);
         }
         String jwt = tokenProvider.createToken(true, userRedis.getEmail());

@@ -1,27 +1,27 @@
 package me.tuhin47.jwt;
 
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.AppProperties;
 import me.tuhin47.config.exception.JwtTokenMalformedException;
-import me.tuhin47.config.exception.JwtTokenMissingException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TokenProvider {
 
     private static final String AUTHENTICATED = "authenticated";
     public static final long TEMP_TOKEN_VALIDITY_IN_MILLIS = 300000;
 
     private final AppProperties appProperties;
-
-    public TokenProvider(AppProperties appProperties) {
-        this.appProperties = appProperties;
-    }
 
     public String createToken(boolean authenticated, String email) {
         Date now = new Date();
@@ -48,7 +48,10 @@ public class TokenProvider {
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException e) {
+        } catch (Exception ex) {
+            throw new JwtTokenMalformedException("Token Invalid.");
+        }
+        /*catch (SignatureException e) {
             log.error("TokenProvider | validateJwtToken | Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             log.error("TokenProvider | validateJwtToken | Invalid JWT token: {}", e.getMessage());
@@ -59,7 +62,7 @@ public class TokenProvider {
             log.error("TokenProvider | validateJwtToken | JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             log.error("TokenProvider | validateJwtToken | JWT claims string is empty: {}", e.getMessage());
-        }
-        throw new JwtTokenMalformedException("Token Invalid.");
+        }*/
+
     }
 }

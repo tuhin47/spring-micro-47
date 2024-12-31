@@ -1,10 +1,10 @@
 package me.tuhin47.auth.command;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import me.tuhin47.auth.model.Role;
 import me.tuhin47.auth.payload.common.PrivilegeIdDto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Set;
 

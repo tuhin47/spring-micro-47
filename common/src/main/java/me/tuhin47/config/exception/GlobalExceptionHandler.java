@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.exception.apierror.ApiError;
 import me.tuhin47.config.exception.apierror.CustomException;
 import me.tuhin47.config.exception.apierror.EntityNotFoundException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,7 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @return the ApiError object
      */
 
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
         MissingServletRequestParameterException ex, HttpHeaders headers,
         HttpStatus status, WebRequest request) {
@@ -62,7 +61,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @param request WebRequest
      * @return the ApiError object
      */
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
         HttpMediaTypeNotSupportedException ex,
         HttpHeaders headers,
@@ -84,7 +83,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @param request WebRequest
      * @return the ApiError object
      */
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
         MethodArgumentNotValidException ex,
         HttpHeaders headers,
@@ -104,11 +103,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @return the ApiError object
      */
     @Override
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    public ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolation(jakarta.validation.ConstraintViolationException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Validation error");
-        apiError.addValidationErrors(ex.getConstraintViolations());
+//        apiError.addValidationErrors(ex.getConstraintViolations());
         return buildResponseEntity(apiError, ex);
     }
 
@@ -136,7 +135,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @param request WebRequest
      * @return the ApiError object
      */
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
@@ -153,7 +152,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @param request WebRequest
      * @return the ApiError object
      */
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "Error writing JSON output";
         return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex), ex);
@@ -168,7 +167,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      * @param request
      * @return
      */
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
         NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
@@ -180,11 +179,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     /**
      * Handle javax.persistence.EntityNotFoundException
      */
-    @Override
+    /*@Override
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex) {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, ex), ex);
-    }
+    }*/
 
     /**
      * Handle org.springframework.orm.jpa.JpaObjectRetrievalFailureException
@@ -204,9 +203,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     @Override
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
-        if (ex.getCause() instanceof ConstraintViolationException) {
+        /*if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()), ex);
-        }
+        }*/
         return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex), ex);
     }
 

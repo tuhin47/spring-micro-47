@@ -10,22 +10,24 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
-        <spring-boot.version>2.7.4</spring-boot.version>
+        <spring-boot.version>3.4.1</spring-boot.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
         <docker-compose-plugin.version>1.0.0</docker-compose-plugin.version>
-        <flyway-core.version>8.5.13</flyway-core.version>
+        <flyway-core.version>10.22.0</flyway-core.version>
+        <mysql-core.version>8.0.33</mysql-core.version>
+        <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
     </properties>
 
     <modules>

@@ -11,14 +11,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 public interface ProjectExceptionHandler {
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex);
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    ResponseEntity<Object> handleConstraintViolation(jakarta.validation.ConstraintViolationException ex);
 
     @ExceptionHandler(EntityNotFoundException.class)
     ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex);
-
-    @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
-    ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex);
+//
+//    @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
+//    ResponseEntity<Object> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex);
 
     @ExceptionHandler(org.springframework.orm.jpa.JpaObjectRetrievalFailureException.class)
     ResponseEntity<Object> handleJpaObjectRetrievalFailureException(org.springframework.orm.jpa.JpaObjectRetrievalFailureException ex);

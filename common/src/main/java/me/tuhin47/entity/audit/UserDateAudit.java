@@ -1,6 +1,8 @@
 package me.tuhin47.entity.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,8 +10,6 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import java.io.Serial;
 
 @MappedSuperclass

@@ -21,7 +21,7 @@ public class AsyncConfig {
         executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("Async-");
         executor.initialize();
-        log.debug("Creating Async Task Executor CorePoolSize{} , MaePoolSize{} , QueueCapacity{}", 2, 5, 100);
+        log.debug("Creating Async Task Executor CorePoolSize{} , MaxPoolSize{} , QueueCapacity{}", 2, 5, 100);
         return executor;
     }
 

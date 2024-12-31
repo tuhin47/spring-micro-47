@@ -21,12 +21,9 @@ public class JpaAuditingConfiguration {
 
 class SpringSecurityAuditAwareImpl implements AuditorAware<String> {
 
-
     @Override
     public Optional<String> getCurrentAuditor() {
-
         UserRedis userPrincipal = RedisUserService.getCurrentUser();
-
         return Optional.ofNullable(userPrincipal).map(UserRedis::getUserId).or(Optional::empty);
     }
 }

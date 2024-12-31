@@ -1,11 +1,11 @@
 package me.tuhin47.auth.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.tuhin47.entity.BaseEntity;
 
-import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;

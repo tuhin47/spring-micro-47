@@ -1,12 +1,12 @@
 package me.tuhin47.auth.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import me.tuhin47.entity.BaseEntity;
 
-import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashSet;

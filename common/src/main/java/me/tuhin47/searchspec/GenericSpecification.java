@@ -1,8 +1,9 @@
 package me.tuhin47.searchspec;
 
+
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -72,7 +73,7 @@ public class GenericSpecification<T> implements Specification<T> {
         throw new IllegalArgumentException("Not implemented yet :" + criteria.getOperation());
     }
 
-    private Path<String> getPath(Root<T> root, String key,Path<String> path) {
+    private Path<String> getPath(Root<T> root, String key, Path<String> path) {
         if (!key.contains(".") && path == null) {
             return root.get(key);
         }

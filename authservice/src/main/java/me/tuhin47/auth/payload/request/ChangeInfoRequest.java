@@ -1,10 +1,10 @@
 package me.tuhin47.auth.payload.request;
 
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.constraints.ValidPassword;
 
-import javax.validation.constraints.Email;
 import java.io.Serial;
 import java.io.Serializable;
 

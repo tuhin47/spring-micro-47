@@ -1,5 +1,6 @@
 package me.tuhin47.auth.service;
 
+import jakarta.validation.constraints.NotBlank;
 import me.tuhin47.auth.exception.UserAlreadyExistAuthenticationException;
 import me.tuhin47.auth.model.User;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Map;
 

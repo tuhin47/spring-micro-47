@@ -1,6 +1,9 @@
 package me.tuhin47.entity.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,9 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -26,7 +26,6 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class DateAudit<T> extends BaseEntity<T> implements Serializable {
 
-
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -34,5 +33,4 @@ public abstract class DateAudit<T> extends BaseEntity<T> implements Serializable
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
-
 }
