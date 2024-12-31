@@ -32,14 +32,30 @@ spring:
       location: /data/upload_tmp
   redis:
     url: ${REDIS_URL:redis://127.0.0.1:6379}
-  zipkin:
-    baseUrl: ${ZIPKIN_URL:http://127.0.0.1:9411/}
   output:
     ansi:
       enabled: ALWAYS
 axon:
   axonserver:
     servers: ${AXON_SERVER_URL:127.0.0.1:8124}
+
+
+management:
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL:http://127.0.0.1:9411/}
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        # include: "health,info"
+  endpoint:
+    health:
+      show-details: always
+
 
 app:
   version: @project.version@
@@ -81,16 +97,6 @@ feign:
         loggerLevel: FULL
         requestInterceptors:
           - me.tuhin47.client.FeignConfig
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-        # include: "health,info"
-  endpoint:
-    health:
-      show-details: always
 
 logging:
   level:
