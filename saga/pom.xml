@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <axon-server-version>4.7.6</axon-server-version>
+        <axon-server-version>4.10.3</axon-server-version>
     </properties>
     <dependencies>
 

@@ -97,8 +97,10 @@ services:
       - backend
 
   axonserver:
-    image: axoniq/axonserver:4.6.11
+    image: axoniq/axonserver:2024.1.4
     hostname: axonserver
+    environment:
+      AXONIQ_AXONSERVER_STANDALONE: true
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata
