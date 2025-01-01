@@ -42,12 +42,12 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
         </dependency>
 
         <dependency>
@@ -77,11 +77,6 @@
             <version>${jaxb.api.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>me.tuhin47.common</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
@@ -97,6 +92,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- <dependency>
+                 <groupId>org.springframework.cloud</groupId>
+                 <artifactId>spring-cloud-sleuth-otel-dependencies</artifactId>
+                 <version>${spring-cloud.version}</version>
+                 <scope>import</scope>
+                 <type>pom</type>
+             </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -105,6 +107,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>

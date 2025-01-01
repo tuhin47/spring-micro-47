@@ -22,12 +22,13 @@
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
         <docker-compose-plugin.version>1.0.0</docker-compose-plugin.version>
         <flyway-core.version>10.22.0</flyway-core.version>
         <mysql-core.version>8.0.33</mysql-core.version>
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 
     <modules>
@@ -54,7 +55,7 @@
                     <env>
                         <PROJECT_PATH>${project.basedir}</PROJECT_PATH>
                         <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/eureka</EUREKA_SERVER_ADDRESS>
-                        <ZIPKIN_URL>http://zipkin:9411/</ZIPKIN_URL>
+                        <TRACING_URL>http://tracing:4317/</TRACING_URL>
                         <CONFIG_SERVER_URL>http://configserver:9296</CONFIG_SERVER_URL>
                         <MYSQL_HOST>database</MYSQL_HOST>
                         <MYSQL_PORT>3306</MYSQL_PORT>

@@ -30,8 +30,9 @@ spring:
   servlet:
     multipart:
       location: /data/upload_tmp
-  redis:
-    url: ${REDIS_URL:redis://127.0.0.1:6379}
+  data:
+    redis:
+      url: ${REDIS_URL:redis://127.0.0.1:6379}
   output:
     ansi:
       enabled: ALWAYS
@@ -39,11 +40,11 @@ axon:
   axonserver:
     servers: ${AXON_SERVER_URL:127.0.0.1:8124}
 
-
 management:
-  zipkin:
+  otlp:
     tracing:
-      endpoint: ${ZIPKIN_URL:http://127.0.0.1:9411/}
+      endpoint: ${TRACING_URL:http://127.0.0.1:4317}
+      transport: grpc
   tracing:
     sampling:
       probability: 1.0

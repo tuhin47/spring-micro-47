@@ -4,7 +4,7 @@ spring:
   config:
     import: configserver:${CONFIG_SERVER_URL:http://127.0.0.1:9296}
   zipkin:
-    base-url: ${ZIPKIN_URL:http://127.0.0.1:9411/}
+    base-url: ${TRACING_URL:http://127.0.0.1:9411/}
   data:
     mongodb:
       database: ${MONGO_DATABASE:chat_service}

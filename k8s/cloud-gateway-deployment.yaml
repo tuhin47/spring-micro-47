@@ -34,11 +34,11 @@ spec:
                 configMapKeyRef:
                   name: redis-cm
                   key: redis-url
-            - name: ZIPKIN_URL
+            - name: TRACING_URL
               valueFrom:
                 configMapKeyRef:
                   name: zipkin-cm
-                  key: zipkin_url
+                  key: TRACING_URL
             - name: NOAUTH_ENABLE
               valueFrom:
                 configMapKeyRef:

@@ -64,7 +64,7 @@ services:
       - DEUBG_PORT=19090
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
@@ -112,7 +112,7 @@ services:
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
@@ -161,7 +161,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DB=productdb
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
@@ -203,7 +203,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DB=orderdb
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
@@ -249,7 +249,7 @@ services:
       - MONGO_PASSWORD
       - MONGO_PORT
       - MONGO_USERNAME
-      - ZIPKIN_URL
+      - TRACING_URL
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
@@ -284,7 +284,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
@@ -314,11 +314,29 @@ services:
       file: docker-compose.common.yml
       service: boilerplate
 
-  zipkin:
-    extends:
-      service: zipkin
-      file: docker-compose.common.yml
+  #  zipkin:
+  #    extends:
+  #      service: zipkin
+  #      file: docker-compose.common.yml
 
+  tracing:
+    image: otel/opentelemetry-collector:0.72.0
+    volumes:
+      - $PROJECT_PATH/otel:/etc/otelcol
+    ports:
+      - "4317:4317"
+    depends_on:
+      - jaeger-service
+    networks:
+      - backend
+
+  jaeger-service:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250"
+    networks:
+      - backend
 
   redis:
     extends:

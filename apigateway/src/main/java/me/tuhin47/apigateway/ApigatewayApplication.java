@@ -9,13 +9,12 @@ import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuit
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import reactor.core.publisher.Mono;
 
-@SpringBootApplication(scanBasePackages = {"me.tuhin47.config.exception", "me.tuhin47.apigateway"})
-@EnableEurekaClient
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.apigateway"})
+//@EnableEurekaClient
 @Import({AppProperties.class, TokenProvider.class})
 public class ApigatewayApplication {
 

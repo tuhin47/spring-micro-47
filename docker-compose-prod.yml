@@ -49,7 +49,7 @@ services:
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
@@ -92,7 +92,7 @@ services:
       - MYSQL_DB=userdb
       - CLIENT_ID
       - CLIENT_SECRET
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
@@ -137,7 +137,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DB=productdb
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - NOAUTH_ENABLE
     healthcheck:
@@ -172,7 +172,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_DB=orderdb
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
@@ -211,7 +211,7 @@ services:
       - MONGO_PASSWORD
       - MONGO_PORT
       - MONGO_USERNAME
-      - ZIPKIN_URL
+      - TRACING_URL
       - NOAUTH_ENABLE
     depends_on:
       mongo:
@@ -241,7 +241,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
-      - ZIPKIN_URL
+      - TRACING_URL
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
