@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: eureka
-          image: tuhin47/serviceregistry:0.6.0
+          image: tuhin47/serviceregistry:0.7.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8761
