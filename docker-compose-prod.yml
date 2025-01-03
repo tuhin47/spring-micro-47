@@ -56,8 +56,6 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
-      zipkin:
-        condition: service_started
       redis:
         condition: service_started
       serviceregistry:
@@ -263,11 +261,15 @@ services:
       file: docker-compose.common.yml
       service: boilerplate
 
-  zipkin:
+  tracing:
     extends:
-      service: zipkin
       file: docker-compose.common.yml
+      service: tracing
 
+  jaeger-service:
+    extends:
+      file: docker-compose.common.yml
+      service: jaeger-service
 
   redis:
     extends:

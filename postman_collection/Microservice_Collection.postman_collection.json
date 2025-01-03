@@ -73,7 +73,7 @@
           "response": []
         },
         {
-          "name": "Auth Service | Login User",
+          "name": "Auth Service | User Sign In",
           "event": [
             {
               "listen": "test",
@@ -121,7 +121,7 @@
           "response": []
         },
         {
-          "name": "Auth Service | Login Admin",
+          "name": "Auth Service | Admin Sign In",
           "event": [
             {
               "listen": "test",
@@ -208,7 +208,7 @@
           "response": []
         },
         {
-          "name": "Auth Service | User Summery ",
+          "name": "Auth Service | User Summery",
           "event": [
             {
               "listen": "test",
@@ -241,6 +241,368 @@
                 "summaries"
               ]
             }
+          },
+          "response": []
+        },
+        {
+          "name": "Privilege  | Get privileges",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{AUTH}}/privileges",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "privileges"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET \"http://me47:9090/privileges\" -H \"accept: */*\""
+          },
+          "response": []
+        },
+        {
+          "name": "Privilege  | Post privilege",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.collectionVariables.set(\"PRIV_ID\", pm.response.json().id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer accessToken"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"PRIV_{{$randomJobType}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{AUTH}}/privileges",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "privileges"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST --location \"http://me47:7777/privileges\" \\\n    -H \"Accept: application/json\" \\\n    -H \"Authorization: Bearer accessToken\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\n            \"name\": \"PRIV_3\",\n            \"description\": \"NEW PRIV_3\",\n            \"roles\": [\n                {\n                    \"id\": 1\n                }\n            ]\n        }'"
+          },
+          "response": []
+        },
+        {
+          "name": "Privilege  | Get privilege by Id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Response time is less than 200ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{AUTH}}/privileges/{{PRIV_ID}}",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "privileges",
+                "{{PRIV_ID}}"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET \"http://me47:9090/privileges/1\" -H \"accept: */*\""
+          },
+          "response": []
+        },
+        {
+          "name": "Privilege  | PUT privilege",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"{{$randomJobDescriptor}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{AUTH}}/privileges/{{PRIV_ID}}",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "privileges",
+                "{{PRIV_ID}}"
+              ]
+            },
+            "description": "Generated from cURL: curl -X PUT \"http://me47:9090/privileges/2\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{\\\"description\\\":\\\"string\\\",\\\"name\\\":\\\"string\\\"}\""
+          },
+          "response": []
+        },
+        {
+          "name": "Role | Get Roles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{AUTH}}/roles",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "roles"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET \"http://me47:9090/roles\" -H \"accept: */*\""
+          },
+          "response": []
+        },
+        {
+          "name": "Role | Post Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.collectionVariables.set(\"ROLE_ID\", pm.response.json().id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer accessToken"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"ROLE_{{$randomJobType}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{AUTH}}/roles",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "roles"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST --location \"http://me47:7777/roles\" \\\n    -H \"Accept: application/json\" \\\n    -H \"Authorization: Bearer accessToken\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\n            \"name\": \"ROLE_UNIQUE\"\n        }'"
+          },
+          "response": []
+        },
+        {
+          "name": "Role | Get Role By Id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{AUTH}}/roles/{{ROLE_ID}}",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "roles",
+                "{{ROLE_ID}}"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET \"http://me47:9090/roles/1\" -H \"accept: */*\""
+          },
+          "response": []
+        },
+        {
+          "name": "Role | PUT Role",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"{{$randomJobArea}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{AUTH}}/roles/{{ROLE_ID}}",
+              "host": [
+                "{{AUTH}}"
+              ],
+              "path": [
+                "roles",
+                "{{ROLE_ID}}"
+              ]
+            },
+            "description": "Generated from cURL: curl -X PUT \"http://me47:9090/roles/1\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{\\\"description\\\":\\\"string\\\",\\\"name\\\":\\\"string\\\",\\\"privileges\\\":[{\\\"id\\\":0}]}\""
           },
           "response": []
         }
@@ -375,7 +737,8 @@
                 "exec": [
                   ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             },
             {
@@ -389,15 +752,13 @@
                   "",
                   ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
               {
                 "key": "Cookie",
@@ -685,13 +1046,12 @@
               }
             },
             "url": {
-              "raw": "{{ORDER}}/order/",
+              "raw": "{{ORDER}}/order",
               "host": [
                 "{{ORDER}}"
               ],
               "path": [
-                "order",
-                ""
+                "order"
               ]
             }
           },
@@ -836,30 +1196,6 @@
       "value": ""
     },
     {
-      "key": "API_GATEWAY",
-      "value": "http://apigateway:9090"
-    },
-    {
-      "key": "AUTH",
-      "value": "http://apigateway:9090",
-      "type": "string"
-    },
-    {
-      "key": "PRODUCT",
-      "value": "http://apigateway:9090",
-      "type": "string"
-    },
-    {
-      "key": "ORDER",
-      "value": "http://apigateway:9090",
-      "type": "string"
-    },
-    {
-      "key": "PAY",
-      "value": "http://apigateway:9090",
-      "type": "string"
-    },
-    {
       "key": "password",
       "value": "123456"
     },
@@ -884,6 +1220,14 @@
       "key": "TYPE",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "PRIV_ID",
+      "value": ""
+    },
+    {
+      "key": "ROLE_ID",
+      "value": ""
     }
   ]
 }

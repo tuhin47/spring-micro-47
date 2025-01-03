@@ -14,4 +14,8 @@ onExit() {
 
 trap onExit EXIT
 # --bail
-newman run Microservice_Collection.postman_collection.json --delay-request=300  --environment=env.docker.json  --reporters=cli,junit,json --iteration-count=3
+newman run Microservice_Collection.postman_collection.json \
+            --delay-request=300  \
+            --reporters=cli,junit,json \
+            --iteration-count=3 \
+            --environment=env.docker.json
