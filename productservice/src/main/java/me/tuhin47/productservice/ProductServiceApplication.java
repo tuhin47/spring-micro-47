@@ -12,7 +12,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
-@SpringBootApplication(scanBasePackages = {"me.tuhin47.productservice", "me.tuhin47.config", "me.tuhin47.jwt"})
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.productservice", "me.tuhin47.config", "me.tuhin47.entity", "me.tuhin47.jwt"})
 @Import(ExporterUtils.class)
 @EnableFeignClients(basePackages = "me.tuhin47.client")
 public class ProductServiceApplication {

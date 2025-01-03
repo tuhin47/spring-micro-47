@@ -1,5 +1,6 @@
 package me.tuhin47.productservice.service.impl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.exception.apierror.EntityNotFoundException;
@@ -22,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,9 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getProductById(String productId) {
-
-        return productMapper.toDto(productRepository.findById(productId)
-                                                    .orElseThrow(() -> ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId)));
+        return productMapper.toDto(productRepository.findById(productId).orElseThrow(() -> ProductServiceExceptions.PRODUCT_NOT_FOUND.apply(productId)));
     }
 
     @Override
@@ -68,11 +66,9 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(String productId) {
 
         log.info("Deleting Product with id: {}", productId);
-        try {
-            productRepository.deleteById(productId);
-        } catch (RuntimeException e) {
+        productRepository.findById(productId).ifPresentOrElse(productRepository::delete, () -> {
             throw new EntityNotFoundException(Product.class, HttpStatus.UNPROCESSABLE_ENTITY, "id", productId);
-        }
+        });
 
     }
 
@@ -93,8 +89,7 @@ public class ProductServiceImpl implements ProductService {
         if (ids == null || ids.length <= 0) {
             return null;
         }
-        List<ProductResponse> productResponses = productRepository.findAllById(Arrays.asList(ids))
-                                                                  .stream().map(productMapper::toDto).toList();
+        List<ProductResponse> productResponses = productRepository.findAllById(Arrays.asList(ids)).stream().map(productMapper::toDto).toList();
         ProductsPrice productsPrice = new ProductsPrice(productResponses, productResponses.stream().mapToDouble(ProductResponse::getPrice).sum());
         discountRuleEngine.applyRules(productsPrice);
 

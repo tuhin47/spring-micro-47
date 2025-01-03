@@ -56,7 +56,7 @@ spec:
             - name: TRACING_URL
               valueFrom:
                 configMapKeyRef:
-                  name: zipkin-cm
+                  name: tracing-cm
                   key: TRACING_URL
             - name: AXON_SERVER_URL
               valueFrom:

@@ -1,10 +1,10 @@
 package me.tuhin47.productservice.domain.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import me.tuhin47.entity.audit.UserDateAudit;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serial;
 import java.util.HashSet;
 import java.util.Set;

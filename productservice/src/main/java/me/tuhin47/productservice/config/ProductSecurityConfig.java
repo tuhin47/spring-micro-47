@@ -6,10 +6,10 @@ import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class ProductSecurityConfig {
 
@@ -28,27 +28,16 @@ public class ProductSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers(whiteList).permitAll()
-            .antMatchers(HttpMethod.POST, "/product/**").hasRole("USER")
-            .antMatchers(HttpMethod.PUT, "/product/**").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/product/**").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
-            .and()
-            .authorizeRequests().anyRequest().authenticated()
-            .and()
-            .formLogin().disable()
-            .httpBasic().disable()
-            .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPoint)
-            .accessDeniedHandler(accessDeniedHandler)
-            .and()
-            .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+        return http.cors(AbstractHttpConfigurer::disable)
+                   .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                   .csrf(AbstractHttpConfigurer::disable)
+                   .formLogin(AbstractHttpConfigurer::disable)
+                   .httpBasic(AbstractHttpConfigurer::disable)
+                   .authorizeHttpRequests(r -> r.requestMatchers(whiteList).permitAll())
+                   .authorizeHttpRequests(r -> r.anyRequest().authenticated())
+                   .exceptionHandling(configurer -> configurer.authenticationEntryPoint(authenticationEntryPoint)
+                                                              .accessDeniedHandler(accessDeniedHandler)
+                   ).addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
 }

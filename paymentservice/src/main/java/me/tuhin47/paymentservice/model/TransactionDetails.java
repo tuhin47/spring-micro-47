@@ -1,10 +1,10 @@
 package me.tuhin47.paymentservice.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.entity.audit.UserDateAudit;
 
-import javax.persistence.*;
 import java.io.Serial;
 import java.time.Instant;
 import java.util.UUID;

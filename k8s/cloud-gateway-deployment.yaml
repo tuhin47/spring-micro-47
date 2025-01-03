@@ -37,7 +37,7 @@ spec:
             - name: TRACING_URL
               valueFrom:
                 configMapKeyRef:
-                  name: zipkin-cm
+                  name: tracing-cm
                   key: TRACING_URL
             - name: NOAUTH_ENABLE
               valueFrom:

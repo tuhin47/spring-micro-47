@@ -1,5 +1,7 @@
 package me.tuhin47.productservice.controller.Impl;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.exporter.ExporterType;
 import me.tuhin47.exporter.ExporterUtils;
@@ -16,8 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -60,7 +60,7 @@ public class ProductControllerImpl implements ProductController {
     @Override
     @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(List<SearchCriteria> searchCriteria, HttpServletRequest request) {
-        return new ResponseEntity<>(productService.getAllProductBySearch(searchCriteria,request), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getAllProductBySearch(searchCriteria, request), HttpStatus.OK);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @RequestMapping(value = "/excel",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/excel", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<byte[]> exportExcel(List<SearchCriteria> searchCriteria, ExporterType exporterType, HttpServletRequest request) {
         var products = productService.getAllProductBySearch(searchCriteria, request);
         var content = products.getContent();

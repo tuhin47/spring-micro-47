@@ -18,6 +18,25 @@ services:
     image: tuhin47/boilerplate:${IMAGE_TAG}
     network_mode: "host"
 
+  tracing:
+    image: otel/opentelemetry-collector:0.72.0
+    volumes:
+      - ./otel/:/etc/otelcol/
+    ports:
+      - "4317:4317"
+    depends_on:
+      - jaeger-service
+    networks:
+      - backend
+
+  jaeger-service:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250"
+    networks:
+      - backend
+
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin

@@ -1,5 +1,6 @@
 package me.tuhin47.productservice.rules;
 
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.client.OrderService;
 import me.tuhin47.config.RequestDataHolder;
@@ -11,7 +12,6 @@ import me.tuhin47.payload.response.TopOrderDto;
 import me.tuhin47.utils.InstantUtil;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Component

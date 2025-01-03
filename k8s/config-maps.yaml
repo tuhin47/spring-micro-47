@@ -51,6 +51,6 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: zipkin-cm
+  name: tracing-cm
 data:
   tracing_url: "http://zipkin-svc:9411/"

@@ -1,10 +1,10 @@
 package me.tuhin47.productservice.payload.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import me.tuhin47.productservice.domain.enums.ProductType;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 
 /**

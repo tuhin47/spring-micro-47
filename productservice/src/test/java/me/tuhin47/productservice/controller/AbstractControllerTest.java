@@ -39,7 +39,8 @@ public class AbstractControllerTest {
     protected static final String MODERATOR_MAIL = "moderator@gmail.com";
 
     @Container
-    public static final GenericContainer<?> redisContainer = new GenericContainer<>(DockerImageName.parse("redis:latest")).withExposedPorts(REDIS_PORT);
+    public static final GenericContainer<?> redisContainer = new GenericContainer<>(DockerImageName.parse("redis:alpine"))
+        .withExposedPorts(REDIS_PORT);
 
     @Autowired
     protected TokenProvider tokenProvider;
@@ -52,8 +53,8 @@ public class AbstractControllerTest {
 
     @DynamicPropertySource
     static void redisProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.redis.host", redisContainer::getHost);
-        registry.add("spring.redis.port", () -> redisContainer.getMappedPort(REDIS_PORT));
+        registry.add("spring.data.redis.host", redisContainer::getHost);
+        registry.add("spring.data.redis.port", () -> redisContainer.getMappedPort(REDIS_PORT));
     }
 
     @BeforeEach

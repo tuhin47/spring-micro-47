@@ -11,9 +11,9 @@ import java.util.Set;
 public record MenuDto(
     Long id,
     String label,
+    Long parentId,
     String icon,
     Set<PrivilegeIdDto> privileges,
-    Set<MenuDto> children,
-    Long parentId
+    Set<MenuDto> children
 ) implements Serializable {
 }

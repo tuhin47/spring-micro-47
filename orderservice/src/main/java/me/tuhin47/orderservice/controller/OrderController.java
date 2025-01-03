@@ -2,10 +2,9 @@ package me.tuhin47.orderservice.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.config.annotations.CurrentUser;
-import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.orderservice.command.CreateOrderCommand;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.Instant;
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel, @CurrentUser UserRedis userRedis) {
+    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel) {
 
         Order order = orderService.placeOrderRequest(orderRestModel);
 
