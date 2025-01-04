@@ -12,7 +12,7 @@ Content-Type: application/json
 %}
 
 ### Update Log levels
-POST http://{{host}}:{{port}}/actuator/loggers/{{customPackages}}
+POST http://{{host}}:{{port}}/actuator/loggers/{{springPackage}}
 Accept: application/json
 Content-Type: application/json
 

@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   java-build:
     docker:
-      - image: cimg/openjdk:17.0.8-node
+      - image: cimg/openjdk:22.0.2-node
     steps:
       - checkout
       - setup_remote_docker:

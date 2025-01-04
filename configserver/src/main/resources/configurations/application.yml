@@ -8,6 +8,9 @@ eureka:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://127.0.0.1:8761/eureka}
 
 spring:
+  threads:
+    virtual:
+      enabled: true
   flyway:
     user: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root}

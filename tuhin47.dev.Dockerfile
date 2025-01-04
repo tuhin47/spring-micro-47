@@ -1,4 +1,4 @@
-FROM maven:3.8.3-eclipse-temurin-17
+FROM maven:3.9-eclipse-temurin-22
 
 RUN apt-get update
 # RUN apt-get -y upgrade

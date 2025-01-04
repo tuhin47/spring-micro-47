@@ -7,7 +7,7 @@
         <artifactId>all-services</artifactId>
         <version>0.6.0</version>
     </parent>
-    <groupId>com.tuhin47</groupId>
+    <groupId>me.tuhin47</groupId>
     <artifactId>authservice</artifactId>
     <name>auth-service</name>
     <description>Demo project for Spring Boot</description>
@@ -76,7 +76,7 @@
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
