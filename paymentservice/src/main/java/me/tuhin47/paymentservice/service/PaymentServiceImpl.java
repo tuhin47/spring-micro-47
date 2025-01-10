@@ -2,7 +2,6 @@ package me.tuhin47.paymentservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.tuhin47.config.exception.common.PaymentServiceExceptions;
 import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import me.tuhin47.paymentservice.model.TransactionDetails;
@@ -35,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         TransactionDetails transactionDetails = transactionDetailsRepository.findByOrderId(orderId)
-                                                                            .orElseThrow(() -> PaymentServiceExceptions.PAYMENT_NOT_FOUND_BY_ORDERID.apply(orderId));
+                                                                            .orElse(null);
 
 
         return transactionDetailsMapper.toDto(transactionDetails);

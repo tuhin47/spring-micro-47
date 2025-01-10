@@ -5,9 +5,7 @@ import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Api(value = "Payment API", tags = "PAYMENT-API", description = "Operations related to Payments")
@@ -19,7 +17,6 @@ public interface PaymentController {
         @ApiResponse(code = 400, message = "Invalid payment request")
     })
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
-    @PostMapping
     ResponseEntity<String> doPayment(@RequestBody TransactionRequest transactionRequest);
 
 
@@ -30,6 +27,5 @@ public interface PaymentController {
         @ApiResponse(code = 404, message = "Payment details not found for the given order ID")
     })
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
-    @GetMapping("/order/{orderId}")
     ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable String orderId);
 }

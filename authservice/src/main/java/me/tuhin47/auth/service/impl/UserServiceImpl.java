@@ -21,7 +21,6 @@ import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfo;
 import me.tuhin47.auth.security.oauth2.user.OAuth2UserInfoFactory;
 import me.tuhin47.auth.service.UserService;
 import me.tuhin47.auth.util.GeneralUtils;
-import me.tuhin47.config.AppProperties;
 import me.tuhin47.config.exception.common.AuthServiceExceptions;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
@@ -56,16 +55,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     //    private final SecretGenerator secretGenerator;
-//      private final QrDataFactory qrDataFactory;
-//    private final QrGenerator qrGenerator;
+    //    private final QrDataFactory qrDataFactory;
+    //    private final QrGenerator qrGenerator;
+    //    private final AppProperties appProperties;
     private final TokenProvider tokenProvider;
     private final RedisUserService redisUserService;
     private final UserMapper userMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final MyRequestBean myRequestBean;
     private final ApplicationContext applicationContext;
-
-    private final AppProperties appProperties;
 
     @Override
     @Transactional

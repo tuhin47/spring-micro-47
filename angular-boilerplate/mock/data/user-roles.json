@@ -45,16 +45,5 @@
         "description": "Allows editing user profile"
       }
     ]
-  },
-  {
-    "roleId": 3,
-    "name": "Viewer",
-    "privileges": [
-      {
-        "privilegeId": 1,
-        "name": "VIEW_DASHBOARD",
-        "description": "Allows viewing the dashboard"
-      }
-    ]
   }
 ]

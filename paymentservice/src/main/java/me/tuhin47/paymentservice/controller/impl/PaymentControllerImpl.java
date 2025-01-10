@@ -9,10 +9,7 @@ import me.tuhin47.paymentservice.controller.PaymentController;
 import me.tuhin47.paymentservice.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payment")
@@ -23,6 +20,7 @@ public class PaymentControllerImpl implements PaymentController {
     private final PaymentService paymentService;
 
     @Override
+    @PostMapping
     public ResponseEntity<String> doPayment(@RequestBody @Valid TransactionRequest transactionRequest) {
 
         return new ResponseEntity<>(
@@ -32,6 +30,7 @@ public class PaymentControllerImpl implements PaymentController {
     }
 
     @Override
+    @GetMapping("/order/{orderId}")
     public ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable String orderId) {
 
         return new ResponseEntity<>(

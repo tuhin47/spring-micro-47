@@ -14,4 +14,6 @@ export const EVENT_TYPES = {
   SIDEBAR: 'sidebar',
   EDIT_ROLE: 'edit_role',
   ADD_ROLE: 'add_role',
+  USER_SELECTED: 'user-selected',
+
 }

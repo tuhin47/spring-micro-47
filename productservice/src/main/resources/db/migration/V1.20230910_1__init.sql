@@ -6,7 +6,7 @@ create table
     updated_at datetime    not null,
     created_by varchar(36),
     updated_by varchar(36),
-    address    varchar(100),
+    address    varchar(50),
     name       varchar(50),
     primary key (id)
 ) engine = InnoDB;

@@ -1,6 +1,5 @@
 package me.tuhin47.paymentservice.service;
 
-import me.tuhin47.config.exception.apierror.EntityNotFoundException;
 import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.payload.request.TransactionRequest;
 import me.tuhin47.payload.response.PaymentResponse;
@@ -18,7 +17,8 @@ import org.mockito.quality.Strictness;
 import java.time.Instant;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -70,18 +70,6 @@ public class PaymentServiceImplTest {
         assertEquals(transactionDetails.getId(), paymentResponse.getId());
     }
 
-    @Test
-    void test_When_getPaymentDetailsByOrderId_isNotFound() {
-
-        when(transactionDetailsRepository.findByOrderId(anyString())).thenReturn(Optional.empty());
-
-        //Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentDetailsByOrderId("1"));
-        assertEquals("Transactional Details was not found for parameters {order id=1}", exception.getMessage());
-
-        //Verify
-        verify(transactionDetailsRepository, times(1)).findByOrderId(anyString());
-    }
 
     private TransactionRequest getMockPaymentRequest() {
         return new TransactionRequest("1", 500.0, null, PaymentMode.CASH);

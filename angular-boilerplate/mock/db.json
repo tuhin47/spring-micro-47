@@ -42,7 +42,7 @@
   "/roles": {
     "_config": true,
     "description": "The given fetch path will be relative to the root path given in config",
-    "fetch": "./data/user-roles.json"
+    "fetch": "./data/roles.json"
   },
   "/privileges/users/:userId": {
     "_config": true,

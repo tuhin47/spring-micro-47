@@ -6,19 +6,15 @@
         <ul class="list-group">
           <li *ngFor="let user of users$ | async"
               class="list-group-item"
-              (click)="onSelectUser(user.id)"
-              [ngClass]="{'active': selectedUserId === user.id}">
+              (click)="onSelectUser(user)"
+              [ngClass]="{'active': selectedUser?.id === user.id }">
             {{ user.displayName }}
           </li>
         </ul>
       </div>
       <div class="col-md-4">
         <h3>Roles</h3>
-        <ul class="list-group">
-          <li *ngFor="let role of roles$ | async" class="list-group-item">
-            {{ role.name }}
-          </li>
-        </ul>
+        <app-role-checklist></app-role-checklist>
       </div>
       <div class="col-md-4">
         <h3>Privileges</h3>
