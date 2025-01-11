@@ -16,7 +16,7 @@
         </plugins>
     </build>
     <parent>
-        <groupId>me.tuhin47.services</groupId>
+        <groupId>me.tuhin47</groupId>
         <artifactId>all-services</artifactId>
         <version>0.7.0</version>
     </parent>

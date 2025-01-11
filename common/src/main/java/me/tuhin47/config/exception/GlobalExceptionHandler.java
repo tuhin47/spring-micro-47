@@ -203,10 +203,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     @Override
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
-        /*if (ex.getCause() instanceof ConstraintViolationException) {
-            return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()), ex);
-        }*/
-        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex), ex);
+        return buildResponseEntity(new ApiError(BAD_REQUEST, ex), ex);
     }
 
     /**

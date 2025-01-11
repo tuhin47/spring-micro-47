@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import me.tuhin47.entity.audit.DateAudit;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.Where;
 
 import java.io.Serial;
@@ -37,8 +37,8 @@ public class User extends DateAudit<String> implements Serializable {
     private static final long serialVersionUID = 65981149772133526L;
 
     @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 

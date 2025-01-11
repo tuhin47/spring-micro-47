@@ -77,9 +77,6 @@ services:
       restart_policy:
         max_attempts: 3
         condition: on-failure
-    ports:
-      - "7777:7777"
-      - "35729:35729"
     environment:
       - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
@@ -255,6 +252,12 @@ services:
         condition: service_healthy
     networks:
       - backend
+
+  build_all:
+    extends:
+      file: docker-compose.common.yml
+      service: build_all
+
 
   boilerplate:
     extends:
