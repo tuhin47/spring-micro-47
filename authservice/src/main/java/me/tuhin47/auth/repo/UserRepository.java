@@ -5,11 +5,21 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
     @EntityGraph("User.withRolesPrivileges")
     User findByEmail(String email);
+
+    @Override
+    @EntityGraph("User.withRolesPrivileges")
+    List<User> findAll();
+
+    @Override
+    @EntityGraph("User.withRolesPrivileges")
+    List<User> findAllById(Iterable<String> ids);
 
     boolean existsByEmail(String email);
 

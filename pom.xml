@@ -15,22 +15,35 @@
     </parent>
 
     <properties>
-        <spring-boot.version>3.4.1</spring-boot.version>
-        <java.version>22</java.version>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
-        <org.projectlombok.version>1.18.30</org.projectlombok.version>
-        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
+        <axon-spring-boot-starter.version>4.5.2</axon-spring-boot-starter.version>
         <docker-compose-plugin.version>1.0.0</docker-compose-plugin.version>
         <flyway-core.version>10.22.0</flyway-core.version>
-        <mysql-core.version>8.0.33</mysql-core.version>
-        <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
+        <java.version>22</java.version>
+        <jedis.version>4.4.0</jedis.version>
+        <jwt.version>0.9.1</jwt.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <mysql-core.version>8.0.33</mysql-core.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+        <spring-boot.version>3.4.1</spring-boot.version>
+        <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
+        <jaxb.api.version>2.3.1</jaxb.api.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <modules>
         <module>common</module>
         <module>saga</module>

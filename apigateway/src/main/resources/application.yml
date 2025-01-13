@@ -5,3 +5,20 @@ spring:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
 origins:
   allowedOrigins: ${ALLOWED_ORIGINS:http://localhost:4200}
+
+management:
+  otlp:
+    tracing:
+      endpoint: ${TRACING_URL:http://127.0.0.1:4317}
+      transport: grpc
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        # include: "health,info"
+  endpoint:
+    health:
+      show-details: always

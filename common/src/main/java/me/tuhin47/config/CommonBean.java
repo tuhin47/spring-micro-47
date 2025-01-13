@@ -2,13 +2,9 @@ package me.tuhin47.config;
 
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.exporter.*;
-import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
-import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.env.Environment;
-import org.springframework.util.StringUtils;
 
 @Configuration
 @RequiredArgsConstructor
@@ -45,12 +41,12 @@ public class CommonBean {
         EndpointMapping endpointMapping = new EndpointMapping(basePath);
         boolean shouldRegisterLinksMapping = this.shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
         return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
-    }*/
+    }
 
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment)
                                                                                                                        .equals(ManagementPortType.DIFFERENT));
-    }
+    }*/
 
     @Bean(name = ExporterType.Constants.EXCEL)
     public ExcelGenerator<ExcelExporterDTO> getExcelExporter() {

@@ -254,10 +254,17 @@ services:
       - backend
 
   build_all:
-    extends:
-      file: docker-compose.common.yml
-      service: build_all
-
+    image: maven:3.9-eclipse-temurin-22
+    environment:
+      - MAVEN_REPO
+      - PROJECT_PATH
+    profiles:
+      - Build
+    working_dir: /app
+    volumes:
+      - $PROJECT_PATH/:/app
+      - $MAVEN_REPO:/root/.m2/repository
+    command: mvn clean install -DskipTests
 
   boilerplate:
     extends:

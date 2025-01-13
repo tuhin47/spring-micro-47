@@ -22,7 +22,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/service-registry:/app
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
     environment:
       - DEUBG_PORT=18761
 
@@ -49,7 +49,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/configserver:/app
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   apigateway:
     build:
@@ -89,7 +89,7 @@ services:
     volumes:
       - $PROJECT_PATH/apigateway:/app
       - $PROJECT_PATH/logs:/tmp/logs
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   authservice:
     build:
@@ -141,7 +141,7 @@ services:
     volumes:
       - $PROJECT_PATH/authservice:/app
       - $PROJECT_PATH/logs:/tmp/logs
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   productservice:
     build:
@@ -183,7 +183,7 @@ services:
     volumes:
       - $PROJECT_PATH/productservice:/app
       - $PROJECT_PATH/logs:/tmp/logs
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   orderservice:
     build:
@@ -226,7 +226,7 @@ services:
     volumes:
       - $PROJECT_PATH/orderservice:/app
       - $PROJECT_PATH/logs:/tmp/logs
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   chatservice:
     build:
@@ -264,7 +264,7 @@ services:
       - backend
     volumes:
       - $PROJECT_PATH/chat-service:/app
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   paymentservice:
     build:
@@ -307,7 +307,7 @@ services:
     volumes:
       - $PROJECT_PATH/paymentservice:/app
       - $PROJECT_PATH/logs:/tmp/logs
-      - $MAVEN_CONFIG:/root/.m2
+      - $MAVEN_REPO:/root/.m2/repository
 
   boilerplate:
     extends:
@@ -320,23 +320,14 @@ services:
   #      file: docker-compose.common.yml
 
   tracing:
-    image: otel/opentelemetry-collector:0.72.0
-    volumes:
-      - $PROJECT_PATH/otel:/etc/otelcol
-    ports:
-      - "4317:4317"
-    depends_on:
-      - jaeger-service
-    networks:
-      - backend
+    extends:
+      file: docker-compose.common.yml
+      service: tracing
 
   jaeger-service:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "16686:16686"
-      - "14250"
-    networks:
-      - backend
+    extends:
+      file: docker-compose.common.yml
+      service: jaeger-service
 
   redis:
     extends:

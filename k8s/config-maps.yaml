@@ -53,4 +53,4 @@ kind: ConfigMap
 metadata:
   name: tracing-cm
 data:
-  tracing_url: "http://zipkin-svc:9411/"
+  tracing_url: "http://tracing:4317/"

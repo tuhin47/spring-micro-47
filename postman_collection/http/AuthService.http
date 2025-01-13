@@ -103,3 +103,8 @@ Content-Type: application/json
     "description": "NEW "
 }
 
+
+###
+GET http://{{host}}:{{port}}/auth/users?ids=61595b2e-2b25-4262-ab01-150860b0a875
+Accept: application/json
+Authorization: Bearer {{token}}

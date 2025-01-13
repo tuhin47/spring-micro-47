@@ -1,11 +1,13 @@
 package me.tuhin47.auth;
 
+import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import me.tuhin47.config.AxonConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,8 +20,8 @@ import springfox.documentation.service.ApiInfo;
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.auth", "me.tuhin47.entity", "me.tuhin47.config", "me.tuhin47.jwt"})
 @EnableJpaRepositories
 @EnableTransactionManagement
-@Import({AxonConfig.class})
-@EnableAspectJAutoProxy
+@Import(AxonConfig.class)
+@EnableFeignClients(basePackages = "me.tuhin47.client")
 public class AuthService extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -45,5 +47,12 @@ public class AuthService extends SpringBootServletInitializer {
             .description("API endpoints for managing Auth api")
             .version("1.0.0")
             .build();
+    }
+
+    @Bean
+    OtlpHttpSpanExporter otlpHttpSpanExporter(@Value("${management.otlp.tracing.endpoint}") String url) {
+        return OtlpHttpSpanExporter.builder()
+                                   .setEndpoint(url)
+                                   .build();
     }
 }

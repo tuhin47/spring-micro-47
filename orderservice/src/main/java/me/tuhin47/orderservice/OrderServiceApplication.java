@@ -1,23 +1,18 @@
 package me.tuhin47.orderservice;
 
-import me.tuhin47.client.FeignConfig;
 import me.tuhin47.config.AxonConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.orderservice", "me.tuhin47.config", "me.tuhin47.entity", "me.tuhin47.jwt"})
 @EnableFeignClients(basePackages = "me.tuhin47.client")
-@Import({AxonConfig.class, FeignConfig.class})
+@Import(AxonConfig.class)
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
@@ -34,15 +29,5 @@ public class OrderServiceApplication {
             .build();
     }
 
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add((HttpRequest request, byte[] body, ClientHttpRequestExecution execution) ->
-        {
-            FeignConfig.addAuthorizationToken(request.getHeaders());
-            return execution.execute(request, body);
-        });
-        return restTemplate;
-    }
+
 }

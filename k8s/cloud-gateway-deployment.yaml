@@ -38,7 +38,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: tracing-cm
-                  key: TRACING_URL
+                  key: tracing_url
             - name: NOAUTH_ENABLE
               valueFrom:
                 configMapKeyRef:

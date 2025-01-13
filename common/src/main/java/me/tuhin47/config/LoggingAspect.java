@@ -38,7 +38,7 @@ public class LoggingAspect {
     /**
      * Pointcut that matches all Spring beans in the application's main packages.
      */
-    @Pointcut("within(me.tuhin47..*)")
+    @Pointcut("within(me.tuhin47..*) && !within(me.tuhin47.client..*)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }

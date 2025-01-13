@@ -27,6 +27,5 @@ indent_style = tab
 indent_size = 2
 
 [{.git/**,target/**,postman_collection/**}]
-indent_size = 0
 trim_trailing_whitespace = false
 indent_style = unset

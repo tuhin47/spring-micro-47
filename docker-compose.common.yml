@@ -17,21 +17,14 @@ services:
       - all
     image: tuhin47/boilerplate:${IMAGE_TAG}
     network_mode: "host"
-  build_all:
-    image: maven:3.9-eclipse-temurin-22
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: mvn clean package -DskipTests
 
   tracing:
-    image: otel/opentelemetry-collector:0.72.0
-    volumes:
-      - $PROJECT_PATH/otel:/etc/otelcol
+    image: tuhin/opentelemetry-collector:${IMAGE_TAG}
+    build:
+      context: ./otel
+      dockerfile: ./Dockerfile
     ports:
       - "4317:4317"
-    depends_on:
-      - jaeger-service
     networks:
       - backend
 
@@ -125,7 +118,7 @@ services:
     image: axoniq/axonserver:2024.1.4
     hostname: axonserver
     environment:
-      AXONIQ_AXONSERVER_STANDALONE: true
+      - AXONIQ_AXONSERVER_STANDALONE=true
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata

@@ -1,5 +1,6 @@
 FROM maven:3.9-eclipse-temurin-22 as MAVEN_BUILD
 
+RUN mkdir -p /app
 WORKDIR /app
 
 COPY pom.xml ./

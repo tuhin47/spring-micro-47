@@ -40,7 +40,6 @@ public class FeignConfig {
             if (!matcher.matches()) {
                 return;
             }
-
             if (template instanceof RequestTemplate) {
                 ((RequestTemplate) template).header(HttpHeaders.AUTHORIZATION);
                 ((RequestTemplate) template).header(HttpHeaders.AUTHORIZATION, authorizationHeader);
