@@ -21,7 +21,6 @@ import java.util.Objects;
 public class AddResponseHeaderFilter implements WebFilter {
 
     public static final String TRACE_ID = "trace-id";
-    public static final String SPAN_ID = "span-id";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -42,7 +41,6 @@ public class AddResponseHeaderFilter implements WebFilter {
             String spanId = context.spanId();
             log.info("Span : {} Trace : {}", spanId, traceId);
             exchange.getResponse().getHeaders().add(TRACE_ID, traceId);
-            exchange.getResponse().getHeaders().add(SPAN_ID, spanId);
         } else {
             log.info("Span not found");
         }

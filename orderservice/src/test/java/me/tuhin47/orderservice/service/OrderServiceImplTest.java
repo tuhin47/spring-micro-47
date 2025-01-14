@@ -4,6 +4,7 @@ import me.tuhin47.client.PaymentService;
 import me.tuhin47.client.ProductService;
 import me.tuhin47.client.UserService;
 import me.tuhin47.config.exception.apierror.EntityNotFoundException;
+import me.tuhin47.config.utils.ComputableFutureRequestHandler;
 import me.tuhin47.core.enums.PaymentMode;
 import me.tuhin47.orderservice.dummy.TopOrderDtoDummy;
 import me.tuhin47.orderservice.model.Order;
@@ -46,6 +47,7 @@ public class OrderServiceImplTest {
     private ProductService productService;
     private PaymentService paymentService;
     private UserService userService;
+    private ComputableFutureRequestHandler computableFutureRequestHandler;
 
     @BeforeEach
     void setup() {
@@ -53,8 +55,9 @@ public class OrderServiceImplTest {
         productService = mock(ProductService.class);
         paymentService = mock(PaymentService.class);
         userService = mock(UserService.class);
+        computableFutureRequestHandler = mock(ComputableFutureRequestHandler.class);
         var orderMapper = Mappers.getMapper(OrderMapper.class);
-        orderService = new OrderServiceImpl(orderMapper, orderRepository, productService, paymentService, userService);
+        orderService = new OrderServiceImpl(orderMapper, orderRepository, productService, paymentService, userService, computableFutureRequestHandler);
     }
 
     @DisplayName("Get Order - Success Scenario")

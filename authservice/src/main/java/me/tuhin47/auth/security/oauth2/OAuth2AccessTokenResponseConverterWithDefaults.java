@@ -5,7 +5,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -52,10 +51,5 @@ public class OAuth2AccessTokenResponseConverterWithDefaults implements Converter
                                .forEach(e -> additionalParameters.put(e.getKey(), e.getValue()));
 
         return OAuth2AccessTokenResponse.withToken(accessToken).tokenType(accessTokenType).expiresIn(expiresIn).scopes(scopes).additionalParameters(additionalParameters).build();
-    }
-
-    public final void setDefaultAccessTokenType(OAuth2AccessToken.TokenType defaultAccessTokenType) {
-        Assert.notNull(defaultAccessTokenType, "defaultAccessTokenType cannot be null");
-        this.defaultAccessTokenType = defaultAccessTokenType;
     }
 }

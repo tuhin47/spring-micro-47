@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
-public class ProductsPrice {
+public class ProductsPrice implements BaseResponse {
     private List<ProductResponse> productResponses;
     private Double price;
 //    TODO : Add Descriptions for discounts

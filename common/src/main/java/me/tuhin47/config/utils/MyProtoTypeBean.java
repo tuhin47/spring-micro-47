@@ -1,4 +1,4 @@
-package me.tuhin47.auth.service.impl;
+package me.tuhin47.config.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;

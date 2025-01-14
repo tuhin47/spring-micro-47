@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
-public class TopOrderDto implements Serializable {
+public class TopOrderDto implements BaseResponse {
     @Serial
     private static final long serialVersionUID = 1704759362817709990L;
     private String buyerId;

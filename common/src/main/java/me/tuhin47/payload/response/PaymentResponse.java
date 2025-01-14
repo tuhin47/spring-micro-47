@@ -12,7 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentResponse {
+public class PaymentResponse implements BaseResponse {
 
     private String id;
     private String paymentStatus;

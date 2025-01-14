@@ -1,8 +1,6 @@
 package me.tuhin47.auth;
 
-import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import me.tuhin47.config.AxonConfig;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -47,12 +45,5 @@ public class AuthService extends SpringBootServletInitializer {
             .description("API endpoints for managing Auth api")
             .version("1.0.0")
             .build();
-    }
-
-    @Bean
-    OtlpHttpSpanExporter otlpHttpSpanExporter(@Value("${management.otlp.tracing.endpoint}") String url) {
-        return OtlpHttpSpanExporter.builder()
-                                   .setEndpoint(url)
-                                   .build();
     }
 }

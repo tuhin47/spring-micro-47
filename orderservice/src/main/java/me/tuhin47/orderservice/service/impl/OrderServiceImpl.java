@@ -6,16 +6,14 @@ import me.tuhin47.client.PaymentService;
 import me.tuhin47.client.ProductService;
 import me.tuhin47.client.UserService;
 import me.tuhin47.config.exception.common.OrderServiceExceptions;
+import me.tuhin47.config.utils.ComputableFutureRequestHandler;
 import me.tuhin47.orderservice.model.Order;
 import me.tuhin47.orderservice.payload.mapper.OrderMapper;
 import me.tuhin47.orderservice.payload.request.OrderRequest;
 import me.tuhin47.orderservice.payload.response.OrderResponseWithDetails;
 import me.tuhin47.orderservice.repository.OrderRepository;
 import me.tuhin47.orderservice.service.OrderService;
-import me.tuhin47.payload.response.PaymentResponse;
-import me.tuhin47.payload.response.ProductResponse;
-import me.tuhin47.payload.response.TopOrderDto;
-import me.tuhin47.payload.response.UserResponse;
+import me.tuhin47.payload.response.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final PaymentService paymentService;
     private final UserService userService;
+    private final ComputableFutureRequestHandler computableFutureRequestHandler;
 
 
     @Override
@@ -43,11 +42,20 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepository.findById(orderId)
                                      .orElseThrow(() -> OrderServiceExceptions.ORDER_NOT_FOUND.apply(orderId));
+        computableFutureRequestHandler.addResponse(() -> productService.getProductById(order.getProductId()));
+        computableFutureRequestHandler.addResponse(() -> paymentService.getPaymentDetailsByOrderId(order.getId()));
+        List<BaseResponse> responseList = computableFutureRequestHandler.getResponseList();
 
-        ProductResponse productResponse = productService.getProductById(order.getProductId()).getBody();
-
-        PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(order.getId()).getBody();
-
+        ProductResponse productResponse = null;
+        PaymentResponse paymentResponse = null;
+        for (BaseResponse response : responseList) {
+            switch (response) {
+                case ProductResponse res -> productResponse = res;
+                case PaymentResponse res -> paymentResponse = res;
+                case null, default -> {
+                }
+            }
+        }
         return orderMapper.toDtoWithDetails(order, productResponse, paymentResponse);
 
     }

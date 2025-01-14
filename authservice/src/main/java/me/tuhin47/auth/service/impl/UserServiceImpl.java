@@ -24,6 +24,7 @@ import me.tuhin47.auth.util.GeneralUtils;
 import me.tuhin47.config.exception.common.AuthServiceExceptions;
 import me.tuhin47.config.redis.RedisUserService;
 import me.tuhin47.config.redis.UserRedis;
+import me.tuhin47.config.utils.MyProtoTypeBean;
 import me.tuhin47.jwt.TokenProvider;
 import me.tuhin47.payload.response.UserResponse;
 import me.tuhin47.utils.RoleUtils;

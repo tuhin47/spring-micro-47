@@ -4,6 +4,7 @@ import com.google.common.net.HttpHeaders;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.codec.ErrorDecoder;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.decoder.CustomErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Configuration
+@Slf4j
 public class FeignConfig {
 
     private static final Pattern BEARER_TOKEN_HEADER_PATTERN = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
@@ -46,6 +48,8 @@ public class FeignConfig {
             } else if (template instanceof org.springframework.http.HttpHeaders) {
                 ((org.springframework.http.HttpHeaders) template).add(HttpHeaders.AUTHORIZATION, authorizationHeader);
             }
+            log.debug("Header appended for {}", template.getClass());
+            
         }
     }
 

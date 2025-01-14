@@ -264,7 +264,7 @@ services:
     volumes:
       - $PROJECT_PATH/:/app
       - $MAVEN_REPO:/root/.m2/repository
-    command: mvn clean install -DskipTests
+    command: mvn clean package -DskipTests
 
   boilerplate:
     extends:
