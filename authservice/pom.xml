@@ -7,7 +7,6 @@
         <artifactId>all-services</artifactId>
         <version>0.7.0</version>
     </parent>
-    <groupId>me.tuhin47</groupId>
     <artifactId>authservice</artifactId>
     <name>auth-service</name>
     <description>Auth Service Project By MD Towhidul Islam</description>

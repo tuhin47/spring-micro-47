@@ -10,7 +10,7 @@ spring:
     hibernate:
       ddl-auto: none
     properties:
-      javax:
+      jakarta:
         persistence:
           schema-generation:
             create-source: metadata

@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
@@ -34,17 +33,16 @@ import org.springframework.web.client.RestClient;
 @RequiredArgsConstructor
 public class AuthSecurityConfig {
 
-
-    private final UserDetailsService userDetailsService;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOidcUserService customOidcUserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-    private final PasswordEncoder passwordEncoder;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final String[] whiteList;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final PasswordEncoder passwordEncoder;
+    private final DelegatingUserDetailsService delegatingUserDetailsService;
 
 
     @Bean
@@ -85,7 +83,7 @@ public class AuthSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        provider.setUserDetailsService(delegatingUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }

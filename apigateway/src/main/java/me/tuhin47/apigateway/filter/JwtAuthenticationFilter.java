@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 throw new JwtTokenMissingException("Authorization not present");
             }
 
-            final String authorization = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).get(0);
+            final String authorization = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).getFirst();
             final String token = authorization.replace("Bearer ", "");
 
             log.info("JwtAuthenticationFilter | filter | token : " + token);

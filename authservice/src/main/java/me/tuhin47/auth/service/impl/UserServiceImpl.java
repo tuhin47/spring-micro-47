@@ -121,10 +121,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRedis findUserByEmail(final String email) {
-        Optional<UserRedis> redis = redisUserService.getUser(email);
-        if (redis.isPresent()) {
-            return redis.get();
-        }
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
