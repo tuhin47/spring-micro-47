@@ -6,8 +6,6 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:3306/${MYSQL_DB:orderdb}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
 
 
-springfox:
-  documentation:
-    open-api:
-      v3:
-        path: /order/v3/api-docs
+springdoc:
+  api-docs:
+    path: /order/v3/api-docs

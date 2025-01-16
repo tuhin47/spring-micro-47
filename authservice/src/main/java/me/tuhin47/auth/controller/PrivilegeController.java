@@ -1,46 +1,49 @@
 package me.tuhin47.auth.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import me.tuhin47.auth.command.PrivilegePayload;
 import me.tuhin47.auth.model.Privilege;
 import me.tuhin47.auth.payload.response.PrivilegeDto;
-import me.tuhin47.core.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Api(value = "Privilege API", tags = "PRIVILEGE-API", description = "Operations related to privileges")
-public interface PrivilegeController extends BaseController {
+@Tag(name = "Privilege API", description = "Operations related to privileges")
+public interface PrivilegeController {
 
-    @ApiOperation(value = "Add a new privilege", notes = "Creates a new privilege")
+    @Operation(summary = "Add a new privilege", description = "Creates a new privilege")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Privilege created successfully"),
-        @ApiResponse(code = 400, message = "Invalid input")
+        @ApiResponse(responseCode = "201", description = "Privilege created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    ResponseEntity<PrivilegeDto> addPrivilege(@Valid @RequestBody PrivilegePayload command);
+    ResponseEntity<PrivilegeDto> addPrivilege(@Valid @RequestBody @Schema(implementation = PrivilegePayload.class) PrivilegePayload command);
 
-
-    @ApiOperation(value = "Edit an existing privilege", notes = "Updates an existing privilege")
+    @Operation(summary = "Edit an existing privilege", description = "Updates an existing privilege")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Privilege updated successfully"),
-        @ApiResponse(code = 404, message = "Privilege not found")
+        @ApiResponse(responseCode = "200", description = "Privilege updated successfully"),
+        @ApiResponse(responseCode = "404", description = "Privilege not found")
     })
-    ResponseEntity<Privilege> editPrivilege(@PathVariable Long privilegeId, @Valid @RequestBody PrivilegePayload command);
+    ResponseEntity<Privilege> editPrivilege(@Parameter(description = "The ID of the privilege to be updated", required = true)
+                                            @PathVariable Long privilegeId,
+                                            @Valid @RequestBody @Schema(implementation = PrivilegePayload.class) PrivilegePayload command);
 
-    @ApiOperation(value = "Get all privileges", notes = "Retrieves all privileges")
-    @ApiResponse(code = 200, message = "Privileges retrieved successfully")
+    @Operation(summary = "Get all privileges", description = "Retrieves all privileges")
+    @ApiResponse(responseCode = "200", description = "Privileges retrieved successfully")
     ResponseEntity<List<PrivilegeDto>> getAllPrivileges();
 
-    @ApiOperation(value = "Get privilege by ID", notes = "Retrieves a privilege by its ID")
+    @Operation(summary = "Get privilege by ID", description = "Retrieves a privilege by its ID")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Privilege retrieved successfully"),
-        @ApiResponse(code = 404, message = "Privilege not found")
+        @ApiResponse(responseCode = "200", description = "Privilege retrieved successfully"),
+        @ApiResponse(responseCode = "404", description = "Privilege not found")
     })
-    ResponseEntity<PrivilegeDto> getPrivilegeById(@PathVariable Long privilegeId);
+    ResponseEntity<PrivilegeDto> getPrivilegeById(@Parameter(description = "The ID of the privilege to be retrieved", required = true)
+                                                  @PathVariable Long privilegeId);
 }

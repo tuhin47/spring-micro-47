@@ -1,7 +1,7 @@
 package me.tuhin47.orderservice.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,55 +24,57 @@ import java.util.List;
 @RequestMapping("/order")
 @Slf4j
 @RequiredArgsConstructor
-@Api(tags = "Order API")
+@Tag(name = "Order API", description = "Endpoints for order management")
 public class OrderController {
 
     private final OrderService orderService;
     private final CommandGateway commandGateway;
 
-
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @GetMapping("/{orderId}")
-    @ApiOperation("Get order details by ID")
+    @Operation(summary = "Get order details by ID")
     public ResponseEntity<OrderResponseWithDetails> getOrderDetails(@PathVariable String orderId) {
-
-        log.info("OrderController | getOrderDetails is called");
-
+        log.info("Fetching order details for orderId={}", orderId);
         OrderResponseWithDetails orderResponse = orderService.getOrderDetails(orderId);
-
-        log.info("OrderController | getOrderDetails | orderResponse : " + orderResponse.toString());
-
-        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+        log.info("Order details fetched: {}", orderResponse);
+        return ResponseEntity.ok(orderResponse);
     }
 
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRestModel) {
+    @Operation(summary = "Create a new order")
+    public ResponseEntity<String> createOrder(@RequestBody @Valid OrderRequest orderRequest) {
+        log.info("Creating order for request: {}", orderRequest);
 
-        Order order = orderService.placeOrderRequest(orderRestModel);
-
-        log.info("createOrder() saved with: order = [" + order + "]");
+        Order order = orderService.placeOrderRequest(orderRequest);
+        log.info("Order saved: {}", order);
 
         var orderId = order.getId();
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
                                                                   .orderId(orderId)
-                                                                  .productId(orderRestModel.getProductId())
-                                                                  .quantity(orderRestModel.getQuantity())
+                                                                  .productId(orderRequest.getProductId())
+                                                                  .quantity(orderRequest.getQuantity())
                                                                   .orderStatus("CREATED")
                                                                   .userId(order.getUpdatedBy())
                                                                   .build();
 
         commandGateway.sendAndWait(createOrderCommand);
+        log.info("Order creation command sent: {}", createOrderCommand);
 
-        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
     }
 
     @GetMapping("/top-orders-by-date-range")
+    @Operation(summary = "Get top 10 orders within a date range")
     public ResponseEntity<List<TopOrderDto>> getTop10OrderByDateRange(
         @RequestParam(value = "startDate", required = false) Instant startDate,
         @RequestParam(value = "endDate", required = false) Instant endDate) {
 
-        return new ResponseEntity<>(orderService.getTop10OrderByDateRange(startDate, endDate), HttpStatus.OK);
+        log.info("Fetching top orders between startDate={} and endDate={}", startDate, endDate);
+        List<TopOrderDto> topOrders = orderService.getTop10OrderByDateRange(startDate, endDate);
+        log.info("Top orders fetched: {}", topOrders);
+
+        return ResponseEntity.ok(topOrders);
     }
 }

@@ -1,43 +1,47 @@
 package me.tuhin47.auth.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.tuhin47.auth.command.RolePayload;
 import me.tuhin47.auth.payload.response.RoleDto;
-import me.tuhin47.core.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Api(value = "Role API", tags = "ROLE-API", description = "Operations related to roles")
-public interface RoleController extends BaseController {
+@Tag(name = "Role API", description = "Operations related to roles")
+public interface RoleController {
 
-    @ApiOperation(value = "Add a new role", notes = "Creates a new role")
+    @Operation(summary = "Add a new role", description = "Creates a new role")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Role created successfully"),
-        @ApiResponse(code = 400, message = "Invalid input")
+        @ApiResponse(responseCode = "201", description = "Role created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    ResponseEntity<RoleDto> addRole(@RequestBody RolePayload payload);
+    ResponseEntity<RoleDto> addRole(@RequestBody @Schema(implementation = RolePayload.class) RolePayload payload);
 
-    @ApiOperation(value = "Edit an existing role", notes = "Updates an existing role")
+    @Operation(summary = "Edit an existing role", description = "Updates an existing role")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Role updated successfully"),
-        @ApiResponse(code = 404, message = "Role not found")
+        @ApiResponse(responseCode = "200", description = "Role updated successfully"),
+        @ApiResponse(responseCode = "404", description = "Role not found")
     })
-    ResponseEntity<RoleDto> editRole(@PathVariable Long roleId, @RequestBody RolePayload payload);
+    ResponseEntity<RoleDto> editRole(@Parameter(description = "The ID of the role to be updated", required = true)
+                                     @PathVariable Long roleId,
+                                     @RequestBody @Schema(implementation = RolePayload.class) RolePayload payload);
 
-    @ApiOperation(value = "Get all roles", notes = "Retrieves all roles")
-    @ApiResponse(code = 200, message = "Roles retrieved successfully")
+    @Operation(summary = "Get all roles", description = "Retrieves all roles")
+    @ApiResponse(responseCode = "200", description = "Roles retrieved successfully")
     ResponseEntity<List<RoleDto>> getAllRoles();
 
-    @ApiOperation(value = "Get role by ID", notes = "Retrieves a role by its ID")
+    @Operation(summary = "Get role by ID", description = "Retrieves a role by its ID")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Role retrieved successfully"),
-        @ApiResponse(code = 404, message = "Role not found")
+        @ApiResponse(responseCode = "200", description = "Role retrieved successfully"),
+        @ApiResponse(responseCode = "404", description = "Role not found")
     })
-    ResponseEntity<RoleDto> getRoleById(@PathVariable Long roleId);
+    ResponseEntity<RoleDto> getRoleById(@Parameter(description = "The ID of the role to be retrieved", required = true)
+                                        @PathVariable Long roleId);
 }

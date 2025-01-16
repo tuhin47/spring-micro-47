@@ -1,8 +1,6 @@
 spring:
   application:
     name: AWS-SERVICES
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:default}
   data:
     r2dbc:
       repositories:

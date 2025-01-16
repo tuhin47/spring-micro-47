@@ -1,40 +1,38 @@
 package me.tuhin47.apigateway.config;
 
-import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties.SwaggerUrl;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import springfox.documentation.swagger.web.SwaggerResource;
-import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Primary
 @Configuration
-@RequiredArgsConstructor
-public class SwaggerConfig implements SwaggerResourcesProvider {
+public class SwaggerConfig {
 
-    private final RouteLocator routeLocator;
-
-    @Override
-    public List<SwaggerResource> get() {
-        List<SwaggerResource> resources = new ArrayList<>();
-
-        routeLocator.getRoutes().subscribe(route -> {
-            String name = route.getId().split("-")[0];
-            resources.add(swaggerResource(name, "/" + name.toLowerCase() + "/v3/api-docs", "1.0"));
-        });
-
-        return resources;
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+            .info(new io.swagger.v3.oas.models.info.Info()
+                .title("API Gateway")
+                .version("1.0")
+                .description("API Gateway for Microservices")
+                .contact(new Contact().name("MD Towhidul Islam")));
     }
 
-    private SwaggerResource swaggerResource(final String name, final String location,
-                                            final String version) {
-        SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion(version);
-        return swaggerResource;
+    @Bean
+    public Set<SwaggerUrl> apis(SwaggerUiConfigProperties swaggerUiConfig, RouteLocator routeLocator) {
+        final Set<SwaggerUrl> swaggerUrlSet = new HashSet<>();
+        routeLocator.getRoutes().subscribe(route -> {
+            String name = route.getId().split("-")[0];
+            String url = "/" + name.toLowerCase() + "/v3/api-docs";
+            var wsResource = new SwaggerUrl(name, url, name);
+            swaggerUrlSet.add(wsResource);
+        });
+        swaggerUiConfig.setUrls(swaggerUrlSet);
+        return swaggerUrlSet;
     }
 }

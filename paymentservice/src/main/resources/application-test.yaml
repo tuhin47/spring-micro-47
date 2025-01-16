@@ -10,8 +10,6 @@ spring:
       ddl-auto: create
   application:
     name: PAYMENT-SERVICE
-  config:
-    import: configserver:http://localhost:9296
 
 
 jwt:

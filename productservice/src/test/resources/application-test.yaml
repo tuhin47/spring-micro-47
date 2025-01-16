@@ -1,10 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile:
-        - elk
-        - default
-        - dev
   main:
     allow-bean-definition-overriding: true
   datasource:
@@ -16,13 +10,6 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
-  cloud:
-    config:
-      enabled: false
-
-springfox:
-  documentation:
-    enabled: false
 eureka:
   client:
     enabled: false
@@ -48,3 +35,6 @@ management:
     tracing:
       export:
         enabled: false
+springdoc:
+  api-docs:
+    enabled: false

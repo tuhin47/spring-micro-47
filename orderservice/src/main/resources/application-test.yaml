@@ -10,8 +10,6 @@ spring:
       ddl-auto: create
   application:
     name: ORDER-SERVICE
-  config:
-    import: configserver:http://localhost:9296
 
 jwt:
   secret: mySecretKey

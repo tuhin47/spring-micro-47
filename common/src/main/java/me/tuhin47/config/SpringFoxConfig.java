@@ -2,33 +2,14 @@ package me.tuhin47.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 public class SpringFoxConfig {
 
-    @Bean
-    @ConditionalOnMissingBean(ApiInfo.class)
-    public ApiInfo apiInfo() {
-        return ApiInfo.DEFAULT;
-    }
 
-    @Bean
+  /*  @Bean
     public Docket api(ApiInfo apiInfo) {
         return new Docket(DocumentationType.SWAGGER_2)
             .securityContexts(Collections.singletonList(securityContext()))
@@ -53,5 +34,5 @@ public class SpringFoxConfig {
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return List.of(new SecurityReference("Authorization", authorizationScopes));
-    }
+    }*/
 }

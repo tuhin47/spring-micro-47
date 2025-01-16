@@ -18,8 +18,6 @@ spring:
               action: update
               create-target: change_${spring.application.name}.sql
 
-springfox:
-  documentation:
-    open-api:
-      v3:
-        path: /product/v3/api-docs
+springdoc:
+  api-docs:
+    path: /product/v3/api-docs

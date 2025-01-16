@@ -51,8 +51,6 @@ spring:
 linkedin:
   email-address-uri: 'https://api.linkedin.com/v2/emailAddress?q'
 
-springfox:
-  documentation:
-    open-api:
-      v3:
-        path: /auth/v3/api-docs
+springdoc:
+  api-docs:
+    path: /auth/v3/api-docs

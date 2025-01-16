@@ -22,8 +22,16 @@ public class CommonBean {
         }
 
         return new String[]{
-            "/zipkin/**", "/auth/v3/api-docs/**", "/swagger**", "/actuator/**",
-            "/order/v3/api-docs/**", "/payment/v3/api-docs/**", "/product/v3/api-docs/**"
+            "/zipkin/**",
+            "/actuator/**",
+            "/swagger**",
+            "/auth/v3/api-docs/**",
+            "/order/v3/api-docs/**",
+            "/payment/v3/api-docs/**",
+            "/product/v3/api-docs/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
         };
     }
 

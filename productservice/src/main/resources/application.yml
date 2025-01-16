@@ -1,7 +1,9 @@
+configserver:
+  import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
 spring:
   application:
     name: PRODUCT-SERVICE
   config:
-    import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+    import: ${configserver.import}
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:default}

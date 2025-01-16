@@ -7,8 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:9090",
-      "description": "Inferred Url"
+      "url": "https://4f6f9047-2d15-48ce-a57f-0072f9521d63.mock.pstmn.io",
+      "description": "Postman MockServer"
+    },
+    {
+      "url": "http://gateway:9090",
+      "description": "Internal URL"
     }
   ],
   "tags": [

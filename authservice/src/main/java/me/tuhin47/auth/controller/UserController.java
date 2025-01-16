@@ -1,10 +1,10 @@
 package me.tuhin47.auth.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import me.tuhin47.auth.model.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.tuhin47.auth.payload.request.ChangeInfoRequest;
 import me.tuhin47.auth.payload.response.UserInfo;
 import me.tuhin47.core.BaseController;
@@ -16,46 +16,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Api(value = "USER API", tags = "USER-API", description = "Operations related to user information")
+@Tag(name = "USER API", description = "Operations related to user information")
 public interface UserController extends BaseController {
 
-    @ApiOperation(value = "Get all users", response = List.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully retrieved list"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you requested could not be found")
+    @Operation(summary = "Get all users", description = "Fetches a list of all users", responses = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you requested is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you requested could not be found")
     })
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<List<UserResponse>> getAllUsers(String[] ids);
 
-    @ApiOperation(value = "Get user by id", response = User.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully retrieved user"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you requested could not be found")
+    @Operation(summary = "Get user by id", description = "Fetches user details by ID", responses = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved user",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfo.class))),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you requested is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you requested could not be found")
     })
     ResponseEntity<UserInfo> getUserById(@PathVariable String id);
 
-    @ApiOperation(value = "Update an existing user", response = User.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "User updated successfully"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "You are not authorized to update a user"),
-        @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you requested could not be found")
+    @Operation(summary = "Update an existing user", description = "Updates user details", responses = {
+        @ApiResponse(responseCode = "200", description = "User updated successfully",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfo.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to update a user"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you requested is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you requested could not be found")
     })
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<UserInfo> updateUser(@PathVariable String id, @RequestBody ChangeInfoRequest user);
 
-    @ApiOperation(value = "Delete a user", response = Void.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "User deleted successfully"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "You are not authorized to delete a user"),
-        @ApiResponse(code = 403, message = "Accessing the resource you requested is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you requested could not be found")
+    @Operation(summary = "Delete a user", description = "Deletes a user by ID", responses = {
+        @ApiResponse(responseCode = "204", description = "User deleted successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to delete a user"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you requested is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you requested could not be found")
     })
     @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
     ResponseEntity<Void> deleteUser(@PathVariable String id);

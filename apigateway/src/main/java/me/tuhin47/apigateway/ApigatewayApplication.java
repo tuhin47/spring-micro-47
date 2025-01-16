@@ -1,6 +1,8 @@
 package me.tuhin47.apigateway;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import me.tuhin47.config.AppProperties;
 import me.tuhin47.jwt.TokenProvider;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +18,13 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication(scanBasePackages = {"me.tuhin47.apigateway"})
 //@EnableEurekaClient
 @Import({AppProperties.class, TokenProvider.class})
+@OpenAPIDefinition(
+    info = @Info(
+        title = "API Gateway Service",
+        version = "1.0.0",
+        description = "API GATEWAY Service"
+    )
+)
 public class ApigatewayApplication {
 
     public static void main(String[] args) {
