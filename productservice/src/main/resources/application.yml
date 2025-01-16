@@ -3,8 +3,5 @@ spring:
     name: PRODUCT-SERVICE
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
-    activate:
-      on-profile:
-        - elk
-        - default
-        - dev
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}

@@ -23,8 +23,10 @@ services:
     volumes:
       - $PROJECT_PATH/service-registry:/app
       - $MAVEN_REPO:/root/.m2/repository
+      - $PROJECT_PATH/logs:/tmp/logs
     environment:
       - DEUBG_PORT=18761
+      - LOG_PATH=/tmp/logs/serviceregistry/
 
   configserver:
     build:
@@ -38,6 +40,7 @@ services:
     environment:
       - DEUBG_PORT=19296
       - EUREKA_SERVER_ADDRESS
+      - LOG_PATH=/tmp/logs/configserver/
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -50,7 +53,7 @@ services:
     volumes:
       - $PROJECT_PATH/configserver:/app
       - $MAVEN_REPO:/root/.m2/repository
-
+      - $PROJECT_PATH/logs:/tmp/logs
   apigateway:
     build:
       context: apigateway
@@ -70,6 +73,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/apigateway/
     depends_on:
       configserver:
         condition: service_healthy
@@ -118,6 +122,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/authservice/
       - SPRING_MAIL_HOST
       - SPRING_MAIL_PORT
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
@@ -166,6 +171,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/productservice/
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -209,6 +215,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/orderservice/
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -253,6 +260,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/chatservice/
     working_dir: /app
     command: sh /script/run.sh
     depends_on:
@@ -265,6 +273,7 @@ services:
     volumes:
       - $PROJECT_PATH/chat-service:/app
       - $MAVEN_REPO:/root/.m2/repository
+      - $PROJECT_PATH/logs:/tmp/logs
 
   paymentservice:
     build:
@@ -290,6 +299,7 @@ services:
       - NOAUTH_ENABLE
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/paymentservice/
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:

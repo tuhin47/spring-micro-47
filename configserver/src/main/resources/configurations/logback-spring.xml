@@ -1,37 +1,23 @@
 <configuration>
-    <!-- Include the default Spring Boot Logback configuration -->
-    <springProfile name="default,elk">
-        <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    </springProfile>
     <springProperty name="appName" source="spring.application.name" defaultValue="UnknownApp"/>
     <springProperty name="logstash" source="app.logstash" defaultValue="logstash"/>
-
-    <!-- Custom Appender -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/tmp/logs/${appName}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/tmp/logs/${appName}/${appName}-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>1</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
-        </encoder>
-    </appender>
+    <!-- Include the default Spring Boot Logback configuration -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProfile name="dev,default">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
 
     <!-- Logstash Appender -->
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender"
-              reconnectionDelayMillis="10000">
-        <destination>${logstash}:9999</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"${appName}"}</customFields>
-        </encoder>
-    </appender>
-
-
-    <!-- Root Logger Configuration -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="LOGSTASH"/>
-    </root>
+    <springProfile name="elk">
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender"
+                  reconnectionDelayMillis="10000">
+            <destination>${logstash}:9999</destination>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"appname":"${appName}"}</customFields>
+            </encoder>
+        </appender>
+    </springProfile>
 </configuration>
