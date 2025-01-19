@@ -13,6 +13,4 @@ public class ValidatePaymentCommand {
     private String paymentId;
     private String orderId;
     private double amount;
-
-//    private CardDetails cardDetails;
 }

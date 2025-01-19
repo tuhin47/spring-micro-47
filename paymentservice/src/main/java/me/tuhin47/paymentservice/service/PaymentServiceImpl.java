@@ -32,10 +32,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentResponse getPaymentDetailsByOrderId(String orderId) {
 
-
         TransactionDetails transactionDetails = transactionDetailsRepository.findByOrderId(orderId)
-                                                                            .orElse(null);
-
+                                                                            .orElseThrow();
 
         return transactionDetailsMapper.toDto(transactionDetails);
     }

@@ -77,9 +77,3 @@ logging:
   level:
     org.springframework: INFO
 
-
-jwt:
-  secret: 926D96C90030DD58429D2751AC1BDBBC
-  expireMs: 864000000
-  refrEshexpireMs: 120000
-  authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect

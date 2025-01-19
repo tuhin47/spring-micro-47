@@ -20,15 +20,6 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B clean install --file pom.xml
-# Probale issue : lack of github memory and cpu
-#      - name: create axon path
-#        run: mkdir -p ../axon/config ; mkdir -p ../axon/data; mkdir -p ../axon/events
-#      - name: docker compose up
-#        run: mvn docker-compose:up -pl ./ -f pom.xml -X
-#      - name: Run Postman tests
-#        run: mvn exec:exec
-#      - name: docker compose down
-#        run: mvn docker-compose:down -pl ./ -f pom.xml
   angularbuild:
     runs-on: ubuntu-latest
     steps:

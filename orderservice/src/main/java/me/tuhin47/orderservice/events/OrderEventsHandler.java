@@ -20,34 +20,25 @@ public class OrderEventsHandler {
 
     @EventHandler
     public void on(CreateOrderCommand event) {
-
-        log.info("on() called with: event = [" + event + "]");
-        Order order = orderRepository.findById(event.getOrderId())
-                                     .orElseThrow(() -> OrderServiceExceptions.ORDER_NOT_FOUND.apply(event.getOrderId()));
-
-        order.setOrderStatus("CREATED");
-        orderRepository.save(order);
+        saveOrder(event, event.getOrderId(), "CREATED");
     }
 
     @EventHandler
     public void on(OrderCompletedEvent event) {
-        log.info("on() called with: event = [" + event + "]");
-        Order order = orderRepository.findById(event.getOrderId())
-                                     .orElseThrow(() -> OrderServiceExceptions.ORDER_NOT_FOUND.apply(event.getOrderId()));
-
-        order.setOrderStatus(event.getOrderStatus());
-
-        orderRepository.save(order);
+        saveOrder(event, event.getOrderId(), event.getOrderStatus());
     }
 
     @EventHandler
     public void on(OrderCancelledEvent event) {
-        log.info("on() called with: event = [" + event + "]");
-        Order order = orderRepository.findById(event.getOrderId())
-                                     .orElseThrow(() -> OrderServiceExceptions.ORDER_NOT_FOUND.apply(event.getOrderId()));
+        saveOrder(event, event.getOrderId(), event.getOrderStatus());
+    }
 
-        order.setOrderStatus(event.getOrderStatus());
+    private void saveOrder(Object event, String id, String status) {
+        log.info("on() called with: event = [{}]", event);
+        Order order = orderRepository.findById(id)
+                                     .orElseThrow(() -> OrderServiceExceptions.ORDER_NOT_FOUND.apply(id));
 
+        order.setOrderStatus(status);
         orderRepository.save(order);
     }
 }

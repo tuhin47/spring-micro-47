@@ -29,9 +29,11 @@ services:
       - backend
 
   jaeger-service:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:1.65.0
     ports:
       - "16686:16686"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
       - "14250"
     networks:
       - backend
@@ -119,6 +121,7 @@ services:
     hostname: axonserver
     environment:
       - AXONIQ_AXONSERVER_STANDALONE=true
+      - COLLECTOR_OTLP_ENABLED=true
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata

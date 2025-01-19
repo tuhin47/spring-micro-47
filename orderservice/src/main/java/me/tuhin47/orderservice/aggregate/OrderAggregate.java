@@ -24,13 +24,11 @@ public class OrderAggregate {
     private String orderId;
     private String productId;
     private String userId;
-    //    private String addressId;
     private long quantity;
     private String orderStatus;
 
     @CommandHandler
     public OrderAggregate(CreateOrderCommand createOrderCommand) {
-        //Validate The Command
         log.info("OrderAggregate() called with: createOrderCommand = [" + createOrderCommand + "]");
 
         OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
@@ -56,8 +54,6 @@ public class OrderAggregate {
 
     @CommandHandler
     public void handle(CompleteOrderCommand completeOrderCommand) {
-        //Validate The Command
-        // Publish Order Completed Event
         log.info("handle() called with: completeOrderCommand = [" + completeOrderCommand + "]");
         OrderCompletedEvent orderCompletedEvent = OrderCompletedEvent.builder()
                                                                      .orderStatus(completeOrderCommand.getOrderStatus())

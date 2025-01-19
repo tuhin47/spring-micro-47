@@ -23,7 +23,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -42,7 +42,12 @@ spring:
 axon:
   axonserver:
     servers: ${AXON_SERVER_URL:127.0.0.1:8124}
-
+  extension:
+    tracing:
+      span:
+        commandTags: MESSAGE_ID, MESSAGE_TYPE, PAYLOAD_TYPE, MESSAGE_NAME, PAYLOAD
+        eventTags: MESSAGE_ID, AGGREGATE_ID, PAYLOAD_TYPE, MESSAGE_NAME, PAYLOAD
+        queryTags: MESSAGE_ID, MESSAGE_TYPE, PAYLOAD_TYPE, MESSAGE_NAME, PAYLOAD
 management:
   otlp:
     tracing:

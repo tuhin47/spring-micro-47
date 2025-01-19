@@ -144,6 +144,12 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-micrometer</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.axonframework</groupId>
+            <artifactId>axon-tracing-opentelemetry</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+
         <!--        OTEL Ends-->
         <dependency>
             <groupId>org.springdoc</groupId>

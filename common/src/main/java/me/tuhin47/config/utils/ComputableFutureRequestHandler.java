@@ -68,7 +68,7 @@ public class ComputableFutureRequestHandler {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         Span span = tracer.currentSpan();
         return CompletableFuture.supplyAsync(() -> {
-            try (Tracer.SpanInScope spanInScope = tracer.withSpan(span)) {
+            try (Tracer.SpanInScope _ = tracer.withSpan(span)) {
                 log.debug("setting request attributes");
                 RequestContextHolder.setRequestAttributes(requestAttributes);
                 return response.get();

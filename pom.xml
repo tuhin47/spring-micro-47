@@ -31,6 +31,8 @@
         <spring-boot.version>3.4.1</spring-boot.version>
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
+        <axon-server-version>4.10.3</axon-server-version>
+
     </properties>
 
     <dependencyManagement>
@@ -39,6 +41,13 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-bom</artifactId>
+                <version>${axon-server-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

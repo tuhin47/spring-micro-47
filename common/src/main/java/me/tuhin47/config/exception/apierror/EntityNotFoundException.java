@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+@Getter
 public class EntityNotFoundException extends RuntimeException {
 
-    @Getter
     private HttpStatus status = HttpStatus.NOT_FOUND;
 
     public EntityNotFoundException(String simpleName, String... searchParamsMap) {
