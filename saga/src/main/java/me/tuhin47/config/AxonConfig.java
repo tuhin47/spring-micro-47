@@ -1,8 +1,8 @@
 package me.tuhin47.config;
 
 import com.thoughtworks.xstream.XStream;
-import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.propagation.TextMapPropagator;
 import org.axonframework.tracing.SpanFactory;
 import org.axonframework.tracing.opentelemetry.OpenTelemetrySpanFactory;
 import org.springframework.context.annotation.Bean;
@@ -15,21 +15,12 @@ public class AxonConfig {
     public XStream xStream() {
         XStream xStream = new XStream();
 
-        xStream.allowTypesByWildcard(new String[]{
-            "me.tuhin47.**"
-        });
+        xStream.allowTypesByWildcard(new String[]{"me.tuhin47.**"});
         return xStream;
     }
 
     @Bean
-    public Tracer openTelemetryTracer(OpenTelemetry openTelemetry) {
-        return openTelemetry.getTracer("axon-example-tracing");
-    }
-
-    @Bean
-    public SpanFactory spanFactory(Tracer tracer) {
-        return OpenTelemetrySpanFactory.builder()
-                                       .tracer(tracer)
-                                       .build();
+    public SpanFactory spanFactory(Tracer tracer, TextMapPropagator textMapPropagator) {
+        return OpenTelemetrySpanFactory.builder().tracer(tracer).contextPropagators(textMapPropagator).build();
     }
 }

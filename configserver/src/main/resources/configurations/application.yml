@@ -20,7 +20,6 @@ spring:
     password: ${MYSQL_PASSWORD:root}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: false
@@ -41,6 +40,7 @@ spring:
       enabled: ALWAYS
 axon:
   axonserver:
+    component-name: ${spring.application.name}
     servers: ${AXON_SERVER_URL:127.0.0.1:8124}
   extension:
     tracing:

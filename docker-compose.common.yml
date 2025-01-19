@@ -121,7 +121,7 @@ services:
     hostname: axonserver
     environment:
       - AXONIQ_AXONSERVER_STANDALONE=true
-      - COLLECTOR_OTLP_ENABLED=true
+    #      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata
