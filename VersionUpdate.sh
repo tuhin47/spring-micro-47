@@ -11,10 +11,10 @@ if [ -z "$newVersion" ]; then
 fi
 
 npm -C ./angular-boilerplate version $newVersion
-/home/towhidul/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/plugins/maven/lib/maven3/bin/mvn -B versions:set -DnewVersion=$newVersion -DgenerateBackupPoms=false
+$HOME/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/plugins/maven/lib/maven3/bin/mvn -B versions:set -DnewVersion=$newVersion -DgenerateBackupPoms=false
 
 sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=$newVersion/" .env*
 sed -i "s/$previous_version/$newVersion/" k8s/*.yaml
 sed -i "s/<IMAGE_TAG>$previous_version<\/IMAGE_TAG>/<IMAGE_TAG>$newVersion<\/IMAGE_TAG>/" pom.xml
 
-/home/towhidul/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/plugins/maven/lib/maven3/bin/mvn clean install
+$HOME/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/plugins/maven/lib/maven3/bin/mvn clean install
