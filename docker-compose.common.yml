@@ -1,6 +1,21 @@
 version: '3.7'
 
 services:
+  axonserver:
+    image: axoniq/axonserver:2024.1.4
+    hostname: axonserver
+    environment:
+      - AXONIQ_AXONSERVER_STANDALONE=true
+    volumes:
+      - axonserver-data:/data
+      - axonserver-events:/eventdata
+      - axonserver-config:/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - backend
 
   boilerplate:
     build:
@@ -17,58 +32,6 @@ services:
       - all
     image: tuhin47/boilerplate:${IMAGE_TAG}
     network_mode: "host"
-
-  tracing:
-    image: tuhin/opentelemetry-collector:${IMAGE_TAG}
-    build:
-      context: ./otel
-      dockerfile: ./Dockerfile
-    ports:
-      - "4317:4317"
-    networks:
-      - backend
-
-  jaeger-service:
-    image: jaegertracing/all-in-one:1.65.0
-    ports:
-      - "16686:16686"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "14250"
-    networks:
-      - backend
-
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
-    # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
-    environment:
-      - STORAGE_TYPE=mem
-    ports:
-      # Port used for the Zipkin UI and HTTP Api
-      - "9411:9411"
-    networks:
-      - backend
-    healthcheck:
-      test: [ "CMD", "wget", "-q", "-O", "-", "http://zipkin:9411/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-    networks:
-      - backend
 
   database:
     container_name: database
@@ -90,6 +53,50 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
       timeout: 20s
       retries: 10
+
+  jaeger-service:
+    image: jaegertracing/all-in-one:1.65.0
+    ports:
+      - "16686:16686"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "14250"
+    networks:
+      - backend
+
+  localstack:
+    container_name: localstack
+    profiles:
+      - localstack
+    image: localstack/localstack:3.2.0
+    environment:
+      - DEBUG=1
+      - USE_SSL=0
+      - AWS_CBOR_DISABLE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME=localstack
+      - SERVICES=s3,sns,sqs
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
+      - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
+
+  mailcatcher:
+    container_name: mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "wget", "--spider" , "http://mailcatcher:1080" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mongo:
     image: mongo
@@ -116,57 +123,19 @@ services:
     networks:
       - backend
 
-  axonserver:
-    image: axoniq/axonserver:2024.1.4
-    hostname: axonserver
-    environment:
-      - AXONIQ_AXONSERVER_STANDALONE=true
-    #      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
-    volumes:
-      - axonserver-data:/data
-      - axonserver-events:/eventdata
-      - axonserver-config:/config:ro
+  redis:
+    image: redis
+    container_name: redis
     ports:
-      - '8024:8024'
-      - '8124:8124'
-      - '8224:8224'
-    networks:
-      - backend
-
-  localstack:
-    container_name: localstack
-    profiles:
-      - localstack
-    image: localstack/localstack:3.2.0
-    environment:
-      - DEBUG=1
-      - USE_SSL=0
-      - AWS_CBOR_DISABLE=1
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - HOSTNAME=localstack
-      - SERVICES=s3,sns,sqs
-      - AWS_DEFAULT_REGION=us-east-1
-    ports:
-      - '4566-4583:4566-4583'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      #      - ./aws-samples/files:/tmp/localstack
-      - ./aws-reactive/script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
-      - ./aws-reactive/script/localstack/snssqs/init-sns-sqs.sh:/docker-entrypoint-initaws.d/init-sns-sqs.sh
-
-  mailcatcher:
-    container_name: mailcatcher
-    image: schickling/mailcatcher
-    ports:
-      - '1080:1080'
-      - '1025:1025'
-    networks:
-      - backend
+      - "6379:6379"
     healthcheck:
-      test: [ "CMD", "wget", "--spider" , "http://mailcatcher:1080" ]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 30s
+    networks:
+      - backend
 
   testservice:
     container_name: testservice
@@ -177,7 +146,32 @@ services:
       dockerfile: test.Dockerfile
     image: tuhin47/testservice:${IMAGE_TAG}
     restart: 'no'
-    #    command: newman run Microservice_Collection.postman_collection.json --delay-request=500 --iteration-count=2 --bail
     networks:
       - backend
+
+  tracing:
+    image: tuhin/opentelemetry-collector:${IMAGE_TAG}
+    build:
+      context: ./otel
+      dockerfile: ./Dockerfile
+    ports:
+      - "4317:4317"
+    networks:
+      - backend
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - "9411:9411"
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "wget", "-q", "-O", "-", "http://zipkin:9411/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 

@@ -2,39 +2,6 @@ version: '3.7'
 
 services:
 
-
-  serviceregistry:
-    build:
-      context: service-registry
-      dockerfile: ../Dockerfile
-    image: tuhin47/serviceregistry:${IMAGE_TAG}
-    ports:
-      - "8761:8761"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - backend
-
-  configserver:
-    build:
-      context: configserver
-      dockerfile: ../Dockerfile
-    image: tuhin47/configserver:${IMAGE_TAG}
-    ports:
-      - "9296:9296"
-    environment:
-      - EUREKA_SERVER_ADDRESS
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://configserver:9296/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - backend
-
   apigateway:
     build:
       context: apigateway
@@ -108,43 +75,55 @@ services:
         condition: service_healthy
       configserver:
         condition: service_healthy
-    #      - logstash
     networks:
       - backend
 
-
-  productservice:
+  chatservice:
     build:
-      context: productservice
+      context: chat-service
       dockerfile: ../Dockerfile
-    image: tuhin47/productservice:${IMAGE_TAG}
+    profiles:
+      - all
+    image: tuhin47/chatservice:${IMAGE_TAG}
     deploy:
       restart_policy:
         max_attempts: 3
         condition: on-failure
     ports:
-      - "8081:8081"
+      - "8084:8084"
     environment:
-      - EUREKA_SERVER_ADDRESS
       - CONFIG_SERVER_URL
-      - MYSQL_HOST
-      - MYSQL_PORT
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_DB=productdb
+      - EUREKA_SERVER_ADDRESS
+      - MONGO_AUTHENTICATION_DATABASE
+      - MONGO_DATABASE
+      - MONGO_HOST
+      - MONGO_PASSWORD
+      - MONGO_PORT
+      - MONGO_USERNAME
       - TRACING_URL
-      - REDIS_URL
       - NOAUTH_ENABLE
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     depends_on:
-      database:
+      mongo:
         condition: service_healthy
       configserver:
         condition: service_healthy
+    networks:
+      - backend
+
+  configserver:
+    build:
+      context: configserver
+      dockerfile: ../Dockerfile
+    image: tuhin47/configserver:${IMAGE_TAG}
+    ports:
+      - "9296:9296"
+    environment:
+      - EUREKA_SERVER_ADDRESS
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://configserver:9296/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
 
@@ -184,39 +163,6 @@ services:
     networks:
       - backend
 
-  chatservice:
-    build:
-      context: chat-service
-      dockerfile: ../Dockerfile
-    profiles:
-      - all
-    image: tuhin47/chatservice:${IMAGE_TAG}
-    deploy:
-      restart_policy:
-        max_attempts: 3
-        condition: on-failure
-    ports:
-      - "8084:8084"
-    environment:
-      - CONFIG_SERVER_URL
-      - EUREKA_SERVER_ADDRESS
-      - MONGO_AUTHENTICATION_DATABASE
-      - MONGO_DATABASE
-      - MONGO_HOST
-      - MONGO_PASSWORD
-      - MONGO_PORT
-      - MONGO_USERNAME
-      - TRACING_URL
-      - NOAUTH_ENABLE
-    depends_on:
-      mongo:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-    networks:
-      - backend
-
-
   paymentservice:
     build:
       context: paymentservice
@@ -253,6 +199,56 @@ services:
     networks:
       - backend
 
+  productservice:
+    build:
+      context: productservice
+      dockerfile: ../Dockerfile
+    image: tuhin47/productservice:${IMAGE_TAG}
+    deploy:
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_URL
+      - MYSQL_HOST
+      - MYSQL_PORT
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DB=productdb
+      - TRACING_URL
+      - REDIS_URL
+      - NOAUTH_ENABLE
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
+    networks:
+      - backend
+
+  serviceregistry:
+    build:
+      context: service-registry
+      dockerfile: ../Dockerfile
+    image: tuhin47/serviceregistry:${IMAGE_TAG}
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
   build_all:
     image: maven:3.9-eclipse-temurin-22
     environment:
@@ -266,34 +262,19 @@ services:
       - $MAVEN_REPO:/root/.m2/repository
     command: mvn clean package -DskipTests
 
+  axonserver:
+    extends:
+      service: axonserver
+      file: docker-compose.common.yml
+
   boilerplate:
     extends:
       file: docker-compose.common.yml
       service: boilerplate
 
-  tracing:
-    extends:
-      file: docker-compose.common.yml
-      service: tracing
-
-  jaeger-service:
-    extends:
-      file: docker-compose.common.yml
-      service: jaeger-service
-
-  redis:
-    extends:
-      service: redis
-      file: docker-compose.common.yml
-
   database:
     extends:
       service: database
-      file: docker-compose.common.yml
-
-  mongo:
-    extends:
-      service: mongo
       file: docker-compose.common.yml
 
   elasticsearch:
@@ -301,12 +282,10 @@ services:
       service: elasticsearch
       file: docker-compose.elk.yml
 
-  logstash:
-    depends_on:
-      - elasticsearch
+  jaeger-service:
     extends:
-      service: logstash
-      file: docker-compose.elk.yml
+      file: docker-compose.common.yml
+      service: jaeger-service
 
   kibana:
     depends_on:
@@ -315,27 +294,37 @@ services:
       service: kibana
       file: docker-compose.elk.yml
 
-  axonserver:
-    extends:
-      service: axonserver
-      file: docker-compose.common.yml
-
-
   localstack:
     extends:
       service: localstack
       file: docker-compose.common.yml
+
+  logstash:
+    depends_on:
+      - elasticsearch
+    extends:
+      service: logstash
+      file: docker-compose.elk.yml
 
   mailcatcher:
     extends:
       service: mailcatcher
       file: docker-compose.common.yml
 
+  mongo:
+    extends:
+      service: mongo
+      file: docker-compose.common.yml
+
+  redis:
+    extends:
+      service: redis
+      file: docker-compose.common.yml
+
   testservice:
     extends:
       service: testservice
       file: docker-compose.common.yml
-
 
 networks:
   backend:
@@ -347,21 +336,9 @@ volumes:
     driver: local
   axonserver-data:
     driver: local
-  #    driver_opts:
-  #      type: none
-  #      device: ${PWD}/axon/data
-  #      o: bind
   axonserver-events:
     driver: local
-  #    driver_opts:
-  #      type: none
-  #      device: ${PWD}/axon/events
-  #      o: bind
   axonserver-config:
     driver: local
-  #    driver_opts:
-  #      type: none
-  #      device: ${PWD}/axon/config
-  #      o: bind
   esdata:
     driver: local
