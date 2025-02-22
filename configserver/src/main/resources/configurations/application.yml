@@ -6,7 +6,9 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://127.0.0.1:8761/eureka}
-
+server:
+  ssl:
+    enabled: false
 spring:
   threads:
     virtual:

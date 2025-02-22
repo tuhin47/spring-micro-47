@@ -22,6 +22,7 @@ services:
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
       - LOG_PATH=/tmp/logs/apigateway/
+      - KC_HOST
     depends_on:
       configserver:
         condition: service_healthy
@@ -38,6 +39,9 @@ services:
       retries: 5
     networks:
       - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "gateway:host-gateway"
     volumes:
       - $PROJECT_PATH/apigateway:/app
       - $PROJECT_PATH/logs:/tmp/logs
@@ -282,6 +286,7 @@ services:
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
       - LOG_PATH=/tmp/logs/productservice/
+      - KC_HOST
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -351,6 +356,11 @@ services:
     extends:
       file: docker-compose.common.yml
       service: jaeger-service
+
+  keycloak:
+    extends:
+      file: docker-compose.common.yml
+      service: keycloak
 
   kibana:
     depends_on:

@@ -7,3 +7,27 @@ spring:
     import: ${configserver.import}
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:default}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+
+com:
+  c4-soft:
+    springaddons:
+      oidc:
+        ops:
+          - iss: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+            username-claim: $.preferred_username
+            authorities:
+              - path: $.realm_access.roles
+            aud:
+        resourceserver:
+          permit-all:
+            - /me
+            - /v3/api-docs/**
+            - /*/v3/api-docs/**
+            - /swagger-ui/**
+            - /actuator/health/readiness
+            - /actuator/health/liveness

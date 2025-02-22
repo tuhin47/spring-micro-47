@@ -1,9 +1,32 @@
+issuer: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+client-id: baeldung-confidential
+client-secret: secret
+
 spring:
   application:
     name: API-GATEWAY
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+  security:
+    oauth2:
+      client:
+        provider:
+          baeldung:
+            issuer-uri: ${issuer}
+        registration:
+          baeldung:
+            provider: baeldung
+            authorization-grant-type: authorization_code
+            client-id: ${client-id}
+            client-secret: ${client-secret}
+            scope: openid,profile,email,offline_access
 
+authorities-mapping:
+  issuers:
+    - uri: ${issuer}
+      claims:
+        - jsonPath: $.realm_access.roles
+        - jsonPath: $.resource_access.*.roles
 origins:
   allowedOrigins: ${ALLOWED_ORIGINS:http://localhost:4200}
 management:
@@ -22,3 +45,4 @@ management:
   endpoint:
     health:
       show-details: always
+

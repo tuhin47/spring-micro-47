@@ -39,7 +39,7 @@ public interface ProductController {
     @Operation(summary = "Delete a product by ID")
     ResponseEntity<Void> deleteProductById(@PathVariable("id") String productId);
 
-    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_ADMIN)")
+    //    @PreAuthorize("hasAuthority(T(me.tuhin47.utils.RoleUtils).ROLE_USER)")
     @Operation(summary = "Get all products by search with pagination")
     ResponseEntity<Page<ProductResponseExporter>> getAllProductBySearch(
         @RequestBody(required = false) List<SearchCriteria> searchCriteria,

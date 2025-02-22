@@ -32,6 +32,7 @@
         <spring-cloud-dependencies.version>2024.0.0</spring-cloud-dependencies.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
         <axon-server-version>4.10.3</axon-server-version>
+        <spring-addons.version>8.1.3</spring-addons.version>
 
     </properties>
 
@@ -50,6 +51,16 @@
                 <version>${axon-server-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.c4-soft.springaddons</groupId>
+                <artifactId>spring-addons-starter-oidc</artifactId>
+                <version>${spring-addons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.c4-soft.springaddons</groupId>
+                <artifactId>spring-addons-starter-oidc-test</artifactId>
+                <version>${spring-addons.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

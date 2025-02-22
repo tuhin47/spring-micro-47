@@ -27,10 +27,12 @@ public class SwaggerConfig {
     public Set<SwaggerUrl> apis(SwaggerUiConfigProperties swaggerUiConfig, RouteLocator routeLocator) {
         final Set<SwaggerUrl> swaggerUrlSet = new HashSet<>();
         routeLocator.getRoutes().subscribe(route -> {
-            String name = route.getId().split("-")[0];
-            String url = "/" + name.toLowerCase() + "/v3/api-docs";
-            var wsResource = new SwaggerUrl(name, url, name);
-            swaggerUrlSet.add(wsResource);
+            if (route.getId().contains("SERVICE")) {
+                var name = route.getId().split("-")[0];
+                var url = "/" + name.toLowerCase() + "/v3/api-docs";
+                var wsResource = new SwaggerUrl(name, url, name);
+                swaggerUrlSet.add(wsResource);
+            }
         });
         swaggerUiConfig.setUrls(swaggerUrlSet);
         return swaggerUrlSet;

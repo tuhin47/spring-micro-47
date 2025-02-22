@@ -6,12 +6,21 @@ spring:
     web-application-type: reactive
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       routes:
+        # Authorization-server
+        - id: authorization-server
+          uri: ${KC_HOST:http://gateway:8080/auth}
+          predicates:
+            - Path=/auth/**
         - id: ORDER-SERVICE
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
           filters:
+            - TokenRelay=
+            - SaveSession
             - name: CircuitBreaker
               args:
                 name: ORDER-SERVICE
@@ -25,6 +34,8 @@ spring:
           predicates:
             - Path=/payment/**
           filters:
+            - TokenRelay=
+            - SaveSession
             - name: CircuitBreaker
               args:
                 name: PAYMENT-SERVICE
@@ -38,6 +49,8 @@ spring:
           predicates:
             - Path=/product/**
           filters:
+            - TokenRelay=
+            - SaveSession
             - name: CircuitBreaker
               args:
                 name: PRODUCT-SERVICE
@@ -49,8 +62,10 @@ spring:
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**,/menu/**
+            - Path=/roles/**,/privileges/**,/menu/**
           filters:
+            - TokenRelay=
+            - SaveSession
             - name: CircuitBreaker
               args:
                 name: AUTH-SERVICE
