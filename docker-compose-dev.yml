@@ -28,6 +28,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
+      keycloak:
+        condition: service_healthy
       serviceregistry:
         condition: service_healthy
     working_dir: /app
@@ -39,9 +41,6 @@ services:
       retries: 5
     networks:
       - backend
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-      - "gateway:host-gateway"
     volumes:
       - $PROJECT_PATH/apigateway:/app
       - $PROJECT_PATH/logs:/tmp/logs
@@ -315,7 +314,7 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/registy/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -331,6 +330,7 @@ services:
     environment:
       - DEUBG_PORT=18761
       - LOG_PATH=/tmp/logs/serviceregistry/
+      - EUREKA_PATH
 
   axonserver:
     extends:
@@ -380,7 +380,10 @@ services:
     extends:
       service: logstash
       file: docker-compose.elk.yml
-
+  proxy:
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
   mongo:
     extends:
       service: mongo

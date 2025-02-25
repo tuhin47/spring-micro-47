@@ -65,7 +65,7 @@ services:
       - backend
 
   keycloak:
-    hostname: ${KC_CONTAINER_NAME:keycloak}
+    hostname: keycloak
     image: keycloak/keycloak:25.0.6
     command:
       - start-dev
@@ -79,7 +79,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_HTTP_PORT: 8080
       KC_HOSTNAME: ${KC_HOST}
-      KC_HOSTNAME_ADMIN: ${KC_HOST}
+      #      KC_HOSTNAME_ADMIN: ${KC_HOST}
       KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME_STRICT: true
       KC_HTTP_RELATIVE_PATH: /auth/
@@ -95,11 +95,12 @@ services:
       timeout: 5s
       retries: 20
   proxy:
+    container_name: ${DOMAIN_NAME}
     image: nginx:1.27-alpine
     volumes:
-      - ${PROJECT_PATH}/keycloak/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${PROJECT_PATH}/keycloak/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     restart: always
     depends_on:

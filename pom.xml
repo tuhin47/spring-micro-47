@@ -87,7 +87,7 @@
                 <configuration>
                     <env>
                         <PROJECT_PATH>${project.basedir}</PROJECT_PATH>
-                        <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/eureka</EUREKA_SERVER_ADDRESS>
+                        <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/registy/eureka</EUREKA_SERVER_ADDRESS>
                         <TRACING_URL>http://tracing:4317/</TRACING_URL>
                         <CONFIG_SERVER_URL>http://configserver:9296</CONFIG_SERVER_URL>
                         <MYSQL_HOST>database</MYSQL_HOST>
