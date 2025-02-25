@@ -82,7 +82,7 @@ services:
     command: sh /script/run.sh
     restart: on-failure
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
+      test: [ "CMD", "curl" , "http://localhost:7777/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -314,7 +314,7 @@ services:
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/registy/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/registry/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5

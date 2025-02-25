@@ -78,9 +78,11 @@ public class WebSecurityConfig {
             logout.logoutSuccessHandler(
                 new DelegatingOidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository, logoutProperties, "{baseUrl}"));
         });
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+//        http.csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()));
         // @formatter:off
         http.authorizeExchange(ex -> ex
-            .pathMatchers("/", "/login/**", "/oauth2/**","/auth/**", "/*/v3/api-docs/**").permitAll()
+            .pathMatchers("/", "/login/**", "/oauth2/**","/auth/**","/roles/**","/privileges/**", "/*/v3/api-docs/**","/actuator/**").permitAll()
             .anyExchange().authenticated());
         // @formatter:on
         return http.build();

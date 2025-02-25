@@ -677,7 +677,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713148612",
         "backchannel.logout.session.required": "true",
-        "backchannel.logout.url": "http://gateway:9090/auth/logout/connect/back-channel/baeldung",
+        "backchannel.logout.url": "http://gateway:9090/sso/logout/connect/back-channel/baeldung",
         "post.logout.redirect.uris": "http://localhost:9090/*##http://127.0.0.1:9090/*##https://localhost:9090/*##https://127.0.0.1:9090/*##http://gateway:9090/*##https://gateway:9090/*",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",

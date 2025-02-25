@@ -244,7 +244,7 @@ services:
     ports:
       - "8761:8761"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://serviceregistry:8761/registy/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/registry/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -11,14 +11,14 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+          issuer-uri: ${KC_HOST:http://gateway:8080/sso}/realms/baeldung
 
 com:
   c4-soft:
     springaddons:
       oidc:
         ops:
-          - iss: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+          - iss: ${KC_HOST:http://gateway:8080/sso}/realms/baeldung
             username-claim: $.preferred_username
             authorities:
               - path: $.realm_access.roles

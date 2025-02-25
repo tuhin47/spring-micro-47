@@ -9,11 +9,6 @@ spring:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       routes:
-        # Authorization-server
-        - id: authorization-server
-          uri: ${KC_HOST:http://gateway:8080/auth}
-          predicates:
-            - Path=/auth/**
         - id: ORDER-SERVICE
           uri: lb://ORDER-SERVICE
           predicates:
@@ -62,7 +57,7 @@ spring:
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/roles/**,/privileges/**,/menu/**
+            - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**,/menu/**
           filters:
             - TokenRelay=
             - SaveSession

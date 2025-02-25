@@ -1,4 +1,4 @@
-issuer: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+issuer: ${KC_HOST:http://gateway:8080/sso}/realms/baeldung
 client-id: baeldung-confidential
 client-secret: secret
 

@@ -82,7 +82,7 @@ services:
       #      KC_HOSTNAME_ADMIN: ${KC_HOST}
       KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME_STRICT: true
-      KC_HTTP_RELATIVE_PATH: /auth/
+      KC_HTTP_RELATIVE_PATH: /sso/
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
@@ -108,7 +108,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80/auth" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:80/sso" ]
       interval: 10s
       timeout: 5s
       retries: 5
