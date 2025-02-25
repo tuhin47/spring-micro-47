@@ -51,26 +51,23 @@ public class GenericSpecification<T> implements Specification<T> {
         Y objectValue = criteria.getObjectValue();
         Expression expression = objectValue != null ? path.as(objectValue.getClass()) : path.as(String.class);
 
-        switch (criteria.getOperation()) {
-            case GREATER_THAN:
-                return objectValue != null ? builder.greaterThan(expression, objectValue) : builder.greaterThan(expression, criteria.getValue());
-            case LESS_THAN:
-                return objectValue != null ? builder.lessThan(expression, objectValue) : builder.lessThan(expression, criteria.getValue());
-            case GREATER_THAN_EQUAL:
-                return objectValue != null ? builder.greaterThanOrEqualTo(expression, objectValue) : builder.greaterThanOrEqualTo(expression, criteria.getValue());
-            case LESS_THAN_EQUAL:
-                return objectValue != null ? builder.lessThanOrEqualTo(expression, objectValue) : builder.lessThanOrEqualTo(expression, criteria.getValue());
-            case NOT_EQUAL:
-                return objectValue != null ? builder.notEqual(expression, objectValue) : builder.notEqual(expression, criteria.getValue());
-            case EQUAL:
-                return objectValue != null ? builder.equal(expression, objectValue) : builder.equal(expression, criteria.getValue());
-            case MATCH:
-                return builder.like(builder.lower(expression), "%" + criteria.getValue().toLowerCase() + "%");
-            case MATCH_END:
-                return builder.like(builder.lower(expression), criteria.getValue().toLowerCase() + "%");
-        }
+        return switch (criteria.getOperation()) {
+            case GREATER_THAN ->
+                objectValue != null ? builder.greaterThan(expression, objectValue) : builder.greaterThan(expression, criteria.getValue());
+            case LESS_THAN ->
+                objectValue != null ? builder.lessThan(expression, objectValue) : builder.lessThan(expression, criteria.getValue());
+            case GREATER_THAN_EQUAL ->
+                objectValue != null ? builder.greaterThanOrEqualTo(expression, objectValue) : builder.greaterThanOrEqualTo(expression, criteria.getValue());
+            case LESS_THAN_EQUAL ->
+                objectValue != null ? builder.lessThanOrEqualTo(expression, objectValue) : builder.lessThanOrEqualTo(expression, criteria.getValue());
+            case NOT_EQUAL ->
+                objectValue != null ? builder.notEqual(expression, objectValue) : builder.notEqual(expression, criteria.getValue());
+            case EQUAL ->
+                objectValue != null ? builder.equal(expression, objectValue) : builder.equal(expression, criteria.getValue());
+            case MATCH -> builder.like(builder.lower(expression), "%" + criteria.getValue().toLowerCase() + "%");
+            case MATCH_END -> builder.like(builder.lower(expression), criteria.getValue().toLowerCase() + "%");
+        };
 
-        throw new IllegalArgumentException("Not implemented yet :" + criteria.getOperation());
     }
 
     private Path<String> getPath(Root<T> root, String key, Path<String> path) {

@@ -1,9 +1,10 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="gateway" type="Remote">
+        <module name="apigateway"/>
         <option name="USE_SOCKET_TRANSPORT" value="true"/>
         <option name="SERVER_MODE" value="false"/>
         <option name="SHMEM_ADDRESS"/>
-        <option name="HOST" value="localhost"/>
+        <option name="HOST" value="gateway"/>
         <option name="PORT" value="19090"/>
         <option name="AUTO_RESTART" value="false"/>
         <RunnerSettings RunnerId="Debug">

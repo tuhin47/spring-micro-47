@@ -1,3 +1,4 @@
+issuer: ${DOMAIN_SCHEME:http}://${DOMAIN_NAME:gateway}:${DOMAIN_PORT:8888}/${KC_HTTP_RELATIVE_PATH:sso}
 configserver:
   import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
 spring:
@@ -11,14 +12,14 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+          issuer-uri: ${issuer}/realms/baeldung
 
 com:
   c4-soft:
     springaddons:
       oidc:
         ops:
-          - iss: ${KC_HOST:http://gateway:8080/auth}/realms/baeldung
+          - iss: ${issuer}/realms/baeldung
             username-claim: $.preferred_username
             authorities:
               - path: $.realm_access.roles
