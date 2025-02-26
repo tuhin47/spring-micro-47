@@ -1,4 +1,5 @@
-issuer: ${KC_HOST:http://gateway:8080/sso}/realms/baeldung
+domain: ${DOMAIN_SCHEME:http}://${DOMAIN_NAME:gateway}:${DOMAIN_PORT:8888}
+issuer: ${domain}/${KC_HTTP_RELATIVE_PATH:sso}/realms/baeldung
 client-id: baeldung-confidential
 client-secret: secret
 
@@ -15,6 +16,7 @@ spring:
             issuer-uri: ${issuer}
         registration:
           baeldung:
+            redirect-uri: ${domain}/login/oauth2/code/baeldung
             provider: baeldung
             authorization-grant-type: authorization_code
             client-id: ${client-id}

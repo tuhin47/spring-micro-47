@@ -22,7 +22,10 @@ services:
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
       - LOG_PATH=/tmp/logs/apigateway/
-      - KC_HOST
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
     depends_on:
       configserver:
         condition: service_healthy
@@ -80,7 +83,6 @@ services:
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
     working_dir: /app
     command: sh /script/run.sh
-    restart: on-failure
     healthcheck:
       test: [ "CMD", "curl" , "http://localhost:7777/actuator/health" ]
       interval: 10s
@@ -165,13 +167,6 @@ services:
       - $MAVEN_REPO:/root/.m2/repository
       - $PROJECT_PATH/logs:/tmp/logs
 
-  mailcatcher:
-    image: schickling/mailcatcher
-    networks:
-      - backend
-    ports:
-      - '1080:1080' # MailCatcher web interface
-      - '1025:1025' # MailCatcher SMTP server
 
   orderservice:
     build:
@@ -285,7 +280,10 @@ services:
       - LOGSTASH_HOST
       - SPRING_PROFILES_ACTIVE
       - LOG_PATH=/tmp/logs/productservice/
-      - KC_HOST
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
     working_dir: /app
     command: sh /script/run.sh
     healthcheck:
@@ -381,9 +379,22 @@ services:
       service: logstash
       file: docker-compose.elk.yml
   proxy:
+    depends_on:
+      serviceregistry:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      apigateway:
+        condition: service_started
     extends:
       file: docker-compose.common.yml
       service: proxy
+
+  mailcatcher:
+    extends:
+      service: mailcatcher
+      file: docker-compose.common.yml
+
   mongo:
     extends:
       service: mongo

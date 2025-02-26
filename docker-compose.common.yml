@@ -38,7 +38,6 @@ services:
     image: mysql:8.0
     ports:
       - ${MYSQL_PORT}:3306
-    restart: always
     environment:
       - MYSQL_USER=extra
       - MYSQL_PORT
@@ -78,11 +77,10 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_HTTP_PORT: 8080
-      KC_HOSTNAME: ${KC_HOST}
-      #      KC_HOSTNAME_ADMIN: ${KC_HOST}
+      KC_HOSTNAME: ${DOMAIN_SCHEME}://${DOMAIN_NAME}:${DOMAIN_PORT}/${KC_HTTP_RELATIVE_PATH}
       KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME_STRICT: true
-      KC_HTTP_RELATIVE_PATH: /sso/
+      KC_HTTP_RELATIVE_PATH: /${KC_HTTP_RELATIVE_PATH}/
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
@@ -95,20 +93,20 @@ services:
       timeout: 5s
       retries: 20
   proxy:
-    container_name: ${DOMAIN_NAME}
+    container_name: gateway
     image: nginx:1.27-alpine
     volumes:
+      #      - ${PROJECT_PATH}/keycloak/ssl/nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
+      #      - ${PROJECT_PATH}/keycloak/ssl/nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
       - ${PROJECT_PATH}/keycloak/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "80:80"
+      - "8888:8888"
       - "443:443"
     restart: always
-    depends_on:
-      - keycloak
     networks:
       - backend
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80/sso" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/sso" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -141,6 +139,8 @@ services:
       - '1025:1025'
     networks:
       - backend
+    environment:
+      - HTTPPATH=/mails
     healthcheck:
       test: [ "CMD", "wget", "--spider" , "http://mailcatcher:1080" ]
       interval: 30s
@@ -194,7 +194,6 @@ services:
       context: postman_collection
       dockerfile: test.Dockerfile
     image: tuhin47/testservice:${IMAGE_TAG}
-    restart: 'no'
     networks:
       - backend
 

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.tuhin47.utils.RoleUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,7 +42,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 Collection<? extends GrantedAuthority> authorities = tokenProvider.isAuthenticated(jwt)
                     ? userDetails.getAuthorities()
-                    : List.of(new SimpleGrantedAuthority("ROLE_PRE_VERIFICATION_USER"));
+                    : List.of(new SimpleGrantedAuthority(RoleUtils.ROLE_PRE_VERIFICATION_USER));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
