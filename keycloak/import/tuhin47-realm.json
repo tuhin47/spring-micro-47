@@ -1,6 +1,8 @@
 {
   "id": "6b9ef010-c41b-4e29-b8ea-40bf04a29db0",
-  "realm": "baeldung",
+  "realm": "tuhin47",
+  "displayName": "",
+  "displayNameHtml": "",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -66,7 +68,7 @@
       },
       {
         "id": "a970e869-0373-4887-862d-e487c609131a",
-        "name": "default-roles-baeldung",
+        "name": "default-roles-tuhin47",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -301,7 +303,7 @@
       ],
       "security-admin-console": [],
       "admin-cli": [],
-      "baeldung-confidential": [],
+      "tuhin47-confidential": [],
       "account-console": [],
       "broker": [
         {
@@ -407,7 +409,7 @@
   "groups": [],
   "defaultRole": {
     "id": "a970e869-0373-4887-862d-e487c609131a",
-    "name": "default-roles-baeldung",
+    "name": "default-roles-tuhin47",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -460,8 +462,8 @@
       "id": "d2406d7a-ddda-4c48-bd08-7cb6ad8d3a8d",
       "username": "user",
       "firstName": "User",
-      "lastName": "Baeldung",
-      "email": "user@baedung.com",
+      "lastName": "tuhin47",
+      "email": "user@tuhin47.com",
       "emailVerified": true,
       "createdTimestamp": 1718129923907,
       "enabled": true,
@@ -479,7 +481,7 @@
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "default-roles-baeldung"
+        "default-roles-tuhin47"
       ],
       "notBefore": 0,
       "groups": []
@@ -510,13 +512,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/baeldung/account/",
+      "baseUrl": "/realms/tuhin47/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/baeldung/account/*"
+        "/realms/tuhin47/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -540,6 +542,7 @@
         "acr",
         "profile",
         "roles",
+        "basic",
         "email"
       ],
       "optionalClientScopes": [
@@ -554,13 +557,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/baeldung/account/",
+      "baseUrl": "/realms/tuhin47/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/baeldung/account/*"
+        "/realms/tuhin47/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -595,6 +598,7 @@
         "acr",
         "profile",
         "roles",
+        "basic",
         "email"
       ],
       "optionalClientScopes": [
@@ -635,6 +639,7 @@
         "acr",
         "profile",
         "roles",
+        "basic",
         "email"
       ],
       "optionalClientScopes": [
@@ -646,7 +651,7 @@
     },
     {
       "id": "b7df16bd-926b-4dc2-9b97-229951d2b159",
-      "clientId": "baeldung-confidential",
+      "clientId": "tuhin47-confidential",
       "name": "",
       "description": "",
       "rootUrl": "",
@@ -677,7 +682,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713148612",
         "backchannel.logout.session.required": "true",
-        "backchannel.logout.url": "http://gateway:9090/sso/logout/connect/back-channel/baeldung",
+        "backchannel.logout.url": "http://gateway:9090/sso/logout/connect/back-channel/tuhin47",
         "post.logout.redirect.uris": "http://localhost:9090/*##http://127.0.0.1:9090/*##https://localhost:9090/*##https://127.0.0.1:9090/*##http://gateway:9090/*##https://gateway:9090/*",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
@@ -691,6 +696,7 @@
         "acr",
         "profile",
         "roles",
+        "basic",
         "email"
       ],
       "optionalClientScopes": [
@@ -785,13 +791,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/baeldung/console/",
+      "baseUrl": "/admin/tuhin47/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/baeldung/console/*"
+        "/admin/tuhin47/console/*"
       ],
       "webOrigins": [
         "+"
@@ -836,6 +842,7 @@
         "acr",
         "profile",
         "roles",
+        "basic",
         "email"
       ],
       "optionalClientScopes": [
@@ -878,8 +885,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${phoneScopeConsentText}"
+        "consent.screen.text": "${phoneScopeConsentText}",
+        "display.on.consent.screen": "true"
       },
       "protocolMappers": [
         {
@@ -978,8 +985,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${profileScopeConsentText}"
+        "consent.screen.text": "${profileScopeConsentText}",
+        "display.on.consent.screen": "true"
       },
       "protocolMappers": [
         {
@@ -1212,8 +1219,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${emailScopeConsentText}"
+        "consent.screen.text": "${emailScopeConsentText}",
+        "display.on.consent.screen": "true"
       },
       "protocolMappers": [
         {
@@ -1257,8 +1264,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "false",
-        "display.on.consent.screen": "false",
-        "consent.screen.text": ""
+        "consent.screen.text": "",
+        "display.on.consent.screen": "false"
       },
       "protocolMappers": [
         {
@@ -1281,8 +1288,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "false",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${rolesScopeConsentText}"
+        "consent.screen.text": "${rolesScopeConsentText}",
+        "display.on.consent.screen": "true"
       },
       "protocolMappers": [
         {
@@ -1294,7 +1301,10 @@
           "config": {
             "introspection.token.claim": "true",
             "multivalued": "true",
+            "userinfo.token.claim": "false",
             "user.attribute": "foo",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
             "access.token.claim": "true",
             "claim.name": "realm_access.roles",
             "jsonType.label": "String"
@@ -1307,12 +1317,12 @@
           "protocolMapper": "oidc-usermodel-client-role-mapper",
           "consentRequired": false,
           "config": {
-            "introspection.token.claim": "true",
-            "multivalued": "true",
             "user.attribute": "foo",
+            "introspection.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "resource_access.${client_id}.roles",
-            "jsonType.label": "String"
+            "jsonType.label": "String",
+            "multivalued": "true"
           }
         },
         {
@@ -1335,8 +1345,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${addressScopeConsentText}"
+        "consent.screen.text": "${addressScopeConsentText}",
+        "display.on.consent.screen": "true"
       },
       "protocolMappers": [
         {
@@ -1384,6 +1394,44 @@
           }
         }
       ]
+    },
+    {
+      "id": "0825dca0-65fa-46e5-a5ca-b3d1c8489242",
+      "name": "basic",
+      "description": "OpenID Connect scope for add all basic claims to the token",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "cbd4feec-6cc5-471d-8ce1-c1270e0379bb",
+          "name": "sub",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-sub-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "id": "102e8f73-a2cc-40ac-b481-e3ad56e750d8",
+          "name": "auth_time",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "AUTH_TIME",
+            "id.token.claim": "true",
+            "introspection.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "auth_time",
+            "jsonType.label": "long"
+          }
+        }
+      ]
     }
   ],
   "defaultDefaultClientScopes": [
@@ -1392,7 +1440,8 @@
     "email",
     "roles",
     "web-origins",
-    "acr"
+    "acr",
+    "basic"
   ],
   "defaultOptionalClientScopes": [
     "offline_access",
@@ -1523,14 +1572,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-usermodel-attribute-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-usermodel-property-mapper",
-            "oidc-full-name-mapper",
+            "saml-role-list-mapper",
             "oidc-address-mapper",
             "saml-user-property-mapper",
-            "saml-role-list-mapper",
-            "saml-user-attribute-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-full-name-mapper",
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -1542,14 +1591,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-full-name-mapper",
-            "oidc-usermodel-property-mapper",
-            "saml-user-property-mapper",
             "saml-user-attribute-mapper",
-            "saml-role-list-mapper",
-            "oidc-usermodel-attribute-mapper"
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-address-mapper",
+            "oidc-full-name-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "oidc-usermodel-property-mapper",
+            "saml-role-list-mapper"
           ]
         }
       },
@@ -1620,12 +1669,6 @@
         "providerId": "aes-generated",
         "subComponents": {},
         "config": {
-          "kid": [
-            "b99fa8a0-c1a9-4489-b12a-c205a76b2c94"
-          ],
-          "secret": [
-            "ZbiwUtfgabqDCPHHR0vS5w"
-          ],
           "priority": [
             "100"
           ]
@@ -1637,15 +1680,6 @@
         "providerId": "rsa-enc-generated",
         "subComponents": {},
         "config": {
-          "privateKey": [
-            "MIIEpAIBAAKCAQEAtxGGgeWGR6zTYO0d2gNbc1jjyuKWAXmDDj+orwZ0dl4lI/4cgQIChMIlKSADwJAnzmWNiFOtdpfR6qfuG6c+U3dxFF+qzktHMP3pBDJojQODX1vyhAjnR1JPM8JDSnO9pJycwLVYhQbvt9GQ7lIDnm87HneEjnLGvqV5snEHlE4h+2CTvjwdg+WP2W0/An4i+oF+0YF4K+GHlbkthY5E6rQLVkLUepsBEaI4YHWf/3ilcdyfdNPp57KiPKWb/hyV2MGor83+E8KIWjZ6zsuo59JiTHWJ5rJtkatLtb7gW8s+v4yvaDBBfior7H1duOl3a6tYkQZI9l+RSxgu1OU7bwIDAQABAoIBACSyoS2R5sCgfwEbl1PYP3FYfNVzZZGnG6P0E+r+FsORrM1Rx8H+tqWJS6y6S7ZCz4/64IvXBltTJNPu1Pb7KC3QMD1ezh0rjvpds+PQ/Q9jiGbJxkw8gqxT7ieYhie7GuWQNYYV9Eg6czx8iJqVmz8b2hSJ7esmS/v0rPgd22CZkD0iRSsIWHiCIio/XcdouDRILWzFCFPFpj2VZhEvWQSEPMfSctQnQ67OYbLu4ftfk+f+eSqBCBAPHLJqV/yRbia/shTx12LoCdfrB7MU0iyxJXuagNSfWKk4zoWr+xYi8aof/dEKLt1yQq5hCp/4VsJbMH0mx2OQX657sJy+IyUCgYEA3AmpsZs5smZLS92gmPgbBCUKEByo+Q1EbGWzk3tWHfz3AAy7HC/x3bVhpDss1JwrX+8mvDAP7SnNfU9hUqz+yGxlchTdbG/2bnbd3SrYFC84kP0893Ngy9TMbkIMrJ8A1xy/ZgPs32dgv3ZvLgvazrrE3lQ5mC/Z6CSLterBaL0CgYEA1P0THYtWm8aJRSywjwggdzaoAez8fFY8zh134qdUGeAkUK+poffcrC5t39BuGjvcUHXfFpYCa3XrXXcreP3X/6K/yoWzhZytMO5tMOBCyZFC/lFV4+34qXjzuGO8ocYVwIpX+xrvx4qZwgg3kymfn0GCJ+HVL4vJG4IWcUl9pZsCgYAUTXPx5k+xjUy/SEjMNIBRppVCHVLeAAJjOhMStZuhkri7sXEGTco0WcsTmz4ss+gwpuFdFdYyXNwQBuYE+d9cYNwPZat0mPQVBzS7dnuPiTff8O3SKzwwModWWRPQTa+HKajjYdNWXbSIlgX2KrPaxVLq7LyPtUKW7+BQPcPwxQKBgQDKL5fm0vAbnmOO9DaDAP74zDy+3z5rtd2w+E5nLdrrWVh/89F/PPERzl1lOtJaOvsQsmRdZ3fSlTUiG8974tUaCmAwm61op+vM6HllDW65NBk5nPKBFdWY44XRQ3S8yXK6vVl5uP9oGA2QIQbIv5mUr7YjsAEVSohVga9WSaJqAwKBgQC2oePl5prfz/avt9m/4lep/PJf9RD/tYYbo3m9ChmMe5OSR+JhraVhZ0O1zF3+IlRLT1BHLzvxbLnewdAGVFPgP7BNmoTv3YoVmxZF0quqyJbZOj6QfIDBRW9n64v8WPesWAQRoFgxb9w3GUI5hjaQp9tfxX9BfVV43iWuWC+HaA=="
-          ],
-          "keyUse": [
-            "ENC"
-          ],
-          "certificate": [
-            "MIICnzCCAYcCBgGO35m41DANBgkqhkiG9w0BAQsFADATMREwDwYDVQQDDAhiYWVsZHVuZzAeFw0yNDA0MTUwMjMxMTdaFw0zNDA0MTUwMjMyNTdaMBMxETAPBgNVBAMMCGJhZWxkdW5nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtxGGgeWGR6zTYO0d2gNbc1jjyuKWAXmDDj+orwZ0dl4lI/4cgQIChMIlKSADwJAnzmWNiFOtdpfR6qfuG6c+U3dxFF+qzktHMP3pBDJojQODX1vyhAjnR1JPM8JDSnO9pJycwLVYhQbvt9GQ7lIDnm87HneEjnLGvqV5snEHlE4h+2CTvjwdg+WP2W0/An4i+oF+0YF4K+GHlbkthY5E6rQLVkLUepsBEaI4YHWf/3ilcdyfdNPp57KiPKWb/hyV2MGor83+E8KIWjZ6zsuo59JiTHWJ5rJtkatLtb7gW8s+v4yvaDBBfior7H1duOl3a6tYkQZI9l+RSxgu1OU7bwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCKvvG48bHq5viAcn3MceoQt2u632/fuIYsl5571L+soo2btTfLsRMSSke8B8y/9dAoNJmtHOYXv9rxJldvVJe0+j5saYRezWKwWK34vIv5KpvusNl7SKRJovn9ghEmY5f/KcbXy64GLuLp92bRJ0x9ZH0xd65nBE84/jh25wGes385sojm6nvjw3x5UZco3/JTDA1ItpHl1CqhZLCJzoKBK3wGLOBygacVuw9+Qgg0HH+H11u+BYysQNKzeg4hRaAPZfPZqn/oHzTkUDFUH4zIW0f5xrx8+6LK1pu5/zBrP8DucbqvjU75vn5icRSESNEdIaDFKPqGsHWrCHED9g0Z"
-          ],
           "priority": [
             "100"
           ],
@@ -1660,12 +1694,6 @@
         "providerId": "hmac-generated",
         "subComponents": {},
         "config": {
-          "kid": [
-            "c29e92b7-3555-4f6a-8658-a126352f3624"
-          ],
-          "secret": [
-            "ZHUIzP_pYeQEavBCeo66pXoQNKZ3wp88pd8F1hrKk5QBhr2VsGtcRzX-b4pRlcAB-eM0ajqFCAA0-C_0zAJUDjHHVkcRrG1x2-L9MVb83YclBaojux2XPgZvSOc-8dhOHmgJD6lbHeBPDKkbfG0l6tnG1CdOz2l_V_hA9bArtDc"
-          ],
           "priority": [
             "100"
           ],
@@ -1680,15 +1708,6 @@
         "providerId": "rsa-generated",
         "subComponents": {},
         "config": {
-          "privateKey": [
-            "MIIEowIBAAKCAQEApdbcEmOffWAv7IfJE0Tq6+qUEp/dVNPUwU9++jCYhRM6xSeTQfHDNgsebCRy8FMiHjMA04G2VshwpmOvc2zikuMHrLpvJn1WvjSdHtHrG8I4SVvpvk+Otqn7lYwbFk692dqtwSllrSZmgdZsRgG/UIt855NPRurC/MyzX5hG3qp9GQQBJmoT5Jkl0EOlaKLlDZ0URzmcpYfdxQGy/KWn6iJ5iKULwCyjo2QiIh6yHdsJRkIzpqIlZCQDr/ELB5ojN1cuH4rwQUt2L6WaC6WXV7DhJVpKFgTWzWsg8gEvxLjKWTZUHpUh6T8JGx2Vtd2Csj76lz8D015pxVHE67gvNwIDAQABAoIBAAFcBdPphn0VGXD/OUs55/mSvCNv5iXScQJsq1tsKf0OCwOsEJ40uXB3f9HF+9xeMhgqbJVPSCQJ+xPy3dIwgRO+COPhf/BUjJvejciCnAWMO3fLb0iGSm8D8ztas4bnw3vMRhIUV/Bdz+82chsPqrNxSCRddUDRADtvbrfa8YU2IY5tTzNFMzv2s+6tUwKGqDxHoGM6B5Vx3bMDzNlPNywLynvtH0bGULBmHCft45HVT0EOVi0OdavF3RXvZLNY1gNKWHiXolGo91tpjl9sba48mCKkFfybMzJIk+SyHKFHKAz1VxyjweCdnkqcIb+mmzr+62NOnH6vMWVJ2WWbn3ECgYEA5dGM8t+NV+8sgFHLLhddGgl/mkCI55sGPidU6LQOcgqI6gXUTrtPJ/30ETwUSlO5jCadxwVa03pZSI+tgWipyBzZn04R7KcIieetYYQCeJo5RQUcGvRGwH5AXGZbRzeH1URIN6PpusqJChTSCySbQLc0Vt7NXe2teLij54Cc0E0CgYEAuLtpe42DRdG9HOrVgySMaFznG9Cfe/lXgibUvvQx3q7x/ASdM4PnCraTED6a3kc9D+V52+DUBUnQrOGXAodhKbaGS0v0Pu+DBFWxkpmimAwHVsiYd69+vLLvAZFF4jduInRXUZXwOlTpEpD2XrIgtXxmT1aOJszVnha0kpHgX5MCgYANIQuMVHkerOs96W5SE8Od2S0RAt7PXGve4SBYqvCoUzG/LNYUKV88SaXH1kbSeDYBa7NXy1aE/lhbbNncqr4IUJ2eHDep7WDvf+zHxWLewPDEoKYaZBompQ/IN5C/YMzBwkTd6N9RbICnssjNGipEaDL1Q4U3+HwQiXvTneVXgQKBgQC2qzOqJgwJ7VVIk/pffLOOu1cYjRo3eB8NJyK2VDhAD9RfNZzRBPxg/pq7tHxlkiISZwMx5schF5XObiBqMr5khgWTzV6PIT33+ljmMx+xpCtZqHAD4bi8FV/7t9BX2iIA1fRGS7LJq47xegD1MMThUUrF5zwXp/MQKTmTucYaGwKBgHKN6Ru6q+i8clxYsCSXapNClh2h6p7zyrfuANQ4qXtHAUhS+BO5iWo94Rh72fOsQ/bLTf/+KtKtlCb+Yw5F+WodlVghXQiK8mViSz40dcsDLSMivJhD4k5Lg9WkvCkGsX/Uh8TJbvCnkcHArVEVAnwuvrWdDB8JuJow0u5iHIxQ"
-          ],
-          "keyUse": [
-            "SIG"
-          ],
-          "certificate": [
-            "MIICnzCCAYcCBgGO35m4LzANBgkqhkiG9w0BAQsFADATMREwDwYDVQQDDAhiYWVsZHVuZzAeFw0yNDA0MTUwMjMxMTdaFw0zNDA0MTUwMjMyNTdaMBMxETAPBgNVBAMMCGJhZWxkdW5nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdbcEmOffWAv7IfJE0Tq6+qUEp/dVNPUwU9++jCYhRM6xSeTQfHDNgsebCRy8FMiHjMA04G2VshwpmOvc2zikuMHrLpvJn1WvjSdHtHrG8I4SVvpvk+Otqn7lYwbFk692dqtwSllrSZmgdZsRgG/UIt855NPRurC/MyzX5hG3qp9GQQBJmoT5Jkl0EOlaKLlDZ0URzmcpYfdxQGy/KWn6iJ5iKULwCyjo2QiIh6yHdsJRkIzpqIlZCQDr/ELB5ojN1cuH4rwQUt2L6WaC6WXV7DhJVpKFgTWzWsg8gEvxLjKWTZUHpUh6T8JGx2Vtd2Csj76lz8D015pxVHE67gvNwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCeHytXaCzaRIscdi5e678CTiF0L7/uOmrVB5D4CtOnR8z85Y5n+hw0aPm4tcZbb/cI7L3yWMua2EHdKUKj+uw/wCvl4/kOqX9R03xac3DH1q++toFesOJZM1t7HM4Vq4tNK36kYt3vHVtmANoIBRcB7A9YGTF4vknS9uixLBvQ28yTK48lVtuqiC45NYynSpVMvWQwRyunIea13+fdStW9ln0oG1Q0EfTLfxOOyRWTvdcvM0OftatkXTxlrWMXYbevJPXOS4GEKjKtguclOQmcmY+Ka6R6a20ApBLEipgyv0JQ9yOuX+STG2rWu+VWqXlT3vKH8EZ/OFkR86bNEVpZ"
-          ],
           "priority": [
             "100"
           ]
@@ -2318,6 +2337,15 @@
       "config": {}
     },
     {
+      "alias": "delete_credential",
+      "name": "Delete Credential",
+      "providerId": "delete_credential",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 100,
+      "config": {}
+    },
+    {
       "alias": "update_user_locale",
       "name": "Update User Locale",
       "providerId": "update_user_locale",
@@ -2350,12 +2378,16 @@
     "oauth2DeviceCodeLifespan": "600",
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
+    "frontendUrl": "",
+    "organizationsEnabled": "false",
+    "acr.loa.map": "{}",
     "adminEventsExpiration": "900",
     "shortVerificationUri": "",
     "actionTokenGeneratedByUserLifespan.reset-credentials": ""
   },
-  "keycloakVersion": "24.0.0",
+  "keycloakVersion": "25.0.6",
   "userManagedAccessAllowed": false,
+  "organizationsEnabled": false,
   "clientProfiles": {
     "profiles": []
   },
