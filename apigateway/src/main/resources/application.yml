@@ -1,6 +1,6 @@
 domain: ${DOMAIN_SCHEME:http}://${DOMAIN_NAME:gateway}:${DOMAIN_PORT:8888}
-issuer: ${domain}/${KC_HTTP_RELATIVE_PATH:sso}/realms/baeldung
-client-id: baeldung-confidential
+issuer: ${domain}/${KC_HTTP_RELATIVE_PATH:sso}/realms/tuhin47
+client-id: tuhin47-confidential
 client-secret: secret
 
 spring:
@@ -12,12 +12,12 @@ spring:
     oauth2:
       client:
         provider:
-          baeldung:
+          tuhin47:
             issuer-uri: ${issuer}
         registration:
-          baeldung:
-            redirect-uri: ${domain}/login/oauth2/code/baeldung
-            provider: baeldung
+          tuhin47:
+            redirect-uri: ${domain}/login/oauth2/code/tuhin47
+            provider: tuhin47
             authorization-grant-type: authorization_code
             client-id: ${client-id}
             client-secret: ${client-secret}

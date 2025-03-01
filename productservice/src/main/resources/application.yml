@@ -12,14 +12,14 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${issuer}/realms/baeldung
+          issuer-uri: ${issuer}/realms/tuhin47
 
 com:
   c4-soft:
     springaddons:
       oidc:
         ops:
-          - iss: ${issuer}/realms/baeldung
+          - iss: ${issuer}/realms/tuhin47
             username-claim: $.preferred_username
             authorities:
               - path: $.realm_access.roles
