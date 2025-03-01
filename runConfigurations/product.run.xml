@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="product" type="Remote">
+        <module name="productservice"/>
         <option name="USE_SOCKET_TRANSPORT" value="true"/>
         <option name="SERVER_MODE" value="false"/>
         <option name="SHMEM_ADDRESS"/>

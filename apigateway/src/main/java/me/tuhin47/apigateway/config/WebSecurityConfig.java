@@ -5,6 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.utils.RoleUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -65,6 +66,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableReactiveMethodSecurity
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
+@Slf4j
 public class WebSecurityConfig {
 
     @Bean
@@ -78,7 +80,7 @@ public class WebSecurityConfig {
             logout.logoutSuccessHandler(
                 new DelegatingOidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository, logoutProperties, "{baseUrl}"));
         });
-        http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+        http.csrf(withDefaults());
 //        http.csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()));
         // @formatter:off
         http.authorizeExchange(ex -> ex
@@ -267,6 +269,7 @@ public class WebSecurityConfig {
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 
             authorities.forEach(authority -> {
+                log.debug("Authority Class: {}", authority.getClass());
                 if (authority instanceof OidcUserAuthority oidcUserAuthority) {
                     final var issuer = oidcUserAuthority.getIdToken().getClaimAsURL(JwtClaimNames.ISS);
                     mappedAuthorities.addAll(extractAuthorities(oidcUserAuthority.getIdToken().getClaims(), properties.get(issuer)));
@@ -282,7 +285,7 @@ public class WebSecurityConfig {
                     }
                 }
             });
-
+            log.debug("Authorities {}", mappedAuthorities);
             return mappedAuthorities;
         }
 

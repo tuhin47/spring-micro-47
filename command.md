@@ -95,18 +95,19 @@ mvn clean install && mvn docker-compose:up -pl ./ -f pom.xml  && mvn exec:exec &
 ```shell
 docker-compose -f docker-compose-prod.yml -p spring-micro-47 up -d --build configserver axonserver redis database mailcatcher zipkin
 
-ssh -L 9411:localhost:9411 \
-    -L 9296:localhost:9296 \
-    -L 19296:localhost:19296 \
-    -L 8024:localhost:8024 \
-    -L 8124:localhost:8124 \
-    -L 8224:localhost:8224 \
-    -L 6379:localhost:6379 \
-    -L 16379:localhost:16379 \
+ssh -L 8888:localhost:8888 \
     -L 3306:localhost:3306 \
-    -L 1080:localhost:1080 \
-    -L 9411:localhost:9411 \
-    -L 1025:localhost:1025 \
-    -L 8761:localhost:8761 \
+    -L 19296:localhost:19296 \
+    -L 6379:localhost:6379 \
     gp
+
+ssh \
+-L 17777:localhost:17777 \
+-L 18084:localhost:18084 \
+-L 18082:localhost:18082 \
+-L 19090:localhost:19090 \
+-L 18083:localhost:18083 \
+-L 18081:localhost:18081 \
+gp
+
 ```
