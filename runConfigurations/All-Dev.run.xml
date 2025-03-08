@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="All-Dev" type="docker-deploy" factoryName="docker-compose.yml"
-                   server-name="Remote">
+                   server-name="me47_Remote">
         <deployment type="docker-compose.yml">
             <settings>
                 <option name="envFilePath" value="$PROJECT_DIR$/.env.me47.secret"/>
