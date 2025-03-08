@@ -9,6 +9,13 @@ spring:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       routes:
+        # Authorization-server
+        - id: authorization-server
+          uri: http://keycloak:8080
+          predicates:
+            - Path=/kc/**
+          filters:
+            - StripPrefix=1
         - id: ORDER-SERVICE
           uri: lb://ORDER-SERVICE
           predicates:

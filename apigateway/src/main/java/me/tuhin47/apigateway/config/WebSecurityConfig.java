@@ -40,6 +40,9 @@ import org.springframework.security.web.server.ServerRedirectStrategy;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
+import org.springframework.security.web.server.csrf.ServerCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -69,22 +72,40 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Slf4j
 public class WebSecurityConfig {
 
+    public static final List<String> IGNORE_CSRF = List.of("/kc", "/login", "/actuator");
+
     @Bean
-    SecurityWebFilterChain clientSecurityFilterChain(
-        ServerHttpSecurity http,
-        InMemoryReactiveClientRegistrationRepository clientRegistrationRepository,
-        LogoutProperties logoutProperties) {
+    SecurityWebFilterChain clientSecurityFilterChain(ServerHttpSecurity http, InMemoryReactiveClientRegistrationRepository clientRegistrationRepository,
+                                                     LogoutProperties logoutProperties) {
+
+
+        // @formatter:off
         http.addFilterBefore(loginPageWebFilter(), SecurityWebFiltersOrder.LOGIN_PAGE_GENERATING);
         http.oauth2Login(withDefaults());
         http.logout(logout -> {
             logout.logoutSuccessHandler(
                 new DelegatingOidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository, logoutProperties, "{baseUrl}"));
         });
-        http.csrf(withDefaults());
-//        http.csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()));
-        // @formatter:off
+        //http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+        ServerWebExchangeMatcher customCsrfMatcher = exchange -> {
+            String path = exchange.getRequest().getURI().getPath();
+            if (IGNORE_CSRF.stream().anyMatch(path::startsWith)) {
+                return ServerWebExchangeMatcher.MatchResult.notMatch();
+            }
+            return ServerWebExchangeMatcher.MatchResult.match();
+        };
+        http
+            .csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse())
+                              .csrfTokenRequestHandler(new ServerCsrfTokenRequestAttributeHandler())
+                              .requireCsrfProtectionMatcher(customCsrfMatcher))
+            .addFilterAfter(new CsrfCookieWebFilter(), SecurityWebFiltersOrder.HTTP_BASIC);
+
+        http.securityContextRepository(new AlwaysCreateSessionSecurityContextRepository());
+        http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
+
+
         http.authorizeExchange(ex -> ex
-            .pathMatchers("/", "/login/**", "/oauth2/**","/auth/**","/roles/**","/privileges/**", "/*/v3/api-docs/**","/actuator/**").permitAll()
+            .pathMatchers("/", "/login/**", "/product/**", "/oauth2/**","/auth/**","/roles/**","/privileges/**", "/*/v3/api-docs/**","/actuator/**", "/kc/**").permitAll()
             .anyExchange().authenticated());
         // @formatter:on
         return http.build();
@@ -122,7 +143,7 @@ public class WebSecurityConfig {
             // @formatter:off
             return Mono.just(authentication)
                        .filter(OAuth2AuthenticationToken.class::isInstance)
-                       .filter((token) -> authentication.getPrincipal() instanceof OidcUser)
+                       .filter((_) -> authentication.getPrincipal() instanceof OidcUser)
                        .map(OAuth2AuthenticationToken.class::cast)
                        .flatMap(oauthentication -> {
                            final var oidcUser = ((OidcUser) oauthentication.getPrincipal());

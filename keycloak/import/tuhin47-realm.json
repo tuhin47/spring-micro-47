@@ -49,6 +49,30 @@
   "roles": {
     "realm": [
       {
+        "id": "02ff5c7f-43a5-4d08-8424-a862c12df3c2",
+        "name": "ROLE_USER",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "6b9ef010-c41b-4e29-b8ea-40bf04a29db0"
+      },
+      {
+        "id": "08f56701-50ba-43de-9a10-e5743994ccf7",
+        "name": "ROLE_MODERATOR",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "6b9ef010-c41b-4e29-b8ea-40bf04a29db0"
+      },
+      {
+        "id": "36074398-e0e7-4f4f-8b0e-3edc8ec91159",
+        "name": "ROLE_ADMIN",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "6b9ef010-c41b-4e29-b8ea-40bf04a29db0"
+      },
+      {
         "id": "2b0e2fa3-a611-486f-9920-8e8efa07253f",
         "name": "offline_access",
         "description": "${role_offline-access}",
@@ -406,7 +430,44 @@
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "8919e649-69d9-4682-b942-83eb70fb3d75",
+      "name": "ADMIN",
+      "path": "/ADMIN",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "ROLE_USER",
+        "ROLE_MODERATOR",
+        "ROLE_ADMIN"
+      ],
+      "clientRoles": {}
+    },
+    {
+      "id": "e514d2cb-6d9d-476d-8eaa-952cf875c47a",
+      "name": "MODERATOR",
+      "path": "/MODERATOR",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "ROLE_USER",
+        "ROLE_MODERATOR"
+      ],
+      "clientRoles": {}
+    },
+    {
+      "id": "7c10f359-042e-4944-8d04-0fb3625a67f3",
+      "name": "USER",
+      "path": "/USER",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "ROLE_USER"
+      ],
+      "clientRoles": {}
+    }
+  ],
   "defaultRole": {
     "id": "a970e869-0373-4887-862d-e487c609131a",
     "name": "default-roles-tuhin47",
@@ -459,6 +520,36 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
+      "id": "07d9c9b3-248b-47c2-b05d-7238ad6938ff",
+      "username": "admin",
+      "firstName": "Mr Forty",
+      "lastName": "Seven",
+      "email": "admin@tuhin47.com",
+      "emailVerified": true,
+      "createdTimestamp": 1741407965006,
+      "enabled": true,
+      "totp": false,
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "notBefore": 0,
+      "groups": [
+        "ADMIN"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin@"
+        }
+      ],
+      "access": {
+        "manageGroupMembership": true,
+        "view": true,
+        "mapRoles": true,
+        "impersonate": true,
+        "manage": true
+      }
+    },
+    {
       "id": "d2406d7a-ddda-4c48-bd08-7cb6ad8d3a8d",
       "username": "user",
       "firstName": "User",
@@ -484,7 +575,16 @@
         "default-roles-tuhin47"
       ],
       "notBefore": 0,
-      "groups": []
+      "groups": [
+        "USER"
+      ],
+      "access": {
+        "manageGroupMembership": true,
+        "view": true,
+        "mapRoles": true,
+        "impersonate": true,
+        "manage": true
+      }
     }
   ],
   "scopeMappings": [
@@ -673,7 +773,7 @@
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
+      "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
       "publicClient": false,
       "frontchannelLogout": false,
