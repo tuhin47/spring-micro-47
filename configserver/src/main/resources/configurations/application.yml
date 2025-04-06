@@ -1,3 +1,4 @@
+issuer: ${DOMAIN_SCHEME:http}://${DOMAIN_NAME:gateway}:${DOMAIN_PORT:8888}/${KC_HTTP_RELATIVE_PATH:sso}
 eureka:
   instance:
     prefer-ip-address: true
@@ -40,6 +41,29 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer}/realms/tuhin47
+
+com:
+  c4-soft:
+    springaddons:
+      oidc:
+        ops:
+          - iss: ${issuer}/realms/tuhin47
+            username-claim: $.preferred_username
+            authorities:
+              - path: $.realm_access.roles
+            aud:
+        resourceserver:
+          permit-all:
+            - /me
+            - /v3/api-docs/**
+            - /*/v3/api-docs/**
+            - /swagger-ui/**
+            - /actuator/**
 axon:
   axonserver:
     component-name: ${spring.application.name}

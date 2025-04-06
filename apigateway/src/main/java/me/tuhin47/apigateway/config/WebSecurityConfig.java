@@ -105,7 +105,7 @@ public class WebSecurityConfig {
 
 
         http.authorizeExchange(ex -> ex
-            .pathMatchers("/", "/login/**", "/product/**", "/oauth2/**","/auth/**","/roles/**","/privileges/**", "/*/v3/api-docs/**","/actuator/**", "/kc/**").permitAll()
+            .pathMatchers("/", "/login/**",  "/oauth2/**","/auth/**","/roles/**","/privileges/**", "/*/v3/api-docs/**","/actuator/**", "/kc/**","/order/**","/product/**","/payment/**").permitAll()
             .anyExchange().authenticated());
         // @formatter:on
         return http.build();
