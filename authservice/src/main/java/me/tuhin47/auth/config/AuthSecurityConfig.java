@@ -53,9 +53,7 @@ public class AuthSecurityConfig {
                    .csrf(AbstractHttpConfigurer::disable)
                    .formLogin(AbstractHttpConfigurer::disable)
                    .httpBasic(AbstractHttpConfigurer::disable)
-//                   .authorizeHttpRequests(r -> r.anyRequest().authenticated())
                    .authorizeHttpRequests(r -> r.requestMatchers(whiteList).permitAll())
-                   .authorizeHttpRequests(r -> r.requestMatchers("/", "/error", "/api/all", "/auth/*", "/oauth2/**").permitAll())
                    .authorizeHttpRequests(r -> r.anyRequest().authenticated())
                    .exceptionHandling(configurer -> configurer.authenticationEntryPoint(authenticationEntryPoint)
                                                               .accessDeniedHandler(accessDeniedHandler)
@@ -70,7 +68,8 @@ public class AuthSecurityConfig {
                                tokenEndpointConfig.accessTokenResponseClient(authorizationCodeTokenResponseClient())
                            ).successHandler(oAuth2AuthenticationSuccessHandler)
                                                          .failureHandler(oAuth2AuthenticationFailureHandler)
-                   ).addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
+                   )
+                   .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
 
     }
 

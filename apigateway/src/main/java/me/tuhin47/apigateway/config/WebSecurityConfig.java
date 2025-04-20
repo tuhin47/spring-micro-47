@@ -72,7 +72,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Slf4j
 public class WebSecurityConfig {
 
-    public static final List<String> IGNORE_CSRF = List.of("/kc", "/login", "/actuator");
+    public static final List<String> IGNORE_CSRF = List.of("/kc", "/auth", "/login", "/actuator");
 
     @Bean
     SecurityWebFilterChain clientSecurityFilterChain(ServerHttpSecurity http, InMemoryReactiveClientRegistrationRepository clientRegistrationRepository,

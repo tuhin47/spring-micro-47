@@ -24,7 +24,7 @@ public class AlwaysCreateSessionSecurityContextRepository implements ServerSecur
                            if (!session.isStarted()) {
                                session.start(); // Always create a session
                            }
-                           return Mono.justOrEmpty(session.getAttribute("SPRING_SECURITY_CONTEXT"));
+                           return Mono.justOrEmpty(session.getAttribute(SPRING_SECURITY_CONTEXT));
                        });
     }
 }

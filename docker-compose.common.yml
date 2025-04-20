@@ -74,6 +74,10 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://database:3306/keycloak?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: ${SQL_ROOT_PASSWORD}
       KC_HTTP_PORT: 8080
       KC_HOSTNAME: ${DOMAIN_SCHEME}://${DOMAIN_NAME}:${DOMAIN_PORT}/${KC_HTTP_RELATIVE_PATH}
       KC_PROXY_HEADERS: xforwarded
@@ -85,6 +89,9 @@ services:
     #      KC_LOG_LEVEL: DEBUG
     networks:
       - backend
+    depends_on:
+      database:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;" ]
       interval: 5s

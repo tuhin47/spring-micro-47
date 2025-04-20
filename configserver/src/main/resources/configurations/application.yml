@@ -1,4 +1,3 @@
-issuer: ${DOMAIN_SCHEME:http}://${DOMAIN_NAME:gateway}:${DOMAIN_PORT:8888}/${KC_HTTP_RELATIVE_PATH:sso}
 eureka:
   instance:
     prefer-ip-address: true

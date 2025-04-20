@@ -45,13 +45,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     : List.of(new SimpleGrantedAuthority(RoleUtils.ROLE_PRE_VERIFICATION_USER));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("Authenticated user: {}", userDetails.getUsername());
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
         }
-
         filterChain.doFilter(request, response);
     }
 
