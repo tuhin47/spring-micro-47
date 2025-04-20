@@ -22,6 +22,7 @@ public class CommonBean {
         }
 
         return new String[]{
+            "/error", "/auth/*", "/oauth2/**",
             "/zipkin/**",
             "/actuator/**",
             "/swagger**",

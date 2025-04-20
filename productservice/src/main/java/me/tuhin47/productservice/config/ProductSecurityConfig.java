@@ -3,6 +3,7 @@ package me.tuhin47.productservice.config;
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.config.exception.JWTAccessDeniedHandler;
 import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
+import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +39,7 @@ public class ProductSecurityConfig {
 
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
-    //    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final String[] whiteList;
 
 
@@ -66,11 +69,6 @@ public class ProductSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http,
                                     Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationConverter) throws Exception {
-        http.oauth2ResourceServer(resourceServer -> {
-            resourceServer.jwt(jwtDecoder -> {
-                jwtDecoder.jwtAuthenticationConverter(jwtAuthenticationConverter);
-            });
-        });
 
         return http.cors(AbstractHttpConfigurer::disable)
                    .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -87,8 +85,13 @@ public class ProductSecurityConfig {
                    })
                    .exceptionHandling(configurer -> configurer.authenticationEntryPoint(authenticationEntryPoint)
                                                               .accessDeniedHandler(accessDeniedHandler))
-//                   .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                   .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                   .oauth2ResourceServer(resourceServer ->
+                       resourceServer
+                           .bearerTokenResolver(new CustomBearerTokenResolver(new DefaultBearerTokenResolver()))
+                           .jwt(jwtDecoder -> jwtDecoder.jwtAuthenticationConverter(jwtAuthenticationConverter))
+
+                   )
                    .build();
     }
-
 }

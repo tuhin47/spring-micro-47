@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.AppProperties;
-import me.tuhin47.config.exception.JwtTokenMalformedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -49,20 +48,9 @@ public class TokenProvider {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
         } catch (Exception ex) {
-            throw new JwtTokenMalformedException("Token Invalid.");
+            log.warn("Token Invalid.");
+            return false;
         }
-        /*catch (SignatureException e) {
-            log.error("TokenProvider | validateJwtToken | Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            log.error("TokenProvider | validateJwtToken | Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException ex) {
-            log.error("TokenProvider | validateJwtToken | JWT token is expired: {}", ex.getMessage());
-            throw new JwtTokenMissingException("Token Expired");
-        } catch (UnsupportedJwtException e) {
-            log.error("TokenProvider | validateJwtToken | JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.error("TokenProvider | validateJwtToken | JWT claims string is empty: {}", e.getMessage());
-        }*/
 
     }
 }
