@@ -69,6 +69,12 @@
             <artifactId>common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-security-oauth2-resource-server</artifactId>
+                    <groupId>org.springframework.security</groupId>
+                </exclusion>
+            </exclusions>
             <type>jar</type>
         </dependency>
         <dependency>

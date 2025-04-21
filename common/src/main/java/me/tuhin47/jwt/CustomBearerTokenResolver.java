@@ -1,4 +1,4 @@
-package me.tuhin47.productservice.config;
+package me.tuhin47.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
