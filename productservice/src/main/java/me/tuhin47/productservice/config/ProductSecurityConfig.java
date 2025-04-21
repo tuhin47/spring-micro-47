@@ -3,6 +3,7 @@ package me.tuhin47.productservice.config;
 import lombok.RequiredArgsConstructor;
 import me.tuhin47.config.exception.JWTAccessDeniedHandler;
 import me.tuhin47.config.exception.RestAuthenticationEntryPoint;
+import me.tuhin47.jwt.CustomBearerTokenResolver;
 import me.tuhin47.jwt.TokenAuthenticationFilter;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -76,7 +77,6 @@ public class ProductSecurityConfig {
                    .formLogin(AbstractHttpConfigurer::disable)
                    .httpBasic(AbstractHttpConfigurer::disable)
                    .securityMatchers(r -> {
-                       r.requestMatchers(whiteList);
                        r.requestMatchers("/**");
                    })
                    .authorizeHttpRequests(r -> {

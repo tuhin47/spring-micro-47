@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = {"me.tuhin47.paymentservice", "me.tuhin47.config", "me.tuhin47.entity"})
+@SpringBootApplication(scanBasePackages = {"me.tuhin47.paymentservice", "me.tuhin47.config", "me.tuhin47.entity", "me.tuhin47.jwt"})
 @EnableFeignClients(basePackages = "me.tuhin47.client")
 @Import({AxonConfig.class})
 @OpenAPIDefinition(
