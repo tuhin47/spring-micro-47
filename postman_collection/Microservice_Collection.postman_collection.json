@@ -8,6 +8,361 @@
   },
   "item": [
     {
+      "name": "KeyCloak",
+      "item": [
+        {
+          "name": "openid-configuration",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_GATEWAY}}/kc/sso/realms/tuhin47/.well-known/openid-configuration",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "kc",
+                "sso",
+                "realms",
+                "tuhin47",
+                ".well-known",
+                "openid-configuration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User_Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "var xsrfCookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+                  "console.log(jsonData);",
+                  "pm.collectionVariables.set(\"access_token\", jsonData[\"access_token\"]);",
+                  "pm.collectionVariables.set(\"refresh_token\", jsonData[\"refresh_token\"]);",
+                  "pm.collectionVariables.set('csrftoken', xsrfCookie.value);",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              },
+              {
+                "key": "Cookie",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "tuhin47-confidential",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "secret",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "user",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "user",
+                  "type": "text"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_GATEWAY}}/kc/sso/realms/tuhin47/protocol/openid-connect/token",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "kc",
+                "sso",
+                "realms",
+                "tuhin47",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin_Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "var xsrfCookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+                  "console.log(jsonData);",
+                  "pm.collectionVariables.set(\"access_token\", jsonData[\"access_token\"]);",
+                  "pm.collectionVariables.set(\"refresh_token\", jsonData[\"refresh_token\"]);",
+                  "pm.collectionVariables.set('csrftoken', xsrfCookie.value);",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "tuhin47-confidential",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "admin@",
+                  "type": "text"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "secret",
+                  "type": "text"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_GATEWAY}}/kc/sso/realms/tuhin47/protocol/openid-connect/token",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "kc",
+                "sso",
+                "realms",
+                "tuhin47",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin_Token introspect",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "console.log(jsonData);",
+                  "pm.collectionVariables.set(\"access_token\", jsonData[\"access_token\"]);",
+                  "pm.collectionVariables.set(\"refresh_token\", jsonData[\"refresh_token\"]);",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "tuhin47-confidential",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "secret",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "password",
+                  "value": "admin@",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "scope",
+                  "value": "openid",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_GATEWAY}}/sso/realms/tuhin47/protocol/openid-connect/token/introspect",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "sso",
+                "realms",
+                "tuhin47",
+                "protocol",
+                "openid-connect",
+                "token",
+                "introspect"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "userinfo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_GATEWAY}}/info/sso/realms/tuhin47/protocol/openid-connect/userinfo",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "info",
+                "sso",
+                "realms",
+                "tuhin47",
+                "protocol",
+                "openid-connect",
+                "userinfo"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "AuthService",
       "item": [
         {
@@ -41,14 +396,11 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "\r\n{\r\n  \"displayName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"matchingPassword\": \"{{password}}\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
@@ -70,7 +422,127 @@
             },
             "description": "Authentication provide"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Auth Service | Signup",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{\r\n  \"displayName\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"matchingPassword\": \"{{password}}\",\r\n  \"socialProvider\": \"LOCAL\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/auth/signup",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "signup"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:00 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "93557a55e7c9b0a90dd822825f05eda5"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"using2FA\": false,\n    \"qrCodeImage\": null,\n    \"userInfo\": {\n        \"id\": \"9bc94573-736c-491e-a309-8ac73f862686\",\n        \"displayName\": \"Ashley Barton\",\n        \"avatar\": null,\n        \"email\": \"Wilford12@yahoo.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Auth Service | User Sign In",
@@ -85,11 +557,15 @@
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -128,17 +604,22 @@
               "script": {
                 "exec": [
                   "var jsonData = pm.response.json();",
-                  "console.log(jsonData);",
+                  "var xsrfCookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+                  "pm.collectionVariables.set('csrftoken', xsrfCookie.value);",
                   "pm.collectionVariables.set(\"AUTH_TOKEN\", jsonData[\"accessToken\"]);",
                   "pm.test(\"Status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -167,7 +648,127 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Auth Service | Admin Sign In",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{\r\n  \"email\": \"admin@tuhin47.com\",\r\n  \"password\": \"admin@\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/auth/signin",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "signin"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:21 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "27278141ef843774c3e14a05a1cc8272"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTczNjk1OTQwMSwiZXhwIjoxNzM3ODIzNDAxfQ.DXOcdPjd9sA_cxsnv-tVFkIqd5GFE2gPh-k2tv0RW8Bvd3osu92neUa9lFdUtS-PXDYTge101PjUtGdjR05Klg\",\n    \"authenticated\": true,\n    \"user\": {\n        \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\",\n        \"displayName\": \"admin@tuhin47.com\",\n        \"avatar\": \"https://bootdey.com/img/Content/avatar/avatar1.png\",\n        \"email\": \"admin@tuhin47.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\",\n            \"ROLE_ADMIN\",\n            \"ROLE_MODERATOR\"\n        ]\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Auth Service | My Info",
@@ -180,19 +781,14 @@
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{AUTH}}/auth/user/me",
               "host": [
@@ -205,7 +801,119 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Auth Service | My Info",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/auth/user/me",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "user",
+                    "me"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:27 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "dacf5d406e8a8e2ec43c32790b65a874"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0dWhpbjQ3LmNvbSIsImF1dGhlbnRpY2F0ZWQiOnRydWUsImlhdCI6MTczNjk1OTQwNywiZXhwIjoxNzM3ODIzNDA3fQ.Ye3zsi_0sdwBv_48LX8AZN9k8SQizSYoJbpvhqPm1lgH4hGNuoUrtPc72RYL6w63v4jItX6-AwTru5FC6-Vj3w\",\n    \"authenticated\": true,\n    \"user\": {\n        \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\",\n        \"displayName\": \"admin@tuhin47.com\",\n        \"avatar\": \"https://bootdey.com/img/Content/avatar/avatar1.png\",\n        \"email\": \"admin@tuhin47.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\",\n            \"ROLE_ADMIN\",\n            \"ROLE_MODERATOR\"\n        ]\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Auth Service | User Summery",
@@ -242,7 +950,118 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Auth Service | User Summery",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/auth/users/summaries",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "users",
+                    "summaries"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:35 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "44aa8cfdf0b1faf1a164efd196a0f6db"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": \"110c4ce4-4ace-40f4-bfa7-0cb353f82ab1\",\n        \"displayName\": \"Harvey Goldner V\",\n        \"avatar\": null,\n        \"email\": \"Gene.McLaughlin33@yahoo.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"1a34a5fc-777e-400b-9195-055511f2c12b\",\n        \"displayName\": \"Kristen Stehr DVM\",\n        \"avatar\": null,\n        \"email\": \"Lucie1@gmail.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"2274acf0-9d63-4cfb-b379-9f28f42836c3\",\n        \"displayName\": \"Ryan Stroman\",\n        \"avatar\": null,\n        \"email\": \"Michelle.Feil@yahoo.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"391ff21a-51f7-456e-863f-1bb72f9d23a8\",\n        \"displayName\": \"Teri Cormier\",\n        \"avatar\": null,\n        \"email\": \"Nickolas_Senger@hotmail.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\",\n        \"displayName\": \"admin@tuhin47.com\",\n        \"avatar\": null,\n        \"email\": \"admin@tuhin47.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\",\n            \"ROLE_ADMIN\",\n            \"ROLE_MODERATOR\"\n        ]\n    },\n    {\n        \"id\": \"78b23097-d5cf-4ef4-bc83-da305b6aee56\",\n        \"displayName\": \"Mathew Beatty\",\n        \"avatar\": null,\n        \"email\": \"Dillan20@hotmail.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"9bc94573-736c-491e-a309-8ac73f862686\",\n        \"displayName\": \"Ashley Barton\",\n        \"avatar\": null,\n        \"email\": \"Wilford12@yahoo.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"b4972d5c-ff75-41c7-817a-95bdf4778454\",\n        \"displayName\": \"Mr. Eloise Schaefer\",\n        \"avatar\": null,\n        \"email\": \"Gia.Kautzer52@hotmail.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    },\n    {\n        \"id\": \"dbe424ee-3f02-4446-b26c-d9735d06651a\",\n        \"displayName\": \"Towhidul\",\n        \"avatar\": null,\n        \"email\": \"sample@gmail.com\",\n        \"authorityNames\": [\n            \"ROLE_USER\"\n        ]\n    }\n]"
+            }
+          ]
         },
         {
           "name": "Privilege  | Get privileges",
@@ -279,7 +1098,116 @@
             },
             "description": "Generated from cURL: curl -X GET \"http://me47:9090/privileges\" -H \"accept: */*\""
           },
-          "response": []
+          "response": [
+            {
+              "name": "Privilege  | Get privileges",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/privileges",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "privileges"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:40 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "cfb555590144218d0da741ab30e27d20"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"PRIV_ZgA7Eto6qR5fyXR0kp5x\",\n        \"description\": \"Dynamic\",\n        \"roles\": [\n            {\n                \"id\": 4\n            }\n        ],\n        \"users\": []\n    },\n    {\n        \"id\": 2,\n        \"name\": \"PRIV_qUVodfqnYXnvB3b5x7cg\",\n        \"description\": \"Global\",\n        \"roles\": [\n            {\n                \"id\": 5\n            }\n        ],\n        \"users\": []\n    },\n    {\n        \"id\": 3,\n        \"name\": \"PRIV_cGVRgA8hZCwgMpKks4d3\",\n        \"description\": \"District\",\n        \"roles\": [\n            {\n                \"id\": 6\n            }\n        ],\n        \"users\": []\n    },\n    {\n        \"id\": 4,\n        \"name\": \"PRIV_ncAnotDKkfH1NGP8c9tp\",\n        \"description\": \"Internal\",\n        \"roles\": [\n            {\n                \"id\": 7\n            }\n        ],\n        \"users\": []\n    },\n    {\n        \"id\": 5,\n        \"name\": \"PRIV_psoQmdwNoBbCqW3hzvdi\",\n        \"description\": \"Senior\",\n        \"roles\": [\n            {\n                \"id\": 8\n            }\n        ],\n        \"users\": []\n    }\n]"
+            }
+          ]
         },
         {
           "name": "Privilege  | Post privilege",
@@ -295,6 +1223,13 @@
                 ],
                 "type": "text/javascript",
                 "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
               }
             }
           ],
@@ -316,7 +1251,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"PRIV_{{$randomJobType}}\"\n}",
+              "raw": "{\n    \"name\": \"PRIV_{{$randomPassword}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -334,7 +1269,133 @@
             },
             "description": "Generated from cURL: curl -X POST --location \"http://me47:7777/privileges\" \\\n    -H \"Accept: application/json\" \\\n    -H \"Authorization: Bearer accessToken\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\n            \"name\": \"PRIV_3\",\n            \"description\": \"NEW PRIV_3\",\n            \"roles\": [\n                {\n                    \"id\": 1\n                }\n            ]\n        }'"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Privilege  | Post privilege",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer accessToken"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"PRIV_{{$randomPassword}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/privileges",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "privileges"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:48 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "68570f49ca08513813b296db4a6d409d"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 6,\n    \"name\": \"PRIV_BjKLCHHFfzDREB1mw2hx\",\n    \"description\": null,\n    \"roles\": [],\n    \"users\": []\n}"
+            }
+          ]
         },
         {
           "name": "Privilege  | Get privilege by Id",
@@ -343,8 +1404,8 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Response time is less than 200ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(200);",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -372,7 +1433,117 @@
             },
             "description": "Generated from cURL: curl -X GET \"http://me47:9090/privileges/1\" -H \"accept: */*\""
           },
-          "response": []
+          "response": [
+            {
+              "name": "Privilege  | Get privilege by Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/privileges/{{PRIV_ID}}",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "privileges",
+                    "{{PRIV_ID}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:43:59 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "4852aa5ed1680b0b4ed61553c6deaf53"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 6,\n    \"name\": \"PRIV_BjKLCHHFfzDREB1mw2hx\",\n    \"description\": null,\n    \"roles\": [],\n    \"users\": []\n}"
+            }
+          ]
         },
         {
           "name": "Privilege  | PUT privilege",
@@ -423,7 +1594,130 @@
             },
             "description": "Generated from cURL: curl -X PUT \"http://me47:9090/privileges/2\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{\\\"description\\\":\\\"string\\\",\\\"name\\\":\\\"string\\\"}\""
           },
-          "response": []
+          "response": [
+            {
+              "name": "Privilege  | PUT privilege",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"description\": \"{{$randomJobDescriptor}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/privileges/{{PRIV_ID}}",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "privileges",
+                    "{{PRIV_ID}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:05 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "8f0ef1e8d727cb8bef331ee8d6172ddf"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 6,\n    \"name\": \"PRIV_BjKLCHHFfzDREB1mw2hx\",\n    \"description\": \"Internal\",\n    \"roles\": [],\n    \"users\": []\n}"
+            }
+          ]
         },
         {
           "name": "Role | Get Roles",
@@ -460,7 +1754,116 @@
             },
             "description": "Generated from cURL: curl -X GET \"http://me47:9090/roles\" -H \"accept: */*\""
           },
-          "response": []
+          "response": [
+            {
+              "name": "Role | Get Roles",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/roles",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "roles"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:14 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "292be897ef0842e1d98dc39835454121"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"ROLE_USER\",\n        \"description\": null,\n        \"users\": [\n            {\n                \"id\": \"110c4ce4-4ace-40f4-bfa7-0cb353f82ab1\"\n            },\n            {\n                \"id\": \"1a34a5fc-777e-400b-9195-055511f2c12b\"\n            },\n            {\n                \"id\": \"2274acf0-9d63-4cfb-b379-9f28f42836c3\"\n            },\n            {\n                \"id\": \"391ff21a-51f7-456e-863f-1bb72f9d23a8\"\n            },\n            {\n                \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\"\n            },\n            {\n                \"id\": \"78b23097-d5cf-4ef4-bc83-da305b6aee56\"\n            },\n            {\n                \"id\": \"9bc94573-736c-491e-a309-8ac73f862686\"\n            },\n            {\n                \"id\": \"b4972d5c-ff75-41c7-817a-95bdf4778454\"\n            },\n            {\n                \"id\": \"dbe424ee-3f02-4446-b26c-d9735d06651a\"\n            }\n        ],\n        \"privileges\": []\n    },\n    {\n        \"id\": 2,\n        \"name\": \"ROLE_ADMIN\",\n        \"description\": null,\n        \"users\": [\n            {\n                \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\"\n            }\n        ],\n        \"privileges\": []\n    },\n    {\n        \"id\": 3,\n        \"name\": \"ROLE_MODERATOR\",\n        \"description\": null,\n        \"users\": [\n            {\n                \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\"\n            }\n        ],\n        \"privileges\": []\n    },\n    {\n        \"id\": 4,\n        \"name\": \"RO_xCNZEcWzrwNVq5y8j\",\n        \"description\": \"Marketing\",\n        \"users\": [],\n        \"privileges\": [\n            {\n                \"id\": 1\n            }\n        ]\n    },\n    {\n        \"id\": 5,\n        \"name\": \"RO_wb3V5FjaoOFS6NtHu\",\n        \"description\": \"Directives\",\n        \"users\": [],\n        \"privileges\": [\n            {\n                \"id\": 2\n            }\n        ]\n    },\n    {\n        \"id\": 6,\n        \"name\": \"RO_98A3dsFU4cuUsGxMh\",\n        \"description\": \"Mobility\",\n        \"users\": [],\n        \"privileges\": [\n            {\n                \"id\": 3\n            }\n        ]\n    },\n    {\n        \"id\": 7,\n        \"name\": \"RO_7JNQBMS3jkg9t7sXk\",\n        \"description\": \"Quality\",\n        \"users\": [],\n        \"privileges\": [\n            {\n                \"id\": 4\n            }\n        ]\n    },\n    {\n        \"id\": 8,\n        \"name\": \"RO_lNryQcbwHxC3v7RI3\",\n        \"description\": \"Configuration\",\n        \"users\": [],\n        \"privileges\": [\n            {\n                \"id\": 5\n            }\n        ]\n    }\n]"
+            }
+          ]
         },
         {
           "name": "Role | Post Role",
@@ -497,7 +1900,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"ROLE_{{$randomJobType}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
+              "raw": "{\n    \"name\": \"RO_{{$randomAlphaNumeric}}{{$randomPassword}}{{$randomAlphaNumeric}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -515,7 +1918,133 @@
             },
             "description": "Generated from cURL: curl -X POST --location \"http://me47:7777/roles\" \\\n    -H \"Accept: application/json\" \\\n    -H \"Authorization: Bearer accessToken\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\n            \"name\": \"ROLE_UNIQUE\"\n        }'"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Role | Post Role",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer accessToken"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"RO_{{$randomAlphaNumeric}}{{$randomPassword}}{{$randomAlphaNumeric}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/roles",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "roles"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:21 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "e1073b331a8fe2d4cfdddd53c558f0da"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 9,\n    \"name\": \"RO_zvt6sh12gCtFcW9dq\",\n    \"description\": null,\n    \"users\": [],\n    \"privileges\": [\n        {\n            \"id\": 6\n        }\n    ]\n}"
+            }
+          ]
         },
         {
           "name": "Role | Get Role By Id",
@@ -553,7 +2082,117 @@
             },
             "description": "Generated from cURL: curl -X GET \"http://me47:9090/roles/1\" -H \"accept: */*\""
           },
-          "response": []
+          "response": [
+            {
+              "name": "Role | Get Role By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{AUTH}}/roles/{{ROLE_ID}}",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "roles",
+                    "{{ROLE_ID}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:27 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "dfec3a085d38a5db14706eea637c380c"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 9,\n    \"name\": \"RO_zvt6sh12gCtFcW9dq\",\n    \"description\": null,\n    \"users\": [],\n    \"privileges\": [\n        {\n            \"id\": 6\n        }\n    ]\n}"
+            }
+          ]
         },
         {
           "name": "Role | PUT Role",
@@ -604,10 +2243,253 @@
             },
             "description": "Generated from cURL: curl -X PUT \"http://me47:9090/roles/1\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{\\\"description\\\":\\\"string\\\",\\\"name\\\":\\\"string\\\",\\\"privileges\\\":[{\\\"id\\\":0}]}\""
           },
+          "response": [
+            {
+              "name": "Role | PUT Role",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"description\": \"{{$randomJobArea}}\",\n    \"privileges\": [\n        {\n            \"id\": {{PRIV_ID}}\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{AUTH}}/roles/{{ROLE_ID}}",
+                  "host": [
+                    "{{AUTH}}"
+                  ],
+                  "path": [
+                    "roles",
+                    "{{ROLE_ID}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9999"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "10000"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:36 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "909a0cea44c262c0b615bff39d874c55"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 9,\n    \"name\": \"RO_zvt6sh12gCtFcW9dq\",\n    \"description\": \"Optimization\",\n    \"users\": [],\n    \"privileges\": [\n        {\n            \"id\": 6\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Admin_Token keycloak",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "var xsrfCookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+                  "console.log(jsonData);",
+                  "pm.collectionVariables.set(\"access_token\", jsonData[\"access_token\"]);",
+                  "pm.collectionVariables.set(\"refresh_token\", jsonData[\"refresh_token\"]);",
+                  "pm.collectionVariables.set('csrftoken', xsrfCookie.value);",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "tuhin47-confidential",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "admin@",
+                  "type": "text"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "secret",
+                  "type": "text"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_GATEWAY}}/kc/sso/realms/tuhin47/protocol/openid-connect/token",
+              "host": [
+                "{{API_GATEWAY}}"
+              ],
+              "path": [
+                "kc",
+                "sso",
+                "realms",
+                "tuhin47",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
           "response": []
         }
       ],
-      "description": "Authentication using JWT and oauth2"
+      "description": "Authentication using JWT and oauth2",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "ProductService",
@@ -651,13 +2533,7 @@
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"productType\" : \"{{TYPE}}\",\r\n    \"quantity\" : {{$randomInt}}\r\n}",
@@ -677,7 +2553,126 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Add Product",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"productName\" : \"{{$randomProduct}}\",\r\n    \"price\" : {{$randomPrice}},\r\n    \"productType\" : \"{{TYPE}}\",\r\n    \"quantity\" : {{$randomInt}}\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{PRODUCT}}/product",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:48 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "b5898b47315fccff03a2a9b78cb4e93a"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "de52e292-3ad3-44e6-9c2f-42698862ce8b"
+            }
+          ]
         },
         {
           "name": "Product Service | Get By Id",
@@ -690,7 +2685,8 @@
                   "        pm.response.to.have.status(200);",
                   "    });"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -699,13 +2695,7 @@
           },
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -726,7 +2716,127 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Get By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{PRODUCT}}/product/{{PRODUCT_ID}}",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "{{PRODUCT_ID}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:44:55 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "fddae090656ee26a94a28ae01c6e29a5"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": \"de52e292-3ad3-44e6-9c2f-42698862ce8b\",\n    \"productName\": \"Chair\",\n    \"price\": 48.79,\n    \"discount\": 0,\n    \"quantity\": 100,\n    \"productType\": \"DRESS\"\n}"
+            }
+          ]
         },
         {
           "name": "Product Service | All By filter",
@@ -759,13 +2869,7 @@
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "[\n  {\n    \"key\": \"id\",\n    \"operation\": \"MATCH\",\n    \"value\": \"{{$randomAlphaNumeric}}\"\n  }\n]",
@@ -804,7 +2908,145 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | All By filter",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"key\": \"id\",\n    \"operation\": \"MATCH\",\n    \"value\": \"{{$randomAlphaNumeric}}\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{PRODUCT}}/product/all?size=10&page=0&sort=productName,desc;id,asc&all=false",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "all"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "productName,desc;id,asc"
+                    },
+                    {
+                      "key": "all",
+                      "value": "false"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:01 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "3dc32dfbc03ffd4631cbbe7e9a45c6b9"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [],\n    \"pageable\": {\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"sort\": [\n            {\n                \"direction\": \"DESC\",\n                \"property\": \"productName\",\n                \"ignoreCase\": false,\n                \"nullHandling\": \"NATIVE\",\n                \"ascending\": false,\n                \"descending\": true\n            },\n            {\n                \"direction\": \"ASC\",\n                \"property\": \"id\",\n                \"ignoreCase\": false,\n                \"nullHandling\": \"NATIVE\",\n                \"ascending\": true,\n                \"descending\": false\n            }\n        ],\n        \"offset\": 0,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 0,\n    \"totalPages\": 0,\n    \"first\": true,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": [\n        {\n            \"direction\": \"DESC\",\n            \"property\": \"productName\",\n            \"ignoreCase\": false,\n            \"nullHandling\": \"NATIVE\",\n            \"ascending\": false,\n            \"descending\": true\n        },\n        {\n            \"direction\": \"ASC\",\n            \"property\": \"id\",\n            \"ignoreCase\": false,\n            \"nullHandling\": \"NATIVE\",\n            \"ascending\": true,\n            \"descending\": false\n        }\n    ],\n    \"numberOfElements\": 0,\n    \"empty\": true\n}"
+            }
+          ]
         },
         {
           "name": "Product Service | Reduce Quantity of Product",
@@ -817,19 +3059,14 @@
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "PUT",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{PRODUCT}}/product/reduceQuantity/{{PRODUCT_ID}}?quantity=1",
               "host": [
@@ -848,7 +3085,121 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Reduce Quantity of Product",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{PRODUCT}}/product/reduceQuantity/{{PRODUCT_ID}}?quantity=1",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "reduceQuantity",
+                    "{{PRODUCT_ID}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quantity",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:07 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "114f6280498adc52790e224e70766b87"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "0"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
         },
         {
           "name": "Product Service | Price By Ids",
@@ -861,7 +3212,8 @@
                   "        pm.response.to.have.status(200);",
                   "    });"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
@@ -870,13 +3222,7 @@
           },
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -904,7 +3250,134 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Price By Ids",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{PRODUCT}}/product/price/all?ids={{PRODUCT_ID}}",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "price",
+                    "all"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "{{PRODUCT_ID}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:14 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "868b109c7fb4f5a7b002ef4a642c1f87"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"productResponses\": [\n        {\n            \"id\": \"de52e292-3ad3-44e6-9c2f-42698862ce8b\",\n            \"productName\": \"Chair\",\n            \"price\": 48.79,\n            \"discount\": 0,\n            \"quantity\": 99,\n            \"productType\": \"DRESS\"\n        }\n    ],\n    \"price\": 48.79\n}"
+            }
+          ]
         },
         {
           "name": "Product Service | Excel Export",
@@ -920,19 +3393,14 @@
                   "    pm.response.to.have.header(\"Content-Type\"); ",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "[]",
@@ -967,7 +3435,145 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Excel Export",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{PRODUCT}}/product/excel?size=1&page=0&sort=productName,desc;id,asc",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "excel"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "productName,desc;id,asc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "raw",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "Content-Disposition",
+                  "value": "form-data; name=\"attachment\"; filename=\"data.xlsx\""
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:24 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "3703a8433e0286d3b1fcb36bacb93f7c"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3851"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0013\u0000\u0000\u0000[Content_Types].xml�S�n�0\u0010����*6�PU\u0015�C\u001f�\u0016��\u0003\\{�X�%����]\u00078�R�\nq�cfgfW�d�q�ZCB\u0013|��|�*�*h㻆},^�{Va�^K\u001b<4�\u00076�N\u0016�\bXQ�ǆ�9�\u0007!P��$�\u0010�\u0013҆�d�c�D�j);\u0010��ѝP�g��E�M'O�ʕ����H7L�h���R���G��^�'�\u0003\u0007{\u0013�\b�zސʮ\u001bB��3\u001c�\u000b˙��h.�h�W�жF�\u000ej娄CQՠ똈���}ιL�U:\u0012\u0014D�\u0013����%އ����,�B���[�\t��\u001e ;˱�\t�{N��~��X�p�\u001cykOL�\u0004\u0018�kN�V��ܿBZ~����q\u0018��\u000f �a\u0019\u001fr��{O�\u0001PK\u0007\bz��q;\u0001\u0000\u0000\u001c\u0004\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000b\u0000\u0000\u0000_rels/.rels���j�0\f�_���8�`�Q��2�m��\u00014[ILb��ږ���.[K\n\u001b�($}�\u0007�v?�I�Q.���uӂ�h���\u001bx>=��@\u0015��p�H\u0006\"�~�}�\t�n����*\"\u0016\u0003�H�׺؁\u0002��\u0013���8\u0007�Z�^'�#��7m{��O\u0006�3��\u0019�G�\u0006u�ܓ\u0018�'��y|a\u001e�����D�\t��\u000el_\u0003EYȾ�\u0000���vql\u001f3�ML�eh\u0016���*�\u0004��\\3�Y0���oJ׏�\u0003\t:\u0014��^\b�\u001f�}\u0002PK\u0007\b��z��\u0000\u0000\u0000I\u0002\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0010\u0000\u0000\u0000docProps/app.xmlM��\n�0\u0010D�~EȽ��ADҔ�\b��A? ��6�lB�J?ߜ���0���ͯ�)�@��׍\u0014H6���V>\u001f��$;�SC\n\u0011\u0013;̢\u001c(�ra�g�l\u0017�&�e��L!y�%�\u0019�49��`_\u001e���4G���F\u001c��\u0005J��\u0018Wg\r\u0017\u0007�GS�b��\u0014��\n~\u000e�\u0003PK\u0007\b�|wؑ\u0000\u0000\u0000�\u0000\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0011\u0000\u0000\u0000docProps/core.xmlm��J�0\u0014�_%�=M�\u000e\tm�(\u0003Aq���]H�m�MB\u0012�|{�:+�wI��|����4��\u001d�(K3JPK�:�T��K.(�Ah%z�����m]J˥q�wƢ\u000b\u001dz\u00125�si+چ`9��-\u000e§��1|1n\u0010!^]\u0003V�W� �Y��\u0001�P\"\b���]���TrQ�7��\u0002%\u0001{\u001cP\u0007\u000f,e��\u0006t��w`N\u0016�仅\u001a�1\u001dW3\u00177bp��}��O:=}]\"�˳�K�\"�\"Q�Ç��|'O���Î�y�\u0017I�\u0012V\u001c؆�\u000b���K�5?\t���՗��\u0016���f��\u0012��\\\u0002PK\u0007\bA��\u0006\u0001\u0000\u0000�\u0001\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0014\u0000\u0000\u0000xl/sharedStrings.xmlm�ˊ�0\f��}���\u0012�c��\ft`��2��\u0007�myN��2�O/oߔ\u0016\nIw�'��[��1ݪo��q�/5oX]�\u001c�8ί����\u0013��ax��\\����r�����<����/�u����R_KY߷m\u000eW�07�J�>I�6a������F\u0018�L�V0f�\tǹ\u001e�<\u000e}\u0019��%�C�>ƾ-C���&�p�#�|ǹ���?oc8-sA�3Z@�\u001eAYK�h<�.��NFdx�yY��-���j�:RiR2NI \u001b\u0015(D\u0006^�\u0006\u0019\u001d%\u0013\u0012�tr���zd�wM�4pn��\u0001��l�Oz�'\u0001�\u0007o|��ؓ��u\\O�V�F�#��\u0005\t'@b��\u0014\u0019pA$P�8k�\bd�9\u001e��do�#/Qs��\u0007m5�\nF\u0001v{�S`^x�Z���\u0007\f�|�w���H}�*��\u0001\t\u0016@E��Q����\u001d)�>��m�\u001a'��v��\u0017PK\u0007\b<�J�\u0001\u0000\u0000\u000f\u0003\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\r\u0000\u0000\u0000xl/styles.xml��Mo�0\f���\u0015Q�k(��j\u0002z�Ĵs;i�\u0014\fD˗�����%\u0004�NZ5�\u0017b��}l+�m{��\t�eJ�x�H0\u0002Y���6����q���Cf��a�\u00018�\r��sN?\u0013b�\u000e\u0004�\u000b�A�7�2�:���Xm��6�\u0004'i����L�\"�GQ\ngQ����8���\u001a%/�\nG���\u0017:Q�'\u000b���Jqe\u0010�5�P�x\u00134I\u0005Ī\u0017�����G\u0005�C�� ��Nu�Ie�Hb����s\u001e`\u001d\u00078�ԙ#�\u0013�\u0014\u0001�c<�w2��{�8\nE��s`d�\u00134��AC���S��Ꚛ�WC�+�x��\u0007ej�s�%��\"��8o0����\u000e�+��A�h�$�\u00019;��c+�|\u0017����\u0007�oP���:�8\n�ϡ\u001fh\n#&&�M��+��.,�3��{��\u001bQ��P�0��1�¥��ȴ��.�_�\rPK\u0007\b�m�\u0006u\u0001\u0000\u0000�\u0003\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000f\u0000\u0000\u0000xl/workbook.xml���N�0\f��<E�;K\n\bA�t�i�n;\f�Y�њ�����'�T�����ϟ�f�\u0015\u0006qEb���j�@`���x��q�>���}hn��ǔ΢��5�9���l{\f�Wi�X6]�`r�t�<\u0012\u001a�=b\u000e�|R�U\u0006�#�\r5�Ǒ��[�${\t\u0018�]B8�\\�r�G���ٞ�3\u0019�w���3\u0003#ȶ�6�\u001eo�\u000bNQ\u0018��\u0015\u000f�AM��\u0003Ν�)�\t�aO�]l\u0006A�w\u001ah�A����jV,wr��~\u0003PK\u0007\b�W|h�\u0000\u0000\u0000^\u0001\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u001a\u0000\u0000\u0000xl/_rels/workbook.xml.rels��Mk�0\f@���}q��\u0018�n/c����\u0000c+qh\"\u0019K�迟���@\u0007;�$��{\u000f��~Γy�\"#���i� \u0005�#\r\u000e^�O7�`D=E?1�\u0003b�n��8y�?$�YLE�8H���Z\t\tg/\rg����^�\f6�p�\u0003�U���r΀%�좃��\u001d��/\u0003�\u0003I�`|�Rˤ��:f����~\f���mF�\u000bv����\u001c�:���ׯ�������p9HB�Sy\u001dݵK~\u0004�\u0018����\u000bPK\u0007\b�\u0003;��\u0000\u0000\u00003\u0002\u0000\u0000PK\u0003\u0004\u0014\u0000\b\b\b\u0000��/Z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\u0000\u0000\u0000xl/worksheets/sheet1.xml��K��0\u0014���\u0015���a��\b\u0018M\u0013E��R��c�\u0004'�\u0001\u001c�N2?��D���\u0017�M�K�9�|\u001d]���q@g.U/�\u001a�A�\u0011�v���C���|.�c�\b��:�52�Iո���\u0010�j��@\u001c�d~�\u000b92mJy\b�Qr�.�q\bI\u0014�pd�����G>�\u001b\"��5~�\u001f�9\u000e�j����EݭѼ�V�������\u0010j�}�\u0003�inj-O|v���Yh~H��=;\r���|����栙9�1�Ġ�O4���1\u001a���}�[��8��\"�0ڝ�\u0016����eK��Joz�F`c�-�ؘ8\n�4�\u0019%\u001f�JnY�[V\u001a�%)�ǹ�[Vj�� -iT&�\u001b\u0015^\u001b��w�4k*).H�\u001d3�̋'�;cP\u0018���s\u0013U�y��\u0014_�\"~�XA\u0005y�XCEb\u0015�a�`Ă�;\u000bY,�\u0003\u0006\u0015�\u0003vULw\nZ��9�\u001a�P?\\b�\u0012`�\u001d8�(\u001c�\u0004�\u0015Q\f�`N�K-\\\n,�{�\u001e�{�)�Ks@��!~���eГ8x\u001e�s��\f��%���d~<j�(�P\u0007�#q�E!\u001e���\u0004\u0015~�����S:|\u001e�˗\u0003��&�\u000f\u0006���\u000b�ˑ\u001d�w&\u000f���Vh3���\u000f�a�\u0017Bs9W��ܙ\u0017�-\u0006�׋\n#y\u001d��Z���;�1�>k�\u0001PK\u0007\b\u0018)L� \u0002\u0000\u0000\u0002\u0007\u0000\u0000PK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Zz��q;\u0001\u0000\u0000\u001c\u0004\u0000\u0000\u0013\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000[Content_Types].xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z��z��\u0000\u0000\u0000I\u0002\u0000\u0000\u000b\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000|\u0001\u0000\u0000_rels/.relsPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z�|wؑ\u0000\u0000\u0000�\u0000\u0000\u0000\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0002\u0000\u0000docProps/app.xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/ZA��\u0006\u0001\u0000\u0000�\u0001\u0000\u0000\u0011\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000g\u0003\u0000\u0000docProps/core.xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z<�J�\u0001\u0000\u0000\u000f\u0003\u0000\u0000\u0014\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0004\u0000\u0000xl/sharedStrings.xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z�m�\u0006u\u0001\u0000\u0000�\u0003\u0000\u0000\r\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000m\u0006\u0000\u0000xl/styles.xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z�W|h�\u0000\u0000\u0000^\u0001\u0000\u0000\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u001d\b\u0000\u0000xl/workbook.xmlPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z�\u0003;��\u0000\u0000\u00003\u0002\u0000\u0000\u001a\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00004\t\u0000\u0000xl/_rels/workbook.xml.relsPK\u0001\u0002\u0014\u0000\u0014\u0000\b\b\b\u0000��/Z\u0018)L� \u0002\u0000\u0000\u0002\u0007\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000P\n\u0000\u0000xl/worksheets/sheet1.xmlPK\u0005\u0006\u0000\u0000\u0000\u0000\t\u0000\t\u0000?\u0002\u0000\u0000�\f\u0000\u0000\u0000\u0000"
+            }
+          ]
         },
         {
           "name": "Product Service | Report By Type",
@@ -987,12 +3593,7 @@
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "accept",
-                "value": "*/*"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{PRODUCT}}/product/report",
               "host": [
@@ -1004,7 +3605,139 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Product Service | Report By Type",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{PRODUCT}}/product/report",
+                  "host": [
+                    "{{PRODUCT}}"
+                  ],
+                  "path": [
+                    "product",
+                    "report"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:32 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "e5f7a6070cc22dce65d296bcbffd4dfb"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"count\": 2,\n        \"productType\": \"DRESS\"\n    },\n    {\n        \"count\": 1,\n        \"productType\": \"ELECTRONIC\"\n    },\n    {\n        \"count\": 2,\n        \"productType\": \"FOOD\"\n    },\n    {\n        \"count\": 1,\n        \"productType\": \"FURNITURE\"\n    }\n]"
+            }
+          ]
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
         }
       ]
     },
@@ -1023,19 +3756,14 @@
                   "    pm.collectionVariables.set(\"orderId\", pm.response.text());",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"productId\" : \"{{PRODUCT_ID}}\",\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
@@ -1055,7 +3783,126 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Order Service | Place an Order",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"productId\" : \"{{PRODUCT_ID}}\",\r\n    \"totalAmount\" : 100,\r\n    \"quantity\" : 1,\r\n    \"paymentMode\" : \"CASH\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{ORDER}}/order",
+                  "host": [
+                    "{{ORDER}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:38 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "9ec4163eafaab2d08a04036e5ce9be47"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "de977a9d-f00e-40f9-a145-7abcd592ee61"
+            }
+          ]
         },
         {
           "name": "Order Service | Order By ID",
@@ -1068,19 +3915,14 @@
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{ORDER}}/order/{{orderId}}",
               "host": [
@@ -1092,7 +3934,287 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Order Service | Order By ID",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ORDER}}/order/{{orderId}}",
+                  "host": [
+                    "{{ORDER}}"
+                  ],
+                  "path": [
+                    "order",
+                    "{{orderId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:43 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "e6e27707b56711b5cee0bcae63aa46cc"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": \"de977a9d-f00e-40f9-a145-7abcd592ee61\",\n    \"quantity\": 1,\n    \"orderDate\": \"2025-01-15T16:45:38.326078Z\",\n    \"orderStatus\": \"APPROVED\",\n    \"amount\": 100,\n    \"productResponse\": {\n        \"id\": \"de52e292-3ad3-44e6-9c2f-42698862ce8b\",\n        \"productName\": \"Chair\",\n        \"price\": 48.79,\n        \"discount\": 0,\n        \"quantity\": 99,\n        \"productType\": \"DRESS\"\n    },\n    \"paymentResponse\": {\n        \"id\": \"2e428efa-29cd-4c5c-a67c-f798878da837\",\n        \"paymentStatus\": \"COMPLETED\",\n        \"paymentMode\": \"CASH\",\n        \"amount\": 1000,\n        \"paymentDate\": \"2025-01-15T16:45:38.367694Z\",\n        \"orderId\": \"de977a9d-f00e-40f9-a145-7abcd592ee61\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Order Service | top-orders-by-date-range",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ORDER}}/order/top-orders-by-date-range",
+              "host": [
+                "{{ORDER}}"
+              ],
+              "path": [
+                "order",
+                "top-orders-by-date-range"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Order Service | top-orders-by-date-range",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{ORDER}}/order/top-orders-by-date-range",
+                  "host": [
+                    "{{ORDER}}"
+                  ],
+                  "path": [
+                    "order",
+                    "top-orders-by-date-range"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:48 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "c8cdf706cedf1264364fb5fe526aa4a4"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"buyerId\": \"61595b2e-2b25-4262-ab01-150860b0a875\",\n        \"quantity\": 6,\n        \"amount\": 600,\n        \"userResponse\": {\n            \"id\": \"61595b2e-2b25-4262-ab01-150860b0a875\",\n            \"email\": \"admin@tuhin47.com\",\n            \"enabled\": true,\n            \"displayName\": \"admin@tuhin47.com\"\n        }\n    }\n]"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
         }
       ]
     },
@@ -1110,19 +4232,14 @@
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {}
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Cookie",
-                "value": "{{CLOUD_SHELL}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "{{PAY}}/payment/order/{{orderId}}",
               "host": [
@@ -1135,7 +4252,262 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Payment Info By OrderId",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{PAY}}/payment/order/{{orderId}}",
+                  "host": [
+                    "{{PAY}}"
+                  ],
+                  "path": [
+                    "payment",
+                    "order",
+                    "{{orderId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:53 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "558af09f58f436768455d481b79d4daf"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": \"2e428efa-29cd-4c5c-a67c-f798878da837\",\n    \"paymentStatus\": \"COMPLETED\",\n    \"paymentMode\": \"CASH\",\n    \"amount\": 1000,\n    \"paymentDate\": \"2025-01-15T16:45:38.367694Z\",\n    \"orderId\": \"de977a9d-f00e-40f9-a145-7abcd592ee61\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Payment Response BY OrderId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ORDER}}/order/{{orderId}}",
+              "host": [
+                "{{ORDER}}"
+              ],
+              "path": [
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Payment Response BY OrderId",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{CLOUD_SHELL}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ORDER}}/order/{{orderId}}",
+                  "host": [
+                    "{{ORDER}}"
+                  ],
+                  "path": [
+                    "order",
+                    "{{orderId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Requested-Tokens",
+                  "value": "1"
+                },
+                {
+                  "key": "X-RateLimit-Burst-Capacity",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Replenish-Rate",
+                  "value": "3"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Jan 2025 16:45:58 GMT"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "trace-id",
+                  "value": "2224406677d58b59ed810f748503a9d1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": \"de977a9d-f00e-40f9-a145-7abcd592ee61\",\n    \"quantity\": 1,\n    \"orderDate\": \"2025-01-15T16:45:38.326078Z\",\n    \"orderStatus\": \"APPROVED\",\n    \"amount\": 100,\n    \"productResponse\": {\n        \"id\": \"de52e292-3ad3-44e6-9c2f-42698862ce8b\",\n        \"productName\": \"Chair\",\n        \"price\": 48.79,\n        \"discount\": 0,\n        \"quantity\": 99,\n        \"productType\": \"DRESS\"\n    },\n    \"paymentResponse\": {\n        \"id\": \"2e428efa-29cd-4c5c-a67c-f798878da837\",\n        \"paymentStatus\": \"COMPLETED\",\n        \"paymentMode\": \"CASH\",\n        \"amount\": 1000,\n        \"paymentDate\": \"2025-01-15T16:45:38.367694Z\",\n        \"orderId\": \"de977a9d-f00e-40f9-a145-7abcd592ee61\"\n    }\n}"
+            }
+          ]
         }
       ],
       "event": [
@@ -1165,7 +4537,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{AUTH_TOKEN}}",
+        "value": "{{access_token}}",
         "type": "string"
       }
     ]
@@ -1176,6 +4548,11 @@
       "script": {
         "type": "text/javascript",
         "exec": [
+          "",
+          "pm.request.headers.add({",
+          "    key: 'X-XSRF-TOKEN',",
+          "    value: pm.collectionVariables.get(\"csrftoken\")",
+          "});",
           ""
         ]
       }
@@ -1185,16 +4562,15 @@
       "script": {
         "type": "text/javascript",
         "exec": [
+          "pm.test(\"Status code is successful\", function () {",
+          "    pm.expect(pm.response.code).to.be.above(199).and.below(300);",
+          "});",
           ""
         ]
       }
     }
   ],
   "variable": [
-    {
-      "key": "AUTH_TOKEN",
-      "value": ""
-    },
     {
       "key": "password",
       "value": "123456"
@@ -1227,6 +4603,28 @@
     },
     {
       "key": "ROLE_ID",
+      "value": ""
+    },
+    {
+      "key": "AUTH_TOKEN",
+      "value": ""
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "user_token",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "csrftoken",
       "value": ""
     }
   ]
