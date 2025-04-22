@@ -87,37 +87,46 @@
                 <configuration>
                     <env>
                         <PROJECT_PATH>${project.basedir}</PROJECT_PATH>
-                        <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/registry/eureka</EUREKA_SERVER_ADDRESS>
-                        <TRACING_URL>http://tracing:4317/</TRACING_URL>
-                        <CONFIG_SERVER_URL>http://configserver:9296</CONFIG_SERVER_URL>
-                        <MYSQL_HOST>database</MYSQL_HOST>
-                        <MYSQL_PORT>3306</MYSQL_PORT>
-                        <MYSQL_USER>root</MYSQL_USER>
-                        <SQL_ROOT_PASSWORD>root</SQL_ROOT_PASSWORD>
-                        <MYSQL_PASSWORD>root</MYSQL_PASSWORD>
-                        <ENVIRONMENT>production</ENVIRONMENT>
-                        <OAUTH_REDIRECT_URL>http://localhost:4200/auth/login</OAUTH_REDIRECT_URL>
-                        <MONGO_HOST>mongo</MONGO_HOST>
-                        <MONGO_DATABASE>chat_service</MONGO_DATABASE>
-                        <MONGO_PORT>27017</MONGO_PORT>
-                        <MONGO_USERNAME>root</MONGO_USERNAME>
-                        <MONGO_PASSWORD>rootpassword</MONGO_PASSWORD>
-                        <MONGO_AUTHENTICATION_DATABASE>admin</MONGO_AUTHENTICATION_DATABASE>
-                        <REDIS_URL>redis://redis:6379</REDIS_URL>
                         <ALLOWED_ORIGINS>http://localhost:4200,http://localhost:8080</ALLOWED_ORIGINS>
                         <AXON_SERVER_URL>axonserver:8124</AXON_SERVER_URL>
-                        <IMAGE_TAG>0.7.0</IMAGE_TAG>
+                        <CONFIG_SERVER_URL>http://configserver:9296</CONFIG_SERVER_URL>
+                        <DOMAIN_NAME>gateway</DOMAIN_NAME>
+                        <DOMAIN_PORT>8888</DOMAIN_PORT>
+                        <DOMAIN_SCHEME>http</DOMAIN_SCHEME>
+                        <ENVIRONMENT>production</ENVIRONMENT>
+                        <EUREKA_PATH>/registry</EUREKA_PATH>
+                        <EUREKA_SERVER_ADDRESS>http://serviceregistry:8761/registry/eureka</EUREKA_SERVER_ADDRESS>
+                        <IMAGE_TAG>0.7.1</IMAGE_TAG>
+                        <KC_HTTP_RELATIVE_PATH>sso</KC_HTTP_RELATIVE_PATH>
+                        <KEYCLOAK_ADMIN_PASSWORD>admin</KEYCLOAK_ADMIN_PASSWORD>
+                        <LOGSTASH_HOST>logstash</LOGSTASH_HOST>
+                        <LOGSTASH_URL>logstash</LOGSTASH_URL>
+                        <MONGO_AUTHENTICATION_DATABASE>admin</MONGO_AUTHENTICATION_DATABASE>
+                        <MONGO_DATABASE>chat_service</MONGO_DATABASE>
+                        <MONGO_HOST>mongo</MONGO_HOST>
+                        <MONGO_PASSWORD>rootpassword</MONGO_PASSWORD>
+                        <MONGO_PORT>27017</MONGO_PORT>
+                        <MONGO_USERNAME>root</MONGO_USERNAME>
+                        <MYSQL_HOST>database</MYSQL_HOST>
+                        <MYSQL_PASSWORD>root</MYSQL_PASSWORD>
+                        <MYSQL_PORT>3306</MYSQL_PORT>
+                        <MYSQL_USER>root</MYSQL_USER>
                         <NOAUTH_ENABLE>false</NOAUTH_ENABLE>
+                        <OAUTH_REDIRECT_URL>http://localhost:4200/auth/login</OAUTH_REDIRECT_URL>
+                        <REDIS_URL>redis://redis:6379</REDIS_URL>
                         <SPRING_MAIL_HOST>mailcatcher</SPRING_MAIL_HOST>
                         <SPRING_MAIL_PORT>1025</SPRING_MAIL_PORT>
                         <SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH>false</SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH>
                         <SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE>false
                         </SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE>
+                        <SPRING_PROFILES_ACTIVE>default</SPRING_PROFILES_ACTIVE>
+                        <SQL_ROOT_PASSWORD>root</SQL_ROOT_PASSWORD>
+                        <TRACING_URL>http://tracing:4317/</TRACING_URL>
                     </env>
                     <projectName>spring-micro-47</projectName>
                     <file>docker-compose-prod.yml</file>
                     <wait>
-                        <value>240</value>
+                        <value>360</value>
                         <unit>SECONDS</unit>
                     </wait>
                 </configuration>
