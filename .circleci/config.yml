@@ -9,7 +9,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: mvn clean install
-      - run: docker-compose -f docker-compose-prod.yml
+      - run: docker-compose -f docker-compose-prod.yml build
 #      - run:
 #          name: Run Postman test
 #          command: |
