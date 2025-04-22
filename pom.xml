@@ -126,7 +126,7 @@
                     <projectName>spring-micro-47</projectName>
                     <file>docker-compose-prod.yml</file>
                     <wait>
-                        <value>240</value>
+                        <value>360</value>
                         <unit>SECONDS</unit>
                     </wait>
                 </configuration>
