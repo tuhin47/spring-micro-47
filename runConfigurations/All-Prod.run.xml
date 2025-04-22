@@ -4,6 +4,17 @@
       <settings>
         <option name="envFilePath" value="$PROJECT_DIR$/.env.secret" />
         <option name="commandLineOptions" value="--build" />
+          <option name="sourceFilePath" value="docker-compose-prod.yml"/>
+      </settings>
+    </deployment>
+      <method v="2"/>
+  </configuration>
+    <configuration default="false" name="All-Prod" type="docker-deploy" factoryName="docker-compose.yml"
+                   server-name="me47_Remote">
+        <deployment type="docker-compose.yml">
+            <settings>
+                <option name="envFilePath" value="$PROJECT_DIR$/.env.me47.secret"/>
+                <option name="commandLineOptions" value="--build"/>
         <option name="sourceFilePath" value="docker-compose-prod.yml" />
       </settings>
     </deployment>

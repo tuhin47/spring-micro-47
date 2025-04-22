@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
 
   apigateway:
@@ -20,6 +18,13 @@ services:
       - REDIS_URL
       - ALLOWED_ORIGINS
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
+      - LOG_PATH=/tmp/logs/apigateway/
     depends_on:
       configserver:
         condition: service_healthy
@@ -60,17 +65,25 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
+      - LOG_PATH=/tmp/logs/authservice/
       - SPRING_MAIL_HOST
       - SPRING_MAIL_PORT
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
-    working_dir: /app
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://authservice:7777/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
     depends_on:
+      keycloak:
+        condition: service_healthy
       mailcatcher:
         condition: service_started
       database:
@@ -104,6 +117,9 @@ services:
       - MONGO_USERNAME
       - TRACING_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - LOG_PATH=/tmp/logs/chatservice/
     depends_on:
       mongo:
         condition: service_healthy
@@ -121,6 +137,7 @@ services:
       - "9296:9296"
     environment:
       - EUREKA_SERVER_ADDRESS
+      - LOG_PATH=/tmp/logs/configserver/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://configserver:9296/actuator/health" ]
       interval: 10s
@@ -152,15 +169,22 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
+      - LOG_PATH=/tmp/logs/orderservice/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://orderservice:8082/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     networks:
       - backend
@@ -188,15 +212,22 @@ services:
       - REDIS_URL
       - AXON_SERVER_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
+      - LOG_PATH=/tmp/logs/paymentservice/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://paymentservice:8083/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     networks:
       - backend
@@ -223,15 +254,22 @@ services:
       - TRACING_URL
       - REDIS_URL
       - NOAUTH_ENABLE
+      - LOGSTASH_HOST
+      - SPRING_PROFILES_ACTIVE
+      - DOMAIN_SCHEME
+      - DOMAIN_NAME
+      - DOMAIN_PORT
+      - KC_HTTP_RELATIVE_PATH
+      - LOG_PATH=/tmp/logs/productservice/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://productservice:8081/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     networks:
       - backend
@@ -252,6 +290,7 @@ services:
       - backend
     environment:
       - EUREKA_PATH
+      - LOG_PATH=/tmp/logs/serviceregistry/
 
 
   build_all:
@@ -292,6 +331,11 @@ services:
       file: docker-compose.common.yml
       service: jaeger-service
 
+  keycloak:
+    extends:
+      file: docker-compose.common.yml
+      service: keycloak
+
   kibana:
     depends_on:
       - elasticsearch
@@ -311,6 +355,13 @@ services:
       service: logstash
       file: docker-compose.elk.yml
   proxy:
+    depends_on:
+      serviceregistry:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      apigateway:
+        condition: service_started
     extends:
       file: docker-compose.common.yml
       service: proxy
@@ -333,6 +384,11 @@ services:
     extends:
       service: testservice
       file: docker-compose.common.yml
+
+  tracing:
+    extends:
+      file: docker-compose.common.yml
+      service: tracing
 
 networks:
   backend:
