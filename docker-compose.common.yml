@@ -103,7 +103,7 @@ services:
     volumes:
       #      - ${PROJECT_PATH}/keycloak/ssl/nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
       #      - ${PROJECT_PATH}/keycloak/ssl/nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
-      - ${PROJECT_PATH}/keycloak/nginx.conf:/etc/nginx/nginx.conf
+      - ${PROJECT_PATH}/keycloak/:/etc/nginx/
     ports:
       - "8888:8888"
       - "443:443"
