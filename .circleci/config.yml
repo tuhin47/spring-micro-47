@@ -1,8 +1,6 @@
 version: 2.1
 jobs:
   java-build:
-    executor:
-      name: java
     docker:
       - image: cimg/openjdk:22.0.2-node
     resource_class: xlarge
