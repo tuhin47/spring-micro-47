@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.CommonBean;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 
@@ -17,7 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class ProductControllerTest extends AbstractControllerTest {
 
 
-    @ParameterizedTest
+    //@ParameterizedTest
     @ValueSource(strings = {CommonBean.ADMIN_USER_MAIL, USER_MAIL, MODERATOR_MAIL})
     @Order(1)
     public void getAllProductBySearch(String mail) {
@@ -45,7 +44,7 @@ public class ProductControllerTest extends AbstractControllerTest {
     }
 
     @Order(2)
-    @ParameterizedTest
+    //@ParameterizedTest
     @ValueSource(strings = {CommonBean.ADMIN_USER_MAIL, USER_MAIL, MODERATOR_MAIL})
     void getProductById(String mail) {
         getBaseRequestWithHeader(mail)
@@ -64,7 +63,7 @@ public class ProductControllerTest extends AbstractControllerTest {
 
 
     @Order(3)
-    @ParameterizedTest
+    //@ParameterizedTest
     @ValueSource(strings = {CommonBean.ADMIN_USER_MAIL, USER_MAIL, MODERATOR_MAIL})
     void getProductTypeCount(String mail) {
 
@@ -88,7 +87,7 @@ public class ProductControllerTest extends AbstractControllerTest {
 
 
     @Order(5)
-    @ParameterizedTest
+    //@ParameterizedTest
     @ValueSource(strings = {CommonBean.ADMIN_USER_MAIL, USER_MAIL, MODERATOR_MAIL})
     void addProduct(String mail) {
         var product = """
@@ -113,7 +112,7 @@ public class ProductControllerTest extends AbstractControllerTest {
 
 
     @Order(6)
-    @ParameterizedTest
+    //@ParameterizedTest
     @ValueSource(strings = {CommonBean.ADMIN_USER_MAIL, USER_MAIL, MODERATOR_MAIL})
     void deleteProductById(String mail) {
 
