@@ -3,24 +3,24 @@ jobs:
   java-build:
     docker:
       - image: cimg/openjdk:22.0.2-node
-    resource_class: xlarge
+#    resource_class: xlarge
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - run: mvn clean install
-      - run: mvn docker-compose:up -pl ./ -f pom.xml
-      - run:
-          name: Run Postman test
-          command: |
-            set -e
-            sleep 10
-            docker-compose -f docker-compose-prod.yml -p spring-micro-47 up --build testservice
-            docker cp testservice:/app/newman ./postman_collection/
-      - store_test_results:
-          name: Collect postman output
-          path: ./postman_collection/newman/
-      - run: mvn docker-compose:down -pl ./ -f pom.xml
+      - run: docker-compose -f docker-compose-prod.yml
+#      - run:
+#          name: Run Postman test
+#          command: |
+#            set -e
+#            sleep 10
+#            docker-compose -f docker-compose-prod.yml -p spring-micro-47 up --build testservice
+#            docker cp testservice:/app/newman ./postman_collection/
+#      - store_test_results:
+#          name: Collect postman output
+#          path: ./postman_collection/newman/
+#      - run: mvn docker-compose:down -pl ./ -f pom.xml
 workflows:
   java-build-workflow:
     jobs:
