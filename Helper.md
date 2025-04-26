@@ -1,18 +1,16 @@
-
-
-
-### update conf file on angular
+# GitPOD
 
 ```shell
-docker cp default.conf boilerplate:/etc/nginx/conf.d/default.conf && docker restart boilerplate
+#!/bin/bash
+cp /workspace/.bash_aliases $HOME/
+sudo apt install rsync
 ```
-### update jar files on services
- 
-```shell
-export PROJECT_HOME=$HOME/IdeaProjects/spring-micro-47
-export VERSION=0.1.0
-#productservice 
-docker cp $PROJECT_HOME/productservice/target/productservice-$VERSION.jar spring-micro-47_productservice_1:/app/app.jar && docker restart spring-micro-47_productservice_1
-#apigateway
-docker cp $PROJECT_HOME/apigateway/target/apigateway-$VERSION.jar spring-micro-47_apigateway_1:/app/app.jar && docker restart spring-micro-47_apigateway_1
+
+# Keycloak
+
+**Ignore SSL connection in dev mode**
+
+```sql
+update REALM
+set ssl_required='NONE';
 ```

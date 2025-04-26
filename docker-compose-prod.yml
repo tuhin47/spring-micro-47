@@ -28,12 +28,10 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
-      redis:
-        condition: service_started
       keycloak:
         condition: service_healthy
-      serviceregistry:
-        condition: service_healthy
+      redis:
+        condition: service_started
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://apigateway:9090/actuator/health" ]
       interval: 10s
