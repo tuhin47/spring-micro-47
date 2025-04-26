@@ -36,3 +36,16 @@ In addition, the project follows the Gitflow workflow for managing continuous in
 
 For Production follow [this](./command.md)
 
+## Gitpod Integration
+
+You can use Gitpod to set up a fully functional development environment in the cloud with just one click.
+
+### Steps to Use Gitpod
+
+1. Click the button below to open the project in
+   Gitpod:[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/tuhin47/spring-micro-47)
+2. Gitpod will automatically set up the environment, install dependencies, and start the necessary services.
+3. Access the application via the preview URLs provided by Gitpod.
+4. Quickly test all the services using postman cli. Use this command in the terminal
+   `docker-compose --env-file .env.gp.secret -f docker-compose-prod.yml up testservice`
+

@@ -1,0 +1,13 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Initialize Workspace
+    init: |
+      docker-compose --env-file .env.gp.secret -f docker-compose-prod.yml up build_all
+    command: |
+      docker-compose --env-file .env.gp.secret -f docker-compose-prod.yml up -d
+
+ports:
+  - port: 8888
+    onOpen: open-preview
