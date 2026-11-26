@@ -1,0 +1,108 @@
+@startuml
+left to right direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Spring Micro 47 — High-Level Architecture
+
+actor "User / Browser" as user
+
+package "Client and edge" {
+  component "Angular UI\n(angular-boilerplate / Netlify)" as ui
+  component "Nginx reverse proxy" as edge
+  component "Spring Cloud API Gateway\n:9090" as gateway
+}
+
+package "Spring Boot services" {
+  component "Auth Service" as auth
+  component "Product Service" as product
+  component "Order Service\n(order saga)" as order
+  component "Payment Service" as payment
+  component "Chat Service\n(optional Compose profile)" as chat
+  component "Config Server" as config
+  component "Eureka Service Registry" as eureka
+}
+
+package "Identity and data" {
+  component "Keycloak\n(OIDC identity provider)" as keycloak
+  database "MySQL\n(auth, product, order, payment)" as mysql
+  database "MongoDB\n(chat messages)" as mongo
+  component "Redis\n(cache / gateway rate limits)" as redis
+  component "Mailcatcher" as mail
+}
+
+package "Messaging and observability" {
+  component "Axon Server" as axon
+  component "OpenTelemetry Collector" as otel
+  component "Jaeger" as jaeger
+  component "Logstash\n(optional ELK profile)" as logstash
+  database "Elasticsearch" as elasticsearch
+  component "Kibana" as kibana
+}
+
+user --> ui
+ui --> edge : API requests
+edge --> gateway : / (gateway routes)
+edge --> keycloak : /sso
+edge --> eureka : /registry
+edge --> mail : /mails
+
+gateway --> keycloak : OIDC / /kc/**
+gateway --> order : /order/**\n(lb://ORDER-SERVICE)
+gateway --> payment : /payment/**\n(lb://PAYMENT-SERVICE)
+gateway --> product : /product/**\n(lb://PRODUCT-SERVICE)
+gateway --> auth : /auth/**, /oauth2/**, etc.\n(lb://AUTH-SERVICE)
+gateway --> chat : /chat/**, /ws/**\n(lb://CHAT-SERVICE)
+gateway ..> eureka : service lookup
+gateway --> redis : rate limiting
+
+auth ..> config : fetch configuration
+auth ..> eureka : register / discover
+product ..> config
+product ..> eureka
+order ..> config
+order ..> eureka
+payment ..> config
+payment ..> eureka
+chat ..> config
+chat ..> eureka
+
+keycloak --> mysql : realm storage
+auth --> mysql : user data
+product --> mysql : product data
+order --> mysql : order data
+payment --> mysql : payment data
+chat --> mongo
+auth --> redis
+product --> redis
+order --> redis
+payment --> redis
+auth --> mail : email
+
+order <--> axon : commands / events / saga
+payment <--> axon : command handlers / events
+auth <--> axon : query handler
+
+gateway ..> otel : OTLP traces
+auth ..> otel
+product ..> otel
+order ..> otel
+payment ..> otel
+chat ..> otel
+otel --> jaeger : exports traces
+
+gateway ..> logstash : application logs (ELK profile)
+auth ..> logstash
+product ..> logstash
+order ..> logstash
+payment ..> logstash
+chat ..> logstash
+logstash --> elasticsearch
+elasticsearch --> kibana
+
+note bottom
+  The Maven reactor also contains shared common and saga modules.
+  Chat, frontend, and ELK components are enabled through optional Compose profiles.
+end note
+@enduml
