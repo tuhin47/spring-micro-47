@@ -7,7 +7,7 @@ import me.tuhin47.config.redis.UserRedis;
 import me.tuhin47.entity.audit.UserDateAudit;
 import me.tuhin47.entity.security.IOwner;
 import me.tuhin47.utils.RoleUtils;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serial;
 import java.time.Instant;
@@ -27,8 +27,8 @@ public class Order extends UserDateAudit<String> implements IOwner {
     private static final long serialVersionUID = -629300147502691040L;
 
     @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 

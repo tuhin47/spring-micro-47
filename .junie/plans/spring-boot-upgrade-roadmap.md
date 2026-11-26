@@ -44,26 +44,26 @@ Provide a safe roadmap for upgrading the Maven reactor to Spring Boot `4.1.x` on
 
 # Delivery Steps
 
-###   Step 1: Baseline and confirm exact compatible releases
+### ✓ Step 1: Baseline and confirm exact compatible releases
 The baseline is recorded and exact Spring Boot 4.1.x, Spring Cloud, and Java 25 versions are confirmed before implementation.
 - Record current versions and direct dependency constraints from the root `pom.xml` and module POMs; run the existing reactor build and note failures.
 - Verify the official Boot 4.1.x Java 25 requirements and select the intended Boot patch.
 - Confirm the currently supported Spring Cloud `2025.1.x` patch compatible with Boot 4.1.x (the mapping starts at `2025.1.2`) and identify third-party dependencies that need migration.
 
-###   Step 2: Align Maven versions and Java 25 build/runtime environments
+### ✓ Step 2: Align Maven versions and Java 25 build/runtime environments
 The Maven reactor and all supported build/deployment paths use the selected Boot/Cloud versions and Java 25.
 - Update the parent, `${spring-boot.version}`, Spring Cloud BOM, and Java/compiler properties in root `pom.xml`.
 - Reconcile plugin and explicit Boot-version declarations, including `apigateway/pom.xml`, `configserver/pom.xml`, and `service-registry/pom.xml`.
 - Update Java pins in `.github/workflows/build.yml`, `.circleci/config.yml`, `Build.Dockerfile`, `Dockerfile`, `tuhin47.dev.Dockerfile`, and `docker-compose-prod.yml`.
 - Verify Java 25 availability for `dev.Dockerfile` and `runConfigurations/tuhin47_javadev.run.xml`; update their custom image reference only if a compatible image is available or built.
 
-###   Step 3: Migrate infrastructure and service dependencies
+### ✓ Step 3: Migrate infrastructure and service dependencies
 Infrastructure modules and then the application/shared modules compile and pass focused tests on the new platform.
 - Migrate Gateway, Config Server, and Eureka integrations in `apigateway`, `configserver`, and `service-registry` first.
 - Resolve demonstrated incompatibilities across `authservice`, `productservice`, `orderservice`, `paymentservice`, `chat-service`, `common`, `saga`, and `aws-reactive`.
 - Verify or update Axon, database/JPA and Flyway, tracing, legacy JWT/JAXB, and Springdoc integrations; add or adjust focused tests with each behavior/API change.
 
-###   Step 4: Verify the reactor and deployment workflow
+### ✓ Step 4: Verify the reactor and deployment workflow
 The Java 25 / Spring Boot 4.1.x stack passes CI-equivalent validation and a production Compose smoke test.
 - Run focused module tests followed by `mvn -B clean install --file pom.xml`.
 - Build the Maven builder and runtime images and confirm the produced artifacts run on Java 25.

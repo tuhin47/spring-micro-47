@@ -3,7 +3,7 @@ package me.tuhin47.productservice.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import me.tuhin47.entity.audit.UserDateAudit;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serial;
 import java.util.HashSet;
@@ -22,8 +22,9 @@ public class Company extends UserDateAudit<String> {
     private static final long serialVersionUID = 3650934719204477753L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
     @Column(nullable = false, updatable = false, length = 36)
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
     @Column(length = 50)
     private String name;

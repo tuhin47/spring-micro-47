@@ -6,72 +6,74 @@ spring:
     web-application-type: reactive
   cloud:
     gateway:
-      routes:
-        - id: ORDER-SERVICE
-          uri: lb://ORDER-SERVICE
-          predicates:
-            - Path=/order/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: ORDER-SERVICE
-                fallbackuri: forward:/orderServiceFallBack
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 3 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
-                redis-rate-limiter.burstCapacity: 10 # maximum number of requests a user is allowed to do in a single second (500 requests per second)0
-        - id: PAYMENT-SERVICE
-          uri: lb://PAYMENT-SERVICE
-          predicates:
-            - Path=/payment/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: PAYMENT-SERVICE
-                fallbackuri: forward:/paymentServiceFallBack
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 3
-                redis-rate-limiter.burstCapacity: 10
-        - id: PRODUCT-SERVICE
-          uri: lb://PRODUCT-SERVICE
-          predicates:
-            - Path=/product/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: PRODUCT-SERVICE
-                fallbackuri: forward:/productServiceFallBack
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 3
-                redis-rate-limiter.burstCapacity: 10
-        - id: AUTH-SERVICE
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**,/menu/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: AUTH-SERVICE
-                fallbackuri: forward:/authServiceFallBack
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 10000
-                redis-rate-limiter.burstCapacity: 10000
-        - id: CHAT-SERVICE
-          uri: lb://CHAT-SERVICE
-          predicates:
-            - Path=/chat/**,/ws/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: CHAT-SERVICE
-                fallbackuri: forward:/chatServiceFallBack
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 3
-                redis-rate-limiter.burstCapacity: 10
+      server:
+        webflux:
+          routes:
+            - id: ORDER-SERVICE
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/order/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: ORDER-SERVICE
+                    fallbackuri: forward:/orderServiceFallBack
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 3 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
+                    redis-rate-limiter.burstCapacity: 10 # maximum number of requests a user is allowed to do in a single second (500 requests per second)0
+            - id: PAYMENT-SERVICE
+              uri: lb://PAYMENT-SERVICE
+              predicates:
+                - Path=/payment/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: PAYMENT-SERVICE
+                    fallbackuri: forward:/paymentServiceFallBack
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 3
+                    redis-rate-limiter.burstCapacity: 10
+            - id: PRODUCT-SERVICE
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/product/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: PRODUCT-SERVICE
+                    fallbackuri: forward:/productServiceFallBack
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 3
+                    redis-rate-limiter.burstCapacity: 10
+            - id: AUTH-SERVICE
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth/**,/oauth2/**,/roles/**,/privileges/**,/menu/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: AUTH-SERVICE
+                    fallbackuri: forward:/authServiceFallBack
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10000
+                    redis-rate-limiter.burstCapacity: 10000
+            - id: CHAT-SERVICE
+              uri: lb://CHAT-SERVICE
+              predicates:
+                - Path=/chat/**,/ws/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: CHAT-SERVICE
+                    fallbackuri: forward:/chatServiceFallBack
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 3
+                    redis-rate-limiter.burstCapacity: 10
 
 logging:
   level:

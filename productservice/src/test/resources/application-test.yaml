@@ -31,10 +31,8 @@ app:
   oauth2:
     authorizedRedirectUris: http://localhost:4200/auth/login,myandroidapp://oauth2/redirect,myiosapp://oauth2/redirect
 management:
-  otlp:
-    tracing:
-      export:
-        enabled: false
+  opentelemetry:
+    enabled: false
 springdoc:
   api-docs:
     enabled: false

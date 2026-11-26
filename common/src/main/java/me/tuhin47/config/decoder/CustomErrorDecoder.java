@@ -1,11 +1,11 @@
 package me.tuhin47.config.decoder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.config.exception.apierror.CustomException;
 import org.springframework.http.HttpStatus;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String s, Response response) {
-        ObjectMapper objectMapper = new ObjectMapper();
+        JsonMapper objectMapper = JsonMapper.builder().build();
 
         log.info("::{}", response.request().url());
         log.info("::{}", response.request().headers());

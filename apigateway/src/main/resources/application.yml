@@ -7,10 +7,12 @@ spring:
 origins:
   allowedOrigins: ${ALLOWED_ORIGINS:http://localhost:4200}
 management:
-  otlp:
+  opentelemetry:
     tracing:
-      endpoint: ${TRACING_URL:http://127.0.0.1:4317}
-      transport: grpc
+      export:
+        otlp:
+          endpoint: ${TRACING_URL:http://127.0.0.1:4317}
+          transport: grpc
   tracing:
     sampling:
       probability: 1.0

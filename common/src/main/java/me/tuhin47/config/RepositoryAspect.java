@@ -63,17 +63,17 @@ public class RepositoryAspect {
         }
     }
 
-    @AfterReturning("execution(* javax.persistence.EntityManager.persist(..))")
+    @AfterReturning("execution(* jakarta.persistence.EntityManager.persist(..))")
     public void aspectAfterCreated(JoinPoint joinPoint) {
         handleEventEvent(joinPoint, EntityStatus.CREATED);
     }
 
-    @AfterReturning("execution(* javax.persistence.EntityManager.merge(..))")
+    @AfterReturning("execution(* jakarta.persistence.EntityManager.merge(..))")
     public void aspectAfterUpdated(JoinPoint joinPoint) {
         handleEventEvent(joinPoint, EntityStatus.UPDATED);
     }
 
-    @AfterReturning("execution(* javax.persistence.EntityManager.remove(..))")
+    @AfterReturning("execution(* jakarta.persistence.EntityManager.remove(..))")
     public void logAfterDelete(JoinPoint joinPoint) {
         handleEventEvent(joinPoint, EntityStatus.DELETED);
     }

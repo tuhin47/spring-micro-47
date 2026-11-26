@@ -1,1 +1,1 @@
-FROM tuhin47/javadev:22
+FROM tuhin47/javadev:25

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 import me.tuhin47.entity.audit.UserDateAudit;
 import me.tuhin47.productservice.domain.enums.ProductType;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.format.annotation.NumberFormat;
 
 import java.io.Serial;
@@ -25,8 +25,8 @@ public class Product extends UserDateAudit<String> {
     @Serial
     private static final long serialVersionUID = 9153625892766185972L;
     @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
 

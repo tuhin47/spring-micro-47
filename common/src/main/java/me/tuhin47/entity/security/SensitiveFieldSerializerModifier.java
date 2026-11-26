@@ -1,15 +1,16 @@
 package me.tuhin47.entity.security;
 
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
-import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
+import tools.jackson.databind.BeanDescription;
+import tools.jackson.databind.SerializationConfig;
+import tools.jackson.databind.ser.BeanPropertyWriter;
+import tools.jackson.databind.ser.ValueSerializerModifier;
 
 import java.util.List;
 
-public class SensitiveFieldSerializerModifier extends BeanSerializerModifier {
+public class SensitiveFieldSerializerModifier extends ValueSerializerModifier {
     @Override
-    public List<BeanPropertyWriter> changeProperties(SerializationConfig config, BeanDescription beanDesc, List<BeanPropertyWriter> beanProperties) {
+    public List<BeanPropertyWriter> changeProperties(
+        SerializationConfig config, BeanDescription.Supplier beanDesc, List<BeanPropertyWriter> beanProperties) {
         for (BeanPropertyWriter writer : beanProperties) {
             SensitiveRead sensitiveRead = writer.getAnnotation(SensitiveRead.class);
             if (sensitiveRead != null) {

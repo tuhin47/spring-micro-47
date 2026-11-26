@@ -1,6 +1,5 @@
 package me.tuhin47.config.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
@@ -32,7 +32,7 @@ public class SecurityService {
 
     private void populateResponse(HttpServletResponse response, ResponseEntity<Object> objectResponseEntity) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(objectResponseEntity.getStatusCodeValue());
+        response.setStatus(objectResponseEntity.getStatusCode().value());
         response.setContentType("application/json");
         response.getOutputStream().write(objectMapper.writeValueAsBytes(objectResponseEntity.getBody()));
     }

@@ -1,12 +1,15 @@
 package me.tuhin47.awsreactive.common;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+
+import java.net.URI;
 
 @Component
 @Getter
@@ -42,15 +45,15 @@ public class AmazonProperties {
     }
 
 
-    public AwsClientBuilder.EndpointConfiguration getEndpointConfiguration() {
-        return new AwsClientBuilder.EndpointConfiguration(url, region);
+    public URI getEndpointUri() {
+        return URI.create(url);
     }
 
-    public AWSStaticCredentialsProvider getCredentialsProvider() {
-        return new AWSStaticCredentialsProvider(getBasicAWSCredentials());
+    public Region getAwsRegion() {
+        return Region.of(region);
     }
 
-    public BasicAWSCredentials getBasicAWSCredentials() {
-        return new BasicAWSCredentials(accessKey, secretKey);
+    public AwsCredentialsProvider getCredentialsProvider() {
+        return StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey));
     }
 }

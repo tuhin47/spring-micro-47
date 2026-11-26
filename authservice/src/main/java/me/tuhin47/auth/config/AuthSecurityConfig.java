@@ -82,8 +82,7 @@ public class AuthSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(delegatingUserDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(delegatingUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
@@ -96,10 +95,10 @@ public class AuthSecurityConfig {
     private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
         OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
         tokenResponseHttpMessageConverter.setAccessTokenResponseConverter(new OAuth2AccessTokenResponseConverterWithDefaults());
-        RestClient client = RestClient.builder().messageConverters((messageConverters) -> {
-            messageConverters.clear();
-            messageConverters.add(new FormHttpMessageConverter());
-            messageConverters.add(tokenResponseHttpMessageConverter);
+        RestClient client = RestClient.builder().configureMessageConverters(messageConverters -> {
+            messageConverters.disableDefaults();
+            messageConverters.addCustomConverter(new FormHttpMessageConverter());
+            messageConverters.addCustomConverter(tokenResponseHttpMessageConverter);
         }).defaultStatusHandler(new OAuth2ErrorResponseErrorHandler()).build();
         RestClientAuthorizationCodeTokenResponseClient tokenResponseClient = new RestClientAuthorizationCodeTokenResponseClient();
         tokenResponseClient.setRestClient(client);

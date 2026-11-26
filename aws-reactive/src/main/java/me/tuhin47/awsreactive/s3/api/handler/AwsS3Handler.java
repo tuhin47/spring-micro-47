@@ -1,6 +1,5 @@
 package me.tuhin47.awsreactive.s3.api.handler;
 
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import lombok.extern.slf4j.Slf4j;
 import me.tuhin47.awsreactive.s3.constant.PathVariableParam;
 import me.tuhin47.awsreactive.s3.domain.FileInfo;
@@ -16,6 +15,7 @@ import org.springframework.http.codec.multipart.Part;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import software.amazon.awssdk.services.s3.model.S3Object;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.annotation.NonNull;
@@ -54,12 +54,12 @@ public class AwsS3Handler {
 
     @NonNull
     public Mono<ServerResponse> viewFromS3(ServerRequest request) {
-        return ok().contentType(APPLICATION_JSON).body(Flux.fromIterable(awsS3Service.listObjects()), S3ObjectSummary.class);
+        return ok().contentType(APPLICATION_JSON).body(Flux.fromIterable(awsS3Service.listObjects()), S3Object.class);
     }
 
     @NonNull
     public Mono<ServerResponse> gatlingSaveInfo(ServerRequest request) {
-        return ok().contentType(APPLICATION_JSON).body(Flux.fromIterable(awsS3Service.listObjects()), S3ObjectSummary.class);
+        return ok().contentType(APPLICATION_JSON).body(Flux.fromIterable(awsS3Service.listObjects()), S3Object.class);
     }
 
     @NonNull

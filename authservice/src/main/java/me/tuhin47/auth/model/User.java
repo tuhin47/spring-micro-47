@@ -8,8 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 import me.tuhin47.entity.audit.DateAudit;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.annotations.Where;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,7 +23,7 @@ import java.util.Set;
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE user set is_deleted=true , deleted_at = now() where id=?")
-@Where(clause = "is_deleted = false")
+@SQLRestriction("is_deleted = false")
 @NamedEntityGraph(
     name = "User.withRolesPrivileges",
     attributeNodes = {

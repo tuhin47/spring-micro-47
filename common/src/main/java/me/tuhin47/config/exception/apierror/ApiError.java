@@ -3,14 +3,14 @@ package me.tuhin47.config.exception.apierror;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
 import lombok.Data;
 import me.tuhin47.config.exception.LowerCaseClassNameResolver;
-import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import tools.jackson.databind.annotation.JsonTypeIdResolver;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -101,9 +101,13 @@ public class ApiError {
      * @param cv the ConstraintViolation
      */
     private void addValidationError(ConstraintViolation<?> cv) {
+        String field = null;
+        for (Path.Node node : cv.getPropertyPath()) {
+            field = node.getName();
+        }
         this.addValidationError(
             cv.getRootBeanClass().getSimpleName(),
-            ((PathImpl) cv.getPropertyPath()).getLeafNode().asString(),
+            field,
             cv.getInvalidValue(),
             cv.getMessage());
     }

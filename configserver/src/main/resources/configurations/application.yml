@@ -49,10 +49,12 @@ axon:
         eventTags: MESSAGE_ID, AGGREGATE_ID, PAYLOAD_TYPE, MESSAGE_NAME, PAYLOAD
         queryTags: MESSAGE_ID, MESSAGE_TYPE, PAYLOAD_TYPE, MESSAGE_NAME, PAYLOAD
 management:
-  otlp:
+  opentelemetry:
     tracing:
-      endpoint: ${TRACING_URL:http://127.0.0.1:4317}
-      transport: grpc
+      export:
+        otlp:
+          endpoint: ${TRACING_URL:http://127.0.0.1:4317}
+          transport: grpc
   tracing:
     sampling:
       probability: 1.0

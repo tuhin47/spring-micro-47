@@ -46,11 +46,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + isApiSecured.test(request));
 
         if (isApiSecured.test(request)) {
-            if (!request.getHeaders().containsKey("Authorization")) {
+            final String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+            if (authorization == null) {
                 throw new JwtTokenMissingException("Authorization not present");
             }
 
-            final String authorization = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).getFirst();
             final String token = authorization.replace("Bearer ", "");
 
             log.info("JwtAuthenticationFilter | filter | token : " + token);
